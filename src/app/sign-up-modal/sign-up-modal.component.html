@@ -1,0 +1,59 @@
+<!--component html goes here -->
+<!--<div id="" class="ModalContainer">
+			<div class="SignUpModuleContainer">-->
+<div class="SignUpModule">
+    <div class="SignUpModule-header">
+        <div class="SignUpModule-header-title">
+            حساب جديد
+        </div>
+        <div class="SignUpModule-header-close">
+        </div>
+    </div>
+    <div class="SignUpModule-body">
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الأسم</label>
+            <input [(ngModel)]="newUser.firstName" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الكنية</label>
+            <input [(ngModel)]="newUser.lastName" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الرقم</label>
+            <input [(ngModel)]="newUser.phone" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الموقع الإلكتروني</label>
+            <input [(ngModel)]="newUser.website" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الايميل</label>
+            <input [(ngModel)]="newUser.email" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">كلمة السر</label>
+            <input [(ngModel)]="newUser.password" class="SignUpModule-body-inputcontainer-text" type="password" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
+            <input type="checkbox" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel" id="checkbox_id" value="value">
+            <label for="checkbox_id">
+                  أوافق على
+                  <div class="u-textPrimaryColor">شروط الاستخدام</div>
+  
+                <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+                </label>
+        </div>
+        <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+            إنشاء الحساب
+        </button>
+    </div>
+    <div class="SignUpModule-footer">
+        لديك حساب مسبقاً
+        <div class="u-textPrimaryColor">
+            قم بتسجيل الدخول .
+        </div>
+    </div>
+
+</div>
+<!--</div>
+		</div>-->

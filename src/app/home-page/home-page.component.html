@@ -1,0 +1,779 @@
+<!--component html goes here -->
+
+<div class="MainContainer"
+         data-infinite-scroll
+         debounce
+         [infiniteScrollDistance]="scrollDistance"
+         [infiniteScrollUpDistance]="scrollUpDistance"
+         [infiniteScrollThrottle]="throttle"
+         (scrolled)="onScrollDown()">
+	<div class="HeaderBackground">
+		<!--<div class="Header">
+			<div class="TopMenu">
+				<div class="u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill">
+					<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin">
+							<ul class="DropMenu">
+								<li class="DropMenu-item">شروط الإستخدام</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item">سياسة الخصوصية</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item">تسجيل الخروج</li>
+							</ul>
+						</i>
+					<a href="addnew.html" class="TopMenu-item u-customBtn" *ngIf="isLogin">
+						<img class="" src="../../assets/imgs/w-plus.svg" alt="">
+						<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
+					</a>
+					<div href="#" class="u-after10p" *ngIf="isLogin">
+						<figure class="Avatar Avatar--lg">
+							<img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						</figure>
+					</div>
+					<i class="TopMenu-item TopMenu-item--iconBell" *ngIf="isLogin">
+	                        <span class="Badge Badge--center" data-badge="2"></span>
+	                        <ul class="NotificationMenu">
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+								<li class="NotificationMenu-divider"></li>
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+								<li class="NotificationMenu-divider"></li>
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+							</ul>
+			            </i>
+					<a href="" class="TopMenu-item" *ngIf="!isLogin">الدخول</a>
+					<a href="" class="TopMenu-item" *ngIf="!isLogin">حساب جديد</a>
+				</div>
+				<div class="u-flexAlignSelfStart">
+					<img class="TopMenu-item TopMenu-item--logo" src="../../assets/imgs/logo.png" alt="">
+				</div>
+
+			</div>
+		</div>-->
+		<header></header>
+		<div class="Triangle">
+			<div class="Jumbotron" data-paroller-factor="-0.2">
+				<div class="Jumbotron-title">هل تبحث عن شيئ معيّن ؟</div>
+				<div class="SearchBar">
+					<div class="SearchBar-box"></div>
+					<select name="city" class="SearchBar-location">
+						 	<option>اختر المدينة</option>
+						 	<option value="">دمشق</option>
+						 	<option value="">حلب</option>
+							<option value="">طرطوس</option>
+							<option value="">حماه</option>
+						</select>
+					<select name="category" class="SearchBar-category">
+						 	<option>اختر الفئة</option>
+						 	<option value="">مركبات</option>
+						 	<option value="">أشياء مجانية</option>
+							<option value="">متفرقات</option>
+							<option value="">عقارات</option>
+						</select>
+					<input class="SearchBar-input" id="" placeholder="أنا أبحث عن" type="text">
+				</div>
+				<div class="Jumbotron-subtitle">
+					أكثر من
+					<span class="u-num">300</span> إعلان بإنتظارك لتتفقدها
+				</div>
+			</div>
+			<div class="Triangle--spacer"></div>
+		</div>
+	</div>
+	<div class="Content">
+		<div class="GridContainer">
+			<div class="CategoriesContainer">
+				<div class="CategoryBox" *ngFor="let mainCategory of mainCategories">
+					<div (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})" class="CategoryBox-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}">
+						<span class="CategoryBox-head-title">{{mainCategory.title}}</span>
+					</div>
+					<div class="CategoryBox-body">
+						<ul>
+							<li (click)="getAdvertisemets(1,{'categoryID':mainCategory.id,'subCategoryID':mainSubCategory.id})" *ngFor="let mainSubCategory of mainCategory.subCategories">
+								{{mainSubCategory.title}}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--<div class="CategoryBox">
+					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/tablets.jpg');">
+						<span class="CategoryBox-head-title">متفرّقات</span>
+					</div>
+					<div class="CategoryBox-body">
+						<ul>
+							<li>
+								إلكترونيات
+							</li>
+							<li>
+								حباشات
+							</li>
+							<li>
+								سماعات
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="CategoryBox">
+					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/realS.jpg');">
+						<span class="CategoryBox-head-title">عقارات</span>
+					</div>
+					<div class="CategoryBox-body">
+						<ul>
+							<li>
+								أجار
+							</li>
+							<li>
+								إستئجار
+							</li>
+							<li>
+								مبيع و شراء
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="CategoryBox">
+					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/car-0.jpg');">
+						<span class="CategoryBox-head-title">مركبات</span>
+					</div>
+					<div class="CategoryBox-body">
+						<ul>
+							<li>
+								مركبات سيدان
+							</li>
+							<li>
+								مركبات دفع رباعي
+							</li>
+							<li>
+								مركبات كهربائية
+							</li>
+							<li>
+								مركبات هجينة
+							</li>
+							<a href=""> أضهر المزيد</a>
+						</ul>
+					</div>
+				</div>-->
+			</div>
+			<div id="Menu" class="MenuContainer">
+
+				<div class="ContentMenu">
+					<div class="u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill">
+						<i class="ContentMenu-item ContentMenu-item--iconDots" *ngIf="isLogin">
+								<ul class="DropMenu">
+									<li class="DropMenu-item">شروط الإستخدام</li>
+									<li class="DropMenu-divider"></li>
+									<li class="DropMenu-item">سياسة الخصوصية</li>
+									<li class="DropMenu-divider"></li>
+									<li class="DropMenu-item" (click)="logout()">تسجيل الخروج</li>
+								</ul>
+							</i>
+						<a href="addnew.html" class="ContentMenu-item u-customBtn" *ngIf="isLogin">
+							<!-- <i class="ContentMenu-item-iconPlus"> </i> -->
+							<img class="" src="../../assets/imgs/w-plus.svg" alt="">
+							<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
+						</a>
+						<div href="#" class="u-after10p" *ngIf="isLogin">
+							<figure class="Avatar Avatar--lg">
+								<img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							</figure>
+						</div>
+
+						<i class="ContentMenu-item ContentMenu-item--iconBell" *ngIf="isLogin">
+					            <span class="Badge Badge--center" data-badge="2"></span>
+					            <ul class="NotificationMenu">
+									<li class="NotificationMenu-item">
+										<div href="#" class="u-after10p u-inlineBlock">
+							              <figure class="Avatar Avatar--lg">
+							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							              </figure>
+							            </div>
+							            <div class="u-inlineBlock u-alignTop">
+											<div>
+												قام
+												<span> أبو عبدو </span>
+											 	 بإضافة إعلان جديد
+											 </div>
+											<span class="NotificationMenu-item-date">12/12/2018</span>
+										</div>
+									</li>
+									<li class="NotificationMenu-divider"></li>
+									<li class="NotificationMenu-item">
+										<div href="#" class="u-after10p u-inlineBlock">
+							              <figure class="Avatar Avatar--lg">
+							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							              </figure>
+							            </div>
+							            <div class="u-inlineBlock u-alignTop">
+											<div>
+												قام
+												<span> أبو عبدو </span>
+											 	 بإضافة إعلان جديد
+											 </div>
+											<span class="NotificationMenu-item-date">12/12/2018</span>
+										</div>
+									</li>
+									<li class="NotificationMenu-divider"></li>
+									<li class="NotificationMenu-item">
+										<div href="#" class="u-after10p u-inlineBlock">
+							              <figure class="Avatar Avatar--lg">
+							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							              </figure>
+							            </div>
+							            <div class="u-inlineBlock u-alignTop">
+											<div>
+												قام
+												<span> أبو عبدو </span>
+											 	 بإضافة إعلان جديد
+											 </div>
+											<span class="NotificationMenu-item-date">12/12/2018</span>
+										</div>
+									</li>
+								</ul>
+				            </i>
+						<a class="ContentMenu-item" (click)="openSignInDialog()" *ngIf="!isLogin">الدخول</a>
+						<a class="ContentMenu-item u-before10p" (click)="openSignUpDialog()" *ngIf="!isLogin">حساب جديد</a>
+						<img class="ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700" src="../../assets/imgs/logo.png" alt="">
+						<div class="FilterSearchBar">
+							<div class="FilterSearchBar-box" (click)="getAdvertisemets(2,{'search':search})"></div>
+							<select name="city" [(ngModel)]="search.city" class="FilterSearchBar-location">
+								 	<option>اختر المدينة</option>
+								 	<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
+								</select>
+							<select name="category" [(ngModel)]="search.category" class="FilterSearchBar-category">
+								 	<option>اختر الفئة</option>
+								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
+								</select>
+							<input class="FilterSearchBar-input" [(ngModel)]="search.key" id="" placeholder="أنا أبحث عن" type="text">
+						</div>
+					</div>
+					<div class="u-flexAlignSelfStart u-hideOn700 u-afterAuto">
+						<img class="ContentMenu-item ContentMenu-item--logo" src="../../assets/imgs/logo.png" alt="">
+					</div>
+				</div>
+				<div class="CategoryBar">
+					<div class="CategoryBar-item" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})" *ngFor="let mainCategory of mainCategories">
+						{{mainCategory.title}}
+					</div>
+				</div>
+			</div>
+			<div class="FullContainer">
+				<div class="FiltersPanelContianer">
+					<div class="FiltersPanel" [ngClass]="{'hidden':keyFilter.length==0}">
+						<div class="FiltersPanel-header">
+							<div class="FiltersPanel-header-title">
+								حساب جديد
+							</div>
+							<div class="FiltersPanel-header-collapse">
+								--
+							</div>
+							<div class="FiltersPanel-header-close">
+
+							</div>
+
+						</div>
+						<div class="FiltersPanel-body">
+							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter">
+								<label for="name">{{oneKey.key}} </label>
+								<input *ngIf="oneKey.type == 'text' " class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
+								<input *ngIf="oneKey.type == 'number' " class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
+								<select *ngIf="oneKey.type == 'choose' " class="FiltersPanel-body-select FiltersPanel-body-down">
+								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="FiltersPanel-footer">
+
+						</div>
+					</div>
+				</div>
+				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded': keyFilter.length!=0}">
+					<div class="ItemBlock" *ngFor="let advertisemet of advertisemets">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									{{advertisemet.category.title}}
+								</div>
+								<div class="ItemSummary-head-date ItemSummary-head-date--text">
+									{{calculateDate(advertisemet.createdAt)}}
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								{{advertisemet.title}}
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">{{advertisemet.price | number}}</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a routerLink="{{'detail/'+advertisemet.id}}" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> {{advertisemet.viewsCount}} </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + advertisemet.images[0] + ')'}">
+						</div>
+					</div>
+
+					<!--<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									مركبات
+								</div>
+								<div class="ItemSummary-head-date">
+									24/12/2017
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								سيارة جبارة و نظيفة
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num"> 1,700,000 </span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views" style="display:none;">
+									<span> 5 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/car-0.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									اكسسوارات
+								</div>
+								<div class="ItemSummary-head-date">
+									11/1/2015
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								ساعة شغل أكابر
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">520,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/watch.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									متفرقات
+								</div>
+								<div class="ItemSummary-head-date ItemSummary-head-date--text">
+									منذ ساعتين
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								دبدوب فرو ظريف و لطيف
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">320,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear-1.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									متفرقات
+								</div>
+								<div class="ItemSummary-head-date ItemSummary-head-date--text">
+									منذ ساعتين
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								دبدوب فرو ظريف و لطيف
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">320,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									مركبات
+								</div>
+								<div class="ItemSummary-head-date">
+									24/12/2017
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								سيارة جبارة و نظيفة
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num"> 1,700,000 </span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views" style="display:none;">
+									<span> 5 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/car-0.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									اكسسوارات
+								</div>
+								<div class="ItemSummary-head-date">
+									11/1/2015
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								ساعة شغل أكابر
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">520,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/watch.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									متفرقات
+								</div>
+								<div class="ItemSummary-head-date ItemSummary-head-date--text">
+									منذ ساعتين
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								دبدوب فرو ظريف و لطيف
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">320,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear-1.jpg');">
+						</div>
+					</div>-->
+
+					<div class="ItemsContainer-loader">
+						<img src="../../assets/imgs/spinner.svg" alt="Kiwi standing on oval">
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="SignUpModal" class="ModalContainer">
+			<div class="SignUpModuleContainer">
+				<div class="SignUpModule">
+					<div class="SignUpModule-header">
+						<div class="SignUpModule-header-title">
+							حساب جديد
+						</div>
+						<div class="SignUpModule-header-close">
+						</div>
+					</div>
+					<div class="SignUpModule-body">
+						<div class="SignUpModule-body-inputcontainer">
+							<label for="name">اسم الحقل</label>
+							<input class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignUpModule-body-inputcontainer">
+							<label for="name">اسم الحقل</label>
+							<input class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignUpModule-body-inputcontainer">
+							<label for="name">اسم الحقل</label>
+							<input class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignUpModule-body-inputcontainer">
+							<label for="name">اسم الحقل</label>
+							<input class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
+							<input type="checkbox" class="SignUpModule-body-inputcontainer-checkboxlabel" id="checkbox_id" value="value">
+							<label for="checkbox_id">
+                  أوافق على
+                  <div class="u-textPrimaryColor">شروط الاستخدام</div>
+  
+                <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+                </label>
+						</div>
+						<div class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+							إنشاء الحساب
+						</div>
+					</div>
+					<div class="SignUpModule-footer">
+						لديك حساب مسبقاً
+						<div class="u-textPrimaryColor">
+							قم بتسجيل الدخول .
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
+		<br />
+		<div id="SignInModal" class="ModalContainer">
+			<div class="SignInModuleContainer">
+				<div class="SignInModule">
+					<div class="SignInModule-header">
+						<div class="SignInModule-header-title">
+							تسجيل الدخول
+						</div>
+						<div class="SignInModule-header-close">
+						</div>
+					</div>
+					<div class="SignInModule-body">
+						<div class="SignInModule-body-inputcontainer">
+							<label for="name">اسم المستخدم</label>
+							<input class="SignInModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignInModule-body-inputcontainer">
+							<label for="name">كلمة السر</label>
+							<input class="SignInModule-body-inputcontainer-text" type="text" value="" name="name">
+						</div>
+						<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
+							<input type="checkbox" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
+							<label for="checkbox_id2">
+              تذكر كلمة المرور
+              </label>
+						</div>
+						<div class="SignInModule-body-inputcontainer SignInModule-body-btn">
+							تسجيل الدخول
+						</div>
+						<div class="SignInModule-body-inputcontainer u-textCenter">
+							<div class="u-textPrimaryColor"> هل نسيت كلمة السر ؟</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display:none;text-align: center;">
+	<div style="font-family: 'OpenSans-Regular' ">
+		OpenSans Regular <br/> اوبن سانس عادي 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'OpenSans-ExtraBold' ">
+		OpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'Swessra-light' ">
+		Swessra-light<br/> سويسرا خفيف 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'Swessra-medium' ">
+		Swessra-medium<br/> سويسرا وسط 1234 ل.س
+	</div><br/><br/>
+</div>
+
+<div class="CategoriesContainer">
+	<!--<div class="CategoryBoxSub" *ngFor="let mainCategory of mainCategories">
+		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/car-0.jpg');">
+			<span class="CategoryBoxSub-head-title">{{mainCategory.title}}sadad</span>
+		</div>
+	</div>-->
+	<!--<div class="CategoryBoxSub">
+		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/bear.jpg');">
+			<span class="CategoryBoxSub-head-title">مركبات</span>
+		</div>
+	</div>
+	<div class="CategoryBoxSub">
+		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/realS.jpg');">
+			<span class="CategoryBoxSub-head-title">مركبات</span>
+		</div>
+	</div>
+	<div class="CategoryBoxSub">
+		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/watch.jpg');">
+			<span class="CategoryBoxSub-head-title">مركبات</span>
+		</div>
+	</div>-->
+</div>
+
+
+
+<div style="display:none;text-align: center;">
+	<div style="font-family: 'OpenSans-Regular' ">
+		OpenSans Regular <br/> اوبن سانس عادي 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'OpenSans-ExtraBold' ">
+		OpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'Swessra-light' ">
+		Swessra-light<br/> سويسرا خفيف 1234 ل.س
+	</div><br/><br/>
+	<div style="font-family: 'Swessra-medium' ">
+		Swessra-medium<br/> سويسرا وسط 1234 ل.س
+	</div><br/><br/>
+</div>
+<div class="Footer">
+
+	<div class="Footer-about">
+		<div class="Footer-about-title">
+			عن دلال
+		</div>
+		<div class="Footer-about-body">
+			شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
+		</div>
+		<div class="Footer-about-bar">
+			<div class="Footer-about-bar-item">
+				شروط الاستخدام
+			</div>
+			<div class="Footer-about-bar-item">
+				سياسية الخصوصية
+			</div>
+			<div class="Footer-about-bar-item">
+				تواصل معنا
+			</div>
+		</div>
+	</div>
+	<div class="Footer-contact">
+		<div class="Footer-contact-title">
+			تواصل معنا على.....
+		</div>
+		<div class="Footer-contact-icons">
+			<a href="#" class="Footer-contact-icon" style="background-image: url('../../assets/imgs/facebook.svg');">
+
+  </a>
+			<a href="#" class="Footer-contact-icon" style="background-image: url('../../assets/imgs/insta.svg');">
+
+  </a>
+		</div>
+
+	</div>
+	<div class="Footer-right">
+
+		<div class="Footer-right-text">
+			All Rights Reserved
+		</div>
+		<div class="Footer-right-logo">
+			<img src="../../assets/imgs/logo.png" alt="">
+		</div>
+	</div>
+</div>

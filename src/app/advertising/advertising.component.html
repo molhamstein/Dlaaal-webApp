@@ -1,0 +1,192 @@
+<!--component html goes here -->
+  <div class="MainContainer">
+    <div class="HeaderBackground">
+      		<header></header>
+
+      <div class="Triangle Triangle--pages">
+      </div>
+      <div class="Triangle--spacer"></div>
+    </div>
+    <div class="Content">
+      <div class="GridContainer">
+        <div class="HeaderBoxContianer HeaderBoxContianer--detailspage">
+          <div class="HeaderBox HeaderBox--detailspage">
+            <div class="HeaderBox--detailspage-image" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
+            </div>
+            <div class="HeaderBox--detailspage-body">
+              <div class="HeaderBox--detailspage-body-header">
+                <div class="HeaderBox--detailspage-body-header-title">
+                    {{advertisemet.title}}
+                </div>
+                
+              </div>
+              <div class="HeaderBox--detailspage-body-footer">
+                <div class="HeaderBox--detailspage-body-footer-views">
+                  {{advertisemet.viewsCount}}
+                </div>
+                <div class="HeaderBox--detailspage-body-footer-date">
+                  <!--10/10/2015-->
+                  {{advertisemet.createdAt | date : "dd/MM/yyyy"}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="HeaderBox HeaderBox--detailspage HeaderBox--stretch">
+            <div class="HeaderBox--detailspage-pricecontainer">
+              <div class="HeaderBox--detailspage-pricecontainer-num">{{advertisemet.price |number}} </div>
+              <div class="HeaderBox--detailspage-pricecontainer-text"> ل.س</div>
+            </div>
+            <div class="HeaderBox--detailspage-btncontainer">
+              <div class="HeaderBox--detailspage-callusbtn" (click)="openCommunicationDialog()">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="AddDetailsContainer">
+        <div class="AddDetailsForm">
+          <div class="AddDetailsForm-column">
+            <div class="AddDetailsForm-header">
+              <div class="AddDetailsForm-header-title">
+                {{advertisemet.category.title}}
+              </div>
+            </div>
+            <div class="AddDetailsForm-category">
+              <div class="AddDetailsForm-category-title">
+                {{advertisemet.subCategory.title}}
+              </div>
+              <div class="AddDetailsForm-category-subcat">
+                {{advertisemet.address}}
+              </div>
+            </div>
+            <div class="AddDetailsForm-inputcontainer">
+            </div>
+
+            <div class="AddDetailsForm-inputcontainer" *ngFor="let oneField of advertisemet.fields">
+              <label for="name">{{oneField.key}}</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                {{oneField.value}}
+              </div>
+            </div>
+            <!--<div class="AddDetailsForm-inputcontainer">
+              <label for="name">اسم المنتج</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                قيمة الحقل
+              </div>
+            </div>
+            <div class="AddDetailsForm-inputcontainer">
+              <label for="name">اسم المنتج</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                قيمة الحقل
+              </div>
+            </div>
+            <div class="AddDetailsForm-inputcontainer">
+              <label for="name">اسم المنتج</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                قيمة الحقل
+              </div>
+            </div>
+            <div class="AddDetailsForm-inputcontainer">
+              <label for="name">اسم المنتج</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                قيمة الحقل
+              </div>
+            </div>
+            <div class="AddDetailsForm-inputcontainer">
+              <label for="name">اسم المنتج</label>
+              <div class="AddDetailsForm-inputcontainer-text">
+                قيمة الحقل
+              </div>
+            </div>-->
+          </div>
+          <div class="AddDetailsForm-column">
+            <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
+              <div class="AddDetailsForm-imagescontainer-largeimage">
+                <img src="{{advertisemet.images[0]}}" />
+              </div>
+            </div>
+            <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
+              <div class="AddDetailsForm-imagescontainer-smallimage" *ngFor="let oneImage of advertisemet.images">
+                <img src="{{oneImage}}" />
+              </div>
+            </div>
+            <div class="AddDetailsForm-pricepontainer">
+              <div class="AddDetailsForm-pricepontainer-num">{{advertisemet.price |number}}</div>
+              <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
+            </div>
+            <div class="AddDetailsForm-buttonscontainers">
+              <div (click)="openCommunicationDialog()"  class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
+                التواصل مع البائع
+              </div>
+
+              <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
+                <select class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
+                <option value="">تبليغ</option>
+                <option value="">حماة</option>
+                <option value="">حماة</option>
+                <option value="">حماة</option>
+                 </select>
+                <div class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                  إضافة إلى المفضلة
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Below main container end-->
+
+
+
+
+    <div class="Footer">
+
+      <div class="Footer-about">
+        <div class="Footer-about-title">
+          عن دلال
+        </div>
+        <div class="Footer-about-body">
+          شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
+        </div>
+        <div class="Footer-about-bar">
+          <div class="Footer-about-bar-item">
+            شروط الاستخدام
+          </div>
+          <div class="Footer-about-bar-item">
+            سياسية الخصوصية
+          </div>
+          <div class="Footer-about-bar-item">
+            تواصل معنا
+          </div>
+        </div>
+      </div>
+      <div class="Footer-contact">
+        <div class="Footer-contact-title">
+          تواصل معنا على.....
+        </div>
+        <div class="Footer-contact-icons">
+          <div class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
+
+          </div>
+          <div class="Footer-contact-icon" style="background-image: url('../imgs/insta.svg');">
+
+          </div>
+        </div>
+
+      </div>
+      <div class="Footer-right">
+
+        <div class="Footer-right-text">
+          All Rights Reserved
+        </div>
+        <div class="Footer-right-logo">
+          <img src="../imgs/logo.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>

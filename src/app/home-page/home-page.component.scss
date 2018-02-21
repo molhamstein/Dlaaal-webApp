@@ -1,0 +1,21 @@
+// component css goes here
+
+.hidden{
+    display: none;
+}
+
+.search-results {
+      height: 100%;
+      // overflow: scroll;
+    }
+    .title {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,.5);
+      color: white;
+      width: 100%;
+    }
+    .title small {
+      color: #eaeaea;
+    }

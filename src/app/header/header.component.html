@@ -1,0 +1,83 @@
+<!--component html goes here -->
+	<div class="Header">
+			<div class="TopMenu">
+				<div class="u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill">
+					<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin">
+							<ul class="DropMenu">
+								<li class="DropMenu-item">شروط الإستخدام</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item">سياسة الخصوصية</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item" (click)="logout()">تسجيل الخروج</li>
+							</ul>
+						</i>
+					<a href="addnew.html" class="TopMenu-item u-customBtn" *ngIf="isLogin">
+						<img class="" src="../../assets/imgs/w-plus.svg" alt="">
+						<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
+					</a>
+					<div href="#" class="u-after10p" *ngIf="isLogin">
+						<figure class="Avatar Avatar--lg">
+							<img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						</figure>
+					</div>
+					<i class="TopMenu-item TopMenu-item--iconBell" *ngIf="isLogin">
+	                        <span class="Badge Badge--center" data-badge="2"></span>
+	                        <ul class="NotificationMenu">
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+								<li class="NotificationMenu-divider"></li>
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+								<li class="NotificationMenu-divider"></li>
+								<li class="NotificationMenu-item">
+									<div href="#" class="u-after10p u-inlineBlock">
+						              <figure class="Avatar Avatar--lg">
+						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						              </figure>
+						            </div>
+						            <div class="u-inlineBlock u-alignTop">
+										<div>
+											قام
+											<span> أبو عبدو </span>
+										 	 بإضافة إعلان جديد
+										 </div>
+										<span class="NotificationMenu-item-date">12/12/2018</span>
+									</div>
+								</li>
+							</ul>
+			            </i>
+					<a  class="TopMenu-item" (click)="openSignInDialog()" *ngIf="!isLogin">الدخول</a>
+					<a  class="TopMenu-item" (click)="openSignUpDialog()" *ngIf="!isLogin">حساب جديد</a>
+				</div>
+				<div class="u-flexAlignSelfStart">
+					<img class="TopMenu-item TopMenu-item--logo" src="../../assets/imgs/logo.png" alt="">
+				</div>
+
+			</div>
+		</div>
