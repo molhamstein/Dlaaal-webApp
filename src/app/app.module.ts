@@ -11,6 +11,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import {MatSliderModule} from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 
@@ -42,7 +43,7 @@ import { AppComponent } from './app.component';
     // Route
     RouterModule.forRoot(routes)
     // material
-    ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule
+    ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
   entryComponents:[SignUpModalComponent,SignInModalComponent,CommunictionModalComponent],
   providers: [CookieService,LoginService,CallApiService],

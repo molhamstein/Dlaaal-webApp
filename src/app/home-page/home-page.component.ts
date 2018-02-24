@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { CallApiService } from './../Services/call-api.service';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
 import { LoginService } from './../Services/login.service';
@@ -35,16 +36,7 @@ export class HomePageComponent {
         this.addItems(startIndex, endIndex, 'unshift');
     }
 
-    onScrollDown(ev) {
-        console.log('scrolled down!!', ev);
 
-        // add another 20 items
-        // const start = this.sum;
-        // this.sum += 20;
-        // this.appendItems(start, this.sum);
-
-        // this.direction = 'down'
-    }
 
 
 
@@ -60,13 +52,18 @@ export class HomePageComponent {
     // forScrool
     array = [];
     sum = 100;
-    throttle = 20;
-    scrollDistance = 1;
+    throttle = 100;
+    scrollDistance = 2;
     scrollUpDistance = 2;
     direction = '';
+    loader: boolean = false;
+    lastType;
+    lastData;
 
 
     ngOnInit() {
+        this.search.max=10000000000;
+        this.search.min=0;
         this.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
@@ -78,11 +75,7 @@ export class HomePageComponent {
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
         });
-
-        this.APIServ.get("advertisemets/actived").subscribe(data => {
-            this.advertisemets = data;
-        });
-
+        this.getAdvertisemets(-1, {});
         if (this.isLogin) {
             let userID = this.loginSer.getUserId();
             this.APIServ.get("users/" + userID + "/notifications").subscribe(data => {
@@ -138,46 +131,68 @@ export class HomePageComponent {
             return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
         else if (this.diff_month(new Date(), new Date(date)) < 12)
             return this.diff_month(new Date(), new Date(date)) + " شهر ";
-        else 
+        else
             return date
 
 
     }
 
-    getAdvertisemets(type, data) {
-        // let query: string;
-        let query;
-        
-        if (type == 0) {
-            query={"where":{"categoryId":data.categoryID}}
-            // query = "{\'where\':{\'categoryId:\'" + data.categoryID + ",\'status\':\'active\'}}";
+    getAdvertisemets(type, data, isScrol: boolean = false) {
+
+        this.loader = true;
+        let query, skip, limit;
+        this.lastType = type;
+        this.lastData = data;
+        limit = 10;
+        if (isScrol == true) {
+            skip = this.advertisemets.length;
+        } else {
+            skip = 0;
+            this.advertisemets = [];
+        }
+        if (type == -1) {
+            query = { "order": "createdAt ASC", "limit": 10, "skip": 0 };
+        } else if (type == 0) {
+            this.search.category = data.categoryID;
+            this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
+            query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = [];
         } else if (type == 1) {
-            query={"where":{"categoryId":data.categoryID,"subCategoryId":data.subCategoryID}}
-            // query = "{\'where\':{\'categoryId\':" + data.categoryID + ",\'subCategoryId\':" + data.subCategoryID + ",\'status\':\'active\'}}";
+            this.search.category = data.categoryID;
+            this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
+            this.search.subCategory = data.subCategoryID;
+            query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
             console.log(this.keyFilter);
         }
         else if (type == 2) {
-            query={"where":{"categoryId":data.search.category,"cityId":data.search.city}}            
+            query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
-        this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe(data => {
-            this.advertisemets = data;
+        else if (type == 3) {
+            query = { "where": { "categoryId": data.search.category, "cityId": data.search.city,"subCategoryId": data.search.subCategory,"price": {"between": [data.search.min,data.search.max]} }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
+        }
+        this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+            let test = [];
+            // data = JSON.parse(data['_body']);
+            data.forEach(element => {
+                this.advertisemets.push(element);
+            });
+            this.loader = false;
         });
-        console.log(query);
-        //         http://104.217.253.15:3000/api/advertisements?filter=
-        // {"where":{
-        // "categoryId":1,
-        // "subCategoryId":3,
-        // "status":"active",
-        // "cityId":3
-        // },
-        // "order":"createdAt ASC",
-        // "limit":10,
-        // "skip":90,
-        // "include":["category"]}
+
     }
+
+    changeCategory(categortID) {
+        this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
+            this.keyFilter = [];
+        
+    }
+    changeSubCategory(subCategoryID){
+                    this.keyFilter = this.mainCategories.find(x => x.id == this.search.category).subCategories.find(y => y.id == subCategoryID).fields;
+    }
+
     openSignUpDialog() {
 
         let dialogRef = this.dialog.open(SignUpModalComponent, {
@@ -199,4 +214,12 @@ export class HomePageComponent {
     }
 
 
+
+    onScrollDown(ev) {
+        if (this.lastType != -1)
+            this.getAdvertisemets(this.lastType, this.lastData, true);
+    }
+
 }
+
+

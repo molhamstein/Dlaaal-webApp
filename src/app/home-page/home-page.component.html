@@ -1,12 +1,7 @@
 <!--component html goes here -->
 
-<div class="MainContainer"
-         data-infinite-scroll
-         debounce
-         [infiniteScrollDistance]="scrollDistance"
-         [infiniteScrollUpDistance]="scrollUpDistance"
-         [infiniteScrollThrottle]="throttle"
-         (scrolled)="onScrollDown()">
+<div class="MainContainer" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
+ [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
 	<div class="HeaderBackground">
 		<!--<div class="Header">
 			<div class="TopMenu">
@@ -21,12 +16,12 @@
 							</ul>
 						</i>
 					<a href="addnew.html" class="TopMenu-item u-customBtn" *ngIf="isLogin">
-						<img class="" src="../../assets/imgs/w-plus.svg" alt="">
+						<img class="" src="assets/imgs/w-plus.svg" alt="">
 						<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
 					</a>
 					<div href="#" class="u-after10p" *ngIf="isLogin">
 						<figure class="Avatar Avatar--lg">
-							<img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							<img src="assets/imgs/avatar.jpg" alt="avatar">
 						</figure>
 					</div>
 					<i class="TopMenu-item TopMenu-item--iconBell" *ngIf="isLogin">
@@ -35,7 +30,7 @@
 								<li class="NotificationMenu-item">
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
-						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						                <img src="assets/imgs/avatar.jpg" alt="avatar">
 						              </figure>
 						            </div>
 						            <div class="u-inlineBlock u-alignTop">
@@ -51,7 +46,7 @@
 								<li class="NotificationMenu-item">
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
-						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						                <img src="assets/imgs/avatar.jpg" alt="avatar">
 						              </figure>
 						            </div>
 						            <div class="u-inlineBlock u-alignTop">
@@ -67,7 +62,7 @@
 								<li class="NotificationMenu-item">
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
-						                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+						                <img src="assets/imgs/avatar.jpg" alt="avatar">
 						              </figure>
 						            </div>
 						            <div class="u-inlineBlock u-alignTop">
@@ -85,7 +80,7 @@
 					<a href="" class="TopMenu-item" *ngIf="!isLogin">حساب جديد</a>
 				</div>
 				<div class="u-flexAlignSelfStart">
-					<img class="TopMenu-item TopMenu-item--logo" src="../../assets/imgs/logo.png" alt="">
+					<img class="TopMenu-item TopMenu-item--logo" src="assets/imgs/logo.png" alt="">
 				</div>
 
 			</div>
@@ -95,22 +90,17 @@
 			<div class="Jumbotron" data-paroller-factor="-0.2">
 				<div class="Jumbotron-title">هل تبحث عن شيئ معيّن ؟</div>
 				<div class="SearchBar">
-					<div class="SearchBar-box"></div>
-					<select name="city" class="SearchBar-location">
-						 	<option>اختر المدينة</option>
-						 	<option value="">دمشق</option>
-						 	<option value="">حلب</option>
-							<option value="">طرطوس</option>
-							<option value="">حماه</option>
+					<div class="SearchBar-box" (click)="getAdvertisemets(2,{'search':search})"></div>
+					<select name="city" class="SearchBar-location" [(ngModel)]="search.city">
+						<option [ngValue]="undefined" selected>اختر المدينة</option>
+						<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
 						</select>
-					<select name="category" class="SearchBar-category">
-						 	<option>اختر الفئة</option>
-						 	<option value="">مركبات</option>
-						 	<option value="">أشياء مجانية</option>
-							<option value="">متفرقات</option>
-							<option value="">عقارات</option>
+					<select name="category" class="SearchBar-category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
+						<option [ngValue]="undefined" selected>اختر الفئة</option>
+						<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option> 
 						</select>
-					<input class="SearchBar-input" id="" placeholder="أنا أبحث عن" type="text">
+					<input class="SearchBar-input" id="" placeholder="أنا أبحث عن" type="text" [(ngModel)]="search.title">
+
 				</div>
 				<div class="Jumbotron-subtitle">
 					أكثر من
@@ -136,7 +126,7 @@
 					</div>
 				</div>
 				<!--<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/tablets.jpg');">
+					<div class="CategoryBox-head" style="background-image: url('assets/imgs/tablets.jpg');">
 						<span class="CategoryBox-head-title">متفرّقات</span>
 					</div>
 					<div class="CategoryBox-body">
@@ -154,7 +144,7 @@
 					</div>
 				</div>
 				<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/realS.jpg');">
+					<div class="CategoryBox-head" style="background-image: url('assets/imgs/realS.jpg');">
 						<span class="CategoryBox-head-title">عقارات</span>
 					</div>
 					<div class="CategoryBox-body">
@@ -172,7 +162,7 @@
 					</div>
 				</div>
 				<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('../../assets/imgs/car-0.jpg');">
+					<div class="CategoryBox-head" style="background-image: url('assets/imgs/car-0.jpg');">
 						<span class="CategoryBox-head-title">مركبات</span>
 					</div>
 					<div class="CategoryBox-body">
@@ -209,12 +199,12 @@
 							</i>
 						<a href="addnew.html" class="ContentMenu-item u-customBtn" *ngIf="isLogin">
 							<!-- <i class="ContentMenu-item-iconPlus"> </i> -->
-							<img class="" src="../../assets/imgs/w-plus.svg" alt="">
+							<img class="" src="assets/imgs/w-plus.svg" alt="">
 							<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
 						</a>
 						<div href="#" class="u-after10p" *ngIf="isLogin">
 							<figure class="Avatar Avatar--lg">
-								<img src="../../assets/imgs/avatar.jpg" alt="avatar">
+								<img src="assets/imgs/defult_img.jpg" alt="avatar">
 							</figure>
 						</div>
 
@@ -224,7 +214,7 @@
 									<li class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
-							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							                <img src="assets/imgs/avatar.jpg" alt="avatar">
 							              </figure>
 							            </div>
 							            <div class="u-inlineBlock u-alignTop">
@@ -240,7 +230,7 @@
 									<li class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
-							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							                <img src="assets/imgs/avatar.jpg" alt="avatar">
 							              </figure>
 							            </div>
 							            <div class="u-inlineBlock u-alignTop">
@@ -256,7 +246,7 @@
 									<li class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
-							                <img src="../../assets/imgs/avatar.jpg" alt="avatar">
+							                <img src="assets/imgs/avatar.jpg" alt="avatar">
 							              </figure>
 							            </div>
 							            <div class="u-inlineBlock u-alignTop">
@@ -272,33 +262,35 @@
 				            </i>
 						<a class="ContentMenu-item" (click)="openSignInDialog()" *ngIf="!isLogin">الدخول</a>
 						<a class="ContentMenu-item u-before10p" (click)="openSignUpDialog()" *ngIf="!isLogin">حساب جديد</a>
-						<img class="ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700" src="../../assets/imgs/logo.png" alt="">
+						<img class="ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700" src="assets/imgs/logo.png" alt="">
 						<div class="FilterSearchBar">
 							<div class="FilterSearchBar-box" (click)="getAdvertisemets(2,{'search':search})"></div>
 							<select name="city" [(ngModel)]="search.city" class="FilterSearchBar-location">
-								 	<option>اختر المدينة</option>
+									 <option [ngValue]="undefined" selected>اختر المدينة</option>
+
+
 								 	<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
 								</select>
-							<select name="category" [(ngModel)]="search.category" class="FilterSearchBar-category">
-								 	<option>اختر الفئة</option>
+							<select name="category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)"> class="FilterSearchBar-category">
+									<option [ngValue]="undefined" selected>اختر الفئة</option>
 								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
 								</select>
-							<input class="FilterSearchBar-input" [(ngModel)]="search.key" id="" placeholder="أنا أبحث عن" type="text">
+							<input class="FilterSearchBar-input" [(ngModel)]="search.title" id="" placeholder="أنا أبحث عن" type="text">
 						</div>
 					</div>
 					<div class="u-flexAlignSelfStart u-hideOn700 u-afterAuto">
-						<img class="ContentMenu-item ContentMenu-item--logo" src="../../assets/imgs/logo.png" alt="">
+						<img class="ContentMenu-item ContentMenu-item--logo" src="assets/imgs/logo.png" alt="">
 					</div>
 				</div>
-				<div class="CategoryBar">
+				<!--<div class="CategoryBar">
 					<div class="CategoryBar-item" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})" *ngFor="let mainCategory of mainCategories">
 						{{mainCategory.title}}
 					</div>
-				</div>
+				</div>-->
 			</div>
 			<div class="FullContainer">
 				<div class="FiltersPanelContianer">
-					<div class="FiltersPanel" [ngClass]="{'hidden':keyFilter.length==0}">
+					<div class="FiltersPanel">
 						<div class="FiltersPanel-header">
 							<div class="FiltersPanel-header-title">
 								حساب جديد
@@ -312,6 +304,34 @@
 
 						</div>
 						<div class="FiltersPanel-body">
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> </label>
+								<input [(ngModel)]="search.title" class="FiltersPanel-body-inputcontainer-text" placeholder="أنا أبحث عن" type="text" value=""
+								 name="name">
+							</div>
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> </label>
+								<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.city">
+									<option [ngValue]="undefined" selected>اختر المدينة</option>
+								 	<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
+								</select>
+							</div>
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> </label>
+								<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
+									<option [ngValue]="undefined" selected>اختر الفئة</option>								 
+								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
+								</select>
+							</div>
+
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> </label>
+								<select class="FiltersPanel-body-select FiltersPanel-body-down" (change)="changeSubCategory($event.target.value)" [(ngModel)]="search.subCategory">
+									<option [ngValue]="undefined" selected> اختر الفئةالفرعية</option>								 
+								 	<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>
+								</select>
+							</div>
+
 							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter">
 								<label for="name">{{oneKey.key}} </label>
 								<input *ngIf="oneKey.type == 'text' " class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
@@ -320,13 +340,26 @@
 								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
 								</select>
 							</div>
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> أقل سعر </label>
+								<mat-slider [max]="10000000000"  [min]="0" [step]="500" [(ngModel)]="search.min"></mat-slider>
+								<label for="name"> {{search.min | number}}</label>
+						
+							</div>
+
+							<div class="FiltersPanel-body-inputcontainer">
+								<label for="name"> أكبر سعر </label>
+								<mat-slider [max]="10000000000" [min]="0" [step]="500" [(ngModel)]="search.max"></mat-slider>
+								<label for="name"> {{search.max | number}}</label>							
+							</div>
+
 						</div>
-						<div class="FiltersPanel-footer">
+						<div class="FiltersPanel-footer" (click)="getAdvertisemets(3,{'search':search})">
 
 						</div>
 					</div>
 				</div>
-				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded': keyFilter.length!=0}">
+				<div class="ItemsContainer ItemsContainer--filtespanelexpanded">
 					<div class="ItemBlock" *ngFor="let advertisemet of advertisemets">
 						<div class="ItemSummary">
 							<div class="ItemSummary-head">
@@ -351,7 +384,7 @@
 								<div class="ItemSummary-action-views">
 									<span> {{advertisemet.viewsCount}} </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
@@ -383,11 +416,11 @@
 								<div class="ItemSummary-action-views" style="display:none;">
 									<span> 5 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/car-0.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/car-0.jpg');">
 						</div>
 					</div>
 					<div class="ItemBlock">
@@ -414,42 +447,11 @@
 								<div class="ItemSummary-action-views">
 									<span> 25 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/watch.jpg');">
-						</div>
-					</div>
-					<div class="ItemBlock">
-						<div class="ItemSummary">
-							<div class="ItemSummary-head">
-								<div class="ItemSummary-head-title">
-									متفرقات
-								</div>
-								<div class="ItemSummary-head-date ItemSummary-head-date--text">
-									منذ ساعتين
-								</div>
-							</div>
-							<div class="ItemSummary-desc">
-								دبدوب فرو ظريف و لطيف
-							</div>
-							<div class="ItemSummary-price">
-								<span class="ItemSummary-price-num">320,000</span>
-								<span class="ItemSummary-price-text">ل.س</span>
-							</div>
-							<div class="ItemSummary-action">
-								<a href="adddetails.html" class="ItemSummary-action-btn">
-  									مشاهدة المزيد
-  								</a>
-								<div class="ItemSummary-action-views">
-									<span> 25 </span>
-									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
-								</div>
-							</div>
-						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear-1.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/watch.jpg');">
 						</div>
 					</div>
 					<div class="ItemBlock">
@@ -476,11 +478,42 @@
 								<div class="ItemSummary-action-views">
 									<span> 25 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/bear-1.jpg');">
+						</div>
+					</div>
+					<div class="ItemBlock">
+						<div class="ItemSummary">
+							<div class="ItemSummary-head">
+								<div class="ItemSummary-head-title">
+									متفرقات
+								</div>
+								<div class="ItemSummary-head-date ItemSummary-head-date--text">
+									منذ ساعتين
+								</div>
+							</div>
+							<div class="ItemSummary-desc">
+								دبدوب فرو ظريف و لطيف
+							</div>
+							<div class="ItemSummary-price">
+								<span class="ItemSummary-price-num">320,000</span>
+								<span class="ItemSummary-price-text">ل.س</span>
+							</div>
+							<div class="ItemSummary-action">
+								<a href="adddetails.html" class="ItemSummary-action-btn">
+  									مشاهدة المزيد
+  								</a>
+								<div class="ItemSummary-action-views">
+									<span> 25 </span>
+									<div style="width:10px;"></div>
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
+								</div>
+							</div>
+						</div>
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/bear.jpg');">
 						</div>
 					</div>
 					<div class="ItemBlock">
@@ -507,11 +540,11 @@
 								<div class="ItemSummary-action-views" style="display:none;">
 									<span> 5 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/car-0.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/car-0.jpg');">
 						</div>
 					</div>
 					<div class="ItemBlock">
@@ -538,11 +571,11 @@
 								<div class="ItemSummary-action-views">
 									<span> 25 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/watch.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/watch.jpg');">
 						</div>
 					</div>
 					<div class="ItemBlock">
@@ -569,16 +602,16 @@
 								<div class="ItemSummary-action-views">
 									<span> 25 </span>
 									<div style="width:10px;"></div>
-									<img src="../../assets/imgs/eye.svg" alt="" style="height: 24px;">
+									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
 						</div>
-						<div class="ItemBlock-img" style="background-image: url('../../assets/imgs/bear-1.jpg');">
+						<div class="ItemBlock-img" style="background-image: url('assets/imgs/bear-1.jpg');">
 						</div>
 					</div>-->
 
-					<div class="ItemsContainer-loader">
-						<img src="../../assets/imgs/spinner.svg" alt="Kiwi standing on oval">
+					<div class="ItemsContainer-loader" [ngClass]="{'hidden':loader==0}">
+						<img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
 					</div>
 				</div>
 
@@ -694,23 +727,23 @@
 </div>
 
 <div class="CategoriesContainer">
-	<!--<div class="CategoryBoxSub" *ngFor="let mainCategory of mainCategories">
-		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/car-0.jpg');">
-			<span class="CategoryBoxSub-head-title">{{mainCategory.title}}sadad</span>
+	<div class="CategoryBoxSub" *ngFor="let mainCategory of mainCategories">
+		<div class="CategoryBoxSub-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})">
+			<span class="CategoryBoxSub-head-title">{{mainCategory.title}}</span>
 		</div>
-	</div>-->
+	</div>
 	<!--<div class="CategoryBoxSub">
-		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/bear.jpg');">
+		<div class="CategoryBoxSub-head" style="background-image: url('assets/imgs/bear.jpg');">
 			<span class="CategoryBoxSub-head-title">مركبات</span>
 		</div>
 	</div>
 	<div class="CategoryBoxSub">
-		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/realS.jpg');">
+		<div class="CategoryBoxSub-head" style="background-image: url('assets/imgs/realS.jpg');">
 			<span class="CategoryBoxSub-head-title">مركبات</span>
 		</div>
 	</div>
 	<div class="CategoryBoxSub">
-		<div class="CategoryBoxSub-head" style="background-image: url('../../assets/imgs/watch.jpg');">
+		<div class="CategoryBoxSub-head" style="background-image: url('assets/imgs/watch.jpg');">
 			<span class="CategoryBoxSub-head-title">مركبات</span>
 		</div>
 	</div>-->
@@ -758,10 +791,10 @@
 			تواصل معنا على.....
 		</div>
 		<div class="Footer-contact-icons">
-			<a href="#" class="Footer-contact-icon" style="background-image: url('../../assets/imgs/facebook.svg');">
+			<a href="#" class="Footer-contact-icon" style="background-image: url('assets/imgs/facebook.svg');">
 
   </a>
-			<a href="#" class="Footer-contact-icon" style="background-image: url('../../assets/imgs/insta.svg');">
+			<a href="#" class="Footer-contact-icon" style="background-image: url('assets/imgs/insta.svg');">
 
   </a>
 		</div>
@@ -773,7 +806,7 @@
 			All Rights Reserved
 		</div>
 		<div class="Footer-right-logo">
-			<img src="../../assets/imgs/logo.png" alt="">
+			<img src="assets/imgs/logo.png" alt="">
 		</div>
 	</div>
 </div>

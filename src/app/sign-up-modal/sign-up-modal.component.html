@@ -2,7 +2,7 @@
 <!--<div id="" class="ModalContainer">
 			<div class="SignUpModuleContainer">-->
 <div class="SignUpModule">
-    <div class="SignUpModule-header">
+    <div class="SignUpModule-header" style="direction: rtl;">
         <div class="SignUpModule-header-title">
             حساب جديد
         </div>
@@ -35,7 +35,7 @@
             <input [(ngModel)]="newUser.password" class="SignUpModule-body-inputcontainer-text" type="password" value="" name="name">
         </div>
         <div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
-            <input type="checkbox" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel" id="checkbox_id" value="value">
+            <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel" id="checkbox_id" value="value">
             <label for="checkbox_id">
                   أوافق على
                   <div class="u-textPrimaryColor">شروط الاستخدام</div>
