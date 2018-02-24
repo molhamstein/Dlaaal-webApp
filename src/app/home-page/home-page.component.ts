@@ -46,7 +46,7 @@ export class HomePageComponent {
     advertisemets;
     search = {};
     keyFilter = [];
-
+    subCategories;
 
 
     // forScrool
@@ -61,9 +61,10 @@ export class HomePageComponent {
     lastData;
 
 
+
     ngOnInit() {
-        this.search.max=10000000000;
-        this.search.min=0;
+        this.search['max']=100000000;
+        this.search['min']=0;
         this.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
@@ -153,14 +154,14 @@ export class HomePageComponent {
         if (type == -1) {
             query = { "order": "createdAt ASC", "limit": 10, "skip": 0 };
         } else if (type == 0) {
-            this.search.category = data.categoryID;
+            this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = [];
         } else if (type == 1) {
-            this.search.category = data.categoryID;
+            this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
-            this.search.subCategory = data.subCategoryID;
+            this.search['subCategory'] = data.subCategoryID;
             query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
             console.log(this.keyFilter);
@@ -170,7 +171,7 @@ export class HomePageComponent {
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         else if (type == 3) {
-            query = { "where": { "categoryId": data.search.category, "cityId": data.search.city,"subCategoryId": data.search.subCategory,"price": {"between": [data.search.min,data.search.max]} }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
@@ -186,11 +187,11 @@ export class HomePageComponent {
 
     changeCategory(categortID) {
         this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
-            this.keyFilter = [];
-        
+        this.keyFilter = [];
+
     }
-    changeSubCategory(subCategoryID){
-                    this.keyFilter = this.mainCategories.find(x => x.id == this.search.category).subCategories.find(y => y.id == subCategoryID).fields;
+    changeSubCategory(subCategoryID) {
+        this.keyFilter = this.mainCategories.find(x => x.id == this.search["category"]).subCategories.find(y => y.id == subCategoryID).fields;
     }
 
     openSignUpDialog() {
