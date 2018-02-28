@@ -16,9 +16,10 @@ export class AddAdvertisingComponent {
     keyFilter = [];
     subCategories;
     search = {};
-    isAgree=false;
+    isAgree = false;
     images = [];
-    constructor(public globalSer:GlobalService,public APIServ: CallApiService, public loginSer: LoginService) {
+    imageOnLoad: any = [];
+    constructor(public globalSer: GlobalService, public APIServ: CallApiService, public loginSer: LoginService) {
         this.search['fields'] = [];
     }
 
@@ -32,9 +33,30 @@ export class AddAdvertisingComponent {
         });
     }
 
+    releadImage(innerIndex, file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var id = 'uploadImage' + innerIndex;
+            document.getElementById(id).setAttribute('src', reader.result);
+            // this.text = reader.result;
+        }
+        reader.readAsDataURL(file);
+    }
     onChange(event: any) {
         let files = [].slice.call(event.target.files);
+        let allFilles = event.target.files;
+        this.imageOnLoad = Array(files.length);
+        var innerIndex = 0;
+        for (var i = 0; i < allFilles.length; i++) {
+            var file = allFilles[i];
+            var x;
+            console.log("fromOut");
+            console.log(i);
+            this.releadImage(i, file);
+
+        }
         this.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
+            this.imageOnLoad = [];
             data.forEach(element => {
                 this.images.push(element);
             });
@@ -71,7 +93,7 @@ export class AddAdvertisingComponent {
             this.search['ownerId'] = this.loginSer.getUserId();
             console.log(this.search);
             this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
-                this.globalSer.goTo("detail/"+data.id)
+                this.globalSer.goTo("detail/" + data.id)
             });
         }
     }

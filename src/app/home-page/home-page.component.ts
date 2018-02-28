@@ -18,24 +18,10 @@ export class HomePageComponent {
     isLogin: boolean;
     constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
-        this.appendItems(0, this.sum);
 
     }
 
-    addItems(startIndex, endIndex, _method) {
-        for (let i = 0; i < this.sum; ++i) {
-            this.array.push(i);
-        }
-    }
 
-
-    appendItems(startIndex, endIndex) {
-        this.addItems(startIndex, endIndex, 'push');
-    }
-
-    prependItems(startIndex, endIndex) {
-        this.addItems(startIndex, endIndex, 'unshift');
-    }
 
 
 
@@ -76,12 +62,13 @@ export class HomePageComponent {
 
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
+            
         });
         this.getAdvertisemets(-1, {});
         if (this.isLogin) {
             let userID = this.loginSer.getUserId();
             this.APIServ.get("users/" + userID + "/notifications").subscribe(data => {
-                this.categories = data;
+                // this.categories = data;
             });
         }
 
@@ -186,7 +173,7 @@ export class HomePageComponent {
     openSignUpDialog() {
 
         let dialogRef = this.dialog.open(SignUpModalComponent, {
-            width: '35%',
+            // width: '35%',
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -198,7 +185,7 @@ export class HomePageComponent {
     }
     openSignInDialog() {
         let dialogRef = this.dialog.open(SignInModalComponent, {
-            width: '35%',
+            // width: '35%',
         });
 
         dialogRef.afterClosed().subscribe(result => {

@@ -19,7 +19,7 @@ export class HeaderComponent {
     openSignUpDialog() {
 
         let dialogRef = this.dialog.open(SignUpModalComponent, {
-            width: '35%',
+            // width: '35%',
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -31,7 +31,7 @@ export class HeaderComponent {
     }
     openSignInDialog() {
         let dialogRef = this.dialog.open(SignInModalComponent, {
-            width: '35%',
+            // width: '35%',
         });
 
         dialogRef.afterClosed().subscribe(result => {

@@ -59,9 +59,11 @@
                         </div>
                         <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of keyFilter; let i = index;">
                             <label for="name">{{oneKey.key}} </label>
-                            <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
-                            <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number" value="" name="name">
-                            <select *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
+                            <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text"
+                                value="" name="name">
+                            <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number"
+                                value="" name="name">
+                            <select style="width: 100%" *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
 								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
 								</select>
                         </div>
@@ -76,6 +78,13 @@
                             <div *ngFor="let value of images" class="AddNewForm-imagescontainer-smallimage">
                                 <img src="{{value}}" />
                             </div>
+                            <div *ngFor="let image of imageOnLoad;let i = index" class="AddNewForm-imagescontainer-smallimage" style="    position: relative;">
+                                <img id="{{'uploadImage'+i}}" />
+                                <img src="assets/imgs/infinity_loader_by_volorf.gif" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;" />
+                                
+                            </div>
+
+
                             <div (click)="openSelectImage()" for="file" class="AddNewForm-imagescontainer-browseimage">
                                 <input multiple type="file" style="display:none" id="files" (change)="onChange($event)" />
                                 <img src="assets/imgs/browse.png" />
@@ -124,7 +133,7 @@
     </div>
 
 </div>
-
+<!--
 <div class="Footer">
 
     <div class="Footer-about">
@@ -151,12 +160,12 @@
             تواصل معنا على.....
         </div>
         <div class="Footer-contact-icons">
-            <!--<div class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
+            <div class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
 
             </div>
             <div class="Footer-contact-icon" style="background-image: url('../imgs/insta.svg');">
 
-            </div>-->
+            </div>
         </div>
 
     </div>
@@ -166,7 +175,7 @@
             All Rights Reserved
         </div>
         <div class="Footer-right-logo">
-            <!--<img src="../imgs/logo.png" alt="">-->
+            <img src="../imgs/logo.png" alt="">
         </div>
     </div>
-</div>
+</div>-->

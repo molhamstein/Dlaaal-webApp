@@ -7,10 +7,12 @@ export class LoginService {
   constructor(private cookieService: CookieService) { }
 
   isLogin() {
-    if (this.cookieService.get('dalalUserId') == "")
+    if (this.cookieService.get('dalalUserId') == "") {
       return false;
-    else
+    }
+    else{
       return true;
+    }
   }
 
   getUserId() {
@@ -22,7 +24,7 @@ export class LoginService {
   getId() {
     let user = this.cookieService.get("dalalId");
     // if (user != "")
-      return user;
+    return user;
   }
   logIn(data) {
     console.log(data);

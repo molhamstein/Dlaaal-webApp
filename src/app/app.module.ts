@@ -1,3 +1,5 @@
+import { ReportModalComponent } from './report-modal/report-modal.component';
+import { FullScreenModalComponent } from './full-screen-modal/full-screen-modal.component';
 import { GlobalService } from './Services/global.service';
 import { ProfileComponent } from './profile/profile.component';
 import { AddAdvertisingComponent } from './add-advertising/add-advertising.component';
@@ -38,7 +40,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -48,7 +50,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[SignUpModalComponent,SignInModalComponent,CommunictionModalComponent],
+  entryComponents:[SignUpModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

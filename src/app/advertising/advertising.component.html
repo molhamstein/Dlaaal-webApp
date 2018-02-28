@@ -107,7 +107,7 @@
               </div>
             </div>
             <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
-              <div class="AddDetailsForm-imagescontainer-smallimage" *ngFor="let oneImage of advertisemet.images">
+              <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage" *ngFor="let oneImage of advertisemet.images">
                 <img src="{{oneImage}}" />
               </div>
             </div>
@@ -121,11 +121,9 @@
               </div>
 
               <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
-                <select class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
-                <option value="">تبليغ</option>
-                <option value="">حماة</option>
-                <option value="">حماة</option>
-                <option value="">حماة</option>
+                <select (change)="makeReport($event.target.value)"  class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
+                <option [ngValue]="undefined" selected>تبليغ</option>
+                    <option *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.title}}</option>	
                  </select>
                 <div class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   إضافة إلى المفضلة
@@ -144,7 +142,7 @@
 
 
 
-    <div class="Footer">
+    <!--<div class="Footer">
 
       <div class="Footer-about">
         <div class="Footer-about-title">
@@ -188,5 +186,5 @@
           <img src="../imgs/logo.png" alt="">
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
