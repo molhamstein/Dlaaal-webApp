@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { LoginService } from './../Services/login.service';
 import { element } from 'protractor';
 import { CallApiService } from './../Services/call-api.service';
@@ -15,9 +16,9 @@ export class AddAdvertisingComponent {
     keyFilter = [];
     subCategories;
     search = {};
-
+    isAgree=false;
     images = [];
-    constructor(public APIServ: CallApiService,public loginSer:LoginService) {
+    constructor(public globalSer:GlobalService,public APIServ: CallApiService, public loginSer: LoginService) {
         this.search['fields'] = [];
     }
 
@@ -43,13 +44,13 @@ export class AddAdvertisingComponent {
     changeCategory(categortID) {
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
         this.keyFilter = [];
-        this.search['fields']=[];        
+        this.search['fields'] = [];
     }
     changeSubCategory(subCategoryID) {
-        this.search['fields']=[];
+        this.search['fields'] = [];
         this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
         this.keyFilter.forEach((element, index) => {
-            this.search['fields'][index]={};
+            this.search['fields'][index] = {};
         });
     }
 
@@ -59,15 +60,19 @@ export class AddAdvertisingComponent {
     }
 
     addAdvertising() {
-        this.keyFilter.forEach((element, index) => {
-            this.search['fields'][index].key = element.key;
-            this.search['fields'][index].type = element.type;
-        });
-        this.search['images'] = this.images
-        this.search['ownerId']=this.loginSer.getUserId();
-        console.log(this.search);
-        this.APIServ.post("advertisemets",this.search).subscribe((data: any) => {
-           
-        });
+        if (this.isAgree) {
+
+
+            this.keyFilter.forEach((element, index) => {
+                this.search['fields'][index].key = element.key;
+                this.search['fields'][index].type = element.type;
+            });
+            this.search['images'] = this.images
+            this.search['ownerId'] = this.loginSer.getUserId();
+            console.log(this.search);
+            this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
+                this.globalSer.goTo("detail/"+data.id)
+            });
+        }
     }
 }

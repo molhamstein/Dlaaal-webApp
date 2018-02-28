@@ -1704,7 +1704,7 @@ figure {
 .FiltersPanel-body select {
   -moz-appearance: none;
   -webkit-appearance: none;
-  background-color: #7d9ab0;
+  background-color: #c2dea4;
   border: 1px solid transparent;
   border-right: 0px;
   border-left: 0px;
@@ -2039,7 +2039,7 @@ figure {
   flex-wrap: wrap;
   -webkit-align-items: flex-start;
   align-items: flex-start;
-  width: 35%;
+  /*width: 35%;*/
   background-color: white;
 }
 @media screen and (max-width: 700px) {
@@ -3366,4 +3366,8 @@ figure {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-top: 20px;
+}
+
+.mat-dialog-container {
+    padding: 0!important;
 }

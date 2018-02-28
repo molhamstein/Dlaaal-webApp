@@ -108,7 +108,7 @@
                     <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
                     </label>
                             </div>
-                            <div class="AddNewForm-btn"  (click)="addAdvertising()">
+                            <div class="AddNewForm-btn" [ngStyle]="{'background-color':  isAgree ? '#257310' : '#257310a1'}" (click)="addAdvertising()">
                                 إضافة إعلان
                             </div>
                         </div>

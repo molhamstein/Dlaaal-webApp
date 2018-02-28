@@ -28,7 +28,7 @@ export class LoginService {
     console.log(data);
     this.cookieService.set('dalalUserId', data.userId);
     this.cookieService.set('dalalId', data.id);
-    // location.reload();
+    location.reload();
 
   }
 

@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { SignUpModalComponent } from './../sign-up-modal/sign-up-modal.component';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
 import { MatDialog } from '@angular/material';
@@ -12,10 +13,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
     isLogin: boolean;
-    constructor(public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
+    constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
     }
-        openSignUpDialog() {
+    openSignUpDialog() {
 
         let dialogRef = this.dialog.open(SignUpModalComponent, {
             width: '35%',
@@ -23,6 +24,9 @@ export class HeaderComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            if (result) {
+                this.openSignInDialog()
+            }
         });
     }
     openSignInDialog() {
@@ -36,5 +40,12 @@ export class HeaderComponent {
     }
     logout() {
         this.loginSer.logout();
+    }
+    hrefAddAdv() {
+        if (this.isLogin) {
+            this.globalServ.goTo("addAdvertising")
+        } else {
+            this.openSignInDialog();
+        }
     }
 }

@@ -15,16 +15,8 @@
             <input [(ngModel)]="newUser.firstName" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
         </div>
         <div class="SignUpModule-body-inputcontainer">
-            <label for="name">الكنية</label>
-            <input [(ngModel)]="newUser.lastName" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer">
             <label for="name">الرقم</label>
             <input [(ngModel)]="newUser.phone" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer">
-            <label for="name">الموقع الإلكتروني</label>
-            <input [(ngModel)]="newUser.website" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
         </div>
         <div class="SignUpModule-body-inputcontainer">
             <label for="name">الايميل</label>
@@ -49,7 +41,7 @@
     </div>
     <div class="SignUpModule-footer">
         لديك حساب مسبقاً
-        <div class="u-textPrimaryColor">
+        <div class="u-textPrimaryColor"  (click)="login()">
             قم بتسجيل الدخول .
         </div>
     </div>

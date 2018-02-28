@@ -1,11 +1,17 @@
+import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+
 
 @Injectable()
 export class GlobalService {
 
-  constructor() {
+  constructor(private router: Router, private route: ActivatedRoute) {
 
   }
+
+
+
   private diff_hours(dt2, dt1) {
 
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -49,6 +55,11 @@ export class GlobalService {
       return this.diff_month(new Date(), new Date(date)) + " شهر ";
     else
       return date
+
+  }
+
+  goTo(newURL) {
+       this.router.navigate([newURL]);
 
   }
 

@@ -191,6 +191,9 @@ export class HomePageComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            if(result){
+                this.openSignInDialog()
+            }
         });
     }
     openSignInDialog() {
@@ -208,6 +211,13 @@ export class HomePageComponent {
     onScrollDown(ev) {
         if (this.lastType != -1)
             this.getAdvertisemets(this.lastType, this.lastData, true);
+    }
+    hrefAddAdv(){
+        if(this.isLogin){
+            this.globalServ.goTo("addAdvertising")
+        }else{
+            this.openSignInDialog();
+        }
     }
 
 }
