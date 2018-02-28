@@ -766,7 +766,7 @@ figure {
   justify-content: center;
   -webkit-align-items: center;
   align-items: center;
-  background-image: url("../../assets/imgs/triangle.png");
+  background-image: url("../imgs/triangle.png");
   background-position: bottom right;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -852,7 +852,7 @@ figure {
 .Triangle--pages {
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
-  background-image: url("../../assets/imgs/triangle-s.png");
+  background-image: url("../imgs/triangle-s.png");
 }
 /* line 73, ../sass/_Triangle.scss */
 .Triangle--pages-title {
@@ -891,21 +891,22 @@ figure {
   min-height: 120px;
   color: white;
   font-size: 25px;
+  line-height: 30px;
   width: 100%;
 }
-/* line 11, ../sass/_Footer.scss */
+/* line 12, ../sass/_Footer.scss */
 .Footer-about {
   -webkit-flex-grow: 3;
   flex-grow: 3;
   padding: 60px;
 }
-/* line 16, ../sass/_Footer.scss */
+/* line 17, ../sass/_Footer.scss */
 .Footer-about-body {
   padding-top: 20px;
   font-size: 15px;
   color: #adadad;
 }
-/* line 21, ../sass/_Footer.scss */
+/* line 22, ../sass/_Footer.scss */
 .Footer-about-bar {
   font-size: 12px;
   display: -webkit-flex;
@@ -916,11 +917,11 @@ figure {
   justify-content: space-between;
   padding-top: 20px;
 }
-/* line 27, ../sass/_Footer.scss */
+/* line 28, ../sass/_Footer.scss */
 .Footer-about-bar-item {
   width: 30%;
 }
-/* line 32, ../sass/_Footer.scss */
+/* line 33, ../sass/_Footer.scss */
 .Footer-contact {
   display: -webkit-flex;
   display: flex;
@@ -931,7 +932,7 @@ figure {
   padding: 60px;
   width: 15%;
 }
-/* line 40, ../sass/_Footer.scss */
+/* line 41, ../sass/_Footer.scss */
 .Footer-contact-title {
   display: -webkit-flex;
   display: flex;
@@ -941,7 +942,7 @@ figure {
   align-items: center;
   width: 100%;
 }
-/* line 46, ../sass/_Footer.scss */
+/* line 47, ../sass/_Footer.scss */
 .Footer-contact-icons {
   display: -webkit-flex;
   display: flex;
@@ -951,7 +952,7 @@ figure {
   justify-content: space-around;
   width: 100%;
 }
-/* line 52, ../sass/_Footer.scss */
+/* line 53, ../sass/_Footer.scss */
 .Footer-contact-icon {
   display: -webkit-flex;
   display: flex;
@@ -965,13 +966,13 @@ figure {
   width: 20%;
 }
 @media screen and (max-width: 800px) {
-  /* line 32, ../sass/_Footer.scss */
+  /* line 33, ../sass/_Footer.scss */
   .Footer-contact {
     width: 100%;
     min-height: 250px;
   }
 }
-/* line 66, ../sass/_Footer.scss */
+/* line 67, ../sass/_Footer.scss */
 .Footer-right {
   display: -webkit-flex;
   display: flex;
@@ -984,7 +985,7 @@ figure {
   width: 100%;
   font-size: 12px;
 }
-/* line 75, ../sass/_Footer.scss */
+/* line 76, ../sass/_Footer.scss */
 .Footer-right-text {
   font-family: 'OpenSans-ExtraBold';
   display: -webkit-flex;
@@ -999,12 +1000,12 @@ figure {
   border-radius: 3px;
 }
 @media screen and (max-width: 600px) {
-  /* line 75, ../sass/_Footer.scss */
+  /* line 76, ../sass/_Footer.scss */
   .Footer-right-text {
     width: 35%;
   }
 }
-/* line 88, ../sass/_Footer.scss */
+/* line 89, ../sass/_Footer.scss */
 .Footer-right-logo {
   display: -webkit-flex;
   display: flex;
@@ -1017,13 +1018,13 @@ figure {
   background-color: #333;
   border-radius: 2px;
 }
-/* line 96, ../sass/_Footer.scss */
+/* line 97, ../sass/_Footer.scss */
 .Footer-right-logo img {
   max-width: 32px;
   min-width: 32px;
 }
 @media screen and (max-width: 600px) {
-  /* line 88, ../sass/_Footer.scss */
+  /* line 89, ../sass/_Footer.scss */
   .Footer-right-logo {
     width: 35%;
   }
@@ -1037,7 +1038,6 @@ figure {
   flex-wrap: wrap;
   -webkit-justify-content: space-around;
   justify-content: space-around;
-  background-color: #F4F7F8;
   padding: 15px 15px 0 15px;
   width: 100%;
 }
@@ -1200,7 +1200,7 @@ figure {
 }
 /* line 23, ../sass/_ContentMenu.scss */
 .ContentMenu-item--iconBell {
-  background: url("../../assets/imgs/bell.svg") no-repeat;
+  background: url("../imgs/bell.svg") no-repeat;
   background-size: contain;
   border-radius: 50%;
   cursor: pointer;
@@ -1210,7 +1210,7 @@ figure {
 }
 /* line 33, ../sass/_ContentMenu.scss */
 .ContentMenu-item--iconDots {
-  background: url("../../assets/imgs/c-dots.svg") no-repeat;
+  background: url("../imgs/c-dots.svg") no-repeat;
   background-size: contain;
   cursor: pointer;
   height: 24px;
@@ -1503,7 +1503,7 @@ figure {
   justify-content: space-around;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: 25px 20px;
+  padding: 25px 0px;
   padding-bottom: 0px;
   width: 100%;
   margin-top: 0px;
@@ -1550,7 +1550,7 @@ figure {
 }
 /* line 15, ../sass/_TopMenu.scss */
 .TopMenu-item--iconBell {
-  background: url("../../assets/imgs/bell.svg") no-repeat;
+  background: url("../imgs/bell.svg") no-repeat;
   background-color: #fff;
   background-size: contain;
   border-radius: 50%;
@@ -1561,7 +1561,7 @@ figure {
 }
 /* line 26, ../sass/_TopMenu.scss */
 .TopMenu-item--iconDots {
-  background: url("../../assets/imgs/w-dots.svg") no-repeat;
+  background: url("../imgs/w-dots.svg") no-repeat;
   background-size: contain;
   cursor: pointer;
   height: 24px;
@@ -1722,7 +1722,7 @@ figure {
 }
 /* line 100, ../sass/_FiltersPanel.scss */
 .FiltersPanel-body-down {
-  background-image: url("../../assets/imgs/down.svg");
+  background-image: url("../imgs/down.svg");
   background-repeat: no-repeat;
   background-size: 15px 15px;
   background-position: 4% center;
@@ -2039,7 +2039,7 @@ figure {
   flex-wrap: wrap;
   -webkit-align-items: flex-start;
   align-items: flex-start;
-  /*width: 35%;*/
+  width: 35%;
   background-color: white;
 }
 @media screen and (max-width: 700px) {
@@ -2299,12 +2299,13 @@ figure {
 /* line 75, ../sass/_AddNewForm.scss */
 .AddNewForm-checkboxcontainer label {
   margin-top: 6px;
+  -webkit-margin-before: 0px;
 }
-/* line 78, ../sass/_AddNewForm.scss */
+/* line 79, ../sass/_AddNewForm.scss */
 .AddNewForm-checkboxcontainer input[type=checkbox] {
   margin-right: -2px;
 }
-/* line 82, ../sass/_AddNewForm.scss */
+/* line 83, ../sass/_AddNewForm.scss */
 .AddNewForm-submitcontainer {
   min-height: 250px;
   display: -webkit-flex;
@@ -2319,7 +2320,7 @@ figure {
   align-content: flex-end;
   width: 100%;
 }
-/* line 91, ../sass/_AddNewForm.scss */
+/* line 92, ../sass/_AddNewForm.scss */
 .AddNewForm-btn {
   box-shadow: 0 0 7px 0 #0032504d;
   width: 100%;
@@ -2340,11 +2341,11 @@ figure {
   text-align: center;
   text-decoration: none;
 }
-/* line 108, ../sass/_AddNewForm.scss */
+/* line 109, ../sass/_AddNewForm.scss */
 .AddNewForm-btn:hover {
   box-shadow: 0 0 15px 0 #0032504d;
 }
-/* line 113, ../sass/_AddNewForm.scss */
+/* line 114, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer {
   display: -webkit-flex;
   display: flex;
@@ -2352,7 +2353,7 @@ figure {
   justify-content: row;
   width: 100%;
 }
-/* line 120, ../sass/_AddNewForm.scss */
+/* line 121, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer--sm {
   display: -webkit-flex;
   display: flex;
@@ -2363,7 +2364,7 @@ figure {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 126, ../sass/_AddNewForm.scss */
+/* line 127, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-largeimage {
   width: 100%;
   height: 275px;
@@ -2373,12 +2374,13 @@ figure {
   border-radius: 5px;
   box-shadow: 0 0 11px 5px #d0d0d04d;
 }
-/* line 134, ../sass/_AddNewForm.scss */
+/* line 135, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-largeimage img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
-/* line 139, ../sass/_AddNewForm.scss */
+/* line 141, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-smallimage {
   width: 32%;
   height: 120px;
@@ -2387,18 +2389,19 @@ figure {
   border-radius: 5px;
   box-shadow: 0 0 11px 5px #d0d0d04d;
 }
-/* line 146, ../sass/_AddNewForm.scss */
+/* line 148, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-smallimage img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 @media screen and (max-width: 800px) {
-  /* line 139, ../sass/_AddNewForm.scss */
+  /* line 141, ../sass/_AddNewForm.scss */
   .AddNewForm-imagescontainer-smallimage {
     width: 100%;
   }
 }
-/* line 154, ../sass/_AddNewForm.scss */
+/* line 157, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-browseimage {
   width: 32%;
   height: 120px;
@@ -2410,18 +2413,18 @@ figure {
   background-size: 100%;
   background-position: center center;
 }
-/* line 164, ../sass/_AddNewForm.scss */
+/* line 167, ../sass/_AddNewForm.scss */
 .AddNewForm-imagescontainer-browseimage img {
   width: 100%;
   height: 100%;
 }
 @media screen and (max-width: 800px) {
-  /* line 154, ../sass/_AddNewForm.scss */
+  /* line 157, ../sass/_AddNewForm.scss */
   .AddNewForm-imagescontainer-browseimage {
     width: 100%;
   }
 }
-/* line 173, ../sass/_AddNewForm.scss */
+/* line 176, ../sass/_AddNewForm.scss */
 .AddNewForm select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -2441,9 +2444,9 @@ figure {
   vertical-align: middle;
   font-family: "Swessra-medium" !important;
 }
-/* line 190, ../sass/_AddNewForm.scss */
+/* line 193, ../sass/_AddNewForm.scss */
 .AddNewForm-down {
-  background-image: url("../../assets/imgs/down.svg");
+  background-image: url("../imgs/down.svg");
   background-repeat: no-repeat;
   background-size: 15px 15px;
   background-position: 4% center;
@@ -2466,7 +2469,7 @@ figure {
   }
 }
 
-/* line 3, ../sass/_AddDetailsForm.scss */
+/* line 5, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm {
   display: -webkit-flex;
   display: flex;
@@ -2483,7 +2486,7 @@ figure {
   margin: 20px 0 150px 0;
   padding: 35px 25px;
 }
-/* line 16, ../sass/_AddDetailsForm.scss */
+/* line 18, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-column {
   display: -webkit-flex;
   display: flex;
@@ -2496,12 +2499,12 @@ figure {
   margin-bottom: 25px;
 }
 @media screen and (max-width: 800px) {
-  /* line 16, ../sass/_AddDetailsForm.scss */
+  /* line 18, ../sass/_AddDetailsForm.scss */
   .AddDetailsForm-column {
     width: 98%;
   }
 }
-/* line 28, ../sass/_AddDetailsForm.scss */
+/* line 30, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer {
   display: -webkit-flex;
   display: flex;
@@ -2513,12 +2516,12 @@ figure {
   max-width: 95%;
   padding: 5px 0;
 }
-/* line 35, ../sass/_AddDetailsForm.scss */
+/* line 37, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer label {
   color: #525C65;
   font-size: 12px;
 }
-/* line 39, ../sass/_AddDetailsForm.scss */
+/* line 41, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-text {
   width: 100%;
   border: 1px solid transparent;
@@ -2529,7 +2532,7 @@ figure {
   padding-bottom: 4px;
   padding-top: 5px;
 }
-/* line 49, ../sass/_AddDetailsForm.scss */
+/* line 51, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-select {
   width: 100%;
   font-size: 18px;
@@ -2540,40 +2543,47 @@ figure {
   color: white;
   border-bottom: 1px solid #525C65;
 }
-/* line 59, ../sass/_AddDetailsForm.scss */
+/* line 61, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-select--sm {
   width: 35%;
 }
-/* line 62, ../sass/_AddDetailsForm.scss */
+/* line 65, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-select--md {
   width: 60%;
 }
-/* line 65, ../sass/_AddDetailsForm.scss */
+/* line 68, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-select--lg {
   width: 100%;
 }
-/* line 68, ../sass/_AddDetailsForm.scss */
+/* line 71, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer-select--btnalign {
   margin: 0px 0 !important;
   height: 42px !important;
   width: 45%;
 }
-/* line 74, ../sass/_AddDetailsForm.scss */
+@media only screen and (max-width: 1040px) {
+  /* line 71, ../sass/_AddDetailsForm.scss */
+  .AddDetailsForm-inputcontainer-select--btnalign {
+    width: 100%;
+    margin: 5px 0 !important;
+  }
+}
+/* line 81, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-inputcontainer--btn {
   width: 100%;
   max-width: 100%;
 }
-/* line 79, ../sass/_AddDetailsForm.scss */
+/* line 86, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-checkboxcontainer {
   display: -webkit-flex;
   display: flex;
   width: 100%;
 }
-/* line 82, ../sass/_AddDetailsForm.scss */
+/* line 89, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-checkboxcontainer label {
   margin-top: 6px;
 }
-/* line 86, ../sass/_AddDetailsForm.scss */
+/* line 93, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-buttonscontainers {
   display: -webkit-flex;
   display: flex;
@@ -2584,7 +2594,7 @@ figure {
   width: 100%;
   margin: 20px 0;
 }
-/* line 93, ../sass/_AddDetailsForm.scss */
+/* line 100, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-pricepontainer {
   display: -webkit-flex;
   display: flex;
@@ -2597,17 +2607,17 @@ figure {
   padding: 0px 10px;
   margin: 15px 0px 10px;
 }
-/* line 102, ../sass/_AddDetailsForm.scss */
+/* line 109, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-pricepontainer-num {
   font-family: 'OpenSans-ExtraBold';
 }
-/* line 105, ../sass/_AddDetailsForm.scss */
+/* line 112, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-pricepontainer-text {
   font-family: 'Swessra-medium';
   margin: 3px 3px;
   font-weight: bold;
 }
-/* line 113, ../sass/_AddDetailsForm.scss */
+/* line 120, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer {
   display: -webkit-flex;
   display: flex;
@@ -2616,7 +2626,7 @@ figure {
   width: 100%;
   background-color: transparent;
 }
-/* line 121, ../sass/_AddDetailsForm.scss */
+/* line 128, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer--sm {
   display: -webkit-flex;
   display: flex;
@@ -2627,7 +2637,7 @@ figure {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 127, ../sass/_AddDetailsForm.scss */
+/* line 134, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer-largeimage {
   width: 100%;
   height: 275px;
@@ -2637,12 +2647,13 @@ figure {
   border-radius: 5px;
   box-shadow: 0 0 11px 5px #d0d0d0;
 }
-/* line 135, ../sass/_AddDetailsForm.scss */
+/* line 142, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer-largeimage img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
-/* line 140, ../sass/_AddDetailsForm.scss */
+/* line 148, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer-smallimage {
   width: 32%;
   height: 120px;
@@ -2652,18 +2663,17 @@ figure {
   box-shadow: 0 0 11px 5px #d0d0d0;
 }
 @media screen and (max-width: 800px) {
-  /* line 140, ../sass/_AddDetailsForm.scss */
+  /* line 148, ../sass/_AddDetailsForm.scss */
   .AddDetailsForm-imagescontainer-smallimage {
     width: 100%;
   }
 }
-/* line 151, ../sass/_AddDetailsForm.scss */
+/* line 159, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-imagescontainer img {
   width: 100%;
   height: 100%;
-  object-fit: cover
 }
-/* line 159, ../sass/_AddDetailsForm.scss */
+/* line 167, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-header {
   display: -webkit-flex;
   display: flex;
@@ -2677,7 +2687,7 @@ figure {
   margin-bottom: 10px;
   width: 100%;
 }
-/* line 167, ../sass/_AddDetailsForm.scss */
+/* line 175, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-header-title {
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
@@ -2686,15 +2696,21 @@ figure {
   color: #fff;
   font-weight: bold;
   padding: 5px 7% 5px 12%;
-  margin-right: -37px;
+  margin-right: -32px;
 }
 @media screen and (max-width: 800px) {
-  /* line 167, ../sass/_AddDetailsForm.scss */
+  /* line 175, ../sass/_AddDetailsForm.scss */
   .AddDetailsForm-header-title {
-    margin-right: -22px;
+    margin-right: -31px;
   }
 }
-/* line 180, ../sass/_AddDetailsForm.scss */
+@media screen and (min-width: 1024px) {
+  /* line 175, ../sass/_AddDetailsForm.scss */
+  .AddDetailsForm-header-title {
+    margin-right: -35px;
+  }
+}
+/* line 191, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-category {
   display: -webkit-flex;
   display: flex;
@@ -2704,15 +2720,15 @@ figure {
   height: 44px;
   font-size: 16px;
 }
-/* line 186, ../sass/_AddDetailsForm.scss */
+/* line 197, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-category-title {
   line-height: 40px;
 }
-/* line 189, ../sass/_AddDetailsForm.scss */
+/* line 200, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-category-subcat {
   line-height: 40px;
 }
-/* line 193, ../sass/_AddDetailsForm.scss */
+/* line 204, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -2733,15 +2749,15 @@ figure {
   font-family: "Swessra-medium" !important;
   margin: 5px 0;
 }
-/* line 212, ../sass/_AddDetailsForm.scss */
+/* line 223, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-down {
-  background-image: url("../../assets/imgs/down.svg");
+  background-image: url("../imgs/down.svg");
   background-repeat: no-repeat;
   background-size: 15px 15px;
   background-position: 4% center;
   padding-right: 28px !important;
 }
-/* line 219, ../sass/_AddDetailsForm.scss */
+/* line 230, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-btn {
   display: -webkit-flex;
   display: flex;
@@ -2766,11 +2782,17 @@ figure {
   text-align: center;
   text-decoration: none;
 }
-/* line 238, ../sass/_AddDetailsForm.scss */
+@media only screen and (max-width: 1040px) {
+  /* line 230, ../sass/_AddDetailsForm.scss */
+  .AddDetailsForm-btn {
+    margin-bottom: 5px !important;
+  }
+}
+/* line 252, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-btn:hover {
   box-shadow: 0 0 15px 0 #0032504d;
 }
-/* line 241, ../sass/_AddDetailsForm.scss */
+/* line 255, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-btn--contact {
   width: 100% !important;
   background-image: url(../../assets/imgs/btn-call.svg);
@@ -2778,10 +2800,18 @@ figure {
   background-size: 30px 30px;
   background-position: 5% center;
 }
-/* line 248, ../sass/_AddDetailsForm.scss */
+/* line 262, ../sass/_AddDetailsForm.scss */
 .AddDetailsForm-btn--addfav {
   width: 48% !important;
   background-color: #03b7e7 !important;
+  max-width: 100% !important;
+}
+@media only screen and (max-width: 1024px) {
+  /* line 262, ../sass/_AddDetailsForm.scss */
+  .AddDetailsForm-btn--addfav {
+    width: 100% !important;
+    margin: 10px 0;
+  }
 }
 
 /* line 4, ../sass/_AddDetailsContainer.scss */
@@ -2810,13 +2840,13 @@ figure {
 @media only screen and (max-width: 600px) {
   /* line 8, ../sass/_HeaderBoxContainer.scss */
   .HeaderBoxContianer--addpage {
-    margin-top: 10px;
+    margin-top: 50px;
   }
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (min-width: 1024px) {
   /* line 8, ../sass/_HeaderBoxContainer.scss */
   .HeaderBoxContianer--addpage {
-    margin-top: -20px;
+    margin-top: -50px;
   }
 }
 @media only screen and (min-width: 1200px) {
@@ -2844,19 +2874,20 @@ figure {
 }
 /* line 33, ../sass/_HeaderBoxContainer.scss */
 .HeaderBoxContianer--profilepage {
+  min-height: 250px;
   -webkit-align-items: flex-start;
   align-items: flex-start;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 300px;
-  margin-top: -305px;
+  margin-top: -225px;
 }
 @media only screen and (max-width: 800px) {
   /* line 33, ../sass/_HeaderBoxContainer.scss */
   .HeaderBoxContianer--profilepage {
-    margin-top: 10px;
+    margin-top: -130px;
+    width: 100%;
   }
 }
 
@@ -2879,7 +2910,7 @@ figure {
 /* line 10, ../sass/_HeaderBox.scss */
 .HeaderBox--adspage label {
   color: #7d9ab0;
-  font-size: 16px;
+  font-size: 14px;
 }
 @media only screen and (max-width: 600px) {
   /* line 6, ../sass/_HeaderBox.scss */
@@ -2907,7 +2938,7 @@ figure {
 }
 /* line 31, ../sass/_HeaderBox.scss */
 .HeaderBox--detailspage-image {
-  /*background-image: url(../../assets/imgs/car-1.jpg);*/
+  background-image: url(../../assets/imgs/car-1.jpg);
   background-size: cover;
   width: 40%;
   height: 180px;
@@ -2953,7 +2984,7 @@ figure {
 /* line 63, ../sass/_HeaderBox.scss */
 .HeaderBox--detailspage-body-footer-views {
   width: 100%;
-  background-image: url("../../assets/imgs/seen.svg");
+  background-image: url("../imgs/seen.svg");
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 98% center;
@@ -2964,7 +2995,7 @@ figure {
 /* line 73, ../sass/_HeaderBox.scss */
 .HeaderBox--detailspage-body-footer-date {
   width: 100%;
-  background-image: url("../../assets/imgs/date.svg");
+  background-image: url("../imgs/date.svg");
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 98% center;
@@ -3015,7 +3046,7 @@ figure {
 .HeaderBox--detailspage-callusbtn {
   border-radius: 50%;
   background-color: #257310;
-  background-image: url(../../assets/imgs/btn-call.svg);
+  /*background-image: url(../../assets/imgs/btn-call.svg);*/
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position: center;
@@ -3023,6 +3054,7 @@ figure {
   height: 90px;
   margin-top: -150px;
   margin-left: -100px;
+  cursor: pointer;
 }
 @media only screen and (max-width: 800px) {
   /* line 115, ../sass/_HeaderBox.scss */
@@ -3036,19 +3068,19 @@ figure {
   .HeaderBox--detailspage {
     width: 100%;
   }
-  /* line 134, ../sass/_HeaderBox.scss */
+  /* line 135, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-image {
     width: 60%;
   }
-  /* line 137, ../sass/_HeaderBox.scss */
+  /* line 138, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-body {
     width: 38%;
   }
-  /* line 138, ../sass/_HeaderBox.scss */
+  /* line 139, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-body-header {
     color: #525C65;
   }
-  /* line 143, ../sass/_HeaderBox.scss */
+  /* line 144, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-pricecontainer {
     -webkit-justify-content: center;
     justify-content: center;
@@ -3059,7 +3091,7 @@ figure {
     margin: 80px 0px 0px 0;
     color: grey;
   }
-  /* line 152, ../sass/_HeaderBox.scss */
+  /* line 153, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-btncontainer {
     -webkit-justify-content: center;
     justify-content: center;
@@ -3075,16 +3107,263 @@ figure {
     width: 100%;
   }
 }
-/* line 167, ../sass/_HeaderBox.scss */
+/* line 169, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+/* line 176, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-usercontainer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: no-wrap;
+  flex-wrap: no-wrap;
+  width: 40%;
+}
+/* line 180, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-usercontainer-username {
+  font-size: 21px;
+  line-height: 50px;
+  padding-right: 23px;
+}
+@media only screen and (max-width: 800px) {
+  /* line 180, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-usercontainer-username {
+    padding: 0;
+  }
+}
+/* line 188, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-usercontainer-avatar {
+  width: 100%;
+  height: 180px;
+  max-height: 180px;
+}
+/* line 192, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-usercontainer-avatar img {
+  width: 180px;
+  max-height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 11px 5px #d0d0d04d;
+}
+@media only screen and (max-width: 800px) {
+  /* line 188, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-usercontainer-avatar {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+}
+@media only screen and (max-width: 800px) {
+  /* line 176, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-usercontainer {
+    width: 100%;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+}
+/* line 210, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-detailscontainer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-self: center;
+  align-self: center;
+  width: 45%;
+  height: 150px;
+  color: white;
+  font-size: 25px;
+  line-height: 30px;
+}
+/* line 221, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-detailscontainer-column {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 40%;
+}
+@media only screen and (max-width: 800px) {
+  /* line 221, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-detailscontainer-column {
+    width: 50%;
+    color: #525C65;
+    font-size: 14px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 221, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-detailscontainer-column {
+    font-size: 23px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  /* line 221, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-detailscontainer-column {
+    font-size: 25px;
+  }
+}
+/* line 236, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-detailscontainer-column-title {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 100%;
+}
+/* line 242, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-detailscontainer-column-value {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  font-family: 'OpenSans-ExtraBold';
+  width: 100%;
+}
+@media only screen and (max-width: 800px) {
+  /* line 221, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-detailscontainer-column {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  /* line 210, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-detailscontainer {
+    width: 100%;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+}
+/* line 258, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-editbtn {
+  border-radius: 50%;
+  background-color: #257310;
+  background-image: url(../../assets/imgs/btn-edit.svg);
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position: center;
+  width: 110px;
+  height: 110px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 800px) {
+  /* line 258, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-editbtn {
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+}
+/* line 275, ../sass/_HeaderBox.scss */
+.HeaderBox--profilepage-btncontainer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  align-self: flex-end;
+  width: 15%;
+  height: 150px;
+}
+@media only screen and (max-width: 800px) {
+  /* line 275, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage-btncontainer {
+    width: 100%;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+}
+@media only screen and (max-width: 800px) {
+  /* line 169, ../sass/_HeaderBox.scss */
+  .HeaderBox--profilepage {
+    width: 100%;
+  }
+}
+/* line 291, ../sass/_HeaderBox.scss */
 .HeaderBox--stretch {
   -webkit-align-self: stretch;
   align-self: stretch;
 }
-/* line 170, ../sass/_HeaderBox.scss */
+/* line 294, ../sass/_HeaderBox.scss */
 .HeaderBox-callusbtn {
   -webkit-align-self: flex-end;
   align-self: flex-end;
 }
 
+/* line 4, ../sass/_UserProfileContainer.scss */
+.UserProfileContainer {
+  width: 100%;
+}
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* line 4, ../sass/_UserProfile.scss */
+.UserProfile {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 20px auto;
+}
+/* line 11, ../sass/_UserProfile.scss */
+.UserProfile-navtabs {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 100%;
+}
+/* line 16, ../sass/_UserProfile.scss */
+.UserProfile-navtabs-tab {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+  font-size: 18px;
+  width: 15%;
+  border-radius: 5px;
+  height: 50px;
+  margin: 5px;
+  color: #7d9ab0;
+  border-radius: 5px;
+}
+/* line 29, ../sass/_UserProfile.scss */
+.UserProfile-navtabs-tab--active {
+  color: white;
+  background-color: #7d9ab0;
+  box-shadow: 0 0 11px 5px #d0d0d04d;
+}
+@media only screen and (max-width: 800px) {
+  /* line 16, ../sass/_UserProfile.scss */
+  .UserProfile-navtabs-tab {
+    width: 40%;
+  }
+}
+/* line 39, ../sass/_UserProfile.scss */
+.UserProfile-navcontent {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}

@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { element } from 'protractor';
 import { CallApiService } from './../Services/call-api.service';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
@@ -15,7 +16,7 @@ import { Response } from '@angular/http';
 })
 export class HomePageComponent {
     isLogin: boolean;
-    constructor(public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
+    constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
         this.appendItems(0, this.sum);
 
@@ -123,19 +124,7 @@ export class HomePageComponent {
     }
 
     calculateDate(date) {
-        var time = this.diff_hours(new Date(), new Date(date))
-        if (time < 24)
-            return time + " ساعة ";
-        else if (this.diff_days(new Date(), new Date(date)) < 7)
-            return this.diff_days(new Date(), new Date(date)) + " يوم ";
-        else if (this.diff_week(new Date(), new Date(date)) < 4)
-            return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
-        else if (this.diff_month(new Date(), new Date(date)) < 12)
-            return this.diff_month(new Date(), new Date(date)) + " شهر ";
-        else
-            return date
-
-
+       return this.globalServ.calculatDateAdv(date);
     }
 
     getAdvertisemets(type, data, isScrol: boolean = false) {

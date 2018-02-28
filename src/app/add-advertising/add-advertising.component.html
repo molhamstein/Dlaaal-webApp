@@ -1,0 +1,172 @@
+<div class="MainContainer">
+    <div class="HeaderBackground">
+        <header></header>
+        <div class="Triangle Triangle--pages">
+            <div class="Triangle--pages-title">
+                إضافة إعلان جديد
+            </div>
+
+            <div class="Triangle--spacer"></div>
+        </div>
+    </div>
+    <div class="Content">
+        <div class="GridContainer">
+            <div class="HeaderBoxContianer HeaderBoxContianer--addpage">
+                <div class="HeaderBox HeaderBox--adspage">
+                    <div class="AddNewForm-inputcontainer">
+                        <label for="name">عنوان الإعلان</label>
+                        <input [(ngModel)]="search.address" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
+                    </div>
+                </div>
+                <div class="HeaderBox HeaderBox--adspage">
+                    <div class="AddNewForm-inputcontainer">
+                        <label for="name">السعر المطلوب</label>
+                        <input [(ngModel)]="search.price" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
+                    </div>
+                </div>
+            </div>
+            <div class="AddNewContainer">
+                <div class="AddNewForm">
+                    <div class="AddNewForm-column">
+                        <div class="AddNewForm-inputcontainer">
+                            <select [(ngModel)]="search.cityId" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg">
+                                <option [ngValue]="undefined" selected>اختر المدينة</option>
+						        <option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="AddNewForm-inputcontainer">
+                            <select (change)="changeCategory($event.target.value)" [(ngModel)]="search.categoryId" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
+                            	<option [ngValue]="undefined" selected>اختر الفئة</option>
+				        		<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option> 
+                            </select>
+                            <select (change)="changeSubCategory($event.target.value)" [(ngModel)]="search.subCategoryId" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm">
+                                <option [ngValue]="undefined" selected> اختر الفئة الفرعية</option>								 
+                                <option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>	
+                            </select>
+                        </div>
+                        <div class="AddNewForm-inputcontainer">
+                            <label for="name">الرقم </label>
+                            <input [(ngModel)]="search.phone" class="AddNewForm-inputcontainer-text" type="tel" value="" name="name">
+                        </div>
+                        <div class="AddNewForm-inputcontainer">
+                            <label for="name">عنوان </label>
+                            <input [(ngModel)]="search.title" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
+                        </div>
+                        <div class="AddNewForm-inputcontainer">
+                            <label for="name">شرح </label>
+                            <input [(ngModel)]="search.description" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
+                        </div>
+                        <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of keyFilter; let i = index;">
+                            <label for="name">{{oneKey.key}} </label>
+                            <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
+                            <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number" value="" name="name">
+                            <select *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
+								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
+								</select>
+                        </div>
+                    </div>
+                    <div class="AddNewForm-column">
+                        <div [ngClass]="{'hidden':images.length==0}" class="AddNewForm-imagescontainer AddNewForm-imagescontainer--lg">
+                            <div class="AddNewForm-imagescontainer-largeimage">
+                                <img src="{{images[0]}}" />
+                            </div>
+                        </div>
+                        <div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--sm">
+                            <div *ngFor="let value of images" class="AddNewForm-imagescontainer-smallimage">
+                                <img src="{{value}}" />
+                            </div>
+                            <div (click)="openSelectImage()" for="file" class="AddNewForm-imagescontainer-browseimage">
+                                <input multiple type="file" style="display:none" id="files" (change)="onChange($event)" />
+                                <img src="assets/imgs/browse.png" />
+                            </div>
+                        </div>
+
+                        <!--<div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--lg">
+                            <div class="AddNewForm-imagescontainer-largeimage">
+                                <img src="../imgs/car-1.jpg" />
+                            </div>
+                        </div>
+                        <div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--sm">
+                            <div class="AddNewForm-imagescontainer-smallimage">
+                                <img src="../imgs/car-1.jpg" />
+                            </div>
+                            <div class="AddNewForm-imagescontainer-smallimage">
+                                <img src="../imgs/car-1.jpg" />
+                            </div>
+                            <div class="AddNewForm-imagescontainer-browseimage">
+                                <img src="../imgs/browse.png" />
+                            </div>
+                        </div>-->
+                        <div class="AddNewForm-submitcontainer">
+                            <div class="AddNewForm-checkboxcontainer">
+                                <input type="checkbox" id="checkbox_id" [(ngModel)]="isAgree" value="value">
+                                <label for="checkbox_id">
+                      أوافق على
+                      <div class="u-textPrimaryColor">شروط الاستخدام</div>
+      و
+                    <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+                    </label>
+                            </div>
+                            <div class="AddNewForm-btn"  (click)="addAdvertising()">
+                                إضافة إعلان
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Below main container end-->
+
+
+    </div>
+
+</div>
+
+<div class="Footer">
+
+    <div class="Footer-about">
+        <div class="Footer-about-title">
+            عن دلال
+        </div>
+        <div class="Footer-about-body">
+            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
+        </div>
+        <div class="Footer-about-bar">
+            <div class="Footer-about-bar-item">
+                شروط الاستخدام
+            </div>
+            <div class="Footer-about-bar-item">
+                سياسية الخصوصية
+            </div>
+            <div class="Footer-about-bar-item">
+                تواصل معنا
+            </div>
+        </div>
+    </div>
+    <div class="Footer-contact">
+        <div class="Footer-contact-title">
+            تواصل معنا على.....
+        </div>
+        <div class="Footer-contact-icons">
+            <!--<div class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
+
+            </div>
+            <div class="Footer-contact-icon" style="background-image: url('../imgs/insta.svg');">
+
+            </div>-->
+        </div>
+
+    </div>
+    <div class="Footer-right">
+
+        <div class="Footer-right-text">
+            All Rights Reserved
+        </div>
+        <div class="Footer-right-logo">
+            <!--<img src="../imgs/logo.png" alt="">-->
+        </div>
+    </div>
+</div>

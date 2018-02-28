@@ -200,7 +200,7 @@
 						<a href="addnew.html" class="ContentMenu-item u-customBtn" *ngIf="isLogin">
 							<!-- <i class="ContentMenu-item-iconPlus"> </i> -->
 							<img class="" src="assets/imgs/w-plus.svg" alt="">
-							<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
+							<span class="u-hideOnMedium u-after10p" routerLink="{{'addAdvertising'}}">إضافة إعلان</span>
 						</a>
 						<div href="#" class="u-after10p" *ngIf="isLogin">
 							<figure class="Avatar Avatar--lg">
@@ -327,7 +327,7 @@
 							<div class="FiltersPanel-body-inputcontainer">
 								<label for="name"> </label>
 								<select class="FiltersPanel-body-select FiltersPanel-body-down" (change)="changeSubCategory($event.target.value)" [(ngModel)]="search.subCategory">
-									<option [ngValue]="undefined" selected> اختر الفئةالفرعية</option>								 
+									<option [ngValue]="undefined" selected> اختر الفئة الفرعية</option>								 
 								 	<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>
 								</select>
 							</div>

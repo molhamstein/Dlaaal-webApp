@@ -14,7 +14,7 @@ export class CallApiService {
   // private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 
-  constructor(public http: HttpClient,public loginSer : LoginService) {
+  constructor(public http: HttpClient, public loginSer: LoginService) {
     this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
     // this.headers2 = this.headers2.append("Content-Type", "application/json");
   }
@@ -28,7 +28,7 @@ export class CallApiService {
 
 
   get(url) {
-    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' ,"Authorization":this.loginSer.getId()}) };
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
     return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
     })
@@ -36,11 +36,23 @@ export class CallApiService {
 
 
   post(url, data) {
-    return this.http.post(this.baseUrl + url, data).map((Response: Response) => {
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+
+    return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
     })
   }
 
+  uploadImage(url, data, length) {
+    let fd = new FormData();
+    for (var index = 0; index < length; index++) {
+      fd.append("file", data[index], data[index].name)
+    }
+    let _options = { headers: new HttpHeaders({ "Authorization": this.loginSer.getId() }) };
+    return this.http.post(this.baseUrl + url, fd, _options).map((Response: Response) => {
+      return Response;
+    })
+  }
   put() {
 
   }

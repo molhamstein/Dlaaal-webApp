@@ -1,3 +1,6 @@
+import { GlobalService } from './Services/global.service';
+import { ProfileComponent } from './profile/profile.component';
+import { AddAdvertisingComponent } from './add-advertising/add-advertising.component';
 import { HeaderComponent } from './header/header.component';
 import { CommunictionModalComponent } from './communiction-modal/communiction-modal.component';
 import { AdvertisingComponent } from './advertising/advertising.component';
@@ -35,7 +38,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,HeaderComponent
+    SignUpModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -46,7 +49,7 @@ import { AppComponent } from './app.component';
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
   entryComponents:[SignUpModalComponent,SignInModalComponent,CommunictionModalComponent],
-  providers: [CookieService,LoginService,CallApiService],
+  providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
