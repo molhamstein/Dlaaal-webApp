@@ -1,3 +1,4 @@
+import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { ReportModalComponent } from './report-modal/report-modal.component';
 import { FullScreenModalComponent } from './full-screen-modal/full-screen-modal.component';
 import { GlobalService } from './Services/global.service';
@@ -40,7 +41,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -50,7 +51,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[SignUpModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

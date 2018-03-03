@@ -1,1 +1,28 @@
 // component css goes here
+.hidden {
+    display: none;
+}
+
+.hoverDiv {
+    display: none;
+    height: 180px;
+    border-radius: 50%;
+    padding-top: 5.7em;
+    padding-bottom: 5.7em;
+    width: 180px;
+    background-color: rgba(128, 128, 128, 0.5490196078431373);
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    span {
+        text-align: center;
+    }
+}
+.myImage{
+    position: relative;
+}
+.myImage:hover {
+    .hoverDiv {
+        display: inline-block;
+    }
+}

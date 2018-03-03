@@ -11,10 +11,20 @@
             <div class="HeaderBoxContianer HeaderBoxContianer--profilepage">
                 <div class="HeaderBox HeaderBox--profilepage-usercontainer">
                     <div class="HeaderBox HeaderBox--profilepage-usercontainer-avatar">
-                        <img src="../imgs/avatar.jpg" />
+                        <div class="myImage">
+                            <img src="{{imageProfile}}"  [ngClass]="{'hidden': uploadingImage}"/>
+                            <img id="{{'uploadImage'}}" [ngClass]="{'hidden': !uploadingImage}"/>
+                            <img src="assets/imgs/infinity_loader_by_volorf.gif" [ngClass]="{'hidden': !uploadingImage}" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;"/>
+
+                            <div *ngIf="isMyProfile" _ngcontent-c1="" (click)="openSelectImage()" class="hoverDiv" style="">
+                                <span _ngcontent-c1="" class="glyphicon glyphicon-camera"></span>
+                                <span _ngcontent-c1="">تغيير الصورة</span>
+                                <input type="file" style="display:none" id="files" (change)="onChange($event)" />
+                            </div>
+                        </div>
                     </div>
                     <div class="HeaderBox HeaderBox--profilepage-usercontainer-username">
-                        بلال علي بلال بلال علي بلال
+                        {{userData.firstName}}
                     </div>
                 </div>
                 <div class="HeaderBox HeaderBox--profilepage-detailscontainer">
@@ -23,7 +33,7 @@
                             الإعلانات المضافة
                         </div>
                         <div class="HeaderBox HeaderBox--profilepage-detailscontainer-column-value">
-                            10
+                            {{userData.advertisementCount| number}}
                         </div>
                     </div>
                     <div class="HeaderBox HeaderBox--profilepage-detailscontainer-column">
@@ -31,7 +41,7 @@
                             المتابعون
                         </div>
                         <div class="HeaderBox HeaderBox--profilepage-detailscontainer-column-value">
-                            {{follwers.length | number}}
+                            {{userData.followersCount| number}}
                         </div>
 
                     </div>
@@ -48,144 +58,81 @@
         <div class="UserProfileContainer">
             <div class="UserProfile">
                 <div class="UserProfile-navtabs">
-                    <div class="UserProfile-navtabs-tab ">
+                    <div class="UserProfile-navtabs-tab " (click)="setTab(1)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(1)}">
                         قائمة التفضيلات
                     </div>
-                    <div class="UserProfile-navtabs-tab UserProfile-navtabs-tab--active">
+                    <div class="UserProfile-navtabs-tab" (click)="setTab(2)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(2)}">
                         إعلاناتي
                     </div>
                 </div>
                 <div class="UserProfile-navcontent">
                     <div class="ItemsContainer">
-                        <div class="ItemBlock">
-                            <div class="ItemSummary">
-                                <div class="ItemSummary-head">
-                                    <div class="ItemSummary-head-title">
-                                        متفرقات
+                        <div [ngClass]="{'hidden':isSetTab(2)}">
+                            <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
+                                <div class="ItemSummary">
+                                    <div class="ItemSummary-head">
+                                        <div class="ItemSummary-head-title">
+                                            {{oneBookMark.category.title}}
+                                        </div>
+                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
+                                            {{calculateDate(oneBookMark.createdAt)}}
+                                        </div>
                                     </div>
-                                    <div class="ItemSummary-head-date ItemSummary-head-date--text">
-                                        منذ ساعتين
+                                    <div class="ItemSummary-desc">
+                                        {{oneBookMark.title}}
                                     </div>
-                                </div>
-                                <div class="ItemSummary-desc">
-                                    دبدوب فرو ظريف و لطيف
-                                </div>
-                                <div class="ItemSummary-price">
-                                    <span class="ItemSummary-price-num">320,000</span>
-                                    <span class="ItemSummary-price-text">ل.س</span>
-                                </div>
-                                <div class="ItemSummary-action">
-                                    <a href="adddetails.html" class="ItemSummary-action-btn">
+                                    <div class="ItemSummary-price">
+                                        <span class="ItemSummary-price-num">{{oneBookMark.price | number}}</span>
+                                        <span class="ItemSummary-price-text">ل.س</span>
+                                    </div>
+                                    <div class="ItemSummary-action">
+                                        <a routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemSummary-action-btn">
     									مشاهدة المزيد
     								</a>
-                                    <div class="ItemSummary-action-views">
-                                        <span> 25 </span>
-                                        <div style="width:10px;"></div>
-                                        <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        <div class="ItemSummary-action-views">
+                                            <span> {{oneBookMark.viewsCount}} </span>
+                                            <div style="width:10px;"></div>
+                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ItemBlock-img" style="background-image: url('../imgs/bear.jpg');">
+                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneBookMark.images[0] + ')'}">
+                                </div>
                             </div>
                         </div>
-                        <div class="ItemBlock">
-                            <div class="ItemSummary">
-                                <div class="ItemSummary-head">
-                                    <div class="ItemSummary-head-title">
-                                        مركبات
+                        <div [ngClass]="{'hidden':isSetTab(1)}">
+                            <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemBlock">
+                                <div class="ItemSummary">
+                                    <div class="ItemSummary-head">
+                                        <div class="ItemSummary-head-title">
+                                            {{oneAdvertisemet.category.title}}
+                                        </div>
+                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
+                                            {{calculateDate(oneAdvertisemet.createdAt)}}
+                                        </div>
                                     </div>
-                                    <div class="ItemSummary-head-date">
-                                        24/12/2017
+                                    <div class="ItemSummary-desc">
+                                        {{oneAdvertisemet.title}}
                                     </div>
-                                </div>
-                                <div class="ItemSummary-desc">
-                                    سيارة جبارة و نظيفة
-                                </div>
-                                <div class="ItemSummary-price">
-                                    <span class="ItemSummary-price-num"> 1,700,000 </span>
-                                    <span class="ItemSummary-price-text">ل.س</span>
-                                </div>
-                                <div class="ItemSummary-action">
-                                    <a href="adddetails.html" class="ItemSummary-action-btn">
+                                    <div class="ItemSummary-price">
+                                        <span class="ItemSummary-price-num">{{oneAdvertisemet.price | number}}</span>
+                                        <span class="ItemSummary-price-text">ل.س</span>
+                                    </div>
+                                    <div class="ItemSummary-action">
+                                        <a routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemSummary-action-btn">
     									مشاهدة المزيد
     								</a>
-                                    <div class="ItemSummary-action-views" style="display:none;">
-                                        <span> 5 </span>
-                                        <div style="width:10px;"></div>
-                                        <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        <div class="ItemSummary-action-views">
+                                            <span> {{oneAdvertisemet.viewsCount}} </span>
+                                            <div style="width:10px;"></div>
+                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ItemBlock-img" style="background-image: url('../imgs/car-0.jpg');">
-                            </div>
-                        </div>
-                        <div class="ItemBlock">
-                            <div class="ItemSummary">
-                                <div class="ItemSummary-head">
-                                    <div class="ItemSummary-head-title">
-                                        اكسسوارات
-                                    </div>
-                                    <div class="ItemSummary-head-date">
-                                        11/1/2015
-                                    </div>
+                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}">
                                 </div>
-                                <div class="ItemSummary-desc">
-                                    ساعة شغل أكابر
-                                </div>
-                                <div class="ItemSummary-price">
-                                    <span class="ItemSummary-price-num">520,000</span>
-                                    <span class="ItemSummary-price-text">ل.س</span>
-                                </div>
-                                <div class="ItemSummary-action">
-                                    <a href="adddetails.html" class="ItemSummary-action-btn">
-    									مشاهدة المزيد
-    								</a>
-                                    <div class="ItemSummary-action-views">
-                                        <span> 25 </span>
-                                        <div style="width:10px;"></div>
-                                        <img src="../imgs/eye.svg" alt="" style="height: 24px;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ItemBlock-img" style="background-image: url('../imgs/watch.jpg');">
                             </div>
                         </div>
-
-
-
-
-                        <div class="ItemBlock">
-                            <div class="ItemSummary">
-                                <div class="ItemSummary-head">
-                                    <div class="ItemSummary-head-title">
-                                        متفرقات
-                                    </div>
-                                    <div class="ItemSummary-head-date ItemSummary-head-date--text">
-                                        منذ ساعتين
-                                    </div>
-                                </div>
-                                <div class="ItemSummary-desc">
-                                    دبدوب فرو ظريف و لطيف
-                                </div>
-                                <div class="ItemSummary-price">
-                                    <span class="ItemSummary-price-num">320,000</span>
-                                    <span class="ItemSummary-price-text">ل.س</span>
-                                </div>
-                                <div class="ItemSummary-action">
-                                    <a href="adddetails.html" class="ItemSummary-action-btn">
-    									مشاهدة المزيد
-    								</a>
-                                    <div class="ItemSummary-action-views">
-                                        <span> 25 </span>
-                                        <div style="width:10px;"></div>
-                                        <img src="../imgs/eye.svg" alt="" style="height: 24px;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ItemBlock-img" style="background-image: url('../imgs/bear-1.jpg');">
-                            </div>
-                        </div>
-
                         <div class="ItemsContainer-loader">
                             <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
                         </div>
@@ -196,49 +143,4 @@
 
     </div>
     <!--Below main container end-->
-</div>
-
-<div class="Footer">
-
-    <div class="Footer-about">
-        <div class="Footer-about-title">
-            عن دلال
-        </div>
-        <div class="Footer-about-body">
-            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
-        </div>
-        <div class="Footer-about-bar">
-            <div class="Footer-about-bar-item">
-                شروط الاستخدام
-            </div>
-            <div class="Footer-about-bar-item">
-                سياسية الخصوصية
-            </div>
-            <div class="Footer-about-bar-item">
-                تواصل معنا
-            </div>
-        </div>
-    </div>
-    <div class="Footer-contact">
-        <div class="Footer-contact-title">
-            تواصل معنا على.....
-        </div>
-        <div class="Footer-contact-icons">
-            <a href="#" class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
-
-    </a>
-            <a href="#" class="Footer-contact-icon" style="background-image: url('../imgs/insta.svg');">
-
-    </a>
-        </div>
-
-    </div>
-    <div class="Footer-right">
-        <div class="Footer-right-text">
-            All Rights Reserved
-        </div>
-        <div class="Footer-right-logo">
-            <img src="../imgs/logo.png" alt="">
-        </div>
-    </div>
 </div>

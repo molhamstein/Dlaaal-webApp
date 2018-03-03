@@ -83,18 +83,49 @@ export class AddAdvertisingComponent {
 
     addAdvertising() {
         if (this.isAgree) {
-
-
+            let fieldName = ""
+            if (this.search['address'] == "" || this.search['address'] == null) {
+                fieldName = "عنوان الإعلان"
+            } else if (this.search['price'] == "" || this.search['price'] == null) {
+                fieldName = "السعر"
+            } else if (this.search['cityId'] == "" || this.search['cityId'] == null) {
+                fieldName = "المدينة"
+            } else if (this.search['categoryId'] == "" || this.search['categoryId'] == null) {
+                fieldName = "الفئة"
+            } else if (this.search['subCategoryId'] == "" || this.search['subCategoryId'] == null) {
+                fieldName = "الفئة الفرعية"
+            } else if (this.search['phone'] == "" || this.search['phone'] == null) {
+                fieldName = "الرقم"
+            } else if (this.search['title'] == "" || this.search['title'] == null) {
+                fieldName = "العنوان"
+            } else if (this.search['description'] == "" || this.search['description'] == null) {
+                fieldName = "شرح"
+            }
             this.keyFilter.forEach((element, index) => {
                 this.search['fields'][index].key = element.key;
                 this.search['fields'][index].type = element.type;
+                if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
+                    fieldName = element.key;
+                }
             });
             this.search['images'] = this.images
+            if (this.search['images'].length == 0 && fieldName == "") {
+                fieldName = "الصور";
+            }
             this.search['ownerId'] = this.loginSer.getUserId();
-            console.log(this.search);
-            this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
-                this.globalSer.goTo("detail/" + data.id)
-            });
+            if (fieldName == "")
+                this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
+                    // this.globalSer.goTo("detail/" + data.id)
+                    if (this.APIServ.getErrorCode() == 0) {
+                        this.globalSer.goTo("detail/" + data.id)
+                    } else if (this.APIServ.getErrorCode() == 403) {
+                        this.APIServ.setErrorCode(0);
+                        this.globalSer.errorDialog("فشل إضافة إعلان","الرجاء التأكد من أن الحساب مفعل");
+                    }
+                });
+            else {
+                this.globalSer.errorDialog(" خطأ إدخال", "الرجاء التحقق من ملئ " + fieldName + " بالقيمه المناسبه ")
+            }
         }
     }
 }

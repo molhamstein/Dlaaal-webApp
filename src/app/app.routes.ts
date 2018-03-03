@@ -13,7 +13,7 @@ export const routes: Routes = [
         path: "addAdvertising",
         component: AddAdvertisingComponent
     }, {
-        path: "my-profile",
+        path: "profile/:userID",
         component: ProfileComponent
     },{
         path: "**",

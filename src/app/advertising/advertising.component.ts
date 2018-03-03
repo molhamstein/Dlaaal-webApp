@@ -1,3 +1,4 @@
+import { LoginService } from './../Services/login.service';
 import { GlobalService } from './../Services/global.service';
 import { ReportModalComponent } from './../report-modal/report-modal.component';
 import { FullScreenModalComponent } from './../full-screen-modal/full-screen-modal.component';
@@ -17,15 +18,18 @@ export class AdvertisingComponent {
     addID;
     advertisemet
     reports;
-    constructor(public globalServ:GlobalService,private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
+    constructor(public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
     }
     ngOnInit() {
         this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
             this.advertisemet = data;
         });
-        this.reports=[{'title': "غير أخلاقي",'id':0},{'title': "متكرر",'id':1},{'title': "غير مسموح",'id':2}]
-        
+        this.APIServ.get("reports").subscribe(data => {
+            this.reports = data;
+        });
+        // this.reports=[{'title': "غير أخلاقي",'id':0},{'title': "متكرر",'id':1},{'title': "غير مسموح",'id':2}]
+
     }
 
     openFullScreenImage(imageURL) {
@@ -51,15 +55,14 @@ export class AdvertisingComponent {
             console.log('The dialog was closed');
         });
     }
-    makeReport(reportId){
-       let reports= this.reports.find(x => x.id == reportId)
-       let dialogRef = this.dialog.open(ReportModalComponent, {
-            data: { title: reports.title }
-
+    makeReport(reportId) {
+        let reports = this.reports.find(x => x.id == reportId)
+        let dialogRef = this.dialog.open(ReportModalComponent, {
+            data: { report: reports, userID: this.logInSer.getUserId(), addID: this.addID }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if(result){
+            if (result) {
                 this.globalServ.goTo("")
             }
         });

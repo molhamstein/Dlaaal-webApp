@@ -1,5 +1,5 @@
 import { LoginService } from './login.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
@@ -25,22 +25,63 @@ export class CallApiService {
   //   "users/login"
   // ];
   readonly baseUrl = "http://104.217.253.15:3000/api/"
+  private errorCode=0;
 
+  // get(url) {
+  //   let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+  //   return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
+  //     return Response;
+  //   })
+  // }
+
+  public setErrorCode(errorCode) {
+    this.errorCode=errorCode;
+  }
+
+  public getErrorCode() {
+    return this.errorCode
+  }
 
   get(url) {
     let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
     return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
-    })
+    }).catch((response: Response) => {
+      let data = { errMsg: "errMsg", error: "error" };
+      return JSON.stringify(data);
+    });
   }
 
+  public handleError(error: Response | any) {
+    console.log('err: ', error)
+    let errMsg: string;
+    // if (error instanceof Response) {
+    //   const body = error.json() || '';
+    //   const err = body.error || JSON.stringify(body);
+    //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    // } else {
+    errMsg = error.message ? error.message : error.toString();
+    // }
+    // // return Observable.throw(errMsg);
+    let data = { errMsg: "errMsg", error: "error" };
+    console.log("data");
+    console.log(data);
+    let data2 = JSON.stringify(data);
+    console.log("data2");
+    console.log(data2);
+    return JSON.stringify(data);
+  }
 
   post(url, data) {
     let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
 
     return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
-    })
+    }).catch((Response: Response) => {
+      this.errorCode=Response.status;
+      // let data = { errMsg: "errMsg", error: "error" };
+      return "E";
+    });
   }
 
   uploadImage(url, data, length) {

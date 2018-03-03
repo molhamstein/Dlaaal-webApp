@@ -11,12 +11,18 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class SignInModalComponent {
     user = {};
-    constructor(public thisDialog: MatDialogRef<SignInModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public LoginSer:LoginService,public APIServ:CallApiService) {
+    message;
+    constructor(public thisDialog: MatDialogRef<SignInModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public LoginSer: LoginService, public APIServ: CallApiService) {
 
     }
     login() {
-        this.APIServ.post("users/login", this.user).subscribe(data => {
-            this.LoginSer.logIn(data);
+        this.APIServ.post("users/login", this.user).subscribe((data: string) => {
+            if (this.APIServ.getErrorCode() == 0) {
+                this.LoginSer.logIn(data);
+            } else if (this.APIServ.getErrorCode() == 401) {
+                this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
+                this.APIServ.setErrorCode(0);
+            }
         });
     }
 }

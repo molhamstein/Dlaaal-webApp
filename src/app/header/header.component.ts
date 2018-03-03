@@ -6,6 +6,8 @@ import { LoginService } from './../Services/login.service';
 import { CallApiService } from './../Services/call-api.service';
 import { Component } from '@angular/core';
 
+
+
 @Component({
     selector: 'header',
     templateUrl: 'header.component.html',
@@ -13,6 +15,7 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
     isLogin: boolean;
+
     constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
     }
@@ -48,4 +51,5 @@ export class HeaderComponent {
             this.openSignInDialog();
         }
     }
+    
 }

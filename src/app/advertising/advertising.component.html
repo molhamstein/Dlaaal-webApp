@@ -123,7 +123,7 @@
               <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
                 <select (change)="makeReport($event.target.value)"  class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
                 <option [ngValue]="undefined" selected>تبليغ</option>
-                    <option *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.title}}</option>	
+                    <option *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.name}}</option>	
                  </select>
                 <div class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   إضافة إلى المفضلة

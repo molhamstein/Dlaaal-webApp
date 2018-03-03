@@ -99,7 +99,13 @@ input[type='text'] {
 @media screen and (max-width: 500px) {
     /* line 56, ../sass/_Utils.scss */
     .u-customBtn img {
-        width: 16px !important;
+        width: 12px !important;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .u-customBtn {
+        margin-left: 0px !important;
     }
 }
 
@@ -172,7 +178,7 @@ input[type='text'] {
 @media screen and (max-width: 500px) {
     /* line 105, ../sass/_Utils.scss */
     .u-hideOnMedium {
-        display: none;
+        font-size: 10px;
     }
 }
 
@@ -610,7 +616,7 @@ figure {
 @media screen and (max-width: 1100px) {
     /* line 3, ../sass/_FilterSearchBar.scss */
     .FilterSearchBar {
-        margin: 20px auto 0px auto !important;
+        margin: 10px auto 0px auto !important;
     }
 }
 
@@ -794,17 +800,18 @@ figure {
     /* line 3, ../sass/_SearchBar.scss */
     .SearchBar {
         -webkit-flex-direction: column-reverse;
-        flex-direction: column-reverse;
+        width: 100%;
     }
     /* line 15, ../sass/_SearchBar.scss */
     .SearchBar select {
         text-align: center !important;
-        padding-right: 3px !important;
+        /*padding-right: 3px !important;*/
+        padding: 5px 25px 5px 5px !important;
         text-align-last: center;
     }
     /* line 20, ../sass/_SearchBar.scss */
     .SearchBar input {
-        border-radius: 5px 5px 0px 0px !important;
+        border-radius: 0px 5px 5px 0px !important;
         text-align: center !important;
         text-align-last: center;
     }
@@ -865,7 +872,7 @@ figure {
     font-size: 13px;
     height: 54px;
     line-height: 22px;
-    min-width: 300px;
+    min-width: 130px;
     outline: none;
     padding: 5px 24px;
     position: relative;
@@ -1551,7 +1558,7 @@ figure {
 
 .ContentMenu-item--logo {
     margin-left: auto;
-    max-width: 75px;
+    max-width: 50px;
     min-width: 32px;
 }
 
@@ -4318,7 +4325,7 @@ figure {
 @media screen and (max-width: 700px) {
     /* line 6, ../sass/_SignUpModule.scss */
     .mat-dialog-container {
-        width: 80% !important;
+        width: 100% !important;
     }
 }
 
@@ -4328,10 +4335,10 @@ figure {
     text-align: center;
     display: block !important;
     box-shadow: none;
-    
     overflow: hidden;
 }
-.myDialogStyle .mat-dialog-container img{
+
+.myDialogStyle .mat-dialog-container img {
     max-height: 700px;
     width: auto;
 }

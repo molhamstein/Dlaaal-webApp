@@ -10,16 +10,17 @@
 		</div>
 	</div>
 	<div class="SignInModule-body">
+			<label for="name" style="color: red">{{message}}</label>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">اسم المستخدم</label>
-			<input [(ngModel)]="user.email" class="SignInModule-body-inputcontainer-text" type="text" value="" name="name">
+			<input [(ngModel)]="user.email" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value="" name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">كلمة السر</label>
-			<input [(ngModel)]="user.password" class="SignInModule-body-inputcontainer-text" type="password" value="" name="name">
+			<input [(ngModel)]="user.password" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value="" name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
-			<input type="checkbox" style="    float: right;3" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2"
+			<input type="checkbox" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2"
 			 value="value">
 			<label for="checkbox_id2">
               تذكر كلمة المرور

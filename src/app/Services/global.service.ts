@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material';
+import { ErrorModalComponent } from './../error-modal/error-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
@@ -6,7 +8,7 @@ import { Router, NavigationStart } from '@angular/router';
 @Injectable()
 export class GlobalService {
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {
 
   }
 
@@ -59,8 +61,18 @@ export class GlobalService {
   }
 
   goTo(newURL) {
-       this.router.navigate([newURL]);
+    this.router.navigate([newURL]);
+  }
 
+  errorDialog(title, containt) {
+    let dialogRef = this.dialog.open(ErrorModalComponent, {
+      width: '50%',
+      data: { title: title, containt: containt }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }
