@@ -1,3 +1,5 @@
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { ReportModalComponent } from './report-modal/report-modal.component';
 import { FullScreenModalComponent } from './full-screen-modal/full-screen-modal.component';
@@ -41,7 +43,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -51,7 +53,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[ChangePasswordComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

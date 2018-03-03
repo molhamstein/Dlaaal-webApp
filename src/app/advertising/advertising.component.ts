@@ -47,12 +47,15 @@ export class AdvertisingComponent {
     openCommunicationDialog() {
         let dialogRef = this.dialog.open(CommunictionModalComponent, {
             width: '35%',
-            data: { phone: this.advertisemet.phone }
+            data: { phone: this.advertisemet.phone}
 
         });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            if(result){
+                this.globalServ.goTo("profile/"+this.advertisemet.ownerId)
+            }
         });
     }
     makeReport(reportId) {

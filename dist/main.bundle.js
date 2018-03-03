@@ -83,14 +83,7 @@ var CallApiService = /** @class */ (function () {
     CallApiService.prototype.handleError = function (error) {
         console.log('err: ', error);
         var errMsg;
-        // if (error instanceof Response) {
-        //   const body = error.json() || '';
-        //   const err = body.error || JSON.stringify(body);
-        //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        // } else {
         errMsg = error.message ? error.message : error.toString();
-        // }
-        // // return Observable.throw(errMsg);
         var data = { errMsg: "errMsg", error: "error" };
         console.log("data");
         console.log(data);
@@ -106,7 +99,16 @@ var CallApiService = /** @class */ (function () {
             return Response;
         }).catch(function (Response) {
             _this.errorCode = Response.status;
-            // let data = { errMsg: "errMsg", error: "error" };
+            return "E";
+        });
+    };
+    CallApiService.prototype.put = function (url, data) {
+        var _this = this;
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+        return this.http.put(this.baseUrl + url, data, _options).map(function (Response) {
+            return Response;
+        }).catch(function (Response) {
+            _this.errorCode = Response.status;
             return "E";
         });
     };
@@ -119,8 +121,6 @@ var CallApiService = /** @class */ (function () {
         return this.http.post(this.baseUrl + url, fd, _options).map(function (Response) {
             return Response;
         });
-    };
-    CallApiService.prototype.put = function () {
     };
     CallApiService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["C" /* Injectable */])(),
@@ -552,12 +552,16 @@ var AdvertisingComponent = /** @class */ (function () {
         });
     };
     AdvertisingComponent.prototype.openCommunicationDialog = function () {
+        var _this = this;
         var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], {
             width: '35%',
             data: { phone: this.advertisemet.phone }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
+            if (result) {
+                _this.globalServ.goTo("profile/" + _this.advertisemet.ownerId);
+            }
         });
     };
     AdvertisingComponent.prototype.makeReport = function (reportId) {
@@ -648,36 +652,38 @@ var AppComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error_modal_error_modal_component__ = __webpack_require__("../../../../../src/app/error-modal/error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__report_modal_report_modal_component__ = __webpack_require__("../../../../../src/app/report-modal/report-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__full_screen_modal_full_screen_modal_component__ = __webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__header_header_component__ = __webpack_require__("../../../../../src/app/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__communiction_modal_communiction_modal_component__ = __webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_routes__ = __webpack_require__("../../../../../src/app/app.routes.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_ngx_cookie_service__ = __webpack_require__("../../../../ngx-cookie-service/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_material_slider__ = __webpack_require__("../../../material/esm5/slider.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_material_input__ = __webpack_require__("../../../material/esm5/input.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24_hammerjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error_modal_error_modal_component__ = __webpack_require__("../../../../../src/app/error-modal/error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_modal_report_modal_component__ = __webpack_require__("../../../../../src/app/report-modal/report-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__full_screen_modal_full_screen_modal_component__ = __webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__header_header_component__ = __webpack_require__("../../../../../src/app/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__communiction_modal_communiction_modal_component__ = __webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_routes__ = __webpack_require__("../../../../../src/app/app.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ngx_cookie_service__ = __webpack_require__("../../../../ngx-cookie-service/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_material_slider__ = __webpack_require__("../../../material/esm5/slider.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_material_input__ = __webpack_require__("../../../material/esm5/input.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26_hammerjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -713,27 +719,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_22__angular_core__["K" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_24__angular_core__["K" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_28__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_1__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_2__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_12__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_15__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_8__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_7__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_5__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_6__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_4__profile_profile_component__["a" /* ProfileComponent */]
+                __WEBPACK_IMPORTED_MODULE_30__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_1__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_2__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_3__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_4__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_14__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_17__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_10__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_9__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_7__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_8__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_6__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 // Main
-                __WEBPACK_IMPORTED_MODULE_21__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_27__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_26__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_25__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_23__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_29__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_28__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_27__angular_common_http__["b" /* HttpClientModule */],
                 // Route
-                __WEBPACK_IMPORTED_MODULE_11__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_10__app_routes__["a" /* routes */])
+                __WEBPACK_IMPORTED_MODULE_13__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_12__app_routes__["a" /* routes */])
                 // material
                 ,
-                __WEBPACK_IMPORTED_MODULE_17__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_19__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_20__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_23_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_18__angular_material_slider__["a" /* MatSliderModule */]
+                __WEBPACK_IMPORTED_MODULE_19__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_21__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_22__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_25_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_20__angular_material_slider__["a" /* MatSliderModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_16__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_1__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_12__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_7__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_2__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_13_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_14__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_9__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_3__Services_global_service__["a" /* GlobalService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_28__app_component__["a" /* AppComponent */]]
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_1__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_18__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_2__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_3__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_14__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_9__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_4__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_15_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_16__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_11__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_5__Services_global_service__["a" /* GlobalService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_30__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -776,10 +784,89 @@ var routes = [
 
 /***/ }),
 
+/***/ "../../../../../src/app/change-password/change-password.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n                <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر القديمة</label>\n           \n            <input [(ngModel)]=\"password.oldPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n         <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر الحديثة</label>\n            <input [(ngModel)]=\"password.newPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n        <button (click)=\"editPassword()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            تعديل كلمة السر\n        </button>\n    </div>\n</div>\n<!--</div>\n\t\t</div>-->"
+
+/***/ }),
+
+/***/ "../../../../../src/app/change-password/change-password.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/change-password/change-password.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChangePasswordComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ChangePasswordComponent = /** @class */ (function () {
+    function ChangePasswordComponent(dialogRef, APIServ) {
+        this.dialogRef = dialogRef;
+        this.APIServ = APIServ;
+        this.message = "";
+        this.password = { "oldPassword": "", "newPassword": "" };
+    }
+    ChangePasswordComponent.prototype.editPassword = function () {
+        var _this = this;
+        this.APIServ.post("users/change-password", this.password).subscribe(function (data) {
+            if (_this.APIServ.getErrorCode() == 0) {
+                alert("Success");
+                // this.LoginSer.logIn(data);
+            }
+            else if (_this.APIServ.getErrorCode() == 400) {
+                _this.message = "كلمة السر الحالية خاطئة";
+            }
+        });
+    };
+    ChangePasswordComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+            selector: 'change-password',
+            template: __webpack_require__("../../../../../src/app/change-password/change-password.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/change-password/change-password.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__["a" /* CallApiService */]])
+    ], ChangePasswordComponent);
+    return ChangePasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/communiction-modal/communiction-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        {{data.phone}}\n    </div>\n</div>"
+module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        {{data.phone}}\n        <a (click)=\"goToPage()\">الذهاب إلى الصفحة الشخصية</a>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -827,6 +914,9 @@ var CommunictionModalComponent = /** @class */ (function () {
         this.dialogRef = dialogRef;
         this.data = data;
     }
+    CommunictionModalComponent.prototype.goToPage = function () {
+        this.dialogRef.close(true);
+    };
     CommunictionModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'communiction-modal',
@@ -837,6 +927,119 @@ var CommunictionModalComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], CommunictionModalComponent);
     return CommunictionModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/edit-profile/edit-profile.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n        \n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الأسم</label>\n            <input [(ngModel)]=\"newUser.firstName\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الرقم</label>\n            <input [(ngModel)]=\"newUser.phone\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الايميل</label>\n            <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\"class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <!--<div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر</label>\n            <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>-->\n        <button (click)=\"editProfile()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            إنشاء الحساب\n        </button>\n    </div>\n    <div class=\"SignUpModule-footer\">\n        تريد تغيير كلمة السر\n        <div class=\"u-textPrimaryColor\" (click)=\"changePassword()\">\n            تغيير كلمة السر .\n        </div>\n    </div>\n\n</div>\n<!--</div>\n\t\t</div>-->"
+
+/***/ }),
+
+/***/ "../../../../../src/app/edit-profile/edit-profile.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/edit-profile/edit-profile.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProfileComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+
+var EditProfileComponent = /** @class */ (function () {
+    function EditProfileComponent(route, thisDialog, data, APIServ) {
+        this.route = route;
+        this.thisDialog = thisDialog;
+        this.data = data;
+        this.APIServ = APIServ;
+    }
+    EditProfileComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.APIServ.get("users/me").subscribe(function (data) {
+            _this.newUser = data;
+        });
+    };
+    EditProfileComponent.prototype.editProfile = function () {
+        var _this = this;
+        if (this.newUser['firstName'] == "" || this.newUser['firstName'] == null) {
+            this.message = "الأسم";
+        }
+        else if (this.newUser['phone'] == "" || this.newUser['phone'] == null) {
+            this.message = "الرقم";
+        }
+        else if (this.newUser['email'] == "" || this.newUser['email'] == null) {
+            this.message = "الأيميل";
+        }
+        // else if (this.newUser['password'] == "" || this.newUser['password'] == null) {
+        //     this.message = "كلمة السر"
+        // }
+        if (this.message != "") {
+            this.message = "الرجاء إدخال حقل " + this.message;
+        }
+        else {
+            this.APIServ.put("/users/" + this.newUser.id, this.newUser).subscribe(function (data) {
+                if (_this.APIServ.getErrorCode() == 0) {
+                    alert("Success");
+                    // this.LoginSer.logIn(data);
+                }
+                else if (_this.APIServ.getErrorCode() == 422) {
+                    _this.message = "هذا البريد الالكتروني مسجل مسبقا";
+                    _this.APIServ.setErrorCode(0);
+                }
+            });
+        }
+    };
+    EditProfileComponent.prototype.changePassword = function () {
+        this.thisDialog.close(true);
+    };
+    EditProfileComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+            selector: 'edit-profile',
+            template: __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.scss")]
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["d" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */]])
+    ], EditProfileComponent);
+    return EditProfileComponent;
 }());
 
 
@@ -986,7 +1189,7 @@ var FullScreenModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n\t<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\" routerLink=\"{{'/my-profile'}}\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" routerLink=\"{{'/home'}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>"
+module.exports = "<!--component html goes here -->\n\t<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\" routerLink=\"{{'/profile/me'}}\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" routerLink=\"{{''}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>"
 
 /***/ }),
 
@@ -1307,7 +1510,7 @@ var HomePageComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\"  [ngClass]=\"{'hidden': uploadingImage}\"/>\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\"/>\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"/>\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab \" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1)}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        إعلاناتي\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer-loader\">\n                            <img src=\"../imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n    <!--Below main container end-->\n</div>"
+module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\"  [ngClass]=\"{'hidden': uploadingImage}\"/>\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\"/>\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"/>\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab \" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1)}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        إعلاناتي\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer-loader\">\n                            <img src=\"../imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n    <!--Below main container end-->\n</div>"
 
 /***/ }),
 
@@ -1334,11 +1537,14 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1353,8 +1559,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(APIServe, logInSer, globalServ, route) {
+    function ProfileComponent(dialog, APIServe, logInSer, globalServ, route) {
+        this.dialog = dialog;
         this.APIServe = APIServe;
         this.globalServ = globalServ;
         this.route = route;
@@ -1414,6 +1624,22 @@ var ProfileComponent = /** @class */ (function () {
             });
         });
     };
+    ProfileComponent.prototype.editProfile = function () {
+        var _this = this;
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], {});
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log('The dialog was closed');
+            if (result) {
+                _this.changePassword();
+            }
+        });
+    };
+    ProfileComponent.prototype.changePassword = function () {
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__["a" /* ChangePasswordComponent */], {});
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log('The dialog was closed');
+        });
+    };
     ProfileComponent.prototype.calculateDate = function (date) {
         return this.globalServ.calculatDateAdv(date);
     };
@@ -1461,12 +1687,12 @@ var ProfileComponent = /** @class */ (function () {
         });
     };
     ProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["n" /* Component */])({
             selector: 'profile',
             template: __webpack_require__("../../../../../src/app/profile/profile.component.html"),
             styles: [__webpack_require__("../../../../../src/app/profile/profile.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_2__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_1__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_5__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_4__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -1730,8 +1956,8 @@ var SignUpModalComponent = /** @class */ (function () {
         else {
             this.APIServ.post("users", this.newUser).subscribe(function (data) {
                 if (_this.APIServ.getErrorCode() == 0) {
-                    alert("Success");
-                    // this.LoginSer.logIn(data);
+                    // alert("Success")
+                    _this.LoginSer.logIn(data);
                 }
                 else if (_this.APIServ.getErrorCode() == 422) {
                     _this.message = "هذا البريد الالكتروني مسجل مسبقا";

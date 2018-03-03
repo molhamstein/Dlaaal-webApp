@@ -55,14 +55,7 @@ export class CallApiService {
   public handleError(error: Response | any) {
     console.log('err: ', error)
     let errMsg: string;
-    // if (error instanceof Response) {
-    //   const body = error.json() || '';
-    //   const err = body.error || JSON.stringify(body);
-    //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    // } else {
     errMsg = error.message ? error.message : error.toString();
-    // }
-    // // return Observable.throw(errMsg);
     let data = { errMsg: "errMsg", error: "error" };
     console.log("data");
     console.log(data);
@@ -79,7 +72,17 @@ export class CallApiService {
       return Response;
     }).catch((Response: Response) => {
       this.errorCode=Response.status;
-      // let data = { errMsg: "errMsg", error: "error" };
+      return "E";
+    });
+  }
+
+  put(url, data) {
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+
+    return this.http.put(this.baseUrl + url, data, _options).map((Response: Response) => {
+      return Response;
+    }).catch((Response: Response) => {
+      this.errorCode=Response.status;
       return "E";
     });
   }
@@ -94,7 +97,5 @@ export class CallApiService {
       return Response;
     })
   }
-  put() {
 
-  }
 }

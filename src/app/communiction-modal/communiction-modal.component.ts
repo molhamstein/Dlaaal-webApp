@@ -11,4 +11,7 @@ export class CommunictionModalComponent {
     constructor(public dialogRef: MatDialogRef<CommunictionModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
         
     }
+    goToPage(){
+        this.dialogRef.close(true);
+    }
 }

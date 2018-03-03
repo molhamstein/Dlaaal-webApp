@@ -1,0 +1,47 @@
+<!--component html goes here -->
+<!--component html goes here -->
+<!--<div id="" class="ModalContainer">
+			<div class="SignUpModuleContainer">-->
+
+<div class="SignUpModule">
+    <div class="SignUpModule-header" style="direction: rtl;">
+        <div class="SignUpModule-header-title">
+            حساب جديد
+        </div>
+        <div class="SignUpModule-header-close">
+        </div>
+    </div>
+    <div class="SignUpModule-body">
+        
+        <label for="name" style="color: red">{{message}}</label>
+
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الأسم</label>
+            <input [(ngModel)]="newUser.firstName"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الرقم</label>
+            <input [(ngModel)]="newUser.phone"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">الايميل</label>
+            <input [(ngModel)]="newUser.email" (focus)="message='';"class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <!--<div class="SignUpModule-body-inputcontainer">
+            <label for="name">كلمة السر</label>
+            <input [(ngModel)]="newUser.password" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password" value="" name="name">
+        </div>-->
+        <button (click)="editProfile()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+            إنشاء الحساب
+        </button>
+    </div>
+    <div class="SignUpModule-footer">
+        تريد تغيير كلمة السر
+        <div class="u-textPrimaryColor" (click)="changePassword()">
+            تغيير كلمة السر .
+        </div>
+    </div>
+
+</div>
+<!--</div>
+		</div>-->

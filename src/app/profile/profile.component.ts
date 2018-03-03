@@ -1,3 +1,6 @@
+import { ChangePasswordComponent } from './../change-password/change-password.component';
+import { MatDialog } from '@angular/material';
+import { EditProfileComponent } from './../edit-profile/edit-profile.component';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from './../Services/global.service';
 import { LoginService } from './../Services/login.service';
@@ -16,18 +19,18 @@ export class ProfileComponent {
 
     imageProfile = "assets/imgs/defult_img.jpg";
     uploadingImage = false;
-    
+
     userID
-    isMyProfile=false;
+    isMyProfile = false;
     userData
     follwers
     bookmarks = [];
     advertisemets = [];
-    constructor(public APIServe: CallApiService, logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute) {
+    constructor(public dialog: MatDialog, public APIServe: CallApiService, logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute) {
         let param;
         this.route.params.subscribe(data => param = data.userID);
         if (param == "me") {
-            this.isMyProfile=true;
+            this.isMyProfile = true;
             this.userID = logInSer.getUserId();
         }
         else
@@ -40,14 +43,14 @@ export class ProfileComponent {
         });
         this.getData(true);
 
-        if(this.isMyProfile)
-        this.APIServe.get("users/me").subscribe(data => {
-            this.userData = data;
-        });
-        else{
-           this.APIServe.get("users/"+this.userID).subscribe(data => {
-            this.userData = data;
-        }); 
+        if (this.isMyProfile)
+            this.APIServe.get("users/me").subscribe(data => {
+                this.userData = data;
+            });
+        else {
+            this.APIServe.get("users/" + this.userID).subscribe(data => {
+                this.userData = data;
+            });
         }
         this.getData(false);
 
@@ -80,6 +83,26 @@ export class ProfileComponent {
         });
     }
 
+    editProfile() {
+        let dialogRef = this.dialog.open(EditProfileComponent, {
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            if(result){
+                this.changePassword();
+            }
+        });
+    }
+
+    changePassword(){
+        let dialogRef = this.dialog.open(ChangePasswordComponent, {
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
+    }
 
     calculateDate(date) {
         return this.globalServ.calculatDateAdv(date);
