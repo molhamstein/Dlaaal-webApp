@@ -1,3 +1,6 @@
+import { ContactUsModalComponent } from './contact-us-modal/contact-us-modal.component';
+import { TermsComponent } from './terms/terms.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ErrorModalComponent } from './error-modal/error-modal.component';
@@ -26,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import * as $ from 'jquery';
 
 import 'hammerjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -43,7 +47,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -53,7 +57,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[ChangePasswordComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[ChangePasswordComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

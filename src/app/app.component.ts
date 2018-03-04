@@ -1,3 +1,7 @@
+import { ContactUsModalComponent } from './contact-us-modal/contact-us-modal.component';
+import { CallApiService } from './Services/call-api.service';
+import { GlobalService } from './Services/global.service';
+import { LoginService } from './Services/login.service';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { Component } from '@angular/core';
 import {MatDialog} from '@angular/material';
@@ -8,8 +12,18 @@ import {MatDialog} from '@angular/material';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+    constructor(public logInSer: LoginService, public globalServ: GlobalService,  public APIServ: CallApiService, public dialog: MatDialog) {
+    
+  }
+  openContactUs(){
+       let dialogRef = this.dialog.open(ContactUsModalComponent, {
+            // width: '35%',
+        });
 
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
+  }
   
 }
 

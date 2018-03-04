@@ -16,7 +16,7 @@ import { Response } from '@angular/http';
 })
 export class HomePageComponent {
     isLogin: boolean;
-    constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
+    constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
 
     }
@@ -47,11 +47,11 @@ export class HomePageComponent {
     lastType;
     lastData;
 
-
+    viewNavBar;
 
     ngOnInit() {
-        this.search['max']=100000000;
-        this.search['min']=0;
+        this.search['max'] = 100000000;
+        this.search['min'] = 0;
         this.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
@@ -62,7 +62,7 @@ export class HomePageComponent {
 
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
-            
+
         });
         this.getAdvertisemets(-1, {});
         if (this.isLogin) {
@@ -72,8 +72,34 @@ export class HomePageComponent {
             });
         }
 
+        window.addEventListener('scroll', this.scroll, true); //third parameter
+
+        // ngOnDestroy() {
+        //     window.removeEventListener('scroll', this.scroll, true);
+        // }
+
     }
 
+    ngOnDestroy() {
+        window.removeEventListener('scroll', this.scroll, true);
+    }
+    scroll() {
+        var topOfOthDiv = $(".CategoriesContainer").offset().top;
+        if ($(window).scrollTop() > topOfOthDiv) { //scrolled past the other div?
+            // this.viewNavBar=true;
+             $(".MenuContainer").fadeIn('slow');
+             console.log("yes");
+            // $("#dvid").show(); //reached the desired point -- show div
+        } else {
+             $(".MenuContainer").fadeOut('slow');
+             console.log("no");
+             
+            // this.viewNavBar=false;
+        }
+        //handle your scroll here
+        //notice the 'odd' function assignment to a class field
+        //this is used to be able to remove the event listener
+    };
     logout() {
         this.loginSer.logout();
     }
@@ -111,7 +137,7 @@ export class HomePageComponent {
     }
 
     calculateDate(date) {
-       return this.globalServ.calculatDateAdv(date);
+        return this.globalServ.calculatDateAdv(date);
     }
 
     getAdvertisemets(type, data, isScrol: boolean = false) {
@@ -178,7 +204,7 @@ export class HomePageComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
-            if(result){
+            if (result) {
                 this.openSignInDialog()
             }
         });
@@ -199,10 +225,10 @@ export class HomePageComponent {
         if (this.lastType != -1)
             this.getAdvertisemets(this.lastType, this.lastData, true);
     }
-    hrefAddAdv(){
-        if(this.isLogin){
+    hrefAddAdv() {
+        if (this.isLogin) {
             this.globalServ.goTo("addAdvertising")
-        }else{
+        } else {
             this.openSignInDialog();
         }
     }

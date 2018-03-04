@@ -4,7 +4,7 @@ import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component
 import { MatDialog } from '@angular/material';
 import { LoginService } from './../Services/login.service';
 import { CallApiService } from './../Services/call-api.service';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 
@@ -15,8 +15,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
     isLogin: boolean;
+   
 
-    constructor(public globalServ:GlobalService,public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
+
+    constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
     }
     openSignUpDialog() {
@@ -51,5 +53,5 @@ export class HeaderComponent {
             this.openSignInDialog();
         }
     }
-    
+
 }

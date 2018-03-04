@@ -10,13 +10,13 @@
 			شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
 		</div>
 		<div class="Footer-about-bar">
-			<div class="Footer-about-bar-item">
+			<div class="Footer-about-bar-item" routerLink="{{'/terms'}}">
 				شروط الاستخدام
 			</div>
-			<div class="Footer-about-bar-item">
+			<div class="Footer-about-bar-item" routerLink="{{'/privacy'}}" >
 				سياسية الخصوصية
 			</div>
-			<div class="Footer-about-bar-item">
+			<div class="Footer-about-bar-item" (click)="openContactUs()">
 				تواصل معنا
 			</div>
 		</div>

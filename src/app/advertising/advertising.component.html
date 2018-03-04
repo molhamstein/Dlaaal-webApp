@@ -125,8 +125,17 @@
                 <option [ngValue]="undefined" selected>تبليغ</option>
                     <option *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.name}}</option>	
                  </select>
-                <div class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                <!--<div (click)="addToBookmark()" [ngClass]="{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                  إضافة إلى المفضلة{{advertisemet.isBookmarked}}
+                </div>
+                <div (click)="deleteFromBookmark()" [ngClass]="{'hidden':!advertisemet.isBookmarked || advertisemet.isBookmarked==null}" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                  حذف من المفضلة{{advertisemet.isBookmarked}}
+                </div>-->
+                <div (click)="addToBookmark()" *ngIf="!advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   إضافة إلى المفضلة
+                </div>
+                <div (click)="deleteFromBookmark()"*ngIf="advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                  حذف من المفضلة
                 </div>
               </div>
 

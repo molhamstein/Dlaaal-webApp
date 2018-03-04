@@ -87,6 +87,17 @@ export class CallApiService {
     });
   }
 
+  delete(url) {
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+
+    return this.http.delete(this.baseUrl + url, _options).map((Response: Response) => {
+      return Response;
+    }).catch((Response: Response) => {
+      this.errorCode=Response.status;
+      return "E";
+    });
+  }
+
   uploadImage(url, data, length) {
     let fd = new FormData();
     for (var index = 0; index < length; index++) {

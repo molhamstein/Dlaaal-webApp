@@ -1,0 +1,38 @@
+<!--component html goes here -->
+<!--component html goes here -->
+<!--<div id="" class="ModalContainer">
+			<div class="SignInModuleContainer">-->
+<div class="SignInModule">
+    <div class="SignInModule-header" style="direction: rtl;">
+        <div class="SignInModule-header-title">
+            تواصل معنا
+        </div>
+        <div class="SignInModule-header-close">
+        </div>
+    </div>
+    <div class="SignInModule-body">
+        <label for="name" style="color: red">{{message}}</label>
+        <div class="SignInModule-body-inputcontainer">
+            <label for="name">البريد الإلكتروني</label>
+            <input [(ngModel)]="mail.email" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="email" value=""
+                name="name">
+        </div>
+        <div class="SignInModule-body-inputcontainer">
+            <label for="name">الموضوع</label>
+            <input [(ngModel)]="mail.subject" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value=""
+                name="name">
+        </div>
+        <div class="SignInModule-body-inputcontainer">
+            <label for="name">الرسالة</label>
+            <textarea style="resize: none;height: 130px;" [(ngModel)]="mail.message" (focus)="message='';" class="SignInModule-body-inputcontainer-text"
+                value="" name="name"></textarea>
+        </div>
+
+        <div (click)="send()" class="SignInModule-body-inputcontainer SignInModule-body-btn">
+            إرسال
+        </div>
+    </div>
+</div>
+
+<!--</div>
+		</div>-->

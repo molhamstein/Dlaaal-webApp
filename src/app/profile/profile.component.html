@@ -67,7 +67,7 @@
                 </div>
                 <div class="UserProfile-navcontent">
                     <div class="ItemsContainer">
-                        <div [ngClass]="{'hidden':isSetTab(2)}">
+                        <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(2)}">
                             <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
                                 <div class="ItemSummary">
                                     <div class="ItemSummary-head">
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div [ngClass]="{'hidden':isSetTab(1)}">
+                        <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(1)}">
                             <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemBlock">
                                 <div class="ItemSummary">
                                     <div class="ItemSummary-head">
@@ -137,6 +137,79 @@
                             <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
                         </div>
                     </div>
+                     <!--<div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(2)}">
+                            <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
+                                <div class="ItemSummary">
+                                    <div class="ItemSummary-head">
+                                        <div class="ItemSummary-head-title">
+                                            {{oneBookMark.category.title}}
+                                        </div>
+                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
+                                            {{calculateDate(oneBookMark.createdAt)}}
+                                        </div>
+                                    </div>
+                                    <div class="ItemSummary-desc">
+                                        {{oneBookMark.title}}
+                                    </div>
+                                    <div class="ItemSummary-price">
+                                        <span class="ItemSummary-price-num">{{oneBookMark.price | number}}</span>
+                                        <span class="ItemSummary-price-text">ل.س</span>
+                                    </div>
+                                    <div class="ItemSummary-action">
+                                        <a routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemSummary-action-btn">
+    									مشاهدة المزيد
+    								</a>
+                                        <div class="ItemSummary-action-views">
+                                            <span> {{oneBookMark.viewsCount}} </span>
+                                            <div style="width:10px;"></div>
+                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneBookMark.images[0] + ')'}">
+                                </div>
+                        </div>
+                        <div class="ItemsContainer-loader">
+                            <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
+                        </div>
+                    </div>
+                     <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(1)}">
+                            <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
+                                <div class="ItemSummary">
+                                    <div class="ItemSummary-head">
+                                        <div class="ItemSummary-head-title">
+                                            {{oneAdvertisemet.category.title}}
+                                        </div>
+                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
+                                            {{calculateDate(oneAdvertisemet.createdAt)}}
+                                        </div>
+                                    </div>
+                                    <div class="ItemSummary-desc">
+                                        {{oneAdvertisemet.title}}
+                                    </div>
+                                    <div class="ItemSummary-price">
+                                        <span class="ItemSummary-price-num">{{oneAdvertisemet.price | number}}</span>
+                                        <span class="ItemSummary-price-text">ل.س</span>
+                                    </div>
+                                    <div class="ItemSummary-action">
+                                        <a routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemSummary-action-btn">
+    									مشاهدة المزيد
+    								</a>
+                                        <div class="ItemSummary-action-views">
+                                            <span> {{oneAdvertisemet.viewsCount}} </span>
+                                            <div style="width:10px;"></div>
+                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}">
+                                </div>
+                        </div>
+                        <div class="ItemsContainer-loader">
+                            <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
+                        </div>
+                    </div>-->
+
                 </div>
             </div>
         </div>

@@ -63,6 +63,9 @@ export class GlobalService {
   goTo(newURL) {
     this.router.navigate([newURL]);
   }
+  reload() {
+    location.reload();
+  }
 
   errorDialog(title, containt) {
     let dialogRef = this.dialog.open(ErrorModalComponent, {

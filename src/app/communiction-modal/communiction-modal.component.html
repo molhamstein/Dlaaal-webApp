@@ -1,5 +1,5 @@
 <div class="SignInModule">
-    <div class="SignInModule-header">
+    <div class="SignInModule-header" style="direction: rtl;">
         <div class="SignInModule-header-title">
             معلومات الاتصال
         </div>
@@ -7,7 +7,11 @@
         </div>
     </div>
     <div class="SignInModule-body">
-        {{data.phone}}
-        <a (click)="goToPage()">الذهاب إلى الصفحة الشخصية</a>
+        <label>  {{data.phone}}:للتواصل مع صاحب الإعلان </label> 
+        <br>
+        <label>
+        أو عن طريق زيارة 
+        <a (click)="goToPage()" style="color: #257310">صفحته الشخصية</a>
+        </label>
     </div>
 </div>

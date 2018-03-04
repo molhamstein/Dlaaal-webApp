@@ -1,3 +1,5 @@
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsComponent } from './terms/terms.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddAdvertisingComponent } from './add-advertising/add-advertising.component';
 import { AdvertisingComponent } from './advertising/advertising.component';
@@ -15,6 +17,12 @@ export const routes: Routes = [
     }, {
         path: "profile/:userID",
         component: ProfileComponent
+    }, {
+        path: "terms",
+        component: TermsComponent
+    }, {
+        path: "privacy",
+        component: PrivacyPolicyComponent
     },{
         path: "**",
         component: HomePageComponent

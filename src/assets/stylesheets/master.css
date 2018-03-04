@@ -1407,6 +1407,7 @@ figure {
 }
 
 
+
 /* line 39, ../sass/_CategoryBox.scss */
 
 .CategoryBox-body li {
@@ -1429,6 +1430,12 @@ figure {
     color: #1f620e;
 }
 
+@media screen and (max-width: 640px) {
+    /* line 3, ../sass/_CategoryBoxSub.scss */
+    .CategoryBox-body {
+        display: none;
+    }
+}
 
 /* line 49, ../sass/_CategoryBox.scss */
 
@@ -4341,4 +4348,8 @@ figure {
 .myDialogStyle .mat-dialog-container img {
     max-height: 700px;
     width: auto;
+}
+
+.communictioDialogStyle{
+    width: 100%;
 }

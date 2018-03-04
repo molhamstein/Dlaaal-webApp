@@ -50,12 +50,12 @@ null==d?void 0:d))},attrHooks:{type:{set:function(a,b){if(!o.radioValue&&"radio"
 	    //Temporary workaround
 	    if (currentScroll >= ( menuPosition + Menu.height()/3) && (Content.height()>1350) ) {
 	        // FullContainer.addClass('u-trans');
-	        FullContainer.css('margin-top', (Menu.height()*4/3 + 25 )+'px');
-	        Menu.addClass("MenuContainer--isFixed");
+	        // FullContainer.css('margin-top', (Menu.height()*4/3 + 25 )+'px');
+	        // Menu.addClass("MenuContainer--isFixed");
 	    } else {
 	    	// FullContainer.removeClass('u-trans');
-	        FullContainer.css('margin-top', '0px');
-	        Menu.removeClass("MenuContainer--isFixed");
+	        // FullContainer.css('margin-top', '0px');
+	        // Menu.removeClass("MenuContainer--isFixed");
 	    }
 	});
 });
