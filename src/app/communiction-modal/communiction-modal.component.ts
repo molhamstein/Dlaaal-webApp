@@ -14,4 +14,7 @@ export class CommunictionModalComponent {
     goToPage(){
         this.dialogRef.close(true);
     }
+        closeModal(){
+        this.dialogRef.close();
+    }
 }

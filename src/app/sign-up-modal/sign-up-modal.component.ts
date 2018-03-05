@@ -45,6 +45,8 @@ export class SignUpModalComponent {
     login() {
         this.thisDialog.close(true);
     }
-
+    closeModal(){
+        this.thisDialog.close();
+    }
 
 }

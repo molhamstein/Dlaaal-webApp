@@ -32,4 +32,7 @@ export class ReportModalComponent {
             this.dialogRef.close(true);
         });
     }
+        closeModal(){
+        this.dialogRef.close();
+    }
 }

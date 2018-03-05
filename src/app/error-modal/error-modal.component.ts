@@ -16,4 +16,7 @@ export class ErrorModalComponent {
     cansel() {
         this.dialogRef.close(false);
     }
+        closeModal(){
+        this.dialogRef.close();
+    }
 }

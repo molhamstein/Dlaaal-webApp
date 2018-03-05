@@ -1,3 +1,4 @@
+import { ForgetPasswordModalComponent } from './../forget-password-modal/forget-password-modal.component';
 import { GlobalService } from './../Services/global.service';
 import { element } from 'protractor';
 import { CallApiService } from './../Services/call-api.service';
@@ -18,6 +19,7 @@ export class HomePageComponent {
     isLogin: boolean;
     constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
+        this.noData = false;
 
     }
 
@@ -38,7 +40,6 @@ export class HomePageComponent {
 
     // forScrool
     array = [];
-    sum = 100;
     throttle = 100;
     scrollDistance = 2;
     scrollUpDistance = 2;
@@ -46,10 +47,12 @@ export class HomePageComponent {
     loader: boolean = false;
     lastType;
     lastData;
-
+    noData: boolean;
     viewNavBar;
 
     ngOnInit() {
+               $("html, body").animate({ scrollTop: 0 }, "slow");
+
         this.search['max'] = 100000000;
         this.search['min'] = 0;
         this.APIServ.get("cities").subscribe(data => {
@@ -87,13 +90,10 @@ export class HomePageComponent {
         var topOfOthDiv = $(".CategoriesContainer").offset().top;
         if ($(window).scrollTop() > topOfOthDiv) { //scrolled past the other div?
             // this.viewNavBar=true;
-             $(".MenuContainer").fadeIn('slow');
-             console.log("yes");
+            $(".MenuContainer").fadeIn('slow');
             // $("#dvid").show(); //reached the desired point -- show div
         } else {
-             $(".MenuContainer").fadeOut('slow');
-             console.log("no");
-             
+            $(".MenuContainer").fadeOut('slow');
             // this.viewNavBar=false;
         }
         //handle your scroll here
@@ -141,7 +141,11 @@ export class HomePageComponent {
     }
 
     getAdvertisemets(type, data, isScrol: boolean = false) {
-
+        if (isScrol && this.noData || this.loader == true) {
+            return;
+        } else {
+            this.noData = false
+        }
         this.loader = true;
         let query, skip, limit;
         this.lastType = type;
@@ -166,7 +170,6 @@ export class HomePageComponent {
             this.search['subCategory'] = data.subCategoryID;
             query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
-            console.log(this.keyFilter);
         }
         else if (type == 2) {
             query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
@@ -177,11 +180,19 @@ export class HomePageComponent {
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
-            let test = [];
+            if (!isScrol) {
+                this.advertisemets = [];
+            }
             // data = JSON.parse(data['_body']);
-            data.forEach(element => {
-                this.advertisemets.push(element);
-            });
+            if (data.length == 0) {
+                this.noData = true;
+            } else {
+                if (data.length < limit && type != -1)
+                    this.noData = true;
+                data.forEach(element => {
+                    this.advertisemets.push(element);
+                });
+            }
             this.loader = false;
         });
 
@@ -216,10 +227,25 @@ export class HomePageComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+             if (result) {
+                this.openForgetPassDialog();
+            }
         });
     }
 
+  openForgetPassDialog() {
+        let dialogRef = this.dialog.open(ForgetPasswordModalComponent, {
+            // width: '35%',
+            // width: '50%',
+            panelClass: 'communictioDialogStyle',
 
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+
+        });
+    }
 
     onScrollDown(ev) {
         if (this.lastType != -1)
@@ -231,6 +257,14 @@ export class HomePageComponent {
         } else {
             this.openSignInDialog();
         }
+    }
+
+    cheackOdd(number) {
+        if ($('.FiltersPanelContianer').is(':visible')) {
+            return true;
+        }
+        // console.log (this.keyFilter.length==0);
+        return number % 2 == 0;
     }
 
 }

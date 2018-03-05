@@ -52,4 +52,8 @@ export class EditProfileComponent {
     changePassword(){
         this.thisDialog.close(true);
     }
+
+        closeModal(){
+        this.thisDialog.close();
+    }
 }

@@ -1,3 +1,5 @@
+import { ActivateComponent } from './activate/activate.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsComponent } from './terms/terms.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -7,8 +9,10 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
-    { path: 'detail/:addID', component: AdvertisingComponent },
     {
+        path: 'detail/:addID',
+        component: AdvertisingComponent
+    }, {
         path: "home",
         component: HomePageComponent
     }, {
@@ -18,12 +22,21 @@ export const routes: Routes = [
         path: "profile/:userID",
         component: ProfileComponent
     }, {
+        path: "myprofile/:userID",
+        component: ProfileComponent
+    }, {
         path: "terms",
         component: TermsComponent
     }, {
         path: "privacy",
         component: PrivacyPolicyComponent
-    },{
+    }, {
+        path: "login/reset-password",
+        component: ResetPasswordComponent
+    }, {
+        path: "login/verify",
+        component: ActivateComponent
+    }, {
         path: "**",
         component: HomePageComponent
     },

@@ -25,4 +25,13 @@ export class SignInModalComponent {
             }
         });
     }
+
+
+    forgetPassword() {
+        this.thisDialog.close(true);
+    }
+
+        closeModal(){
+        this.thisDialog.close();
+    }
 }

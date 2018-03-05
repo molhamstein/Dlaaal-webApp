@@ -35,6 +35,7 @@ export class AdvertisingComponent {
         });
     }
     ngOnInit() {
+       $("html, body").animate({ scrollTop: 0 }, "slow");
         // this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
         //     this.advertisemet = data;
         // });

@@ -25,6 +25,7 @@ export class AddAdvertisingComponent {
 
 
     ngOnInit() {
+       $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });

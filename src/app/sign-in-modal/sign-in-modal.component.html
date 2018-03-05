@@ -6,7 +6,7 @@
 		<div class="SignInModule-header-title">
 			تسجيل الدخول
 		</div>
-		<div class="SignInModule-header-close">
+		<div class="SignInModule-header-close" (click)="closeModal()">
 		</div>
 	</div>
 	<div class="SignInModule-body">
@@ -30,7 +30,7 @@
 			تسجيل الدخول
 		</div>
 		<div class="SignInModule-body-inputcontainer u-textCenter">
-			<div class="u-textPrimaryColor"> هل نسيت كلمة السر ؟</div>
+			<div class="u-textPrimaryColor" (click)="forgetPassword()"> هل نسيت كلمة السر ؟</div>
 		</div>
 
 	</div>

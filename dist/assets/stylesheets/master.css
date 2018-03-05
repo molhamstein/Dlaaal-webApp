@@ -2433,7 +2433,7 @@ figure {
     -webkit-flex-grow: 1;
     flex-grow: 1;
     background-color: #257310;
-    background-image: url(../../assets/imgs/magnifier.svg);
+    background-image: url(../../assets/imgs/close.svg);
     background-repeat: no-repeat;
     background-size: 20px 20px;
     background-position: center;
@@ -2654,7 +2654,8 @@ figure {
     -webkit-flex-grow: 1;
     flex-grow: 1;
     background-color: #257310;
-    background-image: url(../../assets/imgs/magnifier.svg);
+    background-image: url(../../assets/imgs/close.svg);
+    /*background-image: url(../../assets/imgs/magnifier.svg);*/
     background-repeat: no-repeat;
     background-size: 20px 20px;
     background-position: center;
@@ -4352,4 +4353,34 @@ figure {
 
 .communictioDialogStyle{
     width: 100%;
+}
+
+.customPage{
+    padding: 20px 50px;
+}
+.customPage h3,.customPage span,.customPage h4{
+text-align: right;
+width: 100%;
+    margin-bottom: 7px;
+
+}
+.customPage h4{
+    font-size: 18px;
+}
+
+.customPage h3{
+    font-size: 18px;
+}
+.customPage h1{
+    font-size: 22px;
+}
+.customPage span{
+    font-size: 16px;
+}
+.customPage h3 ,.customPage h1,.customPage h4 {
+    color: #257310;
+}
+
+.customPage li{
+    margin: 10px 0px;
 }

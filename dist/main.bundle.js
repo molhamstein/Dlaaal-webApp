@@ -102,6 +102,26 @@ var CallApiService = /** @class */ (function () {
             return "E";
         });
     };
+    CallApiService.prototype.resetPassWord = function (url, data, token) {
+        var _this = this;
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": token }) };
+        return this.http.post(this.baseUrl + url, data, _options).map(function (Response) {
+            return Response;
+        }).catch(function (Response) {
+            _this.errorCode = Response.status;
+            return "E";
+        });
+    };
+    CallApiService.prototype.activeAccount = function (url, token) {
+        var _this = this;
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": token }) };
+        return this.http.put(this.baseUrl + url, {}, _options).map(function (Response) {
+            return Response;
+        }).catch(function (Response) {
+            _this.errorCode = Response.status;
+            return "E";
+        });
+    };
     CallApiService.prototype.put = function (url, data) {
         var _this = this;
         var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
@@ -293,6 +313,97 @@ var LoginService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/activate/activate.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n\n        <header></header>\n        <div class=\"Triangle\">\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n                <div class=\"Jumbotron-subtitle\">\n                    أكثر من\n                    <span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n                </div>\n            </div>\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\"style=\"padding: 5%;\">\n\n            <!--component html goes here -->\n            <!--component html goes here -->\n            <!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n        \n\n            <!--</div>\n\t\t</div>-->\n\n        </div>\n\n\n\n    </div>\n    <!--Below main container end-->\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/activate/activate.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/activate/activate.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivateComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ActivateComponent = /** @class */ (function () {
+    function ActivateComponent(dialog, globalSer, APIServe, route) {
+        var _this = this;
+        this.dialog = dialog;
+        this.globalSer = globalSer;
+        this.APIServe = APIServe;
+        this.route = route;
+        alert("SSS");
+        this.route.queryParams
+            .filter(function (params) { return params.token; })
+            .subscribe(function (params) {
+            _this.token = params.token;
+            _this.userID = params.uid;
+            _this.APIServe.activeAccount("/users/" + _this.userID + "/activate", _this.token).subscribe(function (data) {
+                if (_this.APIServe.getErrorCode() == 0) {
+                    alert("Success");
+                    // this.globalSer.goTo('/')
+                }
+                else if (_this.APIServe.getErrorCode() == 401) {
+                    _this.APIServe.setErrorCode(0);
+                }
+            });
+        });
+    }
+    ActivateComponent.prototype.ngOnInit = function () {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    };
+    ActivateComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["n" /* Component */])({
+            selector: 'activate',
+            template: __webpack_require__("../../../../../src/app/activate/activate.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/activate/activate.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_2__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]])
+    ], ActivateComponent);
+    return ActivateComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/add-advertising/add-advertising.component.html":
 /***/ (function(module, exports) {
 
@@ -354,6 +465,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
     }
     AddAdvertisingComponent.prototype.ngOnInit = function () {
         var _this = this;
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServ.get("cities").subscribe(function (data) {
             _this.cities = data;
         });
@@ -553,6 +665,7 @@ var AdvertisingComponent = /** @class */ (function () {
         });
     }
     AdvertisingComponent.prototype.ngOnInit = function () {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         // this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
         //     this.advertisemet = data;
         // });
@@ -726,41 +839,44 @@ var AppComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contact_us_modal_contact_us_modal_component__ = __webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__terms_terms_component__ = __webpack_require__("../../../../../src/app/terms/terms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__privacy_policy_privacy_policy_component__ = __webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__error_modal_error_modal_component__ = __webpack_require__("../../../../../src/app/error-modal/error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__report_modal_report_modal_component__ = __webpack_require__("../../../../../src/app/report-modal/report-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__full_screen_modal_full_screen_modal_component__ = __webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__header_header_component__ = __webpack_require__("../../../../../src/app/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__communiction_modal_communiction_modal_component__ = __webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__app_routes__ = __webpack_require__("../../../../../src/app/app.routes.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ngx_cookie_service__ = __webpack_require__("../../../../ngx-cookie-service/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__angular_material_slider__ = __webpack_require__("../../../material/esm5/slider.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_material_input__ = __webpack_require__("../../../material/esm5/input.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29_hammerjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__activate_activate_component__ = __webpack_require__("../../../../../src/app/activate/activate.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reset_password_reset_password_component__ = __webpack_require__("../../../../../src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forget_password_modal_forget_password_modal_component__ = __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_us_modal_contact_us_modal_component__ = __webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__terms_terms_component__ = __webpack_require__("../../../../../src/app/terms/terms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__privacy_policy_privacy_policy_component__ = __webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__error_modal_error_modal_component__ = __webpack_require__("../../../../../src/app/error-modal/error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__report_modal_report_modal_component__ = __webpack_require__("../../../../../src/app/report-modal/report-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__full_screen_modal_full_screen_modal_component__ = __webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__header_header_component__ = __webpack_require__("../../../../../src/app/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__communiction_modal_communiction_modal_component__ = __webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__app_routes__ = __webpack_require__("../../../../../src/app/app.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_ngx_cookie_service__ = __webpack_require__("../../../../ngx-cookie-service/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_material_slider__ = __webpack_require__("../../../material/esm5/slider.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_material_input__ = __webpack_require__("../../../material/esm5/input.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32_hammerjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -801,27 +917,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_27__angular_core__["K" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_30__angular_core__["K" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_33__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_1__terms_terms_component__["a" /* TermsComponent */], __WEBPACK_IMPORTED_MODULE_2__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */], __WEBPACK_IMPORTED_MODULE_3__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_4__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_5__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_6__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_7__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_17__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_20__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_13__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_12__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_10__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_11__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_9__profile_profile_component__["a" /* ProfileComponent */]
+                __WEBPACK_IMPORTED_MODULE_36__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__activate_activate_component__["a" /* ActivateComponent */], __WEBPACK_IMPORTED_MODULE_1__reset_password_reset_password_component__["a" /* ResetPasswordComponent */], __WEBPACK_IMPORTED_MODULE_2__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_3__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_4__terms_terms_component__["a" /* TermsComponent */], __WEBPACK_IMPORTED_MODULE_5__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */], __WEBPACK_IMPORTED_MODULE_6__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_7__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_8__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_9__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_10__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_20__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_23__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_16__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_15__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_13__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_14__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_12__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 // Main
-                __WEBPACK_IMPORTED_MODULE_26__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_32__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_31__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_30__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_29__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_35__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_33__angular_common_http__["b" /* HttpClientModule */],
                 // Route
-                __WEBPACK_IMPORTED_MODULE_16__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_15__app_routes__["a" /* routes */])
+                __WEBPACK_IMPORTED_MODULE_19__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_18__app_routes__["a" /* routes */])
                 // material
                 ,
-                __WEBPACK_IMPORTED_MODULE_22__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_24__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_25__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_28_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_23__angular_material_slider__["a" /* MatSliderModule */]
+                __WEBPACK_IMPORTED_MODULE_25__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_27__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_28__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_31_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_26__angular_material_slider__["a" /* MatSliderModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_3__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_0__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_4__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_21__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_5__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_6__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_17__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_12__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_7__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_18_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_19__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_14__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_8__Services_global_service__["a" /* GlobalService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_33__app_component__["a" /* AppComponent */]]
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_6__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_2__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_3__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_7__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_8__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_9__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_20__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_15__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_10__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_21_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_22__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_17__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_11__Services_global_service__["a" /* GlobalService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_36__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -836,12 +955,16 @@ var AppModule = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routes; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__privacy_policy_privacy_policy_component__ = __webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__terms_terms_component__ = __webpack_require__("../../../../../src/app/terms/terms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__activate_activate_component__ = __webpack_require__("../../../../../src/app/activate/activate.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reset_password_reset_password_component__ = __webpack_require__("../../../../../src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__privacy_policy_privacy_policy_component__ = __webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__terms_terms_component__ = __webpack_require__("../../../../../src/app/terms/terms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__add_advertising_add_advertising_component__ = __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__advertising_advertising_component__ = __webpack_require__("../../../../../src/app/advertising/advertising.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__home_page_home_page_component__ = __webpack_require__("../../../../../src/app/home-page/home-page.component.ts");
+
+
 
 
 
@@ -849,25 +972,36 @@ var AppModule = /** @class */ (function () {
 
 
 var routes = [
-    { path: 'detail/:addID', component: __WEBPACK_IMPORTED_MODULE_4__advertising_advertising_component__["a" /* AdvertisingComponent */] },
     {
+        path: 'detail/:addID',
+        component: __WEBPACK_IMPORTED_MODULE_6__advertising_advertising_component__["a" /* AdvertisingComponent */]
+    }, {
         path: "home",
-        component: __WEBPACK_IMPORTED_MODULE_5__home_page_home_page_component__["a" /* HomePageComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_7__home_page_home_page_component__["a" /* HomePageComponent */]
     }, {
         path: "addAdvertising",
-        component: __WEBPACK_IMPORTED_MODULE_3__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_5__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */]
     }, {
         path: "profile/:userID",
-        component: __WEBPACK_IMPORTED_MODULE_2__profile_profile_component__["a" /* ProfileComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_4__profile_profile_component__["a" /* ProfileComponent */]
+    }, {
+        path: "myprofile/:userID",
+        component: __WEBPACK_IMPORTED_MODULE_4__profile_profile_component__["a" /* ProfileComponent */]
     }, {
         path: "terms",
-        component: __WEBPACK_IMPORTED_MODULE_1__terms_terms_component__["a" /* TermsComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_3__terms_terms_component__["a" /* TermsComponent */]
     }, {
         path: "privacy",
-        component: __WEBPACK_IMPORTED_MODULE_0__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_2__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */]
+    }, {
+        path: "login/reset-password",
+        component: __WEBPACK_IMPORTED_MODULE_1__reset_password_reset_password_component__["a" /* ResetPasswordComponent */]
+    }, {
+        path: "login/verify",
+        component: __WEBPACK_IMPORTED_MODULE_0__activate_activate_component__["a" /* ActivateComponent */]
     }, {
         path: "**",
-        component: __WEBPACK_IMPORTED_MODULE_5__home_page_home_page_component__["a" /* HomePageComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_7__home_page_home_page_component__["a" /* HomePageComponent */]
     },
 ];
 
@@ -877,7 +1011,7 @@ var routes = [
 /***/ "../../../../../src/app/change-password/change-password.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n                <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر القديمة</label>\n           \n            <input [(ngModel)]=\"password.oldPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n         <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر الحديثة</label>\n            <input [(ngModel)]=\"password.newPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n        <button (click)=\"editPassword()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            تعديل كلمة السر\n        </button>\n    </div>\n</div>\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n                <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر القديمة</label>\n           \n            <input [(ngModel)]=\"password.oldPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n         <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر الحديثة</label>\n            <input [(ngModel)]=\"password.newPassword\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n        <button (click)=\"editPassword()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            تعديل كلمة السر\n        </button>\n    </div>\n</div>\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -938,6 +1072,9 @@ var ChangePasswordComponent = /** @class */ (function () {
             }
         });
     };
+    ChangePasswordComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
     ChangePasswordComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'change-password',
@@ -956,7 +1093,7 @@ var ChangePasswordComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/communiction-modal/communiction-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label>  {{data.phone}}:للتواصل مع صاحب الإعلان </label> \n        <br>\n        <label>\n        أو عن طريق زيارة \n        <a (click)=\"goToPage()\" style=\"color: #257310\">صفحته الشخصية</a>\n        </label>\n    </div>\n</div>"
+module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label>  {{data.phone}}:للتواصل مع صاحب الإعلان </label> \n        <br>\n        <label>\n        أو عن طريق زيارة \n        <a (click)=\"goToPage()\" style=\"color: #257310\">صفحته الشخصية</a>\n        </label>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1007,6 +1144,9 @@ var CommunictionModalComponent = /** @class */ (function () {
     CommunictionModalComponent.prototype.goToPage = function () {
         this.dialogRef.close(true);
     };
+    CommunictionModalComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
     CommunictionModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'communiction-modal',
@@ -1026,7 +1166,7 @@ var CommunictionModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/contact-us-modal/contact-us-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            تواصل معنا\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">البريد الإلكتروني</label>\n            <input [(ngModel)]=\"mail.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"email\" value=\"\"\n                name=\"name\">\n        </div>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">الموضوع</label>\n            <input [(ngModel)]=\"mail.subject\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\"\n                name=\"name\">\n        </div>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">الرسالة</label>\n            <textarea style=\"resize: none;height: 130px;\" [(ngModel)]=\"mail.message\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\"\n                value=\"\" name=\"name\"></textarea>\n        </div>\n\n        <div (click)=\"send()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            إرسال\n        </div>\n    </div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            تواصل معنا\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">البريد الإلكتروني</label>\n            <input [(ngModel)]=\"mail.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"email\" value=\"\"\n                name=\"name\">\n        </div>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">الموضوع</label>\n            <input [(ngModel)]=\"mail.subject\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\"\n                name=\"name\">\n        </div>\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">الرسالة</label>\n            <textarea style=\"resize: none;height: 130px;\" [(ngModel)]=\"mail.message\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\"\n                value=\"\" name=\"name\"></textarea>\n        </div>\n\n        <div (click)=\"send()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            إرسال\n        </div>\n    </div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -1053,25 +1193,43 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactUsModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
 
 var ContactUsModalComponent = /** @class */ (function () {
-    function ContactUsModalComponent() {
+    function ContactUsModalComponent(APIServ, dialogRef, data) {
+        this.APIServ = APIServ;
+        this.dialogRef = dialogRef;
+        this.data = data;
     }
     ContactUsModalComponent.prototype.send = function () {
     };
+    ContactUsModalComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
     ContactUsModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'contact-us-modal',
             template: __webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.scss")]
-        })
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ContactUsModalComponent);
     return ContactUsModalComponent;
 }());
@@ -1083,7 +1241,7 @@ var ContactUsModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/edit-profile/edit-profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n        \n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الأسم</label>\n            <input [(ngModel)]=\"newUser.firstName\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الرقم</label>\n            <input [(ngModel)]=\"newUser.phone\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الايميل</label>\n            <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\"class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <!--<div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر</label>\n            <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>-->\n        <button (click)=\"editProfile()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            إنشاء الحساب\n        </button>\n    </div>\n    <div class=\"SignUpModule-footer\">\n        تريد تغيير كلمة السر\n        <div class=\"u-textPrimaryColor\" (click)=\"changePassword()\">\n            تغيير كلمة السر .\n        </div>\n    </div>\n\n</div>\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n        \n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الأسم</label>\n            <input [(ngModel)]=\"newUser.firstName\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الرقم</label>\n            <input [(ngModel)]=\"newUser.phone\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الايميل</label>\n            <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\"class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <!--<div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر</label>\n            <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>-->\n        <button (click)=\"editProfile()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            إنشاء الحساب\n        </button>\n    </div>\n    <div class=\"SignUpModule-footer\">\n        تريد تغيير كلمة السر\n        <div class=\"u-textPrimaryColor\" (click)=\"changePassword()\">\n            تغيير كلمة السر .\n        </div>\n    </div>\n\n</div>\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -1177,6 +1335,9 @@ var EditProfileComponent = /** @class */ (function () {
     EditProfileComponent.prototype.changePassword = function () {
         this.thisDialog.close(true);
     };
+    EditProfileComponent.prototype.closeModal = function () {
+        this.thisDialog.close();
+    };
     EditProfileComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'edit-profile',
@@ -1196,7 +1357,7 @@ var EditProfileComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/error-modal/error-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            {{title}}\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">{{containt}}</label>\n        </div>\n        \n        <div (click)=\"cansel()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            تم\n        </div>\n\n\n    </div>\n</div>"
+module.exports = "<!--component html goes here -->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            {{title}}\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">{{containt}}</label>\n        </div>\n        \n        <div (click)=\"cansel()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            تم\n        </div>\n\n\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1249,6 +1410,9 @@ var ErrorModalComponent = /** @class */ (function () {
     ErrorModalComponent.prototype.cansel = function () {
         this.dialogRef.close(false);
     };
+    ErrorModalComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
     ErrorModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
             selector: 'error-modal',
@@ -1259,6 +1423,92 @@ var ErrorModalComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ErrorModalComponent);
     return ErrorModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/forget-password-modal/forget-password-modal.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tنسيت كلمة السر\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div (click)=\"sendEmail()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tإرسال لأغعادة تعيين كلمة السر\n\t\t</div>\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+
+/***/ }),
+
+/***/ "../../../../../src/app/forget-password-modal/forget-password-modal.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/forget-password-modal/forget-password-modal.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgetPasswordModalComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+var ForgetPasswordModalComponent = /** @class */ (function () {
+    function ForgetPasswordModalComponent(APIServ, dialogRef, data) {
+        this.APIServ = APIServ;
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.user = {};
+    }
+    ForgetPasswordModalComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
+    ForgetPasswordModalComponent.prototype.sendEmail = function () {
+        var _this = this;
+        this.APIServ.post("users/reset", this.user).subscribe(function (data) {
+            if (_this.APIServ.getErrorCode() == 0) {
+                _this.message = "الرجاء التحقق في البريد الألكتروني الخاص بك";
+            }
+            else if (_this.APIServ.getErrorCode() == 401) {
+                _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
+                _this.APIServ.setErrorCode(0);
+            }
+        });
+    };
+    ForgetPasswordModalComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+            selector: 'forget-password-modal',
+            template: __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.scss")]
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
+    ], ForgetPasswordModalComponent);
+    return ForgetPasswordModalComponent;
 }());
 
 
@@ -1336,7 +1586,7 @@ var FullScreenModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n\t<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\" routerLink=\"{{'/profile/me'}}\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" routerLink=\"{{''}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>"
+module.exports = "<!--component html goes here -->\n\t<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\" routerLink=\"{{'/myprofile/me'}}\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a  class=\"TopMenu-item\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" routerLink=\"{{''}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>"
 
 /***/ }),
 
@@ -1363,13 +1613,14 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HeaderComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__forget_password_modal_forget_password_modal_component__ = __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1379,6 +1630,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1396,7 +1648,7 @@ var HeaderComponent = /** @class */ (function () {
     }
     HeaderComponent.prototype.openSignUpDialog = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_1__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
             if (result) {
@@ -1405,7 +1657,21 @@ var HeaderComponent = /** @class */ (function () {
         });
     };
     HeaderComponent.prototype.openSignInDialog = function () {
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        var _this = this;
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log('The dialog was closed');
+            if (result) {
+                _this.openForgetPassDialog();
+            }
+        });
+    };
+    HeaderComponent.prototype.openForgetPassDialog = function () {
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], {
+            // width: '35%',
+            // width: '50%',
+            panelClass: 'communictioDialogStyle',
+        });
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
         });
@@ -1422,12 +1688,12 @@ var HeaderComponent = /** @class */ (function () {
         }
     };
     HeaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["n" /* Component */])({
             selector: 'header',
             template: __webpack_require__("../../../../../src/app/header/header.component.html"),
             styles: [__webpack_require__("../../../../../src/app/header/header.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_3__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_4__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_5__Services_call_api_service__["a" /* CallApiService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_4__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_5__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__["a" /* CallApiService */]])
     ], HeaderComponent);
     return HeaderComponent;
 }());
@@ -1439,7 +1705,7 @@ var HeaderComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/home-page/home-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n\n<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n\t<div class=\"HeaderBackground\">\n\t\t<!--<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a href=\"addnew.html\" class=\"TopMenu-item u-customBtn\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\">إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a href=\"\" class=\"TopMenu-item\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a href=\"\" class=\"TopMenu-item\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>-->\n\t\t<header></header>\n\t\t<div class=\"Triangle\">\n\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\t\t\t\t<div class=\"SearchBar\">\n\t\t\t\t\t<div class=\"SearchBar-box\" (click)=\"getAdvertisemets(2,{'search':search})\"></div>\n\t\t\t\t\t<select name=\"city\" class=\"SearchBar-location\" [(ngModel)]=\"search.city\">\n\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t<select name=\"category\" class=\"SearchBar-category\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\">>\n\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t\t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n\t\t\t\t\t\t</select>\n\t\t\t\t\t<input class=\"SearchBar-input\" id=\"\" placeholder=\"أنا أبحث عن\" type=\"text\" [(ngModel)]=\"search.title\">\n\n\t\t\t\t</div>\n\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\t<!--أكثر من\n\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها-->\n\t\t\t\t\tالكثير من الاعلانات بانتظارك لتفقده\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t</div>\n\t</div>\n\t<div class=\"Content\">\n\t\t<div class=\"GridContainer\">\n\t\t\t<div class=\"CategoriesContainer\">\n\t\t\t\t<div class=\"CategoryBox\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t\t\t\t<div (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\" class=\"CategoryBox-head\" [ngStyle]=\"{'background-image': 'url(' + mainCategory.image + ')'}\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">{{mainCategory.title}}</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li (click)=\"getAdvertisemets(1,{'categoryID':mainCategory.id,'subCategoryID':mainSubCategory.id})\" *ngFor=\"let mainSubCategory of mainCategory.subCategories\">\n\t\t\t\t\t\t\t\t{{mainSubCategory.title}}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<!--<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/tablets.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">متفرّقات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tإلكترونيات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tحباشات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tسماعات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/realS.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">عقارات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tأجار\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tإستئجار\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمبيع و شراء\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">مركبات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات سيدان\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات دفع رباعي\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات كهربائية\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات هجينة\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<a href=\"\"> أضهر المزيد</a>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>-->\n\t\t\t</div>\n\t\t\t<div id=\"Menu\" class=\"MenuContainer MenuContainer--isFixed\" style=\"display: none\">\n\n\t\t\t\t<div class=\"ContentMenu\">\n\t\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill\">\n\t\t\t\t\t\t<i class=\"ContentMenu-item ContentMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</i>\n\t\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"ContentMenu-item u-customBtn\">\n\t\t\t\t\t\t\t<!-- <i class=\"ContentMenu-item-iconPlus\"> </i> -->\n\t\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\">إضافة إعلان</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t</figure>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<i class=\"ContentMenu-item ContentMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t\t\t\t\t            <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t\t\t\t\t            <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t            </i>\n\t\t\t\t\t\t<a class=\"ContentMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t\t<a class=\"ContentMenu-item u-before10p\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t\t\t<img class=\"ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t\t\t<div class=\"FilterSearchBar\">\n\t\t\t\t\t\t\t<div class=\"FilterSearchBar-box\" (click)=\"getAdvertisemets(2,{'search':search})\"></div>\n\t\t\t\t\t\t\t<select name=\"city\" [(ngModel)]=\"search.city\" class=\"FilterSearchBar-location\">\n\t\t\t\t\t\t\t\t\t <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\n\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t<select name=\"category\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\"> class=\"FilterSearchBar-category\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t<input class=\"FilterSearchBar-input\" [(ngModel)]=\"search.title\" id=\"\" placeholder=\"أنا أبحث عن\" type=\"text\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"u-flexAlignSelfStart u-hideOn700 u-afterAuto\">\n\t\t\t\t\t\t<img class=\"ContentMenu-item ContentMenu-item--logo\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<!--<div class=\"CategoryBar\">\n\t\t\t\t\t<div class=\"CategoryBar-item\" (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t\t\t\t\t{{mainCategory.title}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>-->\n\t\t\t</div>\n\t\t\t<div class=\"FullContainer\">\n\t\t\t\t<div class=\"FiltersPanelContianer\" [ngClass]=\"{'hidden':keyFilter.length == 0}\">\n\t\t\t\t\t<div class=\"FiltersPanel\">\n\t\t\t\t\t\t<div class=\"FiltersPanel-header\">\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-title\">\n\t\t\t\t\t\t\t\tحساب جديد\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-collapse\">\n\t\t\t\t\t\t\t\t--\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-close\">\n\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"FiltersPanel-body\">\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<input [(ngModel)]=\"search.title\" class=\"FiltersPanel-body-inputcontainer-text\" placeholder=\"أنا أبحث عن\" type=\"text\" value=\"\"\n\t\t\t\t\t\t\t\t name=\"name\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" [(ngModel)]=\"search.city\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\">>\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategory\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\" *ngFor=\"let oneKey of keyFilter\">\n\t\t\t\t\t\t\t\t<label for=\"name\">{{oneKey.key}} </label>\n\t\t\t\t\t\t\t\t<input *ngIf=\"oneKey.type == 'text' \" class=\"FiltersPanel-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t\t\t<input *ngIf=\"oneKey.type == 'number' \" class=\"FiltersPanel-body-inputcontainer-text\" type=\"number\" value=\"\" name=\"name\">\n\t\t\t\t\t\t\t\t<select *ngIf=\"oneKey.type == 'choose' \" class=\"FiltersPanel-body-select FiltersPanel-body-down\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let value of oneKey.values\" value=\"{{value}}\" >{{value}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> أقل سعر </label>\n\t\t\t\t\t\t\t\t<input  class=\"FiltersPanel-body-inputcontainer-text\" [(ngModel)]=\"search.min\" min=\"0\" max=\"10000000000\" type=\"number\" value=\"\" name=\"name\">\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> أكبر سعر </label>\n\t\t\t\t\t\t\t\t<input  class=\"FiltersPanel-body-inputcontainer-text\" [(ngModel)]=\"search.max\" min=\"0\" max=\"10000000000\" type=\"number\" value=\"\" name=\"name\">\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"FiltersPanel-footer\" (click)=\"getAdvertisemets(3,{'search':search})\">\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"ItemsContainer\" [ngClass]=\"{'ItemsContainer--filtespanelexpanded':keyFilter.length != 0}\">\n\t\t\t\t\t<div class=\"ItemBlock\" *ngFor=\"let advertisemet of advertisemets\" routerLink=\"{{'/detail/'+advertisemet.id}}\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\t{{advertisemet.category.title}}\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\t{{calculateDate(advertisemet.createdAt)}}\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\t{{advertisemet.title}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">{{advertisemet.price | number}}</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a routerLink=\"{{'/detail/'+advertisemet.id}}\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> {{advertisemet.viewsCount}} </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + advertisemet.images[0] + ')'}\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!--<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمركبات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t24/12/2017\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tسيارة جبارة و نظيفة\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\"> 1,700,000 </span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\" style=\"display:none;\">\n\t\t\t\t\t\t\t\t\t<span> 5 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tاكسسوارات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t11/1/2015\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tساعة شغل أكابر\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">520,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear-1.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمركبات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t24/12/2017\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tسيارة جبارة و نظيفة\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\"> 1,700,000 </span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\" style=\"display:none;\">\n\t\t\t\t\t\t\t\t\t<span> 5 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tاكسسوارات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t11/1/2015\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tساعة شغل أكابر\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">520,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear-1.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>-->\n\n\t\t\t\t\t<div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loader==0}\">\n\t\t\t\t\t\t<img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\n\t\t</div>\n\n\t\t<div id=\"SignUpModal\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">\n\t\t\t\t<div class=\"SignUpModule\">\n\t\t\t\t\t<div class=\"SignUpModule-header\">\n\t\t\t\t\t\t<div class=\"SignUpModule-header-title\">\n\t\t\t\t\t\t\tحساب جديد\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-header-close\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignUpModule-body\">\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id\" value=\"value\">\n\t\t\t\t\t\t\t<label for=\"checkbox_id\">\n                  أوافق على\n                  <div class=\"u-textPrimaryColor\">شروط الاستخدام</div>\n  \n                <div class=\"u-textPrimaryColor\">اتفاقية الخصوصية</div>\n                </label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n\t\t\t\t\t\t\tإنشاء الحساب\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignUpModule-footer\">\n\t\t\t\t\t\tلديك حساب مسبقاً\n\t\t\t\t\t\t<div class=\"u-textPrimaryColor\">\n\t\t\t\t\t\t\tقم بتسجيل الدخول .\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<br />\n\t\t<br />\n\t\t<br />\n\t\t<div id=\"SignInModal\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">\n\t\t\t\t<div class=\"SignInModule\">\n\t\t\t\t\t<div class=\"SignInModule-header\">\n\t\t\t\t\t\t<div class=\"SignInModule-header-title\">\n\t\t\t\t\t\t\tتسجيل الدخول\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-header-close\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignInModule-body\">\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t\t\t\t\t<input class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t\t\t\t\t<input class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\" value=\"value\">\n\t\t\t\t\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\t\t\t\t\tتسجيل الدخول\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t\t\t\t\t<div class=\"u-textPrimaryColor\"> هل نسيت كلمة السر ؟</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div style=\"display:none;text-align: center;\">\n\t<div style=\"font-family: 'OpenSans-Regular' \">\n\t\tOpenSans Regular <br/> اوبن سانس عادي 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'OpenSans-ExtraBold' \">\n\t\tOpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-light' \">\n\t\tSwessra-light<br/> سويسرا خفيف 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-medium' \">\n\t\tSwessra-medium<br/> سويسرا وسط 1234 ل.س\n\t</div><br/><br/>\n</div>\n\n<div class=\"CategoriesContainer\">\n\t<div class=\"CategoryBoxSub\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t<div class=\"CategoryBoxSub-head\" [ngStyle]=\"{'background-image': 'url(' + mainCategory.image + ')'}\" (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">{{mainCategory.title}}</span>\n\t\t</div>\n\t</div>\n\t<!--<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/bear.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>\n\t<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/realS.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>\n\t<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>-->\n</div>\n\n\n\n<div style=\"display:none;text-align: center;\">\n\t<div style=\"font-family: 'OpenSans-Regular' \">\n\t\tOpenSans Regular <br/> اوبن سانس عادي 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'OpenSans-ExtraBold' \">\n\t\tOpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-light' \">\n\t\tSwessra-light<br/> سويسرا خفيف 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-medium' \">\n\t\tSwessra-medium<br/> سويسرا وسط 1234 ل.س\n\t</div><br/><br/>\n</div>"
+module.exports = "<!--component html goes here -->\n\n<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n\t<div class=\"HeaderBackground\">\n\t\t<!--<div class=\"Header\">\n\t\t\t<div class=\"TopMenu\">\n\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t\t\t<a href=\"addnew.html\" class=\"TopMenu-item u-customBtn\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\">إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t<img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t</figure>\n\t\t\t\t\t</div>\n\t\t\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t                        <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t                        <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t\t\t<a href=\"\" class=\"TopMenu-item\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t<a href=\"\" class=\"TopMenu-item\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t\t\t<img class=\"TopMenu-item TopMenu-item--logo\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>-->\n\t\t<header></header>\n\t\t<div class=\"Triangle\">\n\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\t\t\t\t<div class=\"SearchBar\">\n\t\t\t\t\t<div class=\"SearchBar-box\" (click)=\"getAdvertisemets(2,{'search':search})\"></div>\n\t\t\t\t\t<select name=\"city\" class=\"SearchBar-location\" [(ngModel)]=\"search.city\">\n\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t<select name=\"category\" class=\"SearchBar-category\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\">>\n\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t\t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n\t\t\t\t\t\t</select>\n\t\t\t\t\t<input class=\"SearchBar-input\" id=\"\" placeholder=\"أنا أبحث عن\" type=\"text\" [(ngModel)]=\"search.title\">\n\n\t\t\t\t</div>\n\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\t<!--أكثر من\n\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها-->\n\t\t\t\t\tالكثير من الاعلانات بانتظارك لتفقده\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t</div>\n\t</div>\n\t<div class=\"Content\">\n\t\t<div class=\"GridContainer\">\n\t\t\t<div class=\"CategoriesContainer\">\n\t\t\t\t<div class=\"CategoryBox\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t\t\t\t<div (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\" class=\"CategoryBox-head\" [ngStyle]=\"{'background-image': 'url(' + mainCategory.image + ')'}\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">{{mainCategory.title}}</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li (click)=\"getAdvertisemets(1,{'categoryID':mainCategory.id,'subCategoryID':mainSubCategory.id})\" *ngFor=\"let mainSubCategory of mainCategory.subCategories\">\n\t\t\t\t\t\t\t\t{{mainSubCategory.title}}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<!--<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/tablets.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">متفرّقات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tإلكترونيات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tحباشات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tسماعات\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/realS.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">عقارات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tأجار\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tإستئجار\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمبيع و شراء\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"CategoryBox\">\n\t\t\t\t\t<div class=\"CategoryBox-head\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t<span class=\"CategoryBox-head-title\">مركبات</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"CategoryBox-body\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات سيدان\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات دفع رباعي\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات كهربائية\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\tمركبات هجينة\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<a href=\"\"> أضهر المزيد</a>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</div>-->\n\t\t\t</div>\n\t\t\t<div id=\"Menu\" class=\"MenuContainer MenuContainer--isFixed\" style=\"display: none\">\n\n\t\t\t\t<div class=\"ContentMenu\">\n\t\t\t\t\t<div class=\"u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill\">\n\t\t\t\t\t\t<i class=\"ContentMenu-item ContentMenu-item--iconDots\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t\t<ul class=\"DropMenu\">\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</i>\n\t\t\t\t\t\t<a (click)=\"hrefAddAdv()\" class=\"ContentMenu-item u-customBtn\">\n\t\t\t\t\t\t\t<!-- <i class=\"ContentMenu-item-iconPlus\"> </i> -->\n\t\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\">إضافة إعلان</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t\t<img src=\"assets/imgs/defult_img.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t</figure>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<i class=\"ContentMenu-item ContentMenu-item--iconBell\" *ngIf=\"isLogin\">\n\t\t\t\t\t            <span class=\"Badge Badge--center\" data-badge=\"2\"></span>\n\t\t\t\t\t            <ul class=\"NotificationMenu\">\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t            </i>\n\t\t\t\t\t\t<a class=\"ContentMenu-item\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t\t\t\t<a class=\"ContentMenu-item u-before10p\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t\t\t\t\t<img class=\"ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t\t\t<div class=\"FilterSearchBar\">\n\t\t\t\t\t\t\t<div class=\"FilterSearchBar-box\" (click)=\"getAdvertisemets(2,{'search':search})\"></div>\n\t\t\t\t\t\t\t<select name=\"city\" [(ngModel)]=\"search.city\" class=\"FilterSearchBar-location\">\n\t\t\t\t\t\t\t\t\t <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\n\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t<select name=\"category\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\" class=\"FilterSearchBar-category\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t<input class=\"FilterSearchBar-input\" [(ngModel)]=\"search.title\" id=\"\" placeholder=\"أنا أبحث عن\" type=\"text\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"u-flexAlignSelfStart u-hideOn700 u-afterAuto\">\n\t\t\t\t\t\t<img class=\"ContentMenu-item ContentMenu-item--logo\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<!--<div class=\"CategoryBar\">\n\t\t\t\t\t<div class=\"CategoryBar-item\" (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t\t\t\t\t{{mainCategory.title}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>-->\n\t\t\t</div>\n\t\t\t<div class=\"FullContainer\">\n\t\t\t\t<div class=\"FiltersPanelContianer\" [ngClass]=\"{'hidden':keyFilter.length == 0}\">\n\t\t\t\t\t<div class=\"FiltersPanel\">\n\t\t\t\t\t\t<div class=\"FiltersPanel-header\">\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-title\">\n\t\t\t\t\t\t\t\tحساب جديد\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-collapse\">\n\t\t\t\t\t\t\t\t--\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-header-close\">\n\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"FiltersPanel-body\">\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<input [(ngModel)]=\"search.title\" class=\"FiltersPanel-body-inputcontainer-text\" placeholder=\"أنا أبحث عن\" type=\"text\" value=\"\"\n\t\t\t\t\t\t\t\t name=\"name\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" [(ngModel)]=\"search.city\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" [(ngModel)]=\"search.category\" (change)=\"changeCategory($event.target.value)\">>\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> </label>\n\t\t\t\t\t\t\t\t<select class=\"FiltersPanel-body-select FiltersPanel-body-down\" (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategory\">\n\t\t\t\t\t\t\t\t\t<option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\" *ngFor=\"let oneKey of keyFilter\">\n\t\t\t\t\t\t\t\t<label for=\"name\">{{oneKey.key}} </label>\n\t\t\t\t\t\t\t\t<input *ngIf=\"oneKey.type == 'text' \" class=\"FiltersPanel-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t\t\t<input *ngIf=\"oneKey.type == 'number' \" class=\"FiltersPanel-body-inputcontainer-text\" type=\"number\" value=\"\" name=\"name\">\n\t\t\t\t\t\t\t\t<select *ngIf=\"oneKey.type == 'choose' \" class=\"FiltersPanel-body-select FiltersPanel-body-down\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let value of oneKey.values\" value=\"{{value}}\" >{{value}}</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> أقل سعر </label>\n\t\t\t\t\t\t\t\t<input class=\"FiltersPanel-body-inputcontainer-text\" [(ngModel)]=\"search.min\" min=\"0\" max=\"10000000000\" type=\"number\" value=\"\"\n\t\t\t\t\t\t\t\t name=\"name\">\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t<div class=\"FiltersPanel-body-inputcontainer\">\n\t\t\t\t\t\t\t\t<label for=\"name\"> أكبر سعر </label>\n\t\t\t\t\t\t\t\t<input class=\"FiltersPanel-body-inputcontainer-text\" [(ngModel)]=\"search.max\" min=\"0\" max=\"10000000000\" type=\"number\" value=\"\"\n\t\t\t\t\t\t\t\t name=\"name\">\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"FiltersPanel-footer\" (click)=\"getAdvertisemets(3,{'search':search})\">\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"ItemsContainer\" [ngClass]=\"{'ItemsContainer--filtespanelexpanded':keyFilter.length != 0}\">\n\t\t\t\t\t<div class=\"ItemBlock\" *ngFor=\"let advertisemet of advertisemets\" routerLink=\"{{'/detail/'+advertisemet.id}}\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\t{{advertisemet.category.title}}\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\t{{calculateDate(advertisemet.createdAt)}}\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\t{{advertisemet.title}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">{{advertisemet.price | number}}</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a routerLink=\"{{'/detail/'+advertisemet.id}}\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> {{advertisemet.viewsCount}} </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + advertisemet.images[0] + ')'}\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n\t\t\t\t\t</div>\n\t\t\t\t\t<!--<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمركبات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t24/12/2017\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tسيارة جبارة و نظيفة\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\"> 1,700,000 </span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\" style=\"display:none;\">\n\t\t\t\t\t\t\t\t\t<span> 5 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tاكسسوارات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t11/1/2015\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tساعة شغل أكابر\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">520,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear-1.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمركبات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t24/12/2017\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tسيارة جبارة و نظيفة\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\"> 1,700,000 </span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\" style=\"display:none;\">\n\t\t\t\t\t\t\t\t\t<span> 5 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/car-0.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tاكسسوارات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date\">\n\t\t\t\t\t\t\t\t\t11/1/2015\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tساعة شغل أكابر\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">520,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemBlock\">\n\t\t\t\t\t\t<div class=\"ItemSummary\">\n\t\t\t\t\t\t\t<div class=\"ItemSummary-head\">\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-title\">\n\t\t\t\t\t\t\t\t\tمتفرقات\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n\t\t\t\t\t\t\t\t\tمنذ ساعتين\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-desc\">\n\t\t\t\t\t\t\t\tدبدوب فرو ظريف و لطيف\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-price\">\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-num\">320,000</span>\n\t\t\t\t\t\t\t\t<span class=\"ItemSummary-price-text\">ل.س</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"ItemSummary-action\">\n\t\t\t\t\t\t\t\t<a href=\"adddetails.html\" class=\"ItemSummary-action-btn\">\n  \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n  \t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<div class=\"ItemSummary-action-views\">\n\t\t\t\t\t\t\t\t\t<span> 25 </span>\n\t\t\t\t\t\t\t\t\t<div style=\"width:10px;\"></div>\n\t\t\t\t\t\t\t\t\t<img src=\"assets/imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"ItemBlock-img\" style=\"background-image: url('assets/imgs/bear-1.jpg');\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>-->\n\n\t\t\t\t\t<div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loader==0}\">\n\t\t\t\t\t\t<img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noData==0}\">\n\t\t\t\t\t\t<img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\n\t\t</div>\n\n\t\t<div id=\"SignUpModal\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">\n\t\t\t\t<div class=\"SignUpModule\">\n\t\t\t\t\t<div class=\"SignUpModule-header\">\n\t\t\t\t\t\t<div class=\"SignUpModule-header-title\">\n\t\t\t\t\t\t\tحساب جديد\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-header-close\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignUpModule-body\">\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم الحقل</label>\n\t\t\t\t\t\t\t<input class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id\" value=\"value\">\n\t\t\t\t\t\t\t<label for=\"checkbox_id\">\n                  أوافق على\n                  <div class=\"u-textPrimaryColor\">شروط الاستخدام</div>\n  \n                <div class=\"u-textPrimaryColor\">اتفاقية الخصوصية</div>\n                </label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n\t\t\t\t\t\t\tإنشاء الحساب\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignUpModule-footer\">\n\t\t\t\t\t\tلديك حساب مسبقاً\n\t\t\t\t\t\t<div class=\"u-textPrimaryColor\">\n\t\t\t\t\t\t\tقم بتسجيل الدخول .\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<br />\n\t\t<br />\n\t\t<br />\n\t\t<div id=\"SignInModal\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">\n\t\t\t\t<div class=\"SignInModule\">\n\t\t\t\t\t<div class=\"SignInModule-header\">\n\t\t\t\t\t\t<div class=\"SignInModule-header-title\">\n\t\t\t\t\t\t\tتسجيل الدخول\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-header-close\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"SignInModule-body\">\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t\t\t\t\t<input class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t\t\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t\t\t\t\t<input class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\" value=\"value\">\n\t\t\t\t\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\t\t\t\t\tتسجيل الدخول\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t\t\t\t\t<div class=\"u-textPrimaryColor\"> هل نسيت كلمة السر ؟</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div style=\"display:none;text-align: center;\">\n\t<div style=\"font-family: 'OpenSans-Regular' \">\n\t\tOpenSans Regular <br/> اوبن سانس عادي 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'OpenSans-ExtraBold' \">\n\t\tOpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-light' \">\n\t\tSwessra-light<br/> سويسرا خفيف 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-medium' \">\n\t\tSwessra-medium<br/> سويسرا وسط 1234 ل.س\n\t</div><br/><br/>\n</div>\n\n<div class=\"CategoriesContainer\">\n\t<div class=\"CategoryBoxSub\" *ngFor=\"let mainCategory of mainCategories\">\n\t\t<div class=\"CategoryBoxSub-head\" [ngStyle]=\"{'background-image': 'url(' + mainCategory.image + ')'}\" (click)=\"getAdvertisemets(0,{'categoryID':mainCategory.id})\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">{{mainCategory.title}}</span>\n\t\t</div>\n\t</div>\n\t<!--<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/bear.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>\n\t<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/realS.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>\n\t<div class=\"CategoryBoxSub\">\n\t\t<div class=\"CategoryBoxSub-head\" style=\"background-image: url('assets/imgs/watch.jpg');\">\n\t\t\t<span class=\"CategoryBoxSub-head-title\">مركبات</span>\n\t\t</div>\n\t</div>-->\n</div>\n\n\n\n<div style=\"display:none;text-align: center;\">\n\t<div style=\"font-family: 'OpenSans-Regular' \">\n\t\tOpenSans Regular <br/> اوبن سانس عادي 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'OpenSans-ExtraBold' \">\n\t\tOpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-light' \">\n\t\tSwessra-light<br/> سويسرا خفيف 1234 ل.س\n\t</div><br/><br/>\n\t<div style=\"font-family: 'Swessra-medium' \">\n\t\tSwessra-medium<br/> سويسرا وسط 1234 ل.س\n\t</div><br/><br/>\n</div>"
 
 /***/ }),
 
@@ -1451,7 +1717,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".hidden {\n  display: none; }\n\n.search-results {\n  height: 100%; }\n\n.title {\n  position: fixed;\n  top: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  color: white;\n  width: 100%; }\n\n.title small {\n  color: #eaeaea; }\n", ""]);
+exports.push([module.i, ".hidden {\n  display: none; }\n\n.search-results {\n  height: 100%; }\n\n.title {\n  position: fixed;\n  top: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  color: white;\n  width: 100%; }\n\n.title small {\n  color: #eaeaea; }\n\n.emptyBloack {\n  background-color: #f5f7f8 !important;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: none; }\n\n@media screen and (max-width: 1250px) {\n  .emptyBloack {\n    display: none; } }\n", ""]);
 
 // exports
 
@@ -1466,13 +1732,14 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePageComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__forget_password_modal_forget_password_modal_component__ = __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__ = __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__sign_up_modal_sign_up_modal_component__ = __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1482,6 +1749,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1499,16 +1767,17 @@ var HomePageComponent = /** @class */ (function () {
         this.keyFilter = [];
         // forScrool
         this.array = [];
-        this.sum = 100;
         this.throttle = 100;
         this.scrollDistance = 2;
         this.scrollUpDistance = 2;
         this.direction = '';
         this.loader = false;
         this.isLogin = this.loginSer.isLogin();
+        this.noData = false;
     }
     HomePageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.search['max'] = 100000000;
         this.search['min'] = 0;
         this.APIServ.get("cities").subscribe(function (data) {
@@ -1540,12 +1809,10 @@ var HomePageComponent = /** @class */ (function () {
         if ($(window).scrollTop() > topOfOthDiv) {
             // this.viewNavBar=true;
             $(".MenuContainer").fadeIn('slow');
-            console.log("yes");
             // $("#dvid").show(); //reached the desired point -- show div
         }
         else {
             $(".MenuContainer").fadeOut('slow');
-            console.log("no");
             // this.viewNavBar=false;
         }
         //handle your scroll here
@@ -1582,6 +1849,12 @@ var HomePageComponent = /** @class */ (function () {
     HomePageComponent.prototype.getAdvertisemets = function (type, data, isScrol) {
         var _this = this;
         if (isScrol === void 0) { isScrol = false; }
+        if (isScrol && this.noData || this.loader == true) {
+            return;
+        }
+        else {
+            this.noData = false;
+        }
         this.loader = true;
         var query, skip, limit;
         this.lastType = type;
@@ -1609,7 +1882,6 @@ var HomePageComponent = /** @class */ (function () {
             this.search['subCategory'] = data.subCategoryID;
             query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip };
             this.keyFilter = this.mainCategories.find(function (x) { return x.id == data.categoryID; }).subCategories.find(function (y) { return y.id == data.subCategoryID; }).fields;
-            console.log(this.keyFilter);
         }
         else if (type == 2) {
             query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip };
@@ -1620,11 +1892,20 @@ var HomePageComponent = /** @class */ (function () {
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe(function (data) {
-            var test = [];
+            if (!isScrol) {
+                _this.advertisemets = [];
+            }
             // data = JSON.parse(data['_body']);
-            data.forEach(function (element) {
-                _this.advertisemets.push(element);
-            });
+            if (data.length == 0) {
+                _this.noData = true;
+            }
+            else {
+                if (data.length < limit && type != -1)
+                    _this.noData = true;
+                data.forEach(function (element) {
+                    _this.advertisemets.push(element);
+                });
+            }
             _this.loader = false;
         });
     };
@@ -1638,7 +1919,7 @@ var HomePageComponent = /** @class */ (function () {
     };
     HomePageComponent.prototype.openSignUpDialog = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
             if (result) {
@@ -1647,7 +1928,21 @@ var HomePageComponent = /** @class */ (function () {
         });
     };
     HomePageComponent.prototype.openSignInDialog = function () {
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        var _this = this;
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log('The dialog was closed');
+            if (result) {
+                _this.openForgetPassDialog();
+            }
+        });
+    };
+    HomePageComponent.prototype.openForgetPassDialog = function () {
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], {
+            // width: '35%',
+            // width: '50%',
+            panelClass: 'communictioDialogStyle',
+        });
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
         });
@@ -1664,13 +1959,20 @@ var HomePageComponent = /** @class */ (function () {
             this.openSignInDialog();
         }
     };
+    HomePageComponent.prototype.cheackOdd = function (number) {
+        if ($('.FiltersPanelContianer').is(':visible')) {
+            return true;
+        }
+        // console.log (this.keyFilter.length==0);
+        return number % 2 == 0;
+    };
     HomePageComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["n" /* Component */])({
             selector: 'home-page',
             template: __webpack_require__("../../../../../src/app/home-page/home-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/home-page/home-page.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_3__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_4__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */]])
     ], HomePageComponent);
     return HomePageComponent;
 }());
@@ -1682,7 +1984,7 @@ var HomePageComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/privacy-policy/privacy-policy.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n\t<div class=\"MainContainer\">\n\t\t<div class=\"HeaderBackground\">\n\t\t\t<header></header>\n\t\t\t<div class=\"Triangle\">\n\t\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n\t\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\t\tأكثر من\n\t\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"Content\">\n\t\t\t<div class=\"GridContainer\">\n\n\n\n\t\t\t</div>\n\n\n\n\t\t</div>\n\t\t<!--Below main container end-->\n\t</div>\n"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<div class=\"MainContainer\">\n\t<div class=\"HeaderBackground\">\n\t\t<header></header>\n\t\t<div class=\"Triangle\">\n\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\tأكثر من\n\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t</div>\n\t</div>\n\t<div class=\"Content\">\n\t\t<div class=\"GridContainer customPage\">\n\t\t\t<h1>سياسة الخصوصية</h1>\n\t\t\t<h3>سياسة الخصوصية</h3>\n\t\t\t<span>تُدرك إدارة موقع دلّال حرصك على المعلومات التي نجمعها عنك واهتمامك حيال كيفية استخدامنا لها، ولكي تكون على بينة وإدراك\n\t\t\t\tكامل، نضع بين يديك سياسة الخصوصية، ونحن بدورنا نقدر ثقتكم بنا والتي تضمن لكم التعامل مع معلوماتكم بعناية وثقة. من خلال\n\t\t\t\tزيارتك لموقع دلّال أنت تقبل الأمور الواردة في هذه البيان.\n\t\t\t</span>\n\t\t\t<h3>ما هي المعلومات التي يتم جمعها من قبل موقع دلّال عنك؟</h3>\n\t\t\t<span>المعلومات التي نجمعها من مستخدمي موقع دلّال تساعدنا على أن نقدم لهم خدمة أفضل مبنية على الطبيعة الشخصية للمستخدم للتحسين\n\t\t\t\tمن طريقة تصفحك كمستخدم لموقع دلّال. التالية هي أنواع المعلومات التي نجمعها: المعلومات التي نجمعها عنك من خلال تسجيلك\n\t\t\t\tفي الموقع وهي (البريد الإلكتروني، الاسم الأول، الاسم الثاني). من خلال تسجيلك ستحصل على حساب أو عضوية في الموقع وهي مكونة\n\t\t\t\tمن اسم مستخدم وكلمة سر تتيح لك استخدام الموقع المعلومات التي تقوم بتقديمها: نقوم بتخزين المعلومات المُدخلة على موقعنا\n\t\t\t\tبأكثر من وسيلة، مثلاً عند تسجيلك في الموقع أو عند إضافتك لمعلومات الإعلانات عند إضافة إعلان، يتم استخدام بريدك الإلكتروني\n\t\t\t\tالذي سجلت فيه كوسيلة ليسهل علينا الردّ على طلباتكم وإعلامكم بكل ما هو جديد في الموقع، وتذكر انه كلما زادت صحة المعلومات\n\t\t\t\tالمقدمة من قبلكم، زادت المزايا المقدمة للمستخدم. المعلومات الآلية: يمكننا الحصول على أنواع معينة من المعلومات الخاصة\n\t\t\t\tبك عند الدخول إلى موقع دلّال، وذلك باستخدام \"الكوكيز\" ليتم تخزين طريقة تصفحك للموقع، وهذه المعلومات تساعدنا بتقديم خدمة\n\t\t\t\tأفضل لك. الاتصالات بالبريد الإلكتروني: نحن نستقبل تأكيداً عن طريق تفعيل روابط التأكيد التي نرسلها لك بالبريد الإلكتروني\n\t\t\t\tفي معظم الإجراءات والاشتراكات التي تقوم بها والتي تتطلب تأكيدك. المعلومات الواردة من مصادر أخرى: يجوز لنا الحصول على\n\t\t\t\tمعلومات عنك من مصادر أخرى وإضافتها إلى معلومات حسابك لدينا، مثلاً كأن تقوم بالتسجيل في موقعنا عن طريق حسابك على الفيسبوك،\n\t\t\t\tبالتالي نستخدم بريدك المستخدم في الفيسبوك كبريد سجلت به لدى موقعنا. المعلومات المطلوبة من قسم خدمات الزبائن: قد تتواصل\n\t\t\t\tمع قسم خدمة الزبائن لطلب أو استفسار أو مشكلة أو اي نوع آخر من الطلبات أو قد يتواصل معك خدمة الزبائن لنفس الأغراض سابقة\n\t\t\t\tالذكر، وقد يترتب على هذا التواصل طلب معلومات معينة منك والتي تساهم في حل مشكلتك أو استفسارك مثال لا الحصر: نوع المتصفح،\n\t\t\t\tرقم هاتفك، مزود الإنترنت لديك وغيرها الكثير. وكل هذه المعلومات تستخدم لمساعدتك على حل المشكلة التي تواجهك.\n\n\t\t\t</span>\n\t\t\t<h3>ماذا عن الكوكيز؟\n\t\t\t</h3>\n\n\t\t\t<span>الكوكيز، والتي هي معروفة بالعالم الرقمي \"ملفات تعريف الارتباط\" لتشغيل القرص الصلب لجهاز الكمبيوتر من خلال متصفح الويب\n\t\t\t\tالخاص بك لتمكين انظمتنا من تخصيص المتصفح الخاص بك وتوفير ميزات مثل، الموقع المفضل، الدولة المفضلة ... وغيرها. عادة ما\n\t\t\t\tتقوم معظم المتصفحات بإخبارك عندما تتلقى كوكيز جديدة وترشدك إلى كيفية تعطيلها، ننصحك بعدم تعطيل الكوكيز الخاصة بموقع موقع\n\t\t\t\tدلّال فهي تساعدك في تحقيق الاستفادة الكاملة من مميزات الموقع لذا ننصح بتركها مفتوحة.\n\t\t\t</span>\n\n\t\t\t<h3>\n\t\t\t\tهل يتقاسم (يشارك) موقع دلّال المعلومات التي يتلقاها؟\n\t\t\t</h3>\n\t\t\t<span>المعلومات عن مستخدمي موقع دلّال هو جزء مهم من عملنا، ولن نسمح ببيع هذه المعلومات للآخرين. ولكن فقط يتم تبادل معلومات مستخدمي\n\t\t\t\tموقع دلّال فقط كما هو موضح أدناه: إضافة إعلان: عند إضافة إعلانك من خلال موقع دلّال فإنه يطلب منك أن تقدم لنا معلومات\n\t\t\t\tالاتصال الخاصة بك، ذلك لتسهيل عملية التواصل بين الطرفين (صاحب الإعلان، والمهتم به). وكلاء: نحن نستخدم شركات أخرى وأفراد\n\t\t\t\tلأداء بعض المهام نيابة عنا. مثل إرسال رسائل ترويجية في البريد الإلكتروني، وتحليل البيانات وتقديم المساعدة في مجال التسويق\n\t\t\t\tوغيرها من الخدمات، سواء في شكل دوري أو حسب ما يقتضي الطلب. عروض ترويجية: أحيانا نقوم بإرسال عروض لمجموعات مختارة من مستخدمي\n\t\t\t\tموقع دلّال حول آخر العروض التي نقدمها على الموقع. يتم نشر بيانات الحساب وغيرها من المعلومات الشخصية حسب شروط الاستخدام\n\t\t\t\tالمتفق عليها. وذلك حماية من أساليب الاحتيال والحد من مخاطر الائتمان. خلاف لما هو مبين أعلاه، سوف تتلقى تحذيرا عند مشاركة\n\t\t\t\tالبيانات مع طرف ثالث. إلغاء اشتراكك في النشرة البريدية: في أي وقت يمكنك الضغط على رابط \"إلغاء الاشتراك\" الموجود في أي\n\t\t\t\tبريد إلكتروني او نشرة بريدية مُرسلة من موقع دلّال.\n\t\t\t</span>\n\t\t\t<h3>\n\t\t\t\tضمان معلوماتك الخاصة\n\t\t\t</h3>\n\t\t\t<span>من المهم بالنسبة لك الحماية ضد الوصول غير المصرح به إلى كلمة السر الخاصة بك وإلى جهاز الكمبيوتر الخاص بك. ويجب أن تكون\n\t\t\t\tعلى يقين من أنك قمت بتسجيل الخروج بعد الانتهاء من استخدام أي جهاز كمبيوتر مشترك.\n\t\t\t</span>\n\t\t\t<h3>\n\t\t\t\tشروط الاستخدام:\n\t\t\t</h3>\n\t\t\t<span>إذا اخترت زيارة موقع دلّال فإن زيارتك وأي خلاف حول الخصوصية يخضع لسياسة الخصوصية ولأحكام وشروط الاستخدام اتفاقية المستخدم.\n\t\t\t\tإذا كان لديك أية مخاوف حول الخصوصية في موقع دلّال يرجى الاتصال بنا وسنحاول حلها. تابعوا موقعنا باستمرار لكل ما هو جديد\n\t\t\t\tحول التغييرات الطارئة على كل من سياسة الخصوصية وأحكام وشروط الاستخدام.\n\t\t\t</span>\n\t\t\t<h3>\n\n\t\t\t\tالتواصل مع الإدارة:\n\t\t\t</h3>\n\t\t\t<span>في أي وقت يمكنك التواصل مع إدارة موقع دلّال على البريد الرسمي للشركة <b>( Info@dlaaal.com ) </b>.\n\t\t\t\t<br>\n\t\t\t\tالاسم التجاري: <b>(شركة موقع دلّال\n\t\t\t\tللإعلانات المبوبة الإلكترونية)</b>.\n\t\t\t\t<br>\n\t\t\t\t يمكننا استقبال مكالمتك حول أي استفسارات من الساعة<b> (10 صباحاً) </b>الى الساعة <b>(7 مساءً)</b>. على\n\t\t\t\tهاتف رقم: <b>00971558112411</b>\n\t\t\t</span>\n\n\t\t</div>\n\n\t</div>\n\n</div>\n<!--Below main container end-->"
 
 /***/ }),
 
@@ -1720,6 +2022,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var PrivacyPolicyComponent = /** @class */ (function () {
     function PrivacyPolicyComponent() {
     }
+    PrivacyPolicyComponent.prototype.ngOnInit = function () {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    };
     PrivacyPolicyComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'privacy-policy',
@@ -1737,7 +2042,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\"  [ngClass]=\"{'hidden': uploadingImage}\"/>\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\"/>\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"/>\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab \" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1)}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        إعلاناتي\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer-loader\">\n                            <img src=\"../imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                        </div>\n                    </div>\n                     <!--<div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                        </div>\n                        <div class=\"ItemsContainer-loader\">\n                            <img src=\"../imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                        </div>\n                    </div>\n                     <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                        </div>\n                        <div class=\"ItemsContainer-loader\">\n                            <img src=\"../imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                        </div>\n                    </div>-->\n\n                </div>\n            </div>\n        </div>\n\n    </div>\n    <!--Below main container end-->\n</div>"
+module.exports = "<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n    [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\" [ngClass]=\"{'hidden': uploadingImage}\" />\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\" />\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                            />\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <!--[ngClass]=\"{'hidden':isPluse()}\"-->\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" *ngIf=\"isMyProfile\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                    <div  *ngIf=\"isPluse()\" (click)=\"follow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/plus.svg)'}\">\n\n                    </div>\n                    <div *ngIf=\"isMin()\" (click)=\"unFollow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/Minus.svg)'}\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab \" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        <!--إعلاناتي-->\n                        {{isMyProfile ? \"إعلاناتي\" : \"إعلانات\"}}\n\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(bookmarks.length)\">\n\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderBook==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noBook==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderAdd==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n        <!--Below main container end-->\n    </div>"
 
 /***/ }),
 
@@ -1749,7 +2054,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".hidden {\n  display: none; }\n\n.hoverDiv {\n  display: none;\n  height: 180px;\n  border-radius: 50%;\n  padding-top: 5.7em;\n  padding-bottom: 5.7em;\n  width: 180px;\n  background-color: rgba(128, 128, 128, 0.54902);\n  text-align: center;\n  position: absolute;\n  top: 0px; }\n\n.hoverDiv span {\n    text-align: center; }\n\n.myImage {\n  position: relative; }\n\n.myImage:hover .hoverDiv {\n  display: inline-block; }\n", ""]);
+exports.push([module.i, ".hidden {\n  display: none; }\n\n.hoverDiv {\n  display: none;\n  height: 180px;\n  border-radius: 50%;\n  padding-top: 5.7em;\n  padding-bottom: 5.7em;\n  width: 180px;\n  background-color: rgba(128, 128, 128, 0.54902);\n  text-align: center;\n  position: absolute;\n  top: 0px; }\n\n.hoverDiv span {\n    text-align: center; }\n\n.myImage {\n  position: relative; }\n\n.myImage:hover .hoverDiv {\n  display: inline-block; }\n\n.emptyBloack {\n  background-color: #f5f7f8 !important;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: none; }\n\n@media screen and (max-width: 1250px) {\n  .emptyBloack {\n    display: none; } }\n", ""]);
 
 // exports
 
@@ -1764,14 +2069,15 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_header_component__ = __webpack_require__("../../../../../src/app/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__change_password_change_password_component__ = __webpack_require__("../../../../../src/app/change-password/change-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__edit_profile_edit_profile_component__ = __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1789,33 +2095,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(dialog, APIServe, logInSer, globalServ, route) {
         this.dialog = dialog;
         this.APIServe = APIServe;
+        this.logInSer = logInSer;
         this.globalServ = globalServ;
         this.route = route;
         this.imageProfile = "assets/imgs/defult_img.jpg";
         this.uploadingImage = false;
         this.isMyProfile = false;
+        this.loaderBook = false;
+        this.loaderAdd = false;
+        this.noBook = false;
+        this.noAdd = false;
         this.bookmarks = [];
         this.advertisemets = [];
+        this.throttle = 100;
+        this.scrollDistance = 2;
+        this.scrollUpDistance = 2;
         var param;
         this.route.params.subscribe(function (data) { return param = data.userID; });
         if (param == "me") {
+            this.setTab(1);
             this.isMyProfile = true;
             this.userID = logInSer.getUserId();
         }
-        else
+        else {
+            if (param == logInSer.getUserId()) {
+                this.isMyProfile = true;
+            }
             this.userID = param;
-        this.setTab(1);
+            this.isMyProfile = false;
+            this.setTab(2);
+        }
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServe.get("users/" + this.userID + "/followers").subscribe(function (data) {
             _this.follwers = data;
         });
-        this.getData(true);
+        if (this.isMyProfile)
+            this.getData(true);
         if (this.isMyProfile)
             this.APIServe.get("users/me").subscribe(function (data) {
                 _this.userData = data;
@@ -1853,7 +2176,7 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.editProfile = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], {});
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
             if (result) {
@@ -1862,7 +2185,7 @@ var ProfileComponent = /** @class */ (function () {
         });
     };
     ProfileComponent.prototype.changePassword = function () {
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__change_password_change_password_component__["a" /* ChangePasswordComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_1__change_password_change_password_component__["a" /* ChangePasswordComponent */], {});
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
         });
@@ -1879,7 +2202,6 @@ var ProfileComponent = /** @class */ (function () {
     ProfileComponent.prototype.getData = function (isBookMark, isScrol) {
         var _this = this;
         if (isScrol === void 0) { isScrol = false; }
-        this.loader = true;
         var url, query, skip, limit;
         limit = 10;
         if (isScrol == true) {
@@ -1894,32 +2216,100 @@ var ProfileComponent = /** @class */ (function () {
         if (isBookMark) {
             url = "users/" + this.userID + "/bookmarks?filter=";
             query = { "order": "createdAt ASC", "limit": limit, "skip": skip };
+            if (this.noBook || this.loaderBook) {
+                return;
+            }
+            this.loaderBook = true;
         }
         else {
             url = "advertisemets/actived?filter=";
             query = { "where": { "ownerId": this.userID }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+            if (this.noAdd || this.loaderAdd) {
+                return;
+            }
+            this.loaderAdd = true;
         }
         this.APIServe.get(url + JSON.stringify(query)).subscribe(function (data) {
             if (isBookMark) {
+                if (data.length < limit) {
+                    _this.noBook = true;
+                }
                 data.forEach(function (element) {
                     _this.bookmarks.push(element);
                 });
+                _this.loaderBook = false;
             }
             else {
+                if (data.length < limit) {
+                    _this.noAdd = true;
+                }
                 data.forEach(function (element) {
                     _this.advertisemets.push(element);
                 });
+                _this.loaderAdd = false;
             }
-            _this.loader = false;
         });
     };
+    ProfileComponent.prototype.onScrollDown = function () {
+        if (this.tabNow == 1) {
+            this.getData(true, true);
+        }
+        else {
+            this.getData(false, true);
+        }
+    };
+    ProfileComponent.prototype.cheackOdd = function (number) {
+        return number % 2 == 0;
+    };
+    ProfileComponent.prototype.isPluse = function () {
+        if (!this.userData.isFollowed && !this.isMyProfile)
+            return true;
+        else
+            return false;
+    };
+    ProfileComponent.prototype.isMin = function () {
+        if (this.userData.isFollowed && !this.isMyProfile)
+            return true;
+        else
+            return false;
+    };
+    ProfileComponent.prototype.unFollow = function () {
+        var _this = this;
+        this.APIServe.delete("users/" + this.logInSer.getUserId() + "/following/rel/" + this.userID).subscribe(function (data) {
+            if (_this.APIServe.getErrorCode() == 0) {
+                _this.APIServe.get("users/" + _this.userID).subscribe(function (data) {
+                    _this.userData = data;
+                });
+                _this.globalServ.errorDialog("إلغاء متابعة", "تم إلغاء المتابعة بنجاح");
+            }
+        });
+    };
+    ProfileComponent.prototype.follow = function () {
+        var _this = this;
+        if (this.logInSer.isLogin())
+            this.APIServe.put("users/" + this.logInSer.getUserId() + "/following/rel/" + this.userID, { "ownerId": this.userID, "userId": this.logInSer.getUserId() }).subscribe(function (data) {
+                if (_this.APIServe.getErrorCode() == 0) {
+                    _this.APIServe.get("users/" + _this.userID).subscribe(function (data) {
+                        _this.userData = data;
+                    });
+                    _this.globalServ.errorDialog("القيام بمتابعة", "تمت المتابعة بنجاح");
+                }
+            });
+        else {
+            this.headerChild.openSignInDialog();
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_8__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_0__header_header_component__["a" /* HeaderComponent */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__header_header_component__["a" /* HeaderComponent */])
+    ], ProfileComponent.prototype, "headerChild", void 0);
     ProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_8__angular_core__["n" /* Component */])({
             selector: 'profile',
             template: __webpack_require__("../../../../../src/app/profile/profile.component.html"),
             styles: [__webpack_require__("../../../../../src/app/profile/profile.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_6__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_5__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_4__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_7__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_6__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_5__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* ActivatedRoute */]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -1931,7 +2321,7 @@ var ProfileComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/report-modal/report-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            القيام بالتبليغ\n        </div>\n        <div class=\"SignInModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">هل انت متاكد تريد القيام بتبليغ هذا الإعلان على أنه {{title}}</label>\n        </div>\n        <div (click)=\"ok()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            موافق\n        </div>\n        <div (click)=\"cansel()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            إلغاء\n        </div>\n\n\n    </div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            القيام بالتبليغ\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <div class=\"SignInModule-body-inputcontainer\">\n            <label for=\"name\">هل انت متاكد تريد القيام بتبليغ هذا الإعلان على أنه {{title}}</label>\n        </div>\n        <div (click)=\"ok()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            موافق\n        </div>\n        <div (click)=\"cansel()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n            إلغاء\n        </div>\n\n\n    </div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -2000,6 +2390,9 @@ var ReportModalComponent = /** @class */ (function () {
             _this.dialogRef.close(true);
         });
     };
+    ReportModalComponent.prototype.closeModal = function () {
+        this.dialogRef.close();
+    };
     ReportModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'report-modal',
@@ -2016,10 +2409,103 @@ var ReportModalComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/reset-password/reset-password.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n\n        <header></header>\n        <div class=\"Triangle\">\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n                <div class=\"Jumbotron-subtitle\">\n                    أكثر من\n                    <span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n                </div>\n            </div>\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\"style=\"padding: 5%;\">\n\n            <!--component html goes here -->\n            <!--component html goes here -->\n            <!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n            <div class=\"SignInModule\">\n                <div class=\"SignInModule-body\">\n                    <div class=\"SignInModule-body-inputcontainer\">\n                        <label for=\"name\">كلمة السر الجديدة</label>\n                        <input [(ngModel)]=\"user.newPassword\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\"\n                            name=\"name\">\n                    </div>\n                    <div (click)=\"resetPassword()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n                        إرسال لأغعادة تعيين كلمة السر\n                    </div>\n                </div>\n            </div>\n\n            <!--</div>\n\t\t</div>-->\n\n        </div>\n\n\n\n    </div>\n    <!--Below main container end-->\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/reset-password/reset-password.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".customPage {\n  padding: 20px 50px; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/reset-password/reset-password.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResetPasswordComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ResetPasswordComponent = /** @class */ (function () {
+    function ResetPasswordComponent(dialog, globalSer, APIServe, route) {
+        var _this = this;
+        this.dialog = dialog;
+        this.globalSer = globalSer;
+        this.APIServe = APIServe;
+        this.route = route;
+        this.user = {};
+        this.route.queryParams
+            .filter(function (params) { return params.access_token; })
+            .subscribe(function (params) {
+            _this.token = params.access_token;
+        });
+    }
+    ResetPasswordComponent.prototype.ngOnInit = function () {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    };
+    ResetPasswordComponent.prototype.resetPassword = function () {
+        var _this = this;
+        this.APIServe.resetPassWord("users/reset-password", this.user, this.token).subscribe(function (data) {
+            if (_this.APIServe.getErrorCode() == 0) {
+                _this.globalSer.goTo('/');
+            }
+            else if (_this.APIServe.getErrorCode() == 401) {
+                _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
+                _this.APIServe.setErrorCode(0);
+            }
+        });
+    };
+    ResetPasswordComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["n" /* Component */])({
+            selector: 'reset-password',
+            template: __webpack_require__("../../../../../src/app/reset-password/reset-password.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/reset-password/reset-password.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]])
+    ], ResetPasswordComponent);
+    return ResetPasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/sign-in-modal/sign-in-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t<input [(ngModel)]=\"user.password\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t<input type=\"checkbox\" style=\"float: right;\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\"\n\t\t\t value=\"value\">\n\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t</div>\n\t\t<div (click)=\"login()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t<div class=\"u-textPrimaryColor\"> هل نسيت كلمة السر ؟</div>\n\t\t</div>\n\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t<input [(ngModel)]=\"user.password\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t<input type=\"checkbox\" style=\"float: right;\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\"\n\t\t\t value=\"value\">\n\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t</div>\n\t\t<div (click)=\"login()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t<div class=\"u-textPrimaryColor\" (click)=\"forgetPassword()\"> هل نسيت كلمة السر ؟</div>\n\t\t</div>\n\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -2087,6 +2573,12 @@ var SignInModalComponent = /** @class */ (function () {
             }
         });
     };
+    SignInModalComponent.prototype.forgetPassword = function () {
+        this.thisDialog.close(true);
+    };
+    SignInModalComponent.prototype.closeModal = function () {
+        this.thisDialog.close();
+    };
     SignInModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'sign-in-modal',
@@ -2106,7 +2598,7 @@ var SignInModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sign-up-modal/sign-up-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الأسم</label>\n            <input [(ngModel)]=\"newUser.firstName\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الرقم</label>\n            <input [(ngModel)]=\"newUser.phone\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الايميل</label>\n            <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\"class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر</label>\n            <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\">\n            <input type=\"checkbox\" style=\"float: right\" [(ngModel)]=\"isAgree\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\"\n                id=\"checkbox_id\" value=\"value\">\n            <label for=\"checkbox_id\">\n                  أوافق على\n                  <div class=\"u-textPrimaryColor\">شروط الاستخدام</div>\n  \n                <div class=\"u-textPrimaryColor\">اتفاقية الخصوصية</div>\n                </label>\n        </div>\n        <button [disabled]=\"!isAgree\" (click)=\"signup()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            إنشاء الحساب\n        </button>\n    </div>\n    <div class=\"SignUpModule-footer\">\n        لديك حساب مسبقاً\n        <div class=\"u-textPrimaryColor\" (click)=\"login()\">\n            قم بتسجيل الدخول .\n        </div>\n    </div>\n\n</div>\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignUpModuleContainer\">-->\n\n<div class=\"SignUpModule\">\n    <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignUpModule-header-title\">\n            حساب جديد\n        </div>\n        <div class=\"SignUpModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignUpModule-body\">\n        <label for=\"name\" style=\"color: red\">{{message}}</label>\n\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الأسم</label>\n            <input [(ngModel)]=\"newUser.firstName\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الرقم</label>\n            <input [(ngModel)]=\"newUser.phone\"(focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">الايميل</label>\n            <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\"class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer\">\n            <label for=\"name\">كلمة السر</label>\n            <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\" value=\"\" name=\"name\">\n        </div>\n        <div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\">\n            <input type=\"checkbox\" style=\"float: right\" [(ngModel)]=\"isAgree\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\"\n                id=\"checkbox_id\" value=\"value\">\n            <label for=\"checkbox_id\">\n                  أوافق على\n                  <div class=\"u-textPrimaryColor\">شروط الاستخدام</div>\n  \n                <div class=\"u-textPrimaryColor\">اتفاقية الخصوصية</div>\n                </label>\n        </div>\n        <button [disabled]=\"!isAgree\" (click)=\"signup()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\n            إنشاء الحساب\n        </button>\n    </div>\n    <div class=\"SignUpModule-footer\">\n        لديك حساب مسبقاً\n        <div class=\"u-textPrimaryColor\" (click)=\"login()\">\n            قم بتسجيل الدخول .\n        </div>\n    </div>\n\n</div>\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -2196,6 +2688,9 @@ var SignUpModalComponent = /** @class */ (function () {
     SignUpModalComponent.prototype.login = function () {
         this.thisDialog.close(true);
     };
+    SignUpModalComponent.prototype.closeModal = function () {
+        this.thisDialog.close();
+    };
     SignUpModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'sign-up-modal',
@@ -2215,7 +2710,7 @@ var SignUpModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/terms/terms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n\t<div class=\"MainContainer\">\n\t\t<div class=\"HeaderBackground\">\n\t\t\t<header></header>\n\t\t\t<div class=\"Triangle\">\n\t\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n\t\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\t\tأكثر من\n\t\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"Content\">\n\t\t\t<div class=\"GridContainer\">\n\n\n\n\t\t\t</div>\n\n\n\n\t\t</div>\n\t\t<!--Below main container end-->\n\t</div>\n"
+module.exports = "<!-- \n<div class=\"MainContainer\">\n\t<div class=\"HeaderBackground\">\n\t\t<header></header>\n\t\t<div class=\"Triangle\">\n\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\tأكثر من\n\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t</div>\n\t</div>\n\t<div class=\"Content\">\n\t\t<div class=\"GridContainer customPage\">\n\n\t\t\t<h1>شروط الاستخدام</h1>\n\t\t\t<h3>شروط الاستخدام</h3>\n\t\t\t<span>\nمرحبا بكم في موقع دلّال للإعلانات المبوبة. توضح هذه الصفحة شروط الاستخدام التي يتيح لك موقع دلّال بموجبها الدخول إلى الموقع واستخدامه، سواء بصفة زائر أو مستخدم مسجل. لذلك نرجو قراءة شروط الاستخدام هذه بعناية قبل أن تبدأ باستخدام الموقع.\n\nوبمجرد دخولك إلى الموقع واستخدامك إياه، تكون قد قبلت بشروط الاستخدام هذه ووافقت على الالتزام بها.\n\nوإذا لم توافق على هذه الشروط، فلا يسمح لك باستخدام الموقع.\n\n</span>\n\n\t\t\t<h3>\n\t\t\t\tمحتوى الاعلان\n\n\t\t\t</h3>\n\t\t\t<span>\nالمحتوى الموجود على موقع دلّال نابع من المستخدمين والأعضاء المسجلين في الموقع، وبالتالي لا يتحمل موقع دلّال اي مسؤولية عن المحتوى المُضاف ويتحمل المستخدمين كافة المسؤولية. يقوم موقع دلّال بدور رقابي على الإعلانات والمحتوى المُضاف من قبل المستخدمين بطريقتين، قبل الإضافة (ولا تشمل جميع الإعلانات) حيث ان بعض الإعلانات لا تظهر على الموقع إلا بموافقة إدارة الموقع، والنوع الثاني، بعد الإضافة، حيث تظهر الإعلانات على الموقع ومن ثم يتم مراقبتها وتصحيحيها إن لزم الأمر.\nولذلك، لا يسمح للعضو بنشر إعلانات بمحتوى مُخالف لسياسة المحتوى لشركة دلّال سواء على الموقع الإلكتروني الخاص بالشركة أو على الصفحات الإجتماعية. مع العلم أن مثل هذه الإعلانات سوف يتم حذفها مباشرة من قبل مسؤولي الموقع. وكمثال عليها لا للحصر:\n \n<ul>\n\t<li>\nالإعلانات المكررة، حيث لا يسمح بتكرار الإعلان أكثر من مرة واحدة، بدلاً عن ذلك يمكن إعادة نشرها. والعضويات المكررة حيث لا يجوز أن يمتلك العضو أكثر من عضوية واحدة، وسيتم حذف العضويات الجديدة والابقاء على الأقدم، حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات النصب والاحتيال مثل: (إعلانات وهمية للسيارات والهواتف الخلوية والقروض والتي هدفها النصب على مستخدمين الموقع) حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات جمع السير الذاتية حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات شركات التوظيف والتي تهدف الى جمع السير الذاتية وبيعها، حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nالإعلانات التي ثبت بأن المعلن عنها قام بمخالفة وتم التبليغ عنها من قبل مستخدمين آخرين من الموقع أو ثبت أنها بخصوص إزعاج مستخدمين أخرين. حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\nالإعلانات التي تحتوي على (بيع أو تأجير أو تداول أو الإعلان أو الترويج) للمواد الممنوعة على موقع دلّال مثل: (بيع الأعضاء البشرية، الأسلحة، الآثار، الحشيش والمخدرات وما شابهها، والممنوعات بكافة انواعها، وذلك يحدد حسب قانون الجمهورية العربية السورية) بالإضافة الى الذم والقدح والتشهير والشتائم والكلمات المخلّة للآداب والعرف العام.\n\n\t</li>\n <li>\nإعلانات أعمال التخريب مثل: (الإيذاء والقاتل المأجور والحرق والقتل والاغتصاب والتكسير والضرب وعصابات العنف) وما شابه ذلك.\n </li>\n <li>\nإعلانات السحر والشعوذة (سواء الخدمات أو بيع أشياء ذات علاقة بها مثل: الخواتم والتعويذات).\n </li>\n <li>\nإعلانات العلاج بالقرآن، مثل: (علاج بالرقية الشريعة لعلاج الحسد والسحر والمس).     \n </li>\n <li>\nالإعلانات الترويجية خصوصاً إذا كانت لمواقع أو قنوات تلفزيونية أو دعاية لشركة دون وجود منتج فعلي في الإعلان. وهدفها الترويج لمواقع أو منتديات أو التجارة الإلكترونية، والإعلانات العادية التي تحتوي على روابط خارجية بقصد الترويج.\n </li>\n <li>\nإعلانات التسويق الشبكي كإعلانات الربح عن طريق الإنترنت مثل: (الربح عن طريق الكليك أو النقرات أو تجارة الفوركس)\n </li>\n <li>\nإعلانات الزواج والتعارف أو الخطابة غير مسموح بنشرها، حيث أن هدفها ليس تجاري مطلقاً. \n </li>\n <li>\nإعلانات خدمات شطب السيارات القديمة والغير صالحة او منتهية التسجيل وإعلانات سيارات او دراجات لا توجد لها تسجيل ساري الصلاحية مثل (سيارات غير مرخصة أو درجات غير مرخصة للبيع). وهي غير مسموحة ويعاقب قانون الجمهورية العربية السورية على حيازتها أو الإتجار بها. \n </li>\n <li>\nالإعلانات غير الواضحة وليس لها صلة بالهدف الذي من أجله أنشئ موقع دلّال، وعلى سبيل المثال لا الحصر الإعلانات التالية: (طلب مساعدات مالية، التبليغ عن شخص أو إعلانات التشهير) وهدفها أن تُشهر بالأفراد والشركات.    \n </li>\n <li>\nإعلانات الأجهزة الكهربائية الممنوعة مثل: (أجهزة كشف الذهب، أجهزة التنصت، قلم تصوير، كاميرا صغيرة، صاعق كهربائي، أجهزة فك التشفير، أجهزة كشف الرادار أو اللاسلكي) وما شابه ذلك من الأجهزة، وكذلك إعلانات (الأدوات أو الأدوية الجنسية) وهي غير مسموحة ويعاقب قانون الجمهورية العربية السورية ا على حيازتها أو الإتجار بها.\n </li>\n <li>\nإعلانات بيع العملات الأثرية أو اي نوع من الآثار القديمة حيث يعاقب قانون الجمهورية العربية السورية على حيازتها او التجارة بها.\n </li>\n <li>\nإعلانات مطلوب مساعدة مالية، قروض وغيرها والتي تطلب إرسال مبالغ مالية مسبقاً.\n </li>\n <li>\nإعلانات بيع الحيوانات الخطيرة مثل: (الأفاعي، النمور، الأسود).\n  </li>\n <li>          \nإعلانات بيع الدخان أو التبغ أو السيجارأو الغليون أو الأرجيلة وما شابه ذلك، وأي إعلان يروّج عنها مثل: إعلانات ضمان وبيع وإيجار محلات بيع الدخان والمقاهي. \n </li>\n <li>\nإعلانات تأشيرات للبيع أو للتنازل أو مطلوب مثل؛ (الحصول على فيزا إلى دولة معينة).                   \n </li>\n <li>\nإعلانات بيع ريسيفرات ومحطات مدفوعة وغيرها عبر أقمار أخرى والتي لا يكون المعلن عيها وكيلاً رسمياً للخدمة. \n </li>\n <li>\nإعلانات بيع فيش الألعاب مثل: فيش لعبة 8 pool ball coins, poker للبيع والتي تهدف إلى المقامرة. \n </li>\n <li>\nإعلانات مطلوب سلع او خدمات للشراء مثل: (مطلوب سيارات أو أراضي أو خدمات أو مشاريع أو شركاء لمشاريع) بالإضاقة الى اعلانات مطلوب من غير تفاصيل كاملة حول المطلوب.\n </li>\n <li>\nإعلانات بيع الملابس والفساتين الني لا تحتوي على صور، والتي تحتوي على صور غير لائقة وتخل بالآداب العامة. \n </li>\n <li>\nالإعلانات العادية، ولكن جزء من مواصفات الإعلان موجود على رابط فيسبوك أو رابط خارجي يتم نقل أو تنزيل ثم تحميل جزء مواصفات الإعلان من صفحة الفيسبوك أو الرابط الخارجي إلى داخل الإعلان ويتم حذف الرابط.\n </li>\n <li>\nالإعلانات الدولية عن سلع أو منتجات موجودة خارج البلاد العربية المنتشر بها موقع دلّال، أو نشر إعلانات خارج نطاق الدولة المعلن بها في موقع دلّال. \n \n</li>\n <li>\nأما بالنسبة لاسم المستخدم، احرص على انتقاء اسم ذو معنى، لائق من الناحية الأخلاقية والعرف العام والثقافة العربية، ولا يرتبط بشركة او فئة معينة ولا التشبيه باسم يرتبط ب ”موقع دلّال” أو “Dlaaal\"، مثل: (إدارة موقع دلّال، كونترول موقع دلّال...) ويحبذ استخدام اسمك الشخصي عوضاً عنه وتجنّب استخدام الكلمات المسيئة.\n</li>\n\n</ul> \n</span>\n\n\t\t\t<h3>\n\t\t\t\tنصائح التعامل الآمن\n\t\t\t</h3>\n\t\t\t<span>\nنصائح لتتعرف على الإعلانات المشكوك فيها:\n</span>\n\n\t\t\t<li><h4>\n\t\t\t\tلا ترسل أي مبالغ مالية\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يطلب المعلنون المشكوك بأمرهم تحويل مبالغ مالية (أو جزء من المبلغ المالي) إلكترونياً او عن طريق مكاتب التحويل.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tصيغة الإعلان ووجود الأخطاء اللغوية والإملائية\n\t\t\t</h4></li>\n\t\t\t<span>\nوذلك بسبب أن المعلنين المشكوك بأمرهم عادة ما يكونون من جنسيات غير عربية، فيلجئون إلى ترجمة الإعلانات إلى العربية. فيبدو الإعلان غريباً. \n</span>\n\t\t\t<li><h4>\n\t\t\t\tصور المنتج\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يستخدم المحتالين صور من الإنترنت، لانه يستسهل الأمر، ولا يوجد لديه منتج فعلي.\n</span>\n\n\t\t\t<li><h4>\n\t\t\t\tإعلان بعرض مغري غير منطقي\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يقوم المعلنون المشكوك بأمرهم انّ يضعوا اعلان مغري يكاد لا يصدق. مثال منتج بحالة رائعة ولدواعى السفر بنصف الثمن، لذا عليك ان تتوخى الحذر عند التعامل مع مثل هؤلاء المعلنين.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tتأكد من سعر المنتج\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يضع المعلنون المشكوك بأمرهم أسعار غير منطقية لجذب المشترين والإحتيال عليهم، تأكد من متوسط سعر المنتج الذي ترغب في شراءه.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tالشروع في إتمام الصفقة:\n\t\t\t</h4></li>\n\t\t\t<span>\nتفحص المُراد شراءه بشكل جيد للتأكد من سلامته، كما ننصحك بالتأكد من الأوراق الثبوتية (في حال تطلب الأمر)\n</span>\n\n\t\t\t<h3>\n\t\t\t\tالخصوصية\n\t\t\t</h3>\n\t\t\t<span>\nيرجى مراجعة سياسة الخصوصية والتي تحكم أيضا زيارتك لموقع دلّال لفهم أكثر لممارساتنا.\n</span>\n\t\t\t<h3>\n\t\t\t\tحقوق الطبع والنشر للمحتوى\n\t\t\t</h3>\n\t\t\t<span>\nجميع المحتويات الواردة في هذا الموقع، مثل النصوص والرسومات والشعارات، والأيقونات، والصور والصوت، والتنزيلات الرقمية، وتجميع البيانات، هو ملك لموقع دلّال وهي مضمونه ومحمية. جميع محتويات هذا الموقع هي ملكية حصرية لموقع دلّال. فلا يحق لك نسخ أو تعديل أي شيء عالموقع من حيث المحتوى. كما لا يحق لك الدخول إلى قاعدة البيانات الخاصة او استخدام اي برمجية تخترق صفحات موقع دلّال.\n</span>\n\t\t\t<h3>\n\t\t\t\tنفي الضمان وعدم تحمل المسؤولية\n\t\t\t</h3>\n\t\t\t<span>\n\t\t\tإنك تقر وتوافق على أن استخدام الموقع الالكتروني والخدمات هو تماماً على مسؤوليتك الخاصة ، وأن الموقع و الخدمة هي مقدمة على\n\t\t\tأساس \"كما هي\" أو \" كما هي متاحة\" دون أي ضمانات من أي نوع. موقع دلّال لا يتحمل أية ضمانات أو إقرارات حول دقة أو اكتمال\n\t\t\tمحتوى الموقع أو محتوى أي مواقع طرف ثالث له علاقة بالموقع و لا تتحمل أية مسؤولية أو مسائلة لأي أخطاء ، أو الإصابة الشخصية\n\t\t\tأو أضرار في الممتلكات من أي نوع، الناتجة عن الوصول إليك واستخدام الموقع و الخدمة، أي دخول غير مصرح إليك أو استخدام خدمتنا\n\t\t\tو / أو أي جميع المعلومات الشخصية و / أو المعلومات المالية المخزنة، الفيروسات، أو ما شابه ذلك والتي قد تكون مرسلة إليك\n\t\t\tأو عبر الموقع الإلكتروني من قبل أي طرف ثالث، و / ​​أو أي أخطاء أو حذف في أي محتوى أو عن أي خسارة أو ضرر من أي نوع يتم\n\t\t\tتكبده كنتيجة لاستعمال أي محتوى تم نشره بالبريد الإلكتروني ، لنقلها أو إتاحتها عبر الموقع الإلكتروني أو الخدمة. موقع دلّال\n\t\t\tلا يتحمل المسؤولية عن أي منتج أو الخدمة المعلن عنها أو التي يقدمها طرف ثالث عن طريق الموقع او اي موقع بارتباط تشعبي أو\n\t\t\tواردة في أي شعار أو دعاية أخرى.\n\t\t\t</span>\n\t\t\t<h3>\n\t\t\t\tاتصل بنا\n\t\t\t</h3>\n\t\t\t<span>\nإن كان لديك أي استفسار حول شروط الإستخدام، الرجاء الاتصال بنا عن طريق البريد الإكتروني: <b>info@dlaaal.com</b>  بعنوان \"شروط الاستخدام\".\n\t</span>\n\n\n\t\t</div>\n\n\n\n\t</div>\n</div>-->\n\n<!--component html goes here -->\n<div class=\"MainContainer\">\n\t<div class=\"HeaderBackground\">\n\t\t<header></header>\n\t\t<div class=\"Triangle\">\n\t\t\t<div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n\t\t\t\t<div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n\t\t\t\t<div class=\"Jumbotron-subtitle\">\n\t\t\t\t\tأكثر من\n\t\t\t\t\t<span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"Triangle--spacer\"></div>\n\t\t</div>\n\t</div>\n\t<div class=\"Content\">\n\t\t<div class=\"GridContainer customPage\">\n\n\t\t\t<h1>شروط الاستخدام</h1>\n\t\t\t<h3>شروط الاستخدام</h3>\n\t\t\t<span>\nمرحبا بكم في موقع دلّال للإعلانات المبوبة. توضح هذه الصفحة شروط الاستخدام التي يتيح لك موقع دلّال بموجبها الدخول إلى الموقع واستخدامه، سواء بصفة زائر أو مستخدم مسجل. لذلك نرجو قراءة شروط الاستخدام هذه بعناية قبل أن تبدأ باستخدام الموقع.\n\nوبمجرد دخولك إلى الموقع واستخدامك إياه، تكون قد قبلت بشروط الاستخدام هذه ووافقت على الالتزام بها.\n\nوإذا لم توافق على هذه الشروط، فلا يسمح لك باستخدام الموقع.\n\n</span>\n\n\t\t\t<h3>\n\t\t\t\tمحتوى الاعلان\n\n\t\t\t</h3>\n\t\t\t<span>\nالمحتوى الموجود على موقع دلّال نابع من المستخدمين والأعضاء المسجلين في الموقع، وبالتالي لا يتحمل موقع دلّال اي مسؤولية عن المحتوى المُضاف ويتحمل المستخدمين كافة المسؤولية. يقوم موقع دلّال بدور رقابي على الإعلانات والمحتوى المُضاف من قبل المستخدمين بطريقتين، قبل الإضافة (ولا تشمل جميع الإعلانات) حيث ان بعض الإعلانات لا تظهر على الموقع إلا بموافقة إدارة الموقع، والنوع الثاني، بعد الإضافة، حيث تظهر الإعلانات على الموقع ومن ثم يتم مراقبتها وتصحيحيها إن لزم الأمر.\nولذلك، لا يسمح للعضو بنشر إعلانات بمحتوى مُخالف لسياسة المحتوى لشركة دلّال سواء على الموقع الإلكتروني الخاص بالشركة أو على الصفحات الإجتماعية. مع العلم أن مثل هذه الإعلانات سوف يتم حذفها مباشرة من قبل مسؤولي الموقع. وكمثال عليها لا للحصر:\n \n<ul>\n\t<li>\nالإعلانات المكررة، حيث لا يسمح بتكرار الإعلان أكثر من مرة واحدة، بدلاً عن ذلك يمكن إعادة نشرها. والعضويات المكررة حيث لا يجوز أن يمتلك العضو أكثر من عضوية واحدة، وسيتم حذف العضويات الجديدة والابقاء على الأقدم، حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات النصب والاحتيال مثل: (إعلانات وهمية للسيارات والهواتف الخلوية والقروض والتي هدفها النصب على مستخدمين الموقع) حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات جمع السير الذاتية حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nإعلانات شركات التوظيف والتي تهدف الى جمع السير الذاتية وبيعها، حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\n\t</li>\n\t<li>\nالإعلانات التي ثبت بأن المعلن عنها قام بمخالفة وتم التبليغ عنها من قبل مستخدمين آخرين من الموقع أو ثبت أنها بخصوص إزعاج مستخدمين أخرين. حيث يتم التأكيد عليها من قبل فريق مراقبة المحتوى ومن ثم تعطيلها.\nالإعلانات التي تحتوي على (بيع أو تأجير أو تداول أو الإعلان أو الترويج) للمواد الممنوعة على موقع دلّال مثل: (بيع الأعضاء البشرية، الأسلحة، الآثار، الحشيش والمخدرات وما شابهها، والممنوعات بكافة انواعها، وذلك يحدد حسب قانون الجمهورية العربية السورية) بالإضافة الى الذم والقدح والتشهير والشتائم والكلمات المخلّة للآداب والعرف العام.\n\n\t</li>\n <li>\nإعلانات أعمال التخريب مثل: (الإيذاء والقاتل المأجور والحرق والقتل والاغتصاب والتكسير والضرب وعصابات العنف) وما شابه ذلك.\n </li>\n <li>\nإعلانات السحر والشعوذة (سواء الخدمات أو بيع أشياء ذات علاقة بها مثل: الخواتم والتعويذات).\n </li>\n <li>\nإعلانات العلاج بالقرآن، مثل: (علاج بالرقية الشريعة لعلاج الحسد والسحر والمس).     \n </li>\n <li>\nالإعلانات الترويجية خصوصاً إذا كانت لمواقع أو قنوات تلفزيونية أو دعاية لشركة دون وجود منتج فعلي في الإعلان. وهدفها الترويج لمواقع أو منتديات أو التجارة الإلكترونية، والإعلانات العادية التي تحتوي على روابط خارجية بقصد الترويج.\n </li>\n <li>\nإعلانات التسويق الشبكي كإعلانات الربح عن طريق الإنترنت مثل: (الربح عن طريق الكليك أو النقرات أو تجارة الفوركس)\n </li>\n <li>\nإعلانات الزواج والتعارف أو الخطابة غير مسموح بنشرها، حيث أن هدفها ليس تجاري مطلقاً. \n </li>\n <li>\nإعلانات خدمات شطب السيارات القديمة والغير صالحة او منتهية التسجيل وإعلانات سيارات او دراجات لا توجد لها تسجيل ساري الصلاحية مثل (سيارات غير مرخصة أو درجات غير مرخصة للبيع). وهي غير مسموحة ويعاقب قانون الجمهورية العربية السورية على حيازتها أو الإتجار بها. \n </li>\n <li>\nالإعلانات غير الواضحة وليس لها صلة بالهدف الذي من أجله أنشئ موقع دلّال، وعلى سبيل المثال لا الحصر الإعلانات التالية: (طلب مساعدات مالية، التبليغ عن شخص أو إعلانات التشهير) وهدفها أن تُشهر بالأفراد والشركات.    \n </li>\n <li>\nإعلانات الأجهزة الكهربائية الممنوعة مثل: (أجهزة كشف الذهب، أجهزة التنصت، قلم تصوير، كاميرا صغيرة، صاعق كهربائي، أجهزة فك التشفير، أجهزة كشف الرادار أو اللاسلكي) وما شابه ذلك من الأجهزة، وكذلك إعلانات (الأدوات أو الأدوية الجنسية) وهي غير مسموحة ويعاقب قانون الجمهورية العربية السورية ا على حيازتها أو الإتجار بها.\n </li>\n <li>\nإعلانات بيع العملات الأثرية أو اي نوع من الآثار القديمة حيث يعاقب قانون الجمهورية العربية السورية على حيازتها او التجارة بها.\n </li>\n <li>\nإعلانات مطلوب مساعدة مالية، قروض وغيرها والتي تطلب إرسال مبالغ مالية مسبقاً.\n </li>\n <li>\nإعلانات بيع الحيوانات الخطيرة مثل: (الأفاعي، النمور، الأسود).\n  </li>\n <li>          \nإعلانات بيع الدخان أو التبغ أو السيجارأو الغليون أو الأرجيلة وما شابه ذلك، وأي إعلان يروّج عنها مثل: إعلانات ضمان وبيع وإيجار محلات بيع الدخان والمقاهي. \n </li>\n <li>\nإعلانات تأشيرات للبيع أو للتنازل أو مطلوب مثل؛ (الحصول على فيزا إلى دولة معينة).                   \n </li>\n <li>\nإعلانات بيع ريسيفرات ومحطات مدفوعة وغيرها عبر أقمار أخرى والتي لا يكون المعلن عيها وكيلاً رسمياً للخدمة. \n </li>\n <li>\nإعلانات بيع فيش الألعاب مثل: فيش لعبة 8 pool ball coins, poker للبيع والتي تهدف إلى المقامرة. \n </li>\n <li>\nإعلانات مطلوب سلع او خدمات للشراء مثل: (مطلوب سيارات أو أراضي أو خدمات أو مشاريع أو شركاء لمشاريع) بالإضاقة الى اعلانات مطلوب من غير تفاصيل كاملة حول المطلوب.\n </li>\n <li>\nإعلانات بيع الملابس والفساتين الني لا تحتوي على صور، والتي تحتوي على صور غير لائقة وتخل بالآداب العامة. \n </li>\n <li>\nالإعلانات العادية، ولكن جزء من مواصفات الإعلان موجود على رابط فيسبوك أو رابط خارجي يتم نقل أو تنزيل ثم تحميل جزء مواصفات الإعلان من صفحة الفيسبوك أو الرابط الخارجي إلى داخل الإعلان ويتم حذف الرابط.\n </li>\n <li>\nالإعلانات الدولية عن سلع أو منتجات موجودة خارج البلاد العربية المنتشر بها موقع دلّال، أو نشر إعلانات خارج نطاق الدولة المعلن بها في موقع دلّال. \n \n</li>\n <li>\nأما بالنسبة لاسم المستخدم، احرص على انتقاء اسم ذو معنى، لائق من الناحية الأخلاقية والعرف العام والثقافة العربية، ولا يرتبط بشركة او فئة معينة ولا التشبيه باسم يرتبط ب ”موقع دلّال” أو “Dlaaal\"، مثل: (إدارة موقع دلّال، كونترول موقع دلّال...) ويحبذ استخدام اسمك الشخصي عوضاً عنه وتجنّب استخدام الكلمات المسيئة.\n</li>\n\n</ul> \n</span>\n\n\t\t\t<h3>\n\t\t\t\tنصائح التعامل الآمن\n\t\t\t</h3>\n\t\t\t<span>\nنصائح لتتعرف على الإعلانات المشكوك فيها:\n</span>\n<ul>\n\t\t\t<li><h4>\n\t\t\t\tلا ترسل أي مبالغ مالية\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يطلب المعلنون المشكوك بأمرهم تحويل مبالغ مالية (أو جزء من المبلغ المالي) إلكترونياً او عن طريق مكاتب التحويل.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tصيغة الإعلان ووجود الأخطاء اللغوية والإملائية\n\t\t\t</h4></li>\n\t\t\t<span>\nوذلك بسبب أن المعلنين المشكوك بأمرهم عادة ما يكونون من جنسيات غير عربية، فيلجئون إلى ترجمة الإعلانات إلى العربية. فيبدو الإعلان غريباً. \n</span>\n\t\t\t<li><h4>\n\t\t\t\tصور المنتج\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يستخدم المحتالين صور من الإنترنت، لانه يستسهل الأمر، ولا يوجد لديه منتج فعلي.\n</span>\n\n\t\t\t<li><h4>\n\t\t\t\tإعلان بعرض مغري غير منطقي\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يقوم المعلنون المشكوك بأمرهم انّ يضعوا اعلان مغري يكاد لا يصدق. مثال منتج بحالة رائعة ولدواعى السفر بنصف الثمن، لذا عليك ان تتوخى الحذر عند التعامل مع مثل هؤلاء المعلنين.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tتأكد من سعر المنتج\n\t\t\t</h4></li>\n\t\t\t<span>\nعادة ما يضع المعلنون المشكوك بأمرهم أسعار غير منطقية لجذب المشترين والإحتيال عليهم، تأكد من متوسط سعر المنتج الذي ترغب في شراءه.\n</span>\n\t\t\t<li><h4>\n\t\t\t\tالشروع في إتمام الصفقة:\n\t\t\t</h4></li>\n\t\t\t<span>\nتفحص المُراد شراءه بشكل جيد للتأكد من سلامته، كما ننصحك بالتأكد من الأوراق الثبوتية (في حال تطلب الأمر)\n</span>\n\n</ul>\n\t\t\t<h3>\n\t\t\t\tالخصوصية\n\t\t\t</h3>\n\t\t\t<span>\nيرجى مراجعة سياسة الخصوصية والتي تحكم أيضا زيارتك لموقع دلّال لفهم أكثر لممارساتنا.\n</span>\n\t\t\t<h3>\n\t\t\t\tحقوق الطبع والنشر للمحتوى\n\t\t\t</h3>\n\t\t\t<span>\nجميع المحتويات الواردة في هذا الموقع، مثل النصوص والرسومات والشعارات، والأيقونات، والصور والصوت، والتنزيلات الرقمية، وتجميع البيانات، هو ملك لموقع دلّال وهي مضمونه ومحمية. جميع محتويات هذا الموقع هي ملكية حصرية لموقع دلّال. فلا يحق لك نسخ أو تعديل أي شيء عالموقع من حيث المحتوى. كما لا يحق لك الدخول إلى قاعدة البيانات الخاصة او استخدام اي برمجية تخترق صفحات موقع دلّال.\n</span>\n\t\t\t<h3>\n\t\t\t\tنفي الضمان وعدم تحمل المسؤولية\n\t\t\t</h3>\n\t\t\t<span>\n\t\t\tإنك تقر وتوافق على أن استخدام الموقع الالكتروني والخدمات هو تماماً على مسؤوليتك الخاصة ، وأن الموقع و الخدمة هي مقدمة على\n\t\t\tأساس \"كما هي\" أو \" كما هي متاحة\" دون أي ضمانات من أي نوع. موقع دلّال لا يتحمل أية ضمانات أو إقرارات حول دقة أو اكتمال\n\t\t\tمحتوى الموقع أو محتوى أي مواقع طرف ثالث له علاقة بالموقع و لا تتحمل أية مسؤولية أو مسائلة لأي أخطاء ، أو الإصابة الشخصية\n\t\t\tأو أضرار في الممتلكات من أي نوع، الناتجة عن الوصول إليك واستخدام الموقع و الخدمة، أي دخول غير مصرح إليك أو استخدام خدمتنا\n\t\t\tو / أو أي جميع المعلومات الشخصية و / أو المعلومات المالية المخزنة، الفيروسات، أو ما شابه ذلك والتي قد تكون مرسلة إليك\n\t\t\tأو عبر الموقع الإلكتروني من قبل أي طرف ثالث، و / ​​أو أي أخطاء أو حذف في أي محتوى أو عن أي خسارة أو ضرر من أي نوع يتم\n\t\t\tتكبده كنتيجة لاستعمال أي محتوى تم نشره بالبريد الإلكتروني ، لنقلها أو إتاحتها عبر الموقع الإلكتروني أو الخدمة. موقع دلّال\n\t\t\tلا يتحمل المسؤولية عن أي منتج أو الخدمة المعلن عنها أو التي يقدمها طرف ثالث عن طريق الموقع او اي موقع بارتباط تشعبي أو\n\t\t\tواردة في أي شعار أو دعاية أخرى.\n\t\t\t</span>\n\t\t\t<h3>\n\t\t\t\tاتصل بنا\n\t\t\t</h3>\n\t\t\t<span>\nإن كان لديك أي استفسار حول شروط الإستخدام، الرجاء الاتصال بنا عن طريق البريد الإكتروني: <b>info@dlaaal.com</b>  بعنوان \"شروط الاستخدام\".\n\t</span>\n\n\n\t\t</div>\n\n\n\n\t</div>\n\t<!--Below main container end-->\n</div>"
 
 /***/ }),
 
@@ -2253,6 +2748,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var TermsComponent = /** @class */ (function () {
     function TermsComponent() {
     }
+    TermsComponent.prototype.ngOnInit = function () {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    };
     TermsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'terms',

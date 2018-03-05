@@ -1,3 +1,6 @@
+import { ActivateComponent } from './activate/activate.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgetPasswordModalComponent } from './forget-password-modal/forget-password-modal.component';
 import { ContactUsModalComponent } from './contact-us-modal/contact-us-modal.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
@@ -47,7 +50,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -57,7 +60,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[ChangePasswordComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[ChangePasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

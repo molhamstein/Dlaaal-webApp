@@ -76,6 +76,29 @@ export class CallApiService {
     });
   }
 
+
+  resetPassWord(url, data,token) {
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": token }) };
+
+    return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
+      return Response;
+    }).catch((Response: Response) => {
+      this.errorCode=Response.status;
+      return "E";
+    });
+  }
+  activeAccount(url, token) {
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": token }) };
+
+    return this.http.put(this.baseUrl + url, {}, _options).map((Response: Response) => {
+      return Response;
+    }).catch((Response: Response) => {
+      this.errorCode=Response.status;
+      return "E";
+    });
+  }
+
+
   put(url, data) {
     let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
 

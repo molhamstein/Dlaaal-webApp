@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['terms.component.scss']
 })
 export class TermsComponent {
-
+ngOnInit() {
+       $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
 }

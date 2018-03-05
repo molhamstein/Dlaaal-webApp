@@ -1,3 +1,4 @@
+import { ForgetPasswordModalComponent } from './../forget-password-modal/forget-password-modal.component';
 import { GlobalService } from './../Services/global.service';
 import { SignUpModalComponent } from './../sign-up-modal/sign-up-modal.component';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
@@ -15,7 +16,7 @@ import { Component, Input } from '@angular/core';
 })
 export class HeaderComponent {
     isLogin: boolean;
-   
+
 
 
     constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
@@ -41,8 +42,26 @@ export class HeaderComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            if (result) {
+                this.openForgetPassDialog();
+            }
         });
     }
+
+    openForgetPassDialog() {
+        let dialogRef = this.dialog.open(ForgetPasswordModalComponent, {
+            // width: '35%',
+            // width: '50%',
+            panelClass: 'communictioDialogStyle',
+
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+
+        });
+    }
+
     logout() {
         this.loginSer.logout();
     }

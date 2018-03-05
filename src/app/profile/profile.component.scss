@@ -26,3 +26,15 @@
         display: inline-block;
     }
 }
+
+.emptyBloack {
+    background-color: #f5f7f8 !important;
+    box-shadow: none;
+    border: none;
+}
+
+@media screen and (max-width: 1250px) {
+    .emptyBloack {
+        display: none;
+    }
+}

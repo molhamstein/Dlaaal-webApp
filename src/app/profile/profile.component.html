@@ -1,4 +1,5 @@
-<div class="MainContainer">
+<div class="MainContainer" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
+    [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
     <div class="HeaderBackground">
         <header></header>
         <div class="Triangle Triangle--pages">
@@ -12,9 +13,10 @@
                 <div class="HeaderBox HeaderBox--profilepage-usercontainer">
                     <div class="HeaderBox HeaderBox--profilepage-usercontainer-avatar">
                         <div class="myImage">
-                            <img src="{{imageProfile}}"  [ngClass]="{'hidden': uploadingImage}"/>
-                            <img id="{{'uploadImage'}}" [ngClass]="{'hidden': !uploadingImage}"/>
-                            <img src="assets/imgs/infinity_loader_by_volorf.gif" [ngClass]="{'hidden': !uploadingImage}" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;"/>
+                            <img src="{{imageProfile}}" [ngClass]="{'hidden': uploadingImage}" />
+                            <img id="{{'uploadImage'}}" [ngClass]="{'hidden': !uploadingImage}" />
+                            <img src="assets/imgs/infinity_loader_by_volorf.gif" [ngClass]="{'hidden': !uploadingImage}" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;"
+                            />
 
                             <div *ngIf="isMyProfile" _ngcontent-c1="" (click)="openSelectImage()" class="hoverDiv" style="">
                                 <span _ngcontent-c1="" class="glyphicon glyphicon-camera"></span>
@@ -47,8 +49,15 @@
                     </div>
 
                 </div>
+                <!--[ngClass]="{'hidden':isPluse()}"-->
                 <div class="HeaderBox HeaderBox--profilepage-btncontainer">
-                    <div (click)="editProfile()" class="HeaderBox--profilepage-editbtn">
+                    <div (click)="editProfile()" *ngIf="isMyProfile" class="HeaderBox--profilepage-editbtn">
+
+                    </div>
+                    <div  *ngIf="isPluse()" (click)="follow()" class="HeaderBox--profilepage-editbtn" [ngStyle]="{'background-image': 'url(assets/imgs/plus.svg)'}">
+
+                    </div>
+                    <div *ngIf="isMin()" (click)="unFollow()" class="HeaderBox--profilepage-editbtn" [ngStyle]="{'background-image': 'url(assets/imgs/Minus.svg)'}">
 
                     </div>
                 </div>
@@ -58,11 +67,13 @@
         <div class="UserProfileContainer">
             <div class="UserProfile">
                 <div class="UserProfile-navtabs">
-                    <div class="UserProfile-navtabs-tab " (click)="setTab(1)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(1)}">
+                    <div class="UserProfile-navtabs-tab " (click)="setTab(1)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}">
                         قائمة التفضيلات
                     </div>
                     <div class="UserProfile-navtabs-tab" (click)="setTab(2)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(2)}">
-                        إعلاناتي
+                        <!--إعلاناتي-->
+                        {{isMyProfile ? "إعلاناتي" : "إعلانات"}}
+
                     </div>
                 </div>
                 <div class="UserProfile-navcontent">
@@ -99,6 +110,16 @@
                                 <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneBookMark.images[0] + ')'}">
                                 </div>
                             </div>
+                            <div class="ItemBlock emptyBloack" *ngIf="!cheackOdd(bookmarks.length)">
+
+                            </div>
+                            <div class="ItemsContainer-loader" [ngClass]="{'hidden':loaderBook==0}">
+                                <img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
+                            </div>
+                            <div class="ItemsContainer-loader" [ngClass]="{'hidden':noBook==0}">
+                                <img src="assets/imgs/empty placeholder.png" alt="Kiwi standing on oval">
+                            </div>
+
                         </div>
                         <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(1)}">
                             <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemBlock">
@@ -132,88 +153,21 @@
                                 <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="ItemsContainer-loader">
-                            <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
-                        </div>
-                    </div>
-                     <!--<div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(2)}">
-                            <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
-                                <div class="ItemSummary">
-                                    <div class="ItemSummary-head">
-                                        <div class="ItemSummary-head-title">
-                                            {{oneBookMark.category.title}}
-                                        </div>
-                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
-                                            {{calculateDate(oneBookMark.createdAt)}}
-                                        </div>
-                                    </div>
-                                    <div class="ItemSummary-desc">
-                                        {{oneBookMark.title}}
-                                    </div>
-                                    <div class="ItemSummary-price">
-                                        <span class="ItemSummary-price-num">{{oneBookMark.price | number}}</span>
-                                        <span class="ItemSummary-price-text">ل.س</span>
-                                    </div>
-                                    <div class="ItemSummary-action">
-                                        <a routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemSummary-action-btn">
-    									مشاهدة المزيد
-    								</a>
-                                        <div class="ItemSummary-action-views">
-                                            <span> {{oneBookMark.viewsCount}} </span>
-                                            <div style="width:10px;"></div>
-                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneBookMark.images[0] + ')'}">
-                                </div>
-                        </div>
-                        <div class="ItemsContainer-loader">
-                            <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
-                        </div>
-                    </div>
-                     <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(1)}">
-                            <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
-                                <div class="ItemSummary">
-                                    <div class="ItemSummary-head">
-                                        <div class="ItemSummary-head-title">
-                                            {{oneAdvertisemet.category.title}}
-                                        </div>
-                                        <div class="ItemSummary-head-date ItemSummary-head-date--text">
-                                            {{calculateDate(oneAdvertisemet.createdAt)}}
-                                        </div>
-                                    </div>
-                                    <div class="ItemSummary-desc">
-                                        {{oneAdvertisemet.title}}
-                                    </div>
-                                    <div class="ItemSummary-price">
-                                        <span class="ItemSummary-price-num">{{oneAdvertisemet.price | number}}</span>
-                                        <span class="ItemSummary-price-text">ل.س</span>
-                                    </div>
-                                    <div class="ItemSummary-action">
-                                        <a routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemSummary-action-btn">
-    									مشاهدة المزيد
-    								</a>
-                                        <div class="ItemSummary-action-views">
-                                            <span> {{oneAdvertisemet.viewsCount}} </span>
-                                            <div style="width:10px;"></div>
-                                            <img src="../imgs/eye.svg" alt="" style="height: 24px;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ItemBlock-img" [ngStyle]="{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}">
-                                </div>
-                        </div>
-                        <div class="ItemsContainer-loader">
-                            <img src="../imgs/spinner.svg" alt="Kiwi standing on oval">
-                        </div>
-                    </div>-->
+                            <div class="ItemBlock emptyBloack" *ngIf="!cheackOdd(advertisemets.length)">
 
+                            </div>
+
+                            <div class="ItemsContainer-loader" [ngClass]="{'hidden':loaderAdd==0}">
+                                <img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
+                            </div>
+                            <div class="ItemsContainer-loader" [ngClass]="{'hidden':noAdd==0}">
+                                <img src="assets/imgs/empty placeholder.png" alt="Kiwi standing on oval">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+        <!--Below main container end-->
     </div>
-    <!--Below main container end-->
-</div>

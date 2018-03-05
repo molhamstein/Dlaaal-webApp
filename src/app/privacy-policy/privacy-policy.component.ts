@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
     styleUrls: ['privacy-policy.component.scss']
 })
 export class PrivacyPolicyComponent {
+    ngOnInit() {
+       $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
 
 }
