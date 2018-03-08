@@ -1594,7 +1594,7 @@ figure {
 /* line 33, ../sass/_ContentMenu.scss */
 
 .ContentMenu-item--iconDots {
-    background: url("../imgs/mono-logout-2400px.png") no-repeat;
+    background: url("../imgs/c-dots.svg") no-repeat;
     background-size: contain;
     cursor: pointer;
     height: 24px;
@@ -1931,14 +1931,18 @@ figure {
 }
 
 @media screen and (max-width: 600px) {
-    /* line 3, ../sass/_ItemBlock.scss */
     .ItemBlock {
-        -webkit-flex-direction: row-reverse !important;
+        -webkit-box-orient: horizontal !important;
+        -webkit-box-direction: reverse !important;
+        -ms-flex-direction: row-reverse !important;
         flex-direction: row-reverse !important;
         -webkit-flex-wrap: wrap !important;
-        flex-flow: wrap-reverse;
+        -ms-flex-flow: wrap-reverse;
+        flex-flow: wrap-reverse !important;
         min-height: 444px !important;
         min-width: 320px !important;
+        flex-direction: row-reverse !important;
+        flex-wrap: wrap-reverse;
     }
     /* line 24, ../sass/_ItemBlock.scss */
     .ItemBlock-img {
@@ -2042,7 +2046,7 @@ figure {
 /* line 26, ../sass/_TopMenu.scss */
 
 .TopMenu-item--iconDots {
-    background: url("../imgs/mono-logout-2400px.png") no-repeat;
+    background: url("../imgs/w-dots.svg") no-repeat;
     background-size: contain;
     cursor: pointer;
     height: 24px;
@@ -4435,6 +4439,6 @@ figure {
     margin: 10px 0px;
 }
 
-.isReadNot{
+.isReadNot {
     background-color: #afafaf75;
 }

@@ -2,7 +2,7 @@
 <div class="Header">
 	<div class="TopMenu">
 		<div class="u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill">
-			<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin" (click)="logout()">
+			<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin">
 							<ul class="DropMenu">
 								<li class="DropMenu-item">شروط الإستخدام</li>
 								<li class="DropMenu-divider"></li>
@@ -25,7 +25,8 @@
 								<ul class="NotificationMenu NotificationMenuTop"   data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
  [infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollDownNoti()">
 									<div *ngFor="let oneNot of notificationBeh">
-								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }" routerLink="{{'/detail/'+oneNot.advertisement.id}}" >
+										<!--routerLink="{{'/detail/'+oneNot.advertisement.id}}"-->
+								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }"  (click)="visitNot(oneNot.isRead,5,oneNot.advertisement.id)" >
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
 						                <img src="{{oneNot.advertisement.images[0]}}" alt="avatar">

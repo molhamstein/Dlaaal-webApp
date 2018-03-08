@@ -70,7 +70,7 @@ export class HeaderComponent {
 
     visitNot(isRead, idNot,idAdd) {
         if(isRead){
-            this.globalServ.goTo("/detail/"+idAdd)
+            this.globalServ.goTo2(idAdd)
         }
     }
     toggleNot() {

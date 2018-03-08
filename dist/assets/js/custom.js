@@ -14,12 +14,12 @@ $( document ).ready(function() {
 
 	Jumbotron.paroller({ factor: '-0.2', type: 'foreground', direction: 'vertical' });
 
-	// MenuBtn.click(function(event) {
-	// 	DropMenu.toggleClass('DropMenu--isShown');
-	// });
-	// FilterMenuBtn.click(function(event) {
-	// 	DropMenu.toggleClass('DropMenu--isShown');
-	// });
+	MenuBtn.click(function(event) {
+		DropMenu.toggleClass('DropMenu--isShown');
+	});
+	FilterMenuBtn.click(function(event) {
+		DropMenu.toggleClass('DropMenu--isShown');
+	});
 	$(".TopMenu-item--iconBell").click(function(event) {
 		// NotificationMenu.toggleClass('NotificationMenu--isShown');
 	});

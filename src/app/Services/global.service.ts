@@ -21,6 +21,12 @@ export class GlobalService {
     this.unreadNot = 0;
   }
 
+
+  goTo2(id){
+    this.router.navigateByUrl('/detail').then(() => this.router.navigateByUrl('/detail/'+id));
+
+  }
+
   editUnreadNotBeh(unreadNotBeh){
     this.unreadNotBeh.next(unreadNotBeh);
   }
