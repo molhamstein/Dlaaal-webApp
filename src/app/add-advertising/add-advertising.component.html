@@ -112,9 +112,9 @@
                                 <input type="checkbox" id="checkbox_id" [(ngModel)]="isAgree" value="value">
                                 <label for="checkbox_id">
                       أوافق على
-                      <div class="u-textPrimaryColor">شروط الاستخدام</div>
+                      <div class="u-textPrimaryColor" routerLink="{{'/terms'}}">شروط الاستخدام</div>
       و
-                    <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+                    <div class="u-textPrimaryColor" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
                     </label>
                             </div>
                             <div class="AddNewForm-btn" [ngStyle]="{'background-color':  isAgree ? '#257310' : '#257310a1'}" (click)="addAdvertising()">

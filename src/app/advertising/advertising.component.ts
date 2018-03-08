@@ -23,16 +23,20 @@ export class AdvertisingComponent {
     @ViewChild(HeaderComponent) private headerChild: HeaderComponent;
 
     addID;
-    advertisemet
+    advertisemet;
     reports;
     constructor(public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
+        this.advertisemet={}
         this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
             this.advertisemet = data;
         });
         this.APIServ.get("reports").subscribe(data => {
             this.reports = data;
         });
+    }
+        onRefresh() {
+        alert("SSS");
     }
     ngOnInit() {
        $("html, body").animate({ scrollTop: 0 }, "slow");

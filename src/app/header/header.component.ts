@@ -16,11 +16,65 @@ import { Component, Input } from '@angular/core';
 })
 export class HeaderComponent {
     isLogin: boolean;
+    notificationBeh = [];
+    unreadNotBeh;
 
 
 
+    array = [];
+    throttle = 100;
+    scrollDistance = 2;
+    scrollUpDistance = 2;
     constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
         this.isLogin = this.loginSer.isLogin();
+
+        // this.unreadNot=5;
+
+    }
+
+    onScrollDownNoti() {
+        if ($(".NotificationMenuTop").hasClass("NotificationMenu--isShown")) {
+            this.getNotification(true)
+        }
+
+    }
+
+    getNotification(isScroll: boolean = false) {
+        let unreadNot = 0;
+        let limit, skip, query;
+        if (this.isLogin && this.notificationBeh.length == 0 || isScroll) {
+            limit = 5;
+            skip = this.notificationBeh.length;
+            query = { "order": "createdAt ASC", "limit": limit, "skip": skip, "include": ["advertisement"] }
+
+            this.APIServ.get("users/" + this.loginSer.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+                for (var index = 0; index < data.length; index++) {
+                    var element = data[index];
+                    if (!element.isRead) {
+                        this.globalServ.editUnreadNotBeh(this.unreadNotBeh + 1)
+                    }
+                    if (element.advertisement)
+                        this.notificationBeh.push(element);
+                }
+                this.globalServ.editNotificationBeh(this.notificationBeh);
+            });
+        }
+    }
+
+    ngOnInit() {
+        this.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
+        this.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
+        this.getNotification()
+
+    }
+
+    visitNot(isRead, idNot,idAdd) {
+        if(isRead){
+            this.globalServ.goTo("/detail/"+idAdd)
+        }
+    }
+    toggleNot() {
+        $(".NotificationMenuTop").toggleClass('NotificationMenu--isShown');
     }
     openSignUpDialog() {
 

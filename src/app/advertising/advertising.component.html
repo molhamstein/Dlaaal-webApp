@@ -3,13 +3,13 @@
     <div class="HeaderBackground">
       		<header></header>
 
-      <div class="Triangle Triangle--pages">
+      <div class="Triangle Triangle--pages" >
       </div>
       <div class="Triangle--spacer"></div>
     </div>
-    <div class="Content">
+    <div class="Content" *ngIf="advertisemet.images!=null">
       <div class="GridContainer">
-        <div class="HeaderBoxContianer HeaderBoxContianer--detailspage">
+        <div class="HeaderBoxContianer HeaderBoxContianer--detailspage" >
           <div class="HeaderBox HeaderBox--detailspage">
             <div class="HeaderBox--detailspage-image" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
             </div>

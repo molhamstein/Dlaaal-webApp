@@ -7,6 +7,7 @@ import { AddAdvertisingComponent } from './add-advertising/add-advertising.compo
 import { AdvertisingComponent } from './advertising/advertising.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RouterModule, Routes } from '@angular/router';
+// export const routing = RouterModule.forRoot(APP_ROUTES, { enableTracing: true })
 
 export const routes: Routes = [
     {

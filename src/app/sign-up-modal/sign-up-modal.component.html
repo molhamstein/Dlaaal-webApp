@@ -34,9 +34,9 @@
                 id="checkbox_id" value="value">
             <label for="checkbox_id">
                   أوافق على
-                  <div class="u-textPrimaryColor">شروط الاستخدام</div>
+                  <div class="u-textPrimaryColor" routerLink="{{'/terms'}}">شروط الاستخدام</div>
   
-                <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+                <div class="u-textPrimaryColor" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
                 </label>
         </div>
         <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">

@@ -24,6 +24,23 @@ html {
     -webkit-tap-highlight-color: transparent;
 }
 
+html::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 0px;
+    background-color: #ffffff;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+html::-webkit-scrollbar-thumb {
+    /*border-radius: 10px;*/
+    background-color: #555;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
+
 
 /* line 19, ../sass/_Utils.scss */
 
@@ -497,6 +514,25 @@ figure {
     opacity: 0;
     visibility: hidden;
     z-index: 100;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.NotificationMenu::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 0px;
+    background-color: #F5F5F5;
+}
+
+.NotificationMenu::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.NotificationMenu::-webkit-scrollbar-thumb {
+    /*border-radius: 10px;*/
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
 }
 
 @media screen and (max-width: 600px) {
@@ -944,6 +980,12 @@ figure {
     background-blend-mode: overlay;
 }
 
+@media screen and (max-width: 600px) {
+    .MainContainer {
+        background: url(../../assets/imgs/header_mobile.jpg) no-repeat center center fixed;
+    }
+}
+
 
 /* line 3, ../sass/_MenuContainer.scss */
 
@@ -1295,7 +1337,7 @@ figure {
     justify-content: center;
     height: 32px;
     width: 20%;
-    background-color: #333;
+    /*background-color: #333;*/
     border-radius: 2px;
 }
 
@@ -1407,7 +1449,6 @@ figure {
 }
 
 
-
 /* line 39, ../sass/_CategoryBox.scss */
 
 .CategoryBox-body li {
@@ -1436,6 +1477,7 @@ figure {
         display: none;
     }
 }
+
 
 /* line 49, ../sass/_CategoryBox.scss */
 
@@ -1552,7 +1594,7 @@ figure {
 /* line 33, ../sass/_ContentMenu.scss */
 
 .ContentMenu-item--iconDots {
-    background: url("../imgs/c-dots.svg") no-repeat;
+    background: url("../imgs/mono-logout-2400px.png") no-repeat;
     background-size: contain;
     cursor: pointer;
     height: 24px;
@@ -1894,7 +1936,7 @@ figure {
         -webkit-flex-direction: row-reverse !important;
         flex-direction: row-reverse !important;
         -webkit-flex-wrap: wrap !important;
-        flex-wrap: wrap !important;
+        flex-flow: wrap-reverse;
         min-height: 444px !important;
         min-width: 320px !important;
     }
@@ -2000,7 +2042,7 @@ figure {
 /* line 26, ../sass/_TopMenu.scss */
 
 .TopMenu-item--iconDots {
-    background: url("../imgs/w-dots.svg") no-repeat;
+    background: url("../imgs/mono-logout-2400px.png") no-repeat;
     background-size: contain;
     cursor: pointer;
     height: 24px;
@@ -4351,36 +4393,48 @@ figure {
     width: auto;
 }
 
-.communictioDialogStyle{
+.communictioDialogStyle {
     width: 100%;
 }
 
-.customPage{
+.customPage {
     padding: 20px 50px;
 }
-.customPage h3,.customPage span,.customPage h4{
-text-align: right;
-width: 100%;
+
+.customPage h3,
+.customPage span,
+.customPage h4 {
+    text-align: right;
+    width: 100%;
     margin-bottom: 7px;
-
 }
-.customPage h4{
+
+.customPage h4 {
     font-size: 18px;
 }
 
-.customPage h3{
+.customPage h3 {
     font-size: 18px;
 }
-.customPage h1{
+
+.customPage h1 {
     font-size: 22px;
 }
-.customPage span{
+
+.customPage span {
     font-size: 16px;
 }
-.customPage h3 ,.customPage h1,.customPage h4 {
+
+.customPage h3,
+.customPage h1,
+.customPage h4 {
     color: #257310;
 }
 
-.customPage li{
+.customPage li {
     margin: 10px 0px;
+}
+
+.isReadNot{
+    background-color: #afafaf75;
 }

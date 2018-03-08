@@ -56,7 +56,8 @@ import { AppComponent } from './app.component';
     // Main
     BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,
     // Route
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,{ enableTracing: true })
+    
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],

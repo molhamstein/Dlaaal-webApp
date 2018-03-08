@@ -3,94 +3,12 @@
 <div class="MainContainer" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
  [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
 	<div class="HeaderBackground">
-		<!--<div class="Header">
-			<div class="TopMenu">
-				<div class="u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill">
-					<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin">
-							<ul class="DropMenu">
-								<li class="DropMenu-item">شروط الإستخدام</li>
-								<li class="DropMenu-divider"></li>
-								<li class="DropMenu-item">سياسة الخصوصية</li>
-								<li class="DropMenu-divider"></li>
-								<li class="DropMenu-item">تسجيل الخروج</li>
-							</ul>
-						</i>
-					<a href="addnew.html" class="TopMenu-item u-customBtn" *ngIf="isLogin">
-						<img class="" src="assets/imgs/w-plus.svg" alt="">
-						<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
-					</a>
-					<div href="#" class="u-after10p" *ngIf="isLogin">
-						<figure class="Avatar Avatar--lg">
-							<img src="assets/imgs/avatar.jpg" alt="avatar">
-						</figure>
-					</div>
-					<i class="TopMenu-item TopMenu-item--iconBell" *ngIf="isLogin">
-	                        <span class="Badge Badge--center" data-badge="2"></span>
-	                        <ul class="NotificationMenu">
-								<li class="NotificationMenu-item">
-									<div href="#" class="u-after10p u-inlineBlock">
-						              <figure class="Avatar Avatar--lg">
-						                <img src="assets/imgs/avatar.jpg" alt="avatar">
-						              </figure>
-						            </div>
-						            <div class="u-inlineBlock u-alignTop">
-										<div>
-											قام
-											<span> أبو عبدو </span>
-										 	 بإضافة إعلان جديد
-										 </div>
-										<span class="NotificationMenu-item-date">12/12/2018</span>
-									</div>
-								</li>
-								<li class="NotificationMenu-divider"></li>
-								<li class="NotificationMenu-item">
-									<div href="#" class="u-after10p u-inlineBlock">
-						              <figure class="Avatar Avatar--lg">
-						                <img src="assets/imgs/avatar.jpg" alt="avatar">
-						              </figure>
-						            </div>
-						            <div class="u-inlineBlock u-alignTop">
-										<div>
-											قام
-											<span> أبو عبدو </span>
-										 	 بإضافة إعلان جديد
-										 </div>
-										<span class="NotificationMenu-item-date">12/12/2018</span>
-									</div>
-								</li>
-								<li class="NotificationMenu-divider"></li>
-								<li class="NotificationMenu-item">
-									<div href="#" class="u-after10p u-inlineBlock">
-						              <figure class="Avatar Avatar--lg">
-						                <img src="assets/imgs/avatar.jpg" alt="avatar">
-						              </figure>
-						            </div>
-						            <div class="u-inlineBlock u-alignTop">
-										<div>
-											قام
-											<span> أبو عبدو </span>
-										 	 بإضافة إعلان جديد
-										 </div>
-										<span class="NotificationMenu-item-date">12/12/2018</span>
-									</div>
-								</li>
-							</ul>
-			            </i>
-					<a href="" class="TopMenu-item" *ngIf="!isLogin">الدخول</a>
-					<a href="" class="TopMenu-item" *ngIf="!isLogin">حساب جديد</a>
-				</div>
-				<div class="u-flexAlignSelfStart">
-					<img class="TopMenu-item TopMenu-item--logo" src="assets/imgs/logo.png" alt="">
-				</div>
-
-			</div>
-		</div>-->
 		<header></header>
 		<div class="Triangle">
 			<div class="Jumbotron" data-paroller-factor="-0.2">
 				<div class="Jumbotron-title">هل تبحث عن شيئ معيّن ؟</div>
 				<div class="SearchBar">
-					<div class="SearchBar-box" (click)="getAdvertisemets(2,{'search':search})"></div>
+					<div class="SearchBar-box" (click)="getAdvertisemets(2,{'search':search},false,true)"></div>
 					<select name="city" class="SearchBar-location" [(ngModel)]="search.city">
 						<option [ngValue]="undefined" selected>اختر المدينة</option>
 						<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
@@ -126,70 +44,13 @@
 						</ul>
 					</div>
 				</div>
-				<!--<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('assets/imgs/tablets.jpg');">
-						<span class="CategoryBox-head-title">متفرّقات</span>
-					</div>
-					<div class="CategoryBox-body">
-						<ul>
-							<li>
-								إلكترونيات
-							</li>
-							<li>
-								حباشات
-							</li>
-							<li>
-								سماعات
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('assets/imgs/realS.jpg');">
-						<span class="CategoryBox-head-title">عقارات</span>
-					</div>
-					<div class="CategoryBox-body">
-						<ul>
-							<li>
-								أجار
-							</li>
-							<li>
-								إستئجار
-							</li>
-							<li>
-								مبيع و شراء
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="CategoryBox">
-					<div class="CategoryBox-head" style="background-image: url('assets/imgs/car-0.jpg');">
-						<span class="CategoryBox-head-title">مركبات</span>
-					</div>
-					<div class="CategoryBox-body">
-						<ul>
-							<li>
-								مركبات سيدان
-							</li>
-							<li>
-								مركبات دفع رباعي
-							</li>
-							<li>
-								مركبات كهربائية
-							</li>
-							<li>
-								مركبات هجينة
-							</li>
-							<a href=""> أضهر المزيد</a>
-						</ul>
-					</div>
-				</div>-->
+
 			</div>
 			<div id="Menu" class="MenuContainer MenuContainer--isFixed" style="display: none">
 
 				<div class="ContentMenu">
 					<div class="u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill">
-						<i class="ContentMenu-item ContentMenu-item--iconDots" *ngIf="isLogin">
+						<i class="ContentMenu-item ContentMenu-item--iconDots" (click)="logout()" *ngIf="isLogin">
 								<ul class="DropMenu">
 									<li class="DropMenu-item">شروط الإستخدام</li>
 									<li class="DropMenu-divider"></li>
@@ -209,56 +70,27 @@
 							</figure>
 						</div>
 
-						<i class="ContentMenu-item ContentMenu-item--iconBell" *ngIf="isLogin">
-					            <span class="Badge Badge--center" data-badge="2"></span>
-					            <ul class="NotificationMenu">
-									<li class="NotificationMenu-item">
+						<i class="ContentMenu-item ContentMenu-item--iconBell" (click)="toggleNot()" *ngIf="isLogin">
+								<span class="Badge Badge--center"  [attr.data-badge]="unreadNotBeh"></span>
+					            <ul class="NotificationMenu NotificationMenuDown" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"[infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollUpNoti()" >
+								<div *ngFor="let oneNot of notificationBeh">
+									<li [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
-							                <img src="assets/imgs/avatar.jpg" alt="avatar">
+											<img src="{{oneNot.advertisement.images[0]}}" alt="avatar">
 							              </figure>
 							            </div>
 							            <div class="u-inlineBlock u-alignTop">
 											<div>
 												قام
-												<span> أبو عبدو </span>
+												<span> {{oneNot.advertisement.owner.firstName}} </span>
 											 	 بإضافة إعلان جديد
 											 </div>
-											<span class="NotificationMenu-item-date">12/12/2018</span>
+										<span class="NotificationMenu-item-date">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>
 										</div>
 									</li>
 									<li class="NotificationMenu-divider"></li>
-									<li class="NotificationMenu-item">
-										<div href="#" class="u-after10p u-inlineBlock">
-							              <figure class="Avatar Avatar--lg">
-							                <img src="assets/imgs/avatar.jpg" alt="avatar">
-							              </figure>
-							            </div>
-							            <div class="u-inlineBlock u-alignTop">
-											<div>
-												قام
-												<span> أبو عبدو </span>
-											 	 بإضافة إعلان جديد
-											 </div>
-											<span class="NotificationMenu-item-date">12/12/2018</span>
-										</div>
-									</li>
-									<li class="NotificationMenu-divider"></li>
-									<li class="NotificationMenu-item">
-										<div href="#" class="u-after10p u-inlineBlock">
-							              <figure class="Avatar Avatar--lg">
-							                <img src="assets/imgs/avatar.jpg" alt="avatar">
-							              </figure>
-							            </div>
-							            <div class="u-inlineBlock u-alignTop">
-											<div>
-												قام
-												<span> أبو عبدو </span>
-											 	 بإضافة إعلان جديد
-											 </div>
-											<span class="NotificationMenu-item-date">12/12/2018</span>
-										</div>
-									</li>
+									</div>
 								</ul>
 				            </i>
 						<a class="ContentMenu-item" (click)="openSignInDialog()" *ngIf="!isLogin">الدخول</a>
@@ -294,7 +126,7 @@
 					<div class="FiltersPanel">
 						<div class="FiltersPanel-header">
 							<div class="FiltersPanel-header-title">
-								حساب جديد
+								البحث المتقدم
 							</div>
 							<div class="FiltersPanel-header-collapse">
 								--
@@ -733,7 +565,7 @@
 
 <div class="CategoriesContainer">
 	<div class="CategoryBoxSub" *ngFor="let mainCategory of mainCategories">
-		<div class="CategoryBoxSub-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})">
+		<div class="CategoryBoxSub-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id},false,true)">
 			<span class="CategoryBoxSub-head-title">{{mainCategory.title}}</span>
 		</div>
 	</div>

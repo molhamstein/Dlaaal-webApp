@@ -1,18 +1,48 @@
+import { CallApiService } from './call-api.service';
 import { MatDialog } from '@angular/material';
 import { ErrorModalComponent } from './../error-modal/error-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 @Injectable()
 export class GlobalService {
+  notification;
+  unreadNot;
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {
-
+  private unreadNotBeh=new BehaviorSubject<number>(0);
+  private notificationBeh=new BehaviorSubject<any>([]);
+  castUnreadNotBeh =this.unreadNotBeh.asObservable();
+  castNotificationBeh =this.notificationBeh.asObservable();
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public APIServe: CallApiService) {
+    this.notification = [];
+    this.unreadNot = 0;
   }
 
+  editUnreadNotBeh(unreadNotBeh){
+    this.unreadNotBeh.next(unreadNotBeh);
+  }
 
+  editNotificationBeh(notificationBeh){
+    this.notificationBeh.next(notificationBeh);
+  }
+
+  getNotification() {
+    return this.notification;
+  }
+  setNotification(notification) {
+    this.notification = notification;
+  }
+
+  setUnreadNot(unreadNot) {
+    this.unreadNot = unreadNot;
+  }
+
+  getUnreadNot() {
+    return this.unreadNot;
+  }
 
   private diff_hours(dt2, dt1) {
 
