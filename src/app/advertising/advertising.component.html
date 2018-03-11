@@ -1,75 +1,75 @@
 <!--component html goes here -->
-  <div class="MainContainer">
-    <div class="HeaderBackground">
-      		<header></header>
+<div class="MainContainer">
+  <div class="HeaderBackground">
+    <header></header>
 
-      <div class="Triangle Triangle--pages" >
-      </div>
-      <div class="Triangle--spacer"></div>
+    <div class="Triangle Triangle--pages">
     </div>
-    <div class="Content" *ngIf="advertisemet.images!=null">
-      <div class="GridContainer">
-        <div class="HeaderBoxContianer HeaderBoxContianer--detailspage" >
-          <div class="HeaderBox HeaderBox--detailspage">
-            <div class="HeaderBox--detailspage-image" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
-            </div>
-            <div class="HeaderBox--detailspage-body">
-              <div class="HeaderBox--detailspage-body-header">
-                <div class="HeaderBox--detailspage-body-header-title">
-                    {{advertisemet.title}}
-                </div>
-                
-              </div>
-              <div class="HeaderBox--detailspage-body-footer">
-                <div class="HeaderBox--detailspage-body-footer-views">
-                  {{advertisemet.viewsCount}}
-                </div>
-                <div class="HeaderBox--detailspage-body-footer-date">
-                  <!--10/10/2015-->
-                  {{advertisemet.createdAt | date : "dd/MM/yyyy"}}
-                </div>
-              </div>
-            </div>
+    <div class="Triangle--spacer"></div>
+  </div>
+  <div class="Content" *ngIf="advertisemet.images!=null">
+    <div class="GridContainer">
+      <div class="HeaderBoxContianer HeaderBoxContianer--detailspage">
+        <div class="HeaderBox HeaderBox--detailspage">
+          <div class="HeaderBox--detailspage-image" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
           </div>
-          <div class="HeaderBox HeaderBox--detailspage HeaderBox--stretch">
-            <div class="HeaderBox--detailspage-pricecontainer">
-              <div class="HeaderBox--detailspage-pricecontainer-num">{{advertisemet.price |number}} </div>
-              <div class="HeaderBox--detailspage-pricecontainer-text"> ل.س</div>
-            </div>
-            <div class="HeaderBox--detailspage-btncontainer">
-              <div class="HeaderBox--detailspage-callusbtn" (click)="openCommunicationDialog()">
+          <div class="HeaderBox--detailspage-body">
+            <div class="HeaderBox--detailspage-body-header">
+              <div class="HeaderBox--detailspage-body-header-title">
+                {{advertisemet.title}}
+              </div>
 
+            </div>
+            <div class="HeaderBox--detailspage-body-footer">
+              <div class="HeaderBox--detailspage-body-footer-views">
+                {{advertisemet.viewsCount}}
+              </div>
+              <div class="HeaderBox--detailspage-body-footer-date">
+                <!--10/10/2015-->
+                {{advertisemet.createdAt | date : "dd/MM/yyyy"}}
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="AddDetailsContainer">
-        <div class="AddDetailsForm">
-          <div class="AddDetailsForm-column">
-            <div class="AddDetailsForm-header">
-              <div class="AddDetailsForm-header-title">
-                {{advertisemet.category.title}}
-              </div>
-            </div>
-            <div class="AddDetailsForm-category">
-              <div class="AddDetailsForm-category-title">
-                {{advertisemet.subCategory.title}}
-              </div>
-              <div class="AddDetailsForm-category-subcat">
-                {{advertisemet.address}}
-              </div>
-            </div>
-            <div class="AddDetailsForm-inputcontainer">
-            </div>
+        <div class="HeaderBox HeaderBox--detailspage HeaderBox--stretch">
+          <div class="HeaderBox--detailspage-pricecontainer">
+            <div class="HeaderBox--detailspage-pricecontainer-num">{{advertisemet.price |number}} </div>
+            <div class="HeaderBox--detailspage-pricecontainer-text"> ل.س</div>
+          </div>
+          <div class="HeaderBox--detailspage-btncontainer">
+            <div class="HeaderBox--detailspage-callusbtn" (click)="openCommunicationDialog()">
 
-            <div class="AddDetailsForm-inputcontainer" *ngFor="let oneField of advertisemet.fields">
-              <label for="name">{{oneField.key}}</label>
-              <div class="AddDetailsForm-inputcontainer-text">
-                {{oneField.value}}
-              </div>
             </div>
-            <!--<div class="AddDetailsForm-inputcontainer">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="AddDetailsContainer">
+      <div class="AddDetailsForm">
+        <div class="AddDetailsForm-column">
+          <div class="AddDetailsForm-header">
+            <div class="AddDetailsForm-header-title">
+              {{advertisemet.category.title}}
+            </div>
+          </div>
+          <div class="AddDetailsForm-category">
+            <div class="AddDetailsForm-category-title">
+              {{advertisemet.subCategory.title}}
+            </div>
+            <div class="AddDetailsForm-category-subcat">
+              {{advertisemet.address}}
+            </div>
+          </div>
+          <div class="AddDetailsForm-inputcontainer">
+          </div>
+
+          <div class="AddDetailsForm-inputcontainer" *ngFor="let oneField of advertisemet.fields">
+            <label for="name">{{oneField.key}}</label>
+            <div class="AddDetailsForm-inputcontainer-text">
+              {{oneField.value}}
+            </div>
+          </div>
+          <!--<div class="AddDetailsForm-inputcontainer">
               <label for="name">اسم المنتج</label>
               <div class="AddDetailsForm-inputcontainer-text">
                 قيمة الحقل
@@ -99,59 +99,77 @@
                 قيمة الحقل
               </div>
             </div>-->
-          </div>
-          <div class="AddDetailsForm-column">
-            <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
-              <div class="AddDetailsForm-imagescontainer-largeimage" (click)="openFullScreenImage(advertisemet.images[0])">
-                <img src="{{advertisemet.images[0]}}" />
-              </div>
-            </div>
-            <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
-              <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage" *ngFor="let oneImage of advertisemet.images">
-                <img src="{{oneImage}}" />
-              </div>
-            </div>
-            <div class="AddDetailsForm-pricepontainer">
-              <div class="AddDetailsForm-pricepontainer-num">{{advertisemet.price |number}}</div>
-              <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
-            </div>
-            <div class="AddDetailsForm-buttonscontainers">
-              <div (click)="openCommunicationDialog()"  class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
-                التواصل مع البائع
-              </div>
+        </div>
+        <div class="AddDetailsForm-column">
 
-              <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
-                <select (change)="makeReport($event.target.value)"  class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
+          <ngx-carousel [inputs]="carouselTile" style="
+    width:  100%;
+    direction:  initial;
+">
+            <!--*ngFor="let oneImage of advertisemet.images"-->
+            <ngx-tile NgxCarouselItem *ngFor="let oneImage of advertisemet.images">
+              <div (click)="openFullScreenImage(oneImage)" [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;
+    width: 100%;
+    height: 180px;
+    border-radius: 5px;">
+              </div>
+            </ngx-tile>
+
+
+            <button NgxCarouselPrev class='leftRs'>&lt;</button>
+            <button NgxCarouselNext class='rightRs'>&gt;</button>
+          </ngx-carousel>
+          <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
+            <div class="AddDetailsForm-imagescontainer-largeimage" (click)="openFullScreenImage(advertisemet.images[0])">
+              <img src="{{advertisemet.images[0]}}" />
+            </div>
+          </div>
+          <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
+            <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage" *ngFor="let oneImage of advertisemet.images">
+              <img src="{{oneImage}}" />
+            </div>
+          </div>
+          <div class="AddDetailsForm-pricepontainer">
+            <div class="AddDetailsForm-pricepontainer-num">{{advertisemet.price |number}}</div>
+            <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
+          </div>
+          <div class="AddDetailsForm-buttonscontainers">
+            <div (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
+              التواصل مع البائع
+            </div>
+
+            <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
+              <select (change)="makeReport($event.target.value)" class="AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
                 <option [ngValue]="undefined" selected>تبليغ</option>
                     <option *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.name}}</option>	
                  </select>
-                <!--<div (click)="addToBookmark()" [ngClass]="{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+              <!--<div (click)="addToBookmark()" [ngClass]="{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   إضافة إلى المفضلة{{advertisemet.isBookmarked}}
                 </div>
                 <div (click)="deleteFromBookmark()" [ngClass]="{'hidden':!advertisemet.isBookmarked || advertisemet.isBookmarked==null}" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   حذف من المفضلة{{advertisemet.isBookmarked}}
                 </div>-->
-                <div (click)="addToBookmark()" *ngIf="!advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
-                  إضافة إلى المفضلة
-                </div>
-                <div (click)="deleteFromBookmark()"*ngIf="advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
-                  حذف من المفضلة
-                </div>
+              <div (click)="addToBookmark()" *ngIf="!advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                إضافة إلى المفضلة
               </div>
-
-
-
+              <div (click)="deleteFromBookmark()" *ngIf="advertisemet.isBookmarked" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
+                حذف من المفضلة
+              </div>
             </div>
+
+
+
           </div>
         </div>
       </div>
     </div>
-    <!--Below main container end-->
+  </div>
+  <!--Below main container end-->
 
 
 
 
-    <!--<div class="Footer">
+  <!--<div class="Footer">
 
       <div class="Footer-about">
         <div class="Footer-about-title">
@@ -196,4 +214,4 @@
         </div>
       </div>
     </div>-->
-  </div>
+</div>

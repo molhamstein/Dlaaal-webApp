@@ -146,7 +146,6 @@ export class HomePageComponent {
         } else {
             this.noData = false
         }
-        this.loader = true;
         let query, skip, limit;
         this.lastType = type;
         this.lastData = data;
@@ -155,21 +154,29 @@ export class HomePageComponent {
             skip = this.advertisemets.length;
         } else {
             skip = 0;
-            this.advertisemets = [];
+            if (!(type == 0 && isTopSearch))
+                this.advertisemets = [];
         }
         if (type == -1) {
             query = { "order": "createdAt ASC", "limit": 10, "skip": 0 };
         } else if (type == 0) {
-            if (isTopSearch) {
+            if (!isScrol) {
                 $('html, body').animate({
                     scrollTop: $(".ItemsContainer").offset().top - 100
                 }, 2000);
+
             }
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = [];
         } else if (type == 1) {
+            if (!isScrol) {
+                $('html, body').animate({
+                    scrollTop: $(".ItemsContainer").offset().top - 100
+                }, 2000);
+
+            }
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             this.search['subCategory'] = data.subCategoryID;
@@ -177,7 +184,7 @@ export class HomePageComponent {
             this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
         }
         else if (type == 2) {
-            if (isTopSearch) {
+            if (isTopSearch && !isScrol) {
                 $('html, body').animate({
                     scrollTop: $(".ItemsContainer").offset().top - 100
                 }, 2000);
@@ -188,7 +195,6 @@ export class HomePageComponent {
             } else
                 query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
-            // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         else if (type == 3) {
             if (data.search.title != "" && data.search.title != null) {
@@ -198,14 +204,26 @@ export class HomePageComponent {
             else
                 query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
-            // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
-        console.log(query);
-        this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
-            if (!isScrol) {
+        if (!(type == 0 && isTopSearch)) {
+            this.loader = true;
+            this.getData(query, isScrol, limit, type);
+
+        }
+        else {
+            setTimeout(() => {
                 this.advertisemets = [];
-            }
-            // data = JSON.parse(data['_body']);
+                this.loader = true;
+                this.getData(query, isScrol, limit, type);
+            }, 1500)
+        }
+
+    }
+
+
+
+    getData(query, isScrol, limit, type) {
+        this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
             if (data.length == 0) {
                 this.noData = true;
             } else {
@@ -218,7 +236,6 @@ export class HomePageComponent {
             }
             this.loader = false;
         });
-
     }
 
     reseat() {

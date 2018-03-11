@@ -4453,7 +4453,21 @@ figure {
     background-color: #afafaf75;
 }
 
-
-.cursorPointer{
+.cursorPointer {
     cursor: pointer;
 }
+
+ngx-carousel {
+    display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+    /* line 3, ../sass/_NotificationMenu.scss */
+    ngx-carousel {
+        display: block !important;
+    }
+    .AddDetailsForm-imagescontainer{
+        display: none;
+    }
+}
+

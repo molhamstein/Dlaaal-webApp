@@ -11,6 +11,9 @@ import { Directive } from '@angular/core';
 
 import { ActivatedRoute } from "@angular/router";
 
+import { NgxCarousel } from 'ngx-carousel';
+
+
 
 
 @Component({
@@ -25,6 +28,8 @@ export class AdvertisingComponent {
     addID;
     advertisemet;
     reports;
+    public carouselTileItems: Array<any>;
+    public carouselTile: NgxCarousel;
     constructor(public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
         this.advertisemet = {}
@@ -37,16 +42,52 @@ export class AdvertisingComponent {
     }
 
     ngOnInit() {
-    
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-        // this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
-        //     this.advertisemet = data;
-        // });
-        // this.APIServ.get("reports").subscribe(data => {
-        //     this.reports = data;
-        // });
-        // this.reports=[{'title': "غير أخلاقي",'id':0},{'title': "متكرر",'id':1},{'title': "غير مسموح",'id':2}]
 
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        this.carouselTileItems = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+        this.carouselTile = {
+            grid: { xs: 2, sm: 3, md: 3, lg: 5, all: 0 },
+            slide: 2,
+            speed: 400,
+            animation: 'lazy',
+            point: {
+                visible: true,
+                pointStyles: `
+          .ngxcarouselPoint {
+            list-style-type: none;
+            text-align: center;
+            padding: 12px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: auto;
+            box-sizing: border-box;
+          }
+          .ngxcarouselPoint li {
+            display: inline-block;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 0.55);
+            padding: 4px;
+            margin: 0 3px;
+            transition-timing-function: cubic-bezier(.17, .67, .83, .67);
+            transition: .4s;
+          }
+          .ngxcarouselPoint li.active {
+              background: #6b6b6b;
+              transform: scale(1.2);
+          }
+        `
+            },
+            load: 2,
+            touch: true,
+            easing: 'ease'
+        }
+    }
+
+    public onmoveFn(event: Event) {
+        // carouselLoad will trigger this funnction when your load value reaches
+        // it is helps to load the data by parts to increase the performance of the app
+        // must use feature to all carousel
     }
 
     openFullScreenImage(imageURL) {

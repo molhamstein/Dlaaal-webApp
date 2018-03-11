@@ -33,6 +33,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import * as $ from 'jquery';
+import { NgxCarouselModule } from 'ngx-carousel';
 
 import 'hammerjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -54,7 +55,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     // Main
-    BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,
+    BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,NgxCarouselModule,
     // Route
     RouterModule.forRoot(routes,{ enableTracing: true })
     

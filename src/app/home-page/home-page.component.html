@@ -17,7 +17,7 @@
 						<option [ngValue]="undefined" selected>اختر الفئة</option>
 						<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option> 
 						</select>
-					<input class="SearchBar-input" id="" placeholder="أنا أبحث عن" type="text" [(ngModel)]="search.title">
+					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" placeholder="أنا أبحث عن" type="text" [(ngModel)]="search.title">
 
 				</div>
 				<div class="Jumbotron-subtitle">
@@ -108,7 +108,7 @@
 									<option [ngValue]="undefined" selected>اختر الفئة</option>
 								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
 								</select>
-							<input class="FilterSearchBar-input" [(ngModel)]="search.title" id="" placeholder="أنا أبحث عن" type="text">
+							<input class="FilterSearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search})" [(ngModel)]="search.title" id="" placeholder="أنا أبحث عن" type="text">
 						</div>
 					</div>
 					<div class="u-flexAlignSelfStart u-hideOn700 u-afterAuto">
@@ -139,7 +139,7 @@
 						<div class="FiltersPanel-body">
 							<div class="FiltersPanel-body-inputcontainer">
 								<label for="name"> </label>
-								<input [(ngModel)]="search.title" class="FiltersPanel-body-inputcontainer-text" placeholder="أنا أبحث عن" type="text" value=""
+								<input [(ngModel)]="search.title" (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text" placeholder="أنا أبحث عن" type="text" value=""
 								 name="name">
 							</div>
 							<div class="FiltersPanel-body-inputcontainer">
@@ -167,21 +167,21 @@
 
 							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter">
 								<label for="name">{{oneKey.key}} </label>
-								<input *ngIf="oneKey.type == 'text' " class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
-								<input *ngIf="oneKey.type == 'number' " class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
+								<input *ngIf="oneKey.type == 'text' " (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
+								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
 								<select *ngIf="oneKey.type == 'choose' " class="FiltersPanel-body-select FiltersPanel-body-down">
 								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
 								</select>
 							</div>
 							<div class="FiltersPanel-body-inputcontainer">
 								<label for="name"> أقل سعر </label>
-								<input class="FiltersPanel-body-inputcontainer-text" [(ngModel)]="search.min" min="0" max="10000000000" type="number" value=""
+								<input class="FiltersPanel-body-inputcontainer-text" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.min" min="0" max="10000000000" type="number" value=""
 								 name="name">
 							</div>
 
 							<div class="FiltersPanel-body-inputcontainer">
 								<label for="name"> أكبر سعر </label>
-								<input class="FiltersPanel-body-inputcontainer-text" [(ngModel)]="search.max" min="0" max="10000000000" type="number" value=""
+								<input class="FiltersPanel-body-inputcontainer-text" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.max" min="0" max="10000000000" type="number" value=""
 								 name="name">
 							</div>
 

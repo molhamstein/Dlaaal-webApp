@@ -13,12 +13,12 @@
 		<label for="name" style="color: red">{{message}}</label>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">اسم المستخدم</label>
-			<input [(ngModel)]="user.email" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value=""
+			<input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value=""
 			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">كلمة السر</label>
-			<input [(ngModel)]="user.password" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value=""
+			<input [(ngModel)]="user.password" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value=""
 			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
