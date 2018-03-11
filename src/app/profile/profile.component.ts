@@ -20,7 +20,7 @@ export class ProfileComponent {
     imageProfile = "assets/imgs/defult_img.jpg";
     uploadingImage = false;
     userID
-    isMyProfile:boolean = false;
+    isMyProfile: boolean = false;
     userData
     follwers
     loaderBook = false;
@@ -45,13 +45,13 @@ export class ProfileComponent {
                 this.isMyProfile = true;
             }
             this.userID = param
-            this.isMyProfile = false;            
+            this.isMyProfile = false;
             this.setTab(2);
 
         }
     }
     ngOnInit() {
-               $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("html, body").animate({ scrollTop: 0 }, "slow");
 
         this.APIServe.get("users/" + this.userID + "/followers").subscribe(data => {
             this.follwers = data;
@@ -165,7 +165,8 @@ export class ProfileComponent {
                     this.noBook = true;
                 }
                 data.forEach(element => {
-                    this.bookmarks.push(element);
+                    if (element.category)
+                        this.bookmarks.push(element);
                 });
                 this.loaderBook = false;
             } else {
@@ -173,7 +174,8 @@ export class ProfileComponent {
                     this.noAdd = true;
                 }
                 data.forEach(element => {
-                    this.advertisemets.push(element);
+                    if (element.category)
+                        this.advertisemets.push(element);
                 });
                 this.loaderAdd = false;
 

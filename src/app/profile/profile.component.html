@@ -18,7 +18,7 @@
                             <img src="assets/imgs/infinity_loader_by_volorf.gif" [ngClass]="{'hidden': !uploadingImage}" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;"
                             />
 
-                            <div *ngIf="isMyProfile" _ngcontent-c1="" (click)="openSelectImage()" class="hoverDiv" style="">
+                            <div *ngIf="isMyProfile" _ngcontent-c1="" (click)="openSelectImage()" class="hoverDiv cursorPointer" style="">
                                 <span _ngcontent-c1="" class="glyphicon glyphicon-camera"></span>
                                 <span _ngcontent-c1="">تغيير الصورة</span>
                                 <input type="file" style="display:none" id="files" (change)="onChange($event)" />
@@ -67,10 +67,10 @@
         <div class="UserProfileContainer">
             <div class="UserProfile">
                 <div class="UserProfile-navtabs">
-                    <div class="UserProfile-navtabs-tab " (click)="setTab(1)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}">
+                    <div class="UserProfile-navtabs-tab cursorPointer" (click)="setTab(1)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}">
                         قائمة التفضيلات
                     </div>
-                    <div class="UserProfile-navtabs-tab" (click)="setTab(2)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(2)}">
+                    <div class="UserProfile-navtabs-tab cursorPointer" (click)="setTab(2)" [ngClass]="{'UserProfile-navtabs-tab--active':isSetTab(2)}">
                         <!--إعلاناتي-->
                         {{isMyProfile ? "إعلاناتي" : "إعلانات"}}
 
@@ -79,7 +79,7 @@
                 <div class="UserProfile-navcontent">
                     <div class="ItemsContainer">
                         <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(2)}">
-                            <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock">
+                            <div *ngFor="let oneBookMark of bookmarks" routerLink="{{'/detail/'+oneBookMark.id}}" class="ItemBlock cursorPointer">
                                 <div class="ItemSummary">
                                     <div class="ItemSummary-head">
                                         <div class="ItemSummary-head-title">
@@ -122,7 +122,7 @@
 
                         </div>
                         <div class="ItemsContainer" [ngClass]="{'hidden':isSetTab(1)}">
-                            <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemBlock">
+                            <div *ngFor="let oneAdvertisemet of advertisemets" routerLink="{{'/detail/'+oneAdvertisemet.id}}" class="ItemBlock cursorPointer">
                                 <div class="ItemSummary">
                                     <div class="ItemSummary-head">
                                         <div class="ItemSummary-head-title">

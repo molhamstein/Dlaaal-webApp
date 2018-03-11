@@ -12,11 +12,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class SignInModalComponent {
     user = {};
     message;
+    loader;
     constructor(public thisDialog: MatDialogRef<SignInModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public LoginSer: LoginService, public APIServ: CallApiService) {
-
+        this.loader = false;
     }
     login() {
+        this.loader = true;
         this.APIServ.post("users/login", this.user).subscribe((data: string) => {
+            this.loader = false;
             if (this.APIServ.getErrorCode() == 0) {
                 this.LoginSer.logIn(data);
             } else if (this.APIServ.getErrorCode() == 401) {
@@ -31,7 +34,7 @@ export class SignInModalComponent {
         this.thisDialog.close(true);
     }
 
-        closeModal(){
+    closeModal() {
         this.thisDialog.close();
     }
 }

@@ -46,10 +46,6 @@
                             </select>
                         </div>
                         <div class="AddNewForm-inputcontainer">
-                            <label for="name">الرقم </label>
-                            <input [(ngModel)]="search.phone" class="AddNewForm-inputcontainer-text" type="tel" value="" name="name">
-                        </div>
-                        <div class="AddNewForm-inputcontainer">
                             <label for="name">عنوان </label>
                             <input [(ngModel)]="search.title" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
                         </div>
@@ -80,42 +76,26 @@
                             </div>
                             <div *ngFor="let image of imageOnLoad;let i = index" class="AddNewForm-imagescontainer-smallimage" style="    position: relative;">
                                 <img id="{{'uploadImage'+i}}" />
-                                <img src="assets/imgs/infinity_loader_by_volorf.gif" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;" />
-                                
+                                <img src="assets/imgs/infinity_loader_by_volorf.gif" style="position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;"
+                                />
+
                             </div>
 
 
-                            <div (click)="openSelectImage()" for="file" class="AddNewForm-imagescontainer-browseimage">
+                            <div (click)="openSelectImage()" for="file" class="AddNewForm-imagescontainer-browseimage cursorPointer">
                                 <input multiple type="file" style="display:none" id="files" (change)="onChange($event)" />
                                 <img src="assets/imgs/browse.png" />
                             </div>
                         </div>
-
-                        <!--<div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--lg">
-                            <div class="AddNewForm-imagescontainer-largeimage">
-                                <img src="../imgs/car-1.jpg" />
-                            </div>
-                        </div>
-                        <div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--sm">
-                            <div class="AddNewForm-imagescontainer-smallimage">
-                                <img src="../imgs/car-1.jpg" />
-                            </div>
-                            <div class="AddNewForm-imagescontainer-smallimage">
-                                <img src="../imgs/car-1.jpg" />
-                            </div>
-                            <div class="AddNewForm-imagescontainer-browseimage">
-                                <img src="../imgs/browse.png" />
-                            </div>
-                        </div>-->
                         <div class="AddNewForm-submitcontainer">
                             <div class="AddNewForm-checkboxcontainer">
                                 <input type="checkbox" id="checkbox_id" [(ngModel)]="isAgree" value="value">
                                 <label for="checkbox_id">
-                      أوافق على
-                      <div class="u-textPrimaryColor" routerLink="{{'/terms'}}">شروط الاستخدام</div>
-      و
-                    <div class="u-textPrimaryColor" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
-                    </label>
+                                    أوافق على
+                                    <div class="u-textPrimaryColor" routerLink="{{'/terms'}}">شروط الاستخدام</div>
+                                     و
+                                    <div class="u-textPrimaryColor" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
+                                </label>
                             </div>
                             <div class="AddNewForm-btn" [ngStyle]="{'background-color':  isAgree ? '#257310' : '#257310a1'}" (click)="addAdvertising()">
                                 إضافة إعلان
@@ -124,9 +104,14 @@
 
 
                     </div>
+
+                </div>
+                <div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==0}">
+                    <img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
                 </div>
             </div>
         </div>
+
         <!--Below main container end-->
 
 

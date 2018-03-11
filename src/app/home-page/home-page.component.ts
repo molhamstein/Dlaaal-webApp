@@ -182,13 +182,25 @@ export class HomePageComponent {
                     scrollTop: $(".ItemsContainer").offset().top - 100
                 }, 2000);
             }
-            query = { "where": { "categoryId": data.search.category, "cityId": data.search.city,"title":data.search.title }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            if (data.search.title != "" && data.search.title != null) {
+                let title = "%" + data.search.title + "%"
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "title": { "like": title } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            } else
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
         else if (type == 3) {
-            query = { "where": {"title":data.search.title, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            if (data.search.title != "" && data.search.title != null) {
+                let title = "%" + data.search.title + "%"
+                query = { "where": { "title": { "like": title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            }
+            else
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+
             // query = "{\'where\':{\'categoryId\':" + data.search.category + ",\'cityId\':" + data.search.city + ",\'status\':\'active\'}}";
         }
+        console.log(query);
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
             if (!isScrol) {
                 this.advertisemets = [];
@@ -200,12 +212,20 @@ export class HomePageComponent {
                 if (data.length < limit && type != -1)
                     this.noData = true;
                 data.forEach(element => {
-                    this.advertisemets.push(element);
+                    if (element.category)
+                        this.advertisemets.push(element);
                 });
             }
             this.loader = false;
         });
 
+    }
+
+    reseat() {
+        this.getAdvertisemets(-1, {});
+    }
+    openMenu() {
+        $(".DropMenu-Down").toggleClass('DropMenu--isShown');
     }
 
     changeCategory(categortID) {

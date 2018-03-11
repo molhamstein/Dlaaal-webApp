@@ -76,6 +76,10 @@ export class HeaderComponent {
     toggleNot() {
         $(".NotificationMenuTop").toggleClass('NotificationMenu--isShown');
     }
+
+    openMenu(){
+        $(".DropMenu-Top").toggleClass('DropMenu--isShown');
+    }
     openSignUpDialog() {
 
         let dialogRef = this.dialog.open(SignUpModalComponent, {

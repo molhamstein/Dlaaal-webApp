@@ -33,7 +33,7 @@
 		<div class="GridContainer">
 			<div class="CategoriesContainer">
 				<div class="CategoryBox" *ngFor="let mainCategory of mainCategories">
-					<div (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})" class="CategoryBox-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}">
+					<div (click)="getAdvertisemets(0,{'categoryID':mainCategory.id})" class="CategoryBox-head cursorPointer" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}">
 						<span class="CategoryBox-head-title">{{mainCategory.title}}</span>
 					</div>
 					<div class="CategoryBox-body">
@@ -50,8 +50,8 @@
 
 				<div class="ContentMenu">
 					<div class="u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill">
-						<i class="ContentMenu-item ContentMenu-item--iconDots"  *ngIf="isLogin">
-								<ul class="DropMenu">
+						<i class="ContentMenu-item ContentMenu-item--iconDots" (click)="openMenu()"  *ngIf="isLogin">
+								<ul class="DropMenu DropMenu-Down">
 									<li class="DropMenu-item">شروط الإستخدام</li>
 									<li class="DropMenu-divider"></li>
 									<li class="DropMenu-item">سياسة الخصوصية</li>
@@ -65,7 +65,7 @@
 							<span class="u-hideOnMedium u-after10p">إضافة إعلان</span>
 						</a>
 						<div href="#" class="u-after10p" *ngIf="isLogin">
-							<figure class="Avatar Avatar--lg">
+							<figure class="Avatar Avatar--lg cursorPointer">
 								<img src="assets/imgs/defult_img.jpg" alt="avatar">
 							</figure>
 						</div>
@@ -122,7 +122,7 @@
 				</div>-->
 			</div>
 			<div class="FullContainer">
-				<div class="FiltersPanelContianer" [ngClass]="{'hidden':keyFilter.length == 0}">
+				<div class="FiltersPanelContianer" [ngClass]="{'hidden':lastType == -1}">
 					<div class="FiltersPanel">
 						<div class="FiltersPanel-header">
 							<div class="FiltersPanel-header-title">
@@ -131,7 +131,7 @@
 							<div class="FiltersPanel-header-collapse">
 								--
 							</div>
-							<div class="FiltersPanel-header-close">
+							<div class="FiltersPanel-header-close" (click)="reseat()">
 
 							</div>
 
@@ -191,8 +191,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded':keyFilter.length != 0}">
-					<div class="ItemBlock" *ngFor="let advertisemet of advertisemets" routerLink="{{'/detail/'+advertisemet.id}}">
+				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded':lastType != -1}">
+					<div class="ItemBlock cursorPointer" *ngFor="let advertisemet of advertisemets" routerLink="{{'/detail/'+advertisemet.id}}">
 						<div class="ItemSummary">
 							<div class="ItemSummary-head">
 								<div class="ItemSummary-head-title">
@@ -347,7 +347,7 @@
 </div>
 
 <div class="CategoriesContainer">
-	<div class="CategoryBoxSub" *ngFor="let mainCategory of mainCategories">
+	<div class="CategoryBoxSub cursorPointer" *ngFor="let mainCategory of mainCategories">
 		<div class="CategoryBoxSub-head" [ngStyle]="{'background-image': 'url(' + mainCategory.image + ')'}" (click)="getAdvertisemets(0,{'categoryID':mainCategory.id},false,true)">
 			<span class="CategoryBoxSub-head-title">{{mainCategory.title}}</span>
 		</div>

@@ -19,13 +19,15 @@ export class AddAdvertisingComponent {
     isAgree = false;
     images = [];
     imageOnLoad: any = [];
+    loader;
     constructor(public globalSer: GlobalService, public APIServ: CallApiService, public loginSer: LoginService) {
         this.search['fields'] = [];
+        this.loader = false;
     }
 
 
     ngOnInit() {
-       $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
@@ -95,8 +97,6 @@ export class AddAdvertisingComponent {
                 fieldName = "الفئة"
             } else if (this.search['subCategoryId'] == "" || this.search['subCategoryId'] == null) {
                 fieldName = "الفئة الفرعية"
-            } else if (this.search['phone'] == "" || this.search['phone'] == null) {
-                fieldName = "الرقم"
             } else if (this.search['title'] == "" || this.search['title'] == null) {
                 fieldName = "العنوان"
             } else if (this.search['description'] == "" || this.search['description'] == null) {
@@ -114,16 +114,19 @@ export class AddAdvertisingComponent {
                 fieldName = "الصور";
             }
             this.search['ownerId'] = this.loginSer.getUserId();
-            if (fieldName == "")
+            if (fieldName == "") {
+                this.loader = true;
                 this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
                     // this.globalSer.goTo("detail/" + data.id)
+                    this.loader = false;
                     if (this.APIServ.getErrorCode() == 0) {
                         this.globalSer.goTo("detail/" + data.id)
                     } else if (this.APIServ.getErrorCode() == 403) {
                         this.APIServ.setErrorCode(0);
-                        this.globalSer.errorDialog("فشل إضافة إعلان","الرجاء التأكد من أن الحساب مفعل");
+                        this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
                     }
                 });
+            }
             else {
                 this.globalSer.errorDialog(" خطأ إدخال", "الرجاء التحقق من ملئ " + fieldName + " بالقيمه المناسبه ")
             }

@@ -1,7 +1,7 @@
 <!--component html goes here -->
 <!--<div id="" class="ModalContainer">
 			<div class="SignInModuleContainer">-->
-<div class="SignInModule">
+<div class="SignInModule" style="position: relative;overflow: hidden;">
 	<div class="SignInModule-header" style="direction: rtl;">
 		<div class="SignInModule-header-title">
 			تسجيل الدخول
@@ -10,18 +10,19 @@
 		</div>
 	</div>
 	<div class="SignInModule-body">
-			<label for="name" style="color: red">{{message}}</label>
+		<label for="name" style="color: red">{{message}}</label>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">اسم المستخدم</label>
-			<input [(ngModel)]="user.email" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value="" name="name">
+			<input [(ngModel)]="user.email" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value=""
+			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">كلمة السر</label>
-			<input [(ngModel)]="user.password" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value="" name="name">
+			<input [(ngModel)]="user.password" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value=""
+			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
-			<input type="checkbox" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2"
-			 value="value">
+			<input type="checkbox" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
 			<label for="checkbox_id2">
               تذكر كلمة المرور
               </label>
@@ -31,6 +32,9 @@
 		</div>
 		<div class="SignInModule-body-inputcontainer u-textCenter">
 			<div class="u-textPrimaryColor" (click)="forgetPassword()"> هل نسيت كلمة السر ؟</div>
+		</div>
+		<div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==0}">
+			<img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
 		</div>
 
 	</div>

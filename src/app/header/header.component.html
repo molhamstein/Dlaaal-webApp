@@ -2,8 +2,8 @@
 <div class="Header">
 	<div class="TopMenu">
 		<div class="u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill">
-			<i class="TopMenu-item TopMenu-item--iconDots" *ngIf="isLogin">
-							<ul class="DropMenu">
+			<i class="TopMenu-item TopMenu-item--iconDots" (click)="openMenu()" *ngIf="isLogin">
+							<ul class="DropMenu DropMenu-Top">
 								<li class="DropMenu-item">شروط الإستخدام</li>
 								<li class="DropMenu-divider"></li>
 								<li class="DropMenu-item">سياسة الخصوصية</li>
@@ -16,7 +16,7 @@
 						<span class="u-hideOnMedium u-after10p" >إضافة إعلان</span>
 					</a>
 			<div href="#" class="u-after10p" *ngIf="isLogin">
-				<figure class="Avatar Avatar--lg">
+				<figure class="Avatar Avatar--lg cursorPointer">
 					<img src="assets/imgs/defult_img.jpg" alt="avatar" routerLink="{{'/myprofile/me'}}">
 				</figure>
 			</div>
@@ -81,7 +81,7 @@
 			<a class="TopMenu-item" (click)="openSignUpDialog()" *ngIf="!isLogin">حساب جديد</a>
 		</div>
 		<div class="u-flexAlignSelfStart">
-			<img class="TopMenu-item TopMenu-item--logo" routerLink="{{''}}" src="assets/imgs/logo.png" alt="">
+			<img class="TopMenu-item TopMenu-item--logo cursorPointer" routerLink="{{''}}" src="assets/imgs/logo.png" alt="">
 		</div>
 
 	</div>
