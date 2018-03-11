@@ -4461,13 +4461,16 @@ ngx-carousel {
     display: none !important;
 }
 
+ngx-carousel button {
+    display: none !important;
+}
+
 @media screen and (max-width: 600px) {
     /* line 3, ../sass/_NotificationMenu.scss */
     ngx-carousel {
         display: block !important;
     }
-    .AddDetailsForm-imagescontainer{
+    .AddDetailsForm-imagescontainer {
         display: none;
     }
 }
-

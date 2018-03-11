@@ -47,7 +47,7 @@ export class AdvertisingComponent {
         this.carouselTileItems = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
         this.carouselTile = {
-            grid: { xs: 2, sm: 3, md: 3, lg: 5, all: 0 },
+            grid: { xs: 1, sm: 2, md: 3, lg: 5, all: 0 },
             slide: 2,
             speed: 400,
             animation: 'lazy',
@@ -66,21 +66,25 @@ export class AdvertisingComponent {
           .ngxcarouselPoint li {
             display: inline-block;
             border-radius: 50%;
-            border: 2px solid rgba(0, 0, 0, 0.55);
+            border: 1px solid rgb(115, 115, 115);
             padding: 4px;
+            background-color: rgba(0, 0, 0, 0.55);
             margin: 0 3px;
             transition-timing-function: cubic-bezier(.17, .67, .83, .67);
             transition: .4s;
           }
           .ngxcarouselPoint li.active {
-              background: #6b6b6b;
-              transform: scale(1.2);
+            background: #31b70d;
+            border: 1px solid rgb(49, 183, 13);
+            transform: scale(1.2);
           }
         `
             },
             load: 2,
             touch: true,
+            loop: true,
             easing: 'ease'
+
         }
     }
 
