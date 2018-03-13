@@ -52,7 +52,7 @@ export class HomePageComponent {
 
 
     ngOnInit() {
-
+        this.search['fields'] = []
         this.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -182,6 +182,10 @@ export class HomePageComponent {
             this.search['subCategory'] = data.subCategoryID;
             query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
+            if (!isScrol)
+                this.keyFilter.forEach((element, index) => {
+                    this.search['fields'][index] = {};
+                });
         }
         else if (type == 2) {
             if (isTopSearch && !isScrol) {
@@ -190,19 +194,42 @@ export class HomePageComponent {
                 }, 2000);
             }
             if (data.search.title != "" && data.search.title != null) {
-                let title = "%" + data.search.title + "%"
-                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "title": { "like": title } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                // let title = "%" + data.search.title + "%"
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "title": { "like": data.search.title } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
             } else
                 query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
         }
         else if (type == 3) {
+            console.log(this.search['fields']);
+            let fiedsQuery = [];
+            if (this.keyFilter.length != 0) {
+                this.keyFilter.forEach((element, index) => {
+                    if (this.search['fields'][index].value != "" &&this.search['fields'][index].value != null ) {
+                        alert(element.key);
+                        fiedsQuery.push({
+                            "fields": {
+                                "elemMatch": {
+                                    "key": element.key,
+                                    "value": this.search['fields'][index].value
+                                }
+                            }
+                        })
+                    }
+                });
+            }
             if (data.search.title != "" && data.search.title != null) {
-                let title = "%" + data.search.title + "%"
-                query = { "where": { "title": { "like": title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                if (fiedsQuery.length == 0)
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                else
+                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+
             }
             else
-                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                if (fiedsQuery.length == 0)
+                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                else
+                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
         }
         if (!(type == 0 && isTopSearch)) {
@@ -251,7 +278,11 @@ export class HomePageComponent {
 
     }
     changeSubCategory(subCategoryID) {
+        this.search["fields"] = [];
         this.keyFilter = this.mainCategories.find(x => x.id == this.search["category"]).subCategories.find(y => y.id == subCategoryID).fields;
+        this.keyFilter.forEach((element, index) => {
+            this.search['fields'][index] = {};
+        });
     }
 
     openSignUpDialog() {

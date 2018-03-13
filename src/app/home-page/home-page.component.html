@@ -164,12 +164,11 @@
 								 	<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>
 								</select>
 							</div>
-
-							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter">
+							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter;let i=index">
 								<label for="name">{{oneKey.key}} </label>
-								<input *ngIf="oneKey.type == 'text' " (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
-								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
-								<select *ngIf="oneKey.type == 'choose' " class="FiltersPanel-body-select FiltersPanel-body-down">
+								<input *ngIf="oneKey.type == 'text'"  (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
+								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
+								<select *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-select FiltersPanel-body-down">
 								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
 								</select>
 							</div>
