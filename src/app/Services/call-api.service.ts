@@ -25,7 +25,7 @@ export class CallApiService {
   //   "users/login"
   // ];
   readonly baseUrl = "http://104.217.253.15:3000/api/"
-  private errorCode=0;
+  private errorCode = 0;
 
   // get(url) {
   //   let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
@@ -35,7 +35,7 @@ export class CallApiService {
   // }
 
   public setErrorCode(errorCode) {
-    this.errorCode=errorCode;
+    this.errorCode = errorCode;
   }
 
   public getErrorCode() {
@@ -71,19 +71,19 @@ export class CallApiService {
     return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
-      this.errorCode=Response.status;
+      this.errorCode = Response.status;
       return "E";
     });
   }
 
 
-  resetPassWord(url, data,token) {
+  resetPassWord(url, data, token) {
     let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": token }) };
 
     return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
-      this.errorCode=Response.status;
+      this.errorCode = Response.status;
       return "E";
     });
   }
@@ -93,7 +93,7 @@ export class CallApiService {
     return this.http.put(this.baseUrl + url, {}, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
-      this.errorCode=Response.status;
+      this.errorCode = Response.status;
       return "E";
     });
   }
@@ -105,7 +105,7 @@ export class CallApiService {
     return this.http.put(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
-      this.errorCode=Response.status;
+      this.errorCode = Response.status;
       return "E";
     });
   }
@@ -116,7 +116,7 @@ export class CallApiService {
     return this.http.delete(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
-      this.errorCode=Response.status;
+      this.errorCode = Response.status;
       return "E";
     });
   }

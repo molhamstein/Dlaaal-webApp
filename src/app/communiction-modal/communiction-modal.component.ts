@@ -9,12 +9,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class CommunictionModalComponent {
     constructor(public dialogRef: MatDialogRef<CommunictionModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-        
+
     }
-    goToPage(){
+    goToPage() {
         this.dialogRef.close(true);
     }
-        closeModal(){
+    closeModal() {
         this.dialogRef.close();
     }
 }

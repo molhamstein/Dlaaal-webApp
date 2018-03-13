@@ -3106,6 +3106,7 @@ figure {
 /* line 141, ../sass/_AddNewForm.scss */
 
 .AddNewForm-imagescontainer-smallimage {
+    position :relative;
     width: 32%;
     height: 120px;
     background-size: 100%;
@@ -4393,6 +4394,9 @@ figure {
     }
 }
 
+.myDialogStyle{
+    width: auto !important;
+}
 .myDialogStyle .mat-dialog-container {
     background-color: transparent;
     width: auto!important;
@@ -4473,4 +4477,16 @@ ngx-carousel button {
     .AddDetailsForm-imagescontainer {
         display: none;
     }
+}
+.openImage {
+    /*background-image: url("../imgs/seen.svg");*/
+    background-image: url(../../assets/imgs/close.svg);
+    width: 20px;
+    background-repeat: no-repeat;
+    top: 4px;
+    left: 4px;
+    height: 17px;
+    color: red;
+    position: absolute;
+    border-radius: 50%;
 }

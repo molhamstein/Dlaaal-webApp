@@ -28,7 +28,7 @@ export class EditProfileComponent {
             this.message = "الرقم"
         } else if (this.newUser['email'] == "" || this.newUser['email'] == null) {
             this.message = "الأيميل"
-        } 
+        }
         // else if (this.newUser['password'] == "" || this.newUser['password'] == null) {
         //     this.message = "كلمة السر"
         // }
@@ -38,8 +38,7 @@ export class EditProfileComponent {
             this.APIServ.put("/users/" + this.newUser.id, this.newUser).subscribe(data => {
 
                 if (this.APIServ.getErrorCode() == 0) {
-                    alert("Success")
-                    // this.LoginSer.logIn(data);
+                    this.thisDialog.close(false);
                 } else if (this.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     this.APIServ.setErrorCode(0);
@@ -49,11 +48,11 @@ export class EditProfileComponent {
 
     }
 
-    changePassword(){
+    changePassword() {
         this.thisDialog.close(true);
     }
 
-        closeModal(){
+    closeModal() {
         this.thisDialog.close();
     }
 }

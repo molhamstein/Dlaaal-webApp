@@ -1,9 +1,10 @@
+<!--component html goes here -->
 <div class="MainContainer">
     <div class="HeaderBackground">
         <header></header>
         <div class="Triangle Triangle--pages">
             <div class="Triangle--pages-title">
-                إضافة إعلان جديد
+                تعديل إعلان
             </div>
 
             <div class="Triangle--spacer"></div>
@@ -70,7 +71,6 @@
                                 <img src="{{images[0]}}" />
                             </div>
                         </div>
-                        {{images}}
                         <div class="AddNewForm-imagescontainer AddNewForm-imagescontainer--sm">
                             <div *ngFor="let value of images;let i=index" class="AddNewForm-imagescontainer-smallimage">
                                 <div (click)="deleteImage(i)" class="openImage cursorPointer"></div>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="AddNewForm-submitcontainer">
-                            <div class="AddNewForm-checkboxcontainer">
+                            <!--<div class="AddNewForm-checkboxcontainer">
                                 <input type="checkbox" id="checkbox_id" [(ngModel)]="isAgree" value="value">
                                 <label for="checkbox_id">
                                     أوافق على
@@ -98,9 +98,12 @@
                                      و
                                     <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
                                 </label>
+                            </div>-->
+                            <div class="AddNewForm-btn" style="width: 40%;;margin: 28px 5%" (click)="editAdvertising()">
+                                تعديل
                             </div>
-                            <div class="AddNewForm-btn" [ngStyle]="{'background-color':  isAgree ? '#257310' : '#257310a1'}" (click)="addAdvertising()">
-                                إضافة إعلان
+                             <div class="AddNewForm-btn" style="width: 40%;;margin: 28px 5%;background-color:  red;"  routerLink="{{'/detail/'+search.id}}">
+                                إلغاء
                             </div>
                         </div>
 
@@ -108,7 +111,7 @@
                     </div>
 
                 </div>
-                <div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==0}">
+                <div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==false}">
                     <img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
                 </div>
             </div>
@@ -120,49 +123,3 @@
     </div>
 
 </div>
-<!--
-<div class="Footer">
-
-    <div class="Footer-about">
-        <div class="Footer-about-title">
-            عن دلال
-        </div>
-        <div class="Footer-about-body">
-            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت
-        </div>
-        <div class="Footer-about-bar">
-            <div class="Footer-about-bar-item">
-                شروط الاستخدام
-            </div>
-            <div class="Footer-about-bar-item">
-                سياسية الخصوصية
-            </div>
-            <div class="Footer-about-bar-item">
-                تواصل معنا
-            </div>
-        </div>
-    </div>
-    <div class="Footer-contact">
-        <div class="Footer-contact-title">
-            تواصل معنا على.....
-        </div>
-        <div class="Footer-contact-icons">
-            <div class="Footer-contact-icon" style="background-image: url('../imgs/facebook.svg');">
-
-            </div>
-            <div class="Footer-contact-icon" style="background-image: url('../imgs/insta.svg');">
-
-            </div>
-        </div>
-
-    </div>
-    <div class="Footer-right">
-
-        <div class="Footer-right-text">
-            All Rights Reserved
-        </div>
-        <div class="Footer-right-logo">
-            <img src="../imgs/logo.png" alt="">
-        </div>
-    </div>
-</div>-->

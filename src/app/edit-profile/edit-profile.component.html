@@ -6,7 +6,7 @@
 <div class="SignUpModule">
     <div class="SignUpModule-header" style="direction: rtl;">
         <div class="SignUpModule-header-title">
-            حساب جديد
+            تعديل معلومات الحساب
         </div>
         <div class="SignUpModule-header-close" (click)="closeModal()">
         </div>
@@ -32,12 +32,12 @@
             <input [(ngModel)]="newUser.password" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password" value="" name="name">
         </div>-->
         <button (click)="editProfile()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
-            إنشاء الحساب
+           تعديل
         </button>
     </div>
     <div class="SignUpModule-footer">
         تريد تغيير كلمة السر
-        <div class="u-textPrimaryColor" (click)="changePassword()">
+        <div class="u-textPrimaryColor cursorPointer" (click)="changePassword()">
             تغيير كلمة السر .
         </div>
     </div>

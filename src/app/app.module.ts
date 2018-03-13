@@ -1,3 +1,5 @@
+import { EditAdvertisingComponent } from './edit-advertising/edit-advertising.component';
+import { EditOrDeactiveModalComponent } from './edit-or-deactive-modal/edit-or-deactive-modal.component';
 import { ActivateComponent } from './activate/activate.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgetPasswordModalComponent } from './forget-password-modal/forget-password-modal.component';
@@ -51,7 +53,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,EditAdvertisingComponent,EditOrDeactiveModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -62,7 +64,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[ChangePasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[ChangePasswordComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

@@ -107,7 +107,8 @@ export class ProfileComponent {
             console.log('The dialog was closed');
             if (result) {
                 this.changePassword();
-            }
+            } else if (!result)
+                this.globalServ.errorDialog('تعديل الحساب', 'تم تعديل معلومات الحساب')
         });
     }
 
@@ -116,6 +117,8 @@ export class ProfileComponent {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            if (result)
+                this.globalServ.errorDialog('تعديل الحساب', 'تم تعديل كلمة السر')
             console.log('The dialog was closed');
         });
     }

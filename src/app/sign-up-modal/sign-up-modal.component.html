@@ -34,9 +34,9 @@
                 id="checkbox_id" value="value">
             <label for="checkbox_id">
                   أوافق على
-                  <div class="u-textPrimaryColor" routerLink="{{'/terms'}}">شروط الاستخدام</div>
+                  <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/terms'}}">شروط الاستخدام</div>
   
-                <div class="u-textPrimaryColor" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
+                <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
                 </label>
         </div>
         <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
@@ -45,7 +45,7 @@
     </div>
     <div class="SignUpModule-footer">
         لديك حساب مسبقاً
-        <div class="u-textPrimaryColor" (click)="login()">
+        <div class="u-textPrimaryColor cursorPointer" (click)="login()">
             قم بتسجيل الدخول .
         </div>
     </div>

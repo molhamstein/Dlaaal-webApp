@@ -9,7 +9,7 @@ import { Component, Inject } from '@angular/core';
 })
 export class ChangePasswordComponent {
     password;
-    message="";
+    message = "";
     constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>, public APIServ: CallApiService) {
         this.password = { "oldPassword": "", "newPassword": "" };
     }
@@ -17,14 +17,14 @@ export class ChangePasswordComponent {
         this.APIServ.post("users/change-password", this.password).subscribe(data => {
 
             if (this.APIServ.getErrorCode() == 0) {
-                alert("Success")
-                // this.LoginSer.logIn(data);
-            }else  if (this.APIServ.getErrorCode() == 400) {
-               this.message="كلمة السر الحالية خاطئة"
+                this.dialogRef.close(true);
+            } else if (this.APIServ.getErrorCode() == 400) {
+                this.message = "كلمة السر الحالية خاطئة"
+                this.APIServ.setErrorCode(0);
             }
         });
     }
-    closeModal(){
+    closeModal() {
         this.dialogRef.close();
     }
 }

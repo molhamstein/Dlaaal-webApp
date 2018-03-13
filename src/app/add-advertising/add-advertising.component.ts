@@ -132,4 +132,8 @@ export class AddAdvertisingComponent {
             }
         }
     }
+
+    deleteImage(index){
+        this.images.splice(index, 1);
+    }
 }

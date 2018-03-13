@@ -1,0 +1,20 @@
+<!--component html goes here -->
+<div class="SignInModule">
+    <div class="SignInModule-header" style="direction: rtl;">
+        <div class="SignInModule-header-title">
+            إعلان شخصي
+        </div>
+        <div class="SignInModule-header-close" (click)="closeModal()">
+        </div>
+    </div>
+    <div class="SignInModule-body" style="direction:  rtl;">
+        <label>  هذا الإعلان خاص بك يمكنك </label> 
+        <br>
+        <label>
+        
+        <a class="cursorPointer" (click)="gotToEdit()" style="color: #257310">تعديله</a>
+        أو
+        <a class="cursorPointer" (click)="deactive()" style="color: #257310">حذفه</a>        
+        </label>
+    </div>
+</div>

@@ -1,16 +1,17 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class LoginService {
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService, private router: Router) { }
 
   isLogin() {
     if (this.cookieService.get('dalalUserId') == "") {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }
@@ -37,7 +38,10 @@ export class LoginService {
   logout() {
     this.cookieService.set('dalalUserId', "");
     this.cookieService.set('dalalId', "");
-    location.reload();
-
+    console.log(this.router.url);
+    if ("/myprofile/me" == this.router.url) {
+      location.href='/';
+    } else
+      location.reload();
   }
 }

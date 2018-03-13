@@ -1,3 +1,4 @@
+import { EditOrDeactiveModalComponent } from './../edit-or-deactive-modal/edit-or-deactive-modal.component';
 import { HeaderComponent } from './../header/header.component';
 import { LoginService } from './../Services/login.service';
 import { GlobalService } from './../Services/global.service';
@@ -28,13 +29,18 @@ export class AdvertisingComponent {
     addID;
     advertisemet;
     reports;
+    isMyAdv: boolean;
     public carouselTileItems: Array<any>;
     public carouselTile: NgxCarousel;
     constructor(public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
         this.advertisemet = {}
+        this.isMyAdv = false;
         this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
             this.advertisemet = data;
+            if (this.logInSer.getUserId() == this.advertisemet.ownerId) {
+                this.isMyAdv = true;
+            }
         });
         this.APIServ.get("reports").subscribe(data => {
             this.reports = data;
@@ -110,7 +116,7 @@ export class AdvertisingComponent {
         let dialogRef = this.dialog.open(CommunictionModalComponent, {
             // width: '35%',
             panelClass: 'communictioDialogStyle',
-            data: { phone: this.advertisemet.phone }
+            data: { phone: this.advertisemet.owner.phone }
 
         });
 
@@ -124,7 +130,7 @@ export class AdvertisingComponent {
     makeReport(reportId) {
         if (!this.logInSer.isLogin())
             this.headerChild.openSignInDialog();
-        else {
+        else if (reportId != "تبليغ") {
             let reports = this.reports.find(x => x.id == reportId)
             let dialogRef = this.dialog.open(ReportModalComponent, {
                 data: { report: reports, userID: this.logInSer.getUserId(), addID: this.addID }
@@ -155,6 +161,21 @@ export class AdvertisingComponent {
             if (this.APIServ.getErrorCode() == 0) {
                 this.advertisemet.isBookmarked = false;
                 this.globalServ.errorDialog("حذف إعلان من المفضلة", "تم الحذف بنجاح");
+            }
+        });
+    }
+
+    chaoesActionModal() {
+        let dialogRef = this.dialog.open(EditOrDeactiveModalComponent, {
+            panelClass: 'communictioDialogStyle',
+            data: { Id: this.advertisemet.id }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result == false) {
+                this.globalServ.goTo("")
+            } else if(result) {
+                this.globalServ.goTo("edit/"+this.advertisemet.id)
             }
         });
     }

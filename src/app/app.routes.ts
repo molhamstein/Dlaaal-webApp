@@ -1,3 +1,4 @@
+import { EditAdvertisingComponent } from './edit-advertising/edit-advertising.component';
 import { ActivateComponent } from './activate/activate.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
@@ -13,6 +14,9 @@ export const routes: Routes = [
     {
         path: 'detail/:addID',
         component: AdvertisingComponent
+    },{
+        path: 'edit/:addID',
+        component: EditAdvertisingComponent
     }, {
         path: "home",
         component: HomePageComponent
@@ -40,5 +44,5 @@ export const routes: Routes = [
     }, {
         path: "**",
         component: HomePageComponent
-    },
+    }
 ]
