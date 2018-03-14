@@ -62,6 +62,10 @@ input[type='text'] {
     font-size: 20px;
 }
 
+.numberType , input[type='number']{
+    font-family: 'OpenSans-ExtraBold';
+}
+
 
 /*Down-right pointing*/
 
@@ -619,6 +623,7 @@ figure {
     font-size: 35px;
     line-height: 48px;
     padding: 20px 15px 15px 15px;
+    text-shadow: 0px 0px 10px black;
 }
 
 
@@ -3106,7 +3111,7 @@ figure {
 /* line 141, ../sass/_AddNewForm.scss */
 
 .AddNewForm-imagescontainer-smallimage {
-    position :relative;
+    position: relative;
     width: 32%;
     height: 120px;
     background-size: 100%;
@@ -4394,9 +4399,10 @@ figure {
     }
 }
 
-.myDialogStyle{
+.myDialogStyle {
     width: auto !important;
 }
+
 .myDialogStyle .mat-dialog-container {
     background-color: transparent;
     width: auto!important;
@@ -4478,6 +4484,7 @@ ngx-carousel button {
         display: none;
     }
 }
+
 .openImage {
     /*background-image: url("../imgs/seen.svg");*/
     background-image: url(../../assets/imgs/close.svg);

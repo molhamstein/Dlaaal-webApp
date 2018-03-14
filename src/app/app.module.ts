@@ -59,7 +59,7 @@ import { AppComponent } from './app.component';
     // Main
     BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,NgxCarouselModule,
     // Route
-    RouterModule.forRoot(routes,{ enableTracing: true })
+    RouterModule.forRoot(routes,{useHash: true})
     
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule

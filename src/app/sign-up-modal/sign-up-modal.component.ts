@@ -28,6 +28,7 @@ export class SignUpModalComponent {
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
         } else {
+            this.newUser['lastName']="";
             this.APIServ.post("users", this.newUser).subscribe(data => {
 
                 if (this.APIServ.getErrorCode() == 0) {
