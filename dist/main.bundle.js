@@ -72,12 +72,13 @@ var CallApiService = /** @class */ (function () {
         return this.errorCode;
     };
     CallApiService.prototype.get = function (url) {
+        var _this = this;
         var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
         return this.http.get(this.baseUrl + url, _options).map(function (Response) {
             return Response;
         }).catch(function (response) {
-            var data = { errMsg: "errMsg", error: "error" };
-            return JSON.stringify(data);
+            _this.errorCode = response.status;
+            return "E";
         });
     };
     CallApiService.prototype.handleError = function (error) {
@@ -273,6 +274,10 @@ var GlobalService = /** @class */ (function () {
             console.log('The dialog was closed');
         });
     };
+    GlobalService.prototype.somthingError = function () {
+        this.APIServe.setErrorCode(0);
+        this.errorDialog('حدث خطأ', "هناك مشكلة ما");
+    };
     GlobalService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["C" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_0__call_api_service__["a" /* CallApiService */]])
@@ -334,11 +339,13 @@ var LoginService = /** @class */ (function () {
         location.reload();
     };
     LoginService.prototype.logout = function () {
+        var _this = this;
         this.cookieService.set('dalalUserId', "");
         this.cookieService.set('dalalId', "");
         console.log(this.router.url);
         if ("/myprofile/me" == this.router.url) {
-            location.href = '/';
+            this.router.navigateByUrl('/myprofile/me').then(function () { return _this.router.navigateByUrl('/'); });
+            location.reload();
         }
         else
             location.reload();
@@ -509,10 +516,16 @@ var AddAdvertisingComponent = /** @class */ (function () {
         var _this = this;
         $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServ.get("cities").subscribe(function (data) {
-            _this.cities = data;
+            if (_this.APIServ.getErrorCode() == 0)
+                _this.cities = data;
+            else
+                _this.globalSer.somthingError();
         });
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(function (data) {
-            _this.categories = data;
+            if (_this.APIServ.getErrorCode() == 0)
+                _this.categories = data;
+            else
+                _this.globalSer.somthingError();
         });
     };
     AddAdvertisingComponent.prototype.releadImage = function (innerIndex, file) {
@@ -539,9 +552,12 @@ var AddAdvertisingComponent = /** @class */ (function () {
         }
         this.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe(function (data) {
             _this.imageOnLoad = [];
-            data.forEach(function (element) {
-                _this.images.push(element);
-            });
+            if (_this.APIServ.getErrorCode() == 0)
+                data.forEach(function (element) {
+                    _this.images.push(element);
+                });
+            else
+                _this.globalSer.somthingError();
         });
     };
     AddAdvertisingComponent.prototype.changeCategory = function (categortID) {
@@ -600,7 +616,6 @@ var AddAdvertisingComponent = /** @class */ (function () {
             if (fieldName_1 == "") {
                 this.loader = true;
                 this.APIServ.post("advertisemets", this.search).subscribe(function (data) {
-                    // this.globalSer.goTo("detail/" + data.id)
                     _this.loader = false;
                     if (_this.APIServ.getErrorCode() == 0) {
                         _this.globalSer.goTo("detail/" + data.id);
@@ -609,6 +624,8 @@ var AddAdvertisingComponent = /** @class */ (function () {
                         _this.APIServ.setErrorCode(0);
                         _this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
                     }
+                    else
+                        _this.globalSer.somthingError();
                 });
             }
             else {
@@ -637,7 +654,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/advertising/advertising.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n  <div class=\"HeaderBackground\">\n    <header></header>\n\n    <div class=\"Triangle Triangle--pages\">\n    </div>\n    <div class=\"Triangle--spacer\"></div>\n  </div>\n  <div class=\"Content\" *ngIf=\"advertisemet.images!=null\">\n    <div class=\"GridContainer\">\n      <div class=\"HeaderBoxContianer HeaderBoxContianer--detailspage\">\n        <div class=\"HeaderBox HeaderBox--detailspage\">\n          <div class=\"HeaderBox--detailspage-image cursorPointer\" (click)=\"openFullScreenImage(advertisemet.images[0])\" [ngStyle]=\"{'background-image': 'url(' +advertisemet.images[0] + ')'}\">\n          </div>\n          <div class=\"HeaderBox--detailspage-body\">\n            <div class=\"HeaderBox--detailspage-body-header\">\n              <div class=\"HeaderBox--detailspage-body-header-title\">\n                {{advertisemet.title}}\n              </div>\n\n            </div>\n            <div class=\"HeaderBox--detailspage-body-footer\">\n              <div class=\"HeaderBox--detailspage-body-footer-views\">\n                {{advertisemet.viewsCount}}\n              </div>\n              <div class=\"HeaderBox--detailspage-body-footer-date\">\n                <!--10/10/2015-->\n                {{advertisemet.createdAt | date : \"dd/MM/yyyy\"}}\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"HeaderBox HeaderBox--detailspage HeaderBox--stretch\">\n          <div class=\"HeaderBox--detailspage-pricecontainer\">\n            <div class=\"HeaderBox--detailspage-pricecontainer-num\">{{advertisemet.price |number}} </div>\n            <div class=\"HeaderBox--detailspage-pricecontainer-text\"> ل.س</div>\n          </div>\n          <div class=\"HeaderBox--detailspage-btncontainer\">\n            <div class=\"HeaderBox--detailspage-callusbtn\" *ngIf=\"isMyAdv==false\" (click)=\"openCommunicationDialog()\">\n\n            </div>\n            <div class=\"HeaderBox--detailspage-callusbtn\"   style=\"background-image: url('../../assets/imgs/btn-edit.svg');\" *ngIf=\"isMyAdv\" (click)=\"chaoesActionModal()\">\n\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"AddDetailsContainer\">\n      <div class=\"AddDetailsForm\">\n        <div class=\"AddDetailsForm-column\">\n          <div class=\"AddDetailsForm-header\">\n            <div class=\"AddDetailsForm-header-title\">\n              {{advertisemet.category.title}}\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-category\">\n            <div class=\"AddDetailsForm-category-title\">\n              {{advertisemet.subCategory.title}}\n            </div>\n            <div class=\"AddDetailsForm-category-subcat\">\n              {{advertisemet.address}}\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-inputcontainer\">\n          </div>\n\n          <div class=\"AddDetailsForm-inputcontainer\" *ngFor=\"let oneField of advertisemet.fields\">\n            <label for=\"name\">{{oneField.key}}</label>\n            <div class=\"AddDetailsForm-inputcontainer-text\">\n              {{oneField.value}}\n            </div>\n          </div>\n          <!--<div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>-->\n        </div>\n        <div class=\"AddDetailsForm-column\">\n\n          <ngx-carousel [inputs]=\"carouselTile\" style=\"\n    width:  100%;\n    direction:  initial;\n\">\n            <!--*ngFor=\"let oneImage of advertisemet.images\"-->\n            <ngx-tile NgxCarouselItem *ngFor=\"let oneImage of advertisemet.images\">\n              <!--<div  class=\"openImage cursorPointer\"></div>-->\n              <div  (click)=\"openFullScreenImage(oneImage)\" [ngStyle]=\"{'background-image': 'url(' +oneImage + ')'}\" style=\"background-size: cover;\n    width: 100%;\n    height: 180px;\n    border-radius: 5px;\">\n              </div>\n            </ngx-tile>\n\n\n            <button NgxCarouselPrev class='leftRs'>&lt;</button>\n            <button NgxCarouselNext class='rightRs'>&gt;</button>\n          </ngx-carousel>\n          <div class=\"AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg\">\n            <div class=\"AddDetailsForm-imagescontainer-largeimage\" (click)=\"openFullScreenImage(advertisemet.images[0])\">\n              <img src=\"{{advertisemet.images[0]}}\" />\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm\" >\n            <div (click)=\"openFullScreenImage(oneImage)\" class=\"AddDetailsForm-imagescontainer-smallimage cursorPointer\" *ngFor=\"let oneImage of advertisemet.images\">\n              <img src=\"{{oneImage}}\" />\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-pricepontainer\">\n            <div class=\"AddDetailsForm-pricepontainer-num\">{{advertisemet.price |number}}</div>\n            <div class=\"AddDetailsForm-pricepontainer-text\"> ل.س</div>\n          </div>\n          <div class=\"AddDetailsForm-buttonscontainers\">\n            <div (click)=\"openCommunicationDialog()\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact \">\n              التواصل مع البائع\n            </div>\n\n            <div class=\"AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  \">\n              <select (change)=\"makeReport($event.target.value)\" class=\"cursorPointer AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign\">\n                <option [ngValue]=\"undefined\" selected>تبليغ</option>\n                    <option class=\"cursorPointer\" *ngFor=\"let oneReport of reports\" value=\"{{oneReport.id}}\" >{{oneReport.name}}</option>\t\n                 </select>\n              <!--<div (click)=\"addToBookmark()\" [ngClass]=\"{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                  إضافة إلى المفضلة{{advertisemet.isBookmarked}}\n                </div>\n                <div (click)=\"deleteFromBookmark()\" [ngClass]=\"{'hidden':!advertisemet.isBookmarked || advertisemet.isBookmarked==null}\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                  حذف من المفضلة{{advertisemet.isBookmarked}}\n                </div>-->\n              <div (click)=\"addToBookmark()\" *ngIf=\"!advertisemet.isBookmarked\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                إضافة إلى المفضلة\n              </div>\n              <div (click)=\"deleteFromBookmark()\" *ngIf=\"advertisemet.isBookmarked\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                حذف من المفضلة\n              </div>\n            </div>\n\n\n\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <!--Below main container end-->\n\n\n\n\n  <!--<div class=\"Footer\">\n\n      <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n          عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n          شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n          <div class=\"Footer-about-bar-item\">\n            شروط الاستخدام\n          </div>\n          <div class=\"Footer-about-bar-item\">\n            سياسية الخصوصية\n          </div>\n          <div class=\"Footer-about-bar-item\">\n            تواصل معنا\n          </div>\n        </div>\n      </div>\n      <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n          تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n          <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n          </div>\n          <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n          </div>\n        </div>\n\n      </div>\n      <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n          All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n          <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n      </div>\n    </div>-->\n</div>"
+module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n  <div class=\"HeaderBackground\">\n    <header></header>\n\n    <div class=\"Triangle Triangle--pages\">\n    </div>\n    <div class=\"Triangle--spacer\"></div>\n  </div>\n  <div class=\"Content\" *ngIf=\"advertisemet.images!=null\">\n    <div class=\"GridContainer\">\n      <div class=\"HeaderBoxContianer HeaderBoxContianer--detailspage\">\n        <div class=\"HeaderBox HeaderBox--detailspage\">\n          <div class=\"HeaderBox--detailspage-image cursorPointer\" (click)=\"openFullScreenImage(advertisemet.images[0])\" [ngStyle]=\"{'background-image': 'url(' +advertisemet.images[0] + ')'}\">\n          </div>\n          <div class=\"HeaderBox--detailspage-body\">\n            <div class=\"HeaderBox--detailspage-body-header\">\n              <div class=\"HeaderBox--detailspage-body-header-title\">\n                {{advertisemet.title}}\n              </div>\n\n            </div>\n            <div class=\"HeaderBox--detailspage-body-footer\">\n              <div class=\"HeaderBox--detailspage-body-footer-views\">\n                {{advertisemet.viewsCount}}\n              </div>\n              <div class=\"HeaderBox--detailspage-body-footer-date\">\n                <!--10/10/2015-->\n                {{advertisemet.createdAt | date : \"dd/MM/yyyy\"}}\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"HeaderBox HeaderBox--detailspage HeaderBox--stretch\">\n          <div class=\"HeaderBox--detailspage-pricecontainer\">\n            <div class=\"HeaderBox--detailspage-pricecontainer-num\">{{advertisemet.price |number}} </div>\n            <div class=\"HeaderBox--detailspage-pricecontainer-text\"> ل.س</div>\n          </div>\n          <div class=\"HeaderBox--detailspage-btncontainer\">\n            <div class=\"HeaderBox--detailspage-callusbtn\" *ngIf=\"isMyAdv==false\" (click)=\"openCommunicationDialog()\">\n\n            </div>\n            <div class=\"HeaderBox--detailspage-callusbtn\"   style=\"background-image: url('../../assets/imgs/btn-edit.svg');\" *ngIf=\"isMyAdv\" (click)=\"chaoesActionModal()\">\n\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"AddDetailsContainer\">\n      <div class=\"AddDetailsForm\">\n        <div class=\"AddDetailsForm-column\">\n          <div class=\"AddDetailsForm-header\">\n            <div class=\"AddDetailsForm-header-title\">\n              {{advertisemet.category.title}}\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-category\">\n            <div class=\"AddDetailsForm-category-title\">\n              {{advertisemet.subCategory.title}}\n            </div>\n            <div class=\"AddDetailsForm-category-subcat\">\n              {{advertisemet.address}}\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-inputcontainer\">\n          </div>\n\n          <div class=\"AddDetailsForm-inputcontainer\" *ngFor=\"let oneField of advertisemet.fields\">\n            <label for=\"name\">{{oneField.key}}</label>\n            <div class=\"AddDetailsForm-inputcontainer-text\">\n              {{oneField.value}}\n            </div>\n          </div>\n          <!--<div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>\n            <div class=\"AddDetailsForm-inputcontainer\">\n              <label for=\"name\">اسم المنتج</label>\n              <div class=\"AddDetailsForm-inputcontainer-text\">\n                قيمة الحقل\n              </div>\n            </div>-->\n        </div>\n        <div class=\"AddDetailsForm-column\">\n\n          <ngx-carousel [inputs]=\"carouselTile\" style=\"\n    width:  100%;\n    direction:  initial;\n\">\n            <!--*ngFor=\"let oneImage of advertisemet.images\"-->\n            <ngx-tile NgxCarouselItem *ngFor=\"let oneImage of advertisemet.images\">\n              <!--<div  class=\"openImage cursorPointer\"></div>-->\n              <div  (click)=\"openFullScreenImage(oneImage)\" [ngStyle]=\"{'background-image': 'url(' +oneImage + ')'}\" style=\"background-size: cover;\n    width: 100%;\n    height: 180px;\n    border-radius: 5px;\">\n              </div>\n            </ngx-tile>\n\n\n            <button NgxCarouselPrev class='leftRs'>&lt;</button>\n            <button NgxCarouselNext class='rightRs'>&gt;</button>\n          </ngx-carousel>\n          <div class=\"AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg\">\n            <div class=\"AddDetailsForm-imagescontainer-largeimage cursorPointer\" (click)=\"openFullScreenImage(advertisemet.images[0])\">\n              <img src=\"{{advertisemet.images[0]}}\" />\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm\" >\n            <div (click)=\"openFullScreenImage(oneImage)\" class=\"AddDetailsForm-imagescontainer-smallimage cursorPointer\" *ngFor=\"let oneImage of advertisemet.images\">\n              <img src=\"{{oneImage}}\" />\n            </div>\n          </div>\n          <div class=\"AddDetailsForm-pricepontainer\">\n            <div class=\"AddDetailsForm-pricepontainer-num\">{{advertisemet.price |number}}</div>\n            <div class=\"AddDetailsForm-pricepontainer-text\"> ل.س</div>\n          </div>\n          <div class=\"AddDetailsForm-buttonscontainers\">\n            <div (click)=\"openCommunicationDialog()\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact \">\n              التواصل مع البائع\n            </div>\n\n            <div class=\"AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  \">\n              <select (change)=\"makeReport($event.target.value)\" class=\"cursorPointer AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign\">\n                <option [ngValue]=\"undefined\" selected>تبليغ</option>\n                    <option class=\"cursorPointer\" *ngFor=\"let oneReport of reports\" value=\"{{oneReport.id}}\" >{{oneReport.name}}</option>\t\n                 </select>\n              <!--<div (click)=\"addToBookmark()\" [ngClass]=\"{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                  إضافة إلى المفضلة{{advertisemet.isBookmarked}}\n                </div>\n                <div (click)=\"deleteFromBookmark()\" [ngClass]=\"{'hidden':!advertisemet.isBookmarked || advertisemet.isBookmarked==null}\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                  حذف من المفضلة{{advertisemet.isBookmarked}}\n                </div>-->\n              <div (click)=\"addToBookmark()\" *ngIf=\"!advertisemet.isBookmarked\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                إضافة إلى المفضلة\n              </div>\n              <div (click)=\"deleteFromBookmark()\" *ngIf=\"advertisemet.isBookmarked\" class=\"AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav\">\n                حذف من المفضلة\n              </div>\n            </div>\n\n\n\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <!--Below main container end-->\n\n\n\n\n  <!--<div class=\"Footer\">\n\n      <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n          عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n          شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n          <div class=\"Footer-about-bar-item\">\n            شروط الاستخدام\n          </div>\n          <div class=\"Footer-about-bar-item\">\n            سياسية الخصوصية\n          </div>\n          <div class=\"Footer-about-bar-item\">\n            تواصل معنا\n          </div>\n        </div>\n      </div>\n      <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n          تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n          <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n          </div>\n          <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n          </div>\n        </div>\n\n      </div>\n      <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n          All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n          <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n      </div>\n    </div>-->\n</div>"
 
 /***/ }),
 
@@ -707,13 +724,20 @@ var AdvertisingComponent = /** @class */ (function () {
         this.advertisemet = {};
         this.isMyAdv = false;
         this.APIServ.get("advertisemets/" + this.addID).subscribe(function (data) {
-            _this.advertisemet = data;
-            if (_this.logInSer.getUserId() == _this.advertisemet.ownerId) {
-                _this.isMyAdv = true;
+            if (_this.APIServ.getErrorCode() == 0) {
+                _this.advertisemet = data;
+                if (_this.logInSer.getUserId() == _this.advertisemet.ownerId) {
+                    _this.isMyAdv = true;
+                }
             }
+            else
+                _this.globalServ.somthingError();
         });
         this.APIServ.get("reports").subscribe(function (data) {
-            _this.reports = data;
+            if (_this.APIServ.getErrorCode() == 0)
+                _this.reports = data;
+            else
+                _this.globalServ.somthingError();
         });
     }
     AdvertisingComponent.prototype.ngOnInit = function () {
@@ -787,6 +811,8 @@ var AdvertisingComponent = /** @class */ (function () {
                     _this.advertisemet.isBookmarked = true;
                     _this.globalServ.errorDialog("إضافة إعلان إلى المفضلة", "تمت الإضافة بنجاح");
                 }
+                else
+                    _this.globalServ.somthingError();
             });
         else {
             this.headerChild.openSignInDialog();
@@ -799,6 +825,8 @@ var AdvertisingComponent = /** @class */ (function () {
                 _this.advertisemet.isBookmarked = false;
                 _this.globalServ.errorDialog("حذف إعلان من المفضلة", "تم الحذف بنجاح");
             }
+            else
+                _this.globalServ.somthingError();
         });
     };
     AdvertisingComponent.prototype.chaoesActionModal = function () {
@@ -1130,9 +1158,10 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChangePasswordComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1145,10 +1174,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChangePasswordComponent = /** @class */ (function () {
-    function ChangePasswordComponent(dialogRef, APIServ) {
+    function ChangePasswordComponent(dialogRef, APIServ, globalServ) {
         this.dialogRef = dialogRef;
         this.APIServ = APIServ;
+        this.globalServ = globalServ;
         this.message = "";
         this.password = { "oldPassword": "", "newPassword": "" };
     }
@@ -1162,18 +1193,20 @@ var ChangePasswordComponent = /** @class */ (function () {
                 _this.message = "كلمة السر الحالية خاطئة";
                 _this.APIServ.setErrorCode(0);
             }
+            else
+                _this.globalServ.somthingError();
         });
     };
     ChangePasswordComponent.prototype.closeModal = function () {
         this.dialogRef.close();
     };
     ChangePasswordComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'change-password',
             template: __webpack_require__("../../../../../src/app/change-password/change-password.component.html"),
             styles: [__webpack_require__("../../../../../src/app/change-password/change-password.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__["a" /* CallApiService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */]])
     ], ChangePasswordComponent);
     return ChangePasswordComponent;
 }());
@@ -1404,10 +1437,14 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(function (data) {
             _this.categories = data;
             _this.APIServ.get("advertisemets/" + _this.addID).subscribe(function (data) {
-                _this.search = data;
-                _this.changeCategory(_this.search['categoryId'], true);
-                _this.changeSubCategory(_this.search['subCategoryId'], true);
-                _this.images = _this.search['images'];
+                if (_this.APIServ.getErrorCode() == 0) {
+                    _this.search = data;
+                    _this.changeCategory(_this.search['categoryId'], true);
+                    _this.changeSubCategory(_this.search['subCategoryId'], true);
+                    _this.images = _this.search['images'];
+                }
+                else
+                    _this.globalSer.somthingError();
             });
         });
     };
@@ -1504,7 +1541,6 @@ var EditAdvertisingComponent = /** @class */ (function () {
             this.search['city'] = this.cities.find(function (x) { return x.id == _this.search["cityId"]; });
             this.loader = true;
             this.APIServ.put("advertisemets/" + this.search["id"], this.search).subscribe(function (data) {
-                // this.globalSer.goTo("detail/" + data.id)
                 _this.loader = false;
                 if (_this.APIServ.getErrorCode() == 0) {
                     _this.globalSer.goTo("detail/" + data.id);
@@ -1513,6 +1549,8 @@ var EditAdvertisingComponent = /** @class */ (function () {
                     _this.APIServ.setErrorCode(0);
                     _this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
                 }
+                else
+                    _this.globalSer.somthingError();
             });
         }
         else {
@@ -1540,7 +1578,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/edit-or-deactive-modal/edit-or-deactive-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            إعلان شخصي\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\" style=\"direction:  rtl;\">\n        <label>  هذا الإعلان خاص بك يمكنك </label> \n        <br>\n        <label>\n        \n        <a class=\"cursorPointer\" (click)=\"gotToEdit()\" style=\"color: #257310\">تعديله</a>\n        أو\n        <a class=\"cursorPointer\" (click)=\"deactive()\" style=\"color: #257310\">حذفه</a>        \n        </label>\n    </div>\n</div>"
+module.exports = "<!--component html goes here -->\n<!--<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            إعلان شخصي\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\" style=\"direction:  rtl;\">\n        <label>  هذا الإعلان خاص بك يمكنك </label> \n        <br>\n        <label>\n        \n        <a class=\"cursorPointer\" (click)=\"gotToEdit()\" style=\"color: #257310\">تعديله</a>\n        أو\n        <a class=\"cursorPointer\" (click)=\"deactive()\" style=\"color: #257310\">حذفه</a>        \n        </label>\n    </div>\n</div>-->\n\n<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            إعلان شخصي\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\" style=\"direction:  rtl;\">\n        <p>  هذا الإعلان خاص بك  </p> \n        <div  class=\"editOrDeact\">\n            <div class=\"parent \"><div (click)=\"deactive()\" class=\"childe deactive\"></div>\n            <p (click)=\"deactive()\">حذف </p>\n            </div>\n            <div class=\"parent\"><div (click)=\"gotToEdit()\" class=\"childe edit\"></div>\n            <p (click)=\"gotToEdit()\">تعديل</p>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1567,9 +1605,10 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditOrDeactiveModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1585,9 +1624,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var EditOrDeactiveModalComponent = /** @class */ (function () {
-    function EditOrDeactiveModalComponent(dialogRef, APIServ, data) {
+    function EditOrDeactiveModalComponent(dialogRef, globalSer, APIServ, data) {
         this.dialogRef = dialogRef;
+        this.globalSer = globalSer;
         this.APIServ = APIServ;
         this.data = data;
         this.advId = data.Id;
@@ -1598,6 +1639,8 @@ var EditOrDeactiveModalComponent = /** @class */ (function () {
             if (_this.APIServ.getErrorCode() == 0) {
                 _this.dialogRef.close(false);
             }
+            else
+                _this.globalSer.somthingError();
         });
     };
     EditOrDeactiveModalComponent.prototype.gotToEdit = function () {
@@ -1607,13 +1650,13 @@ var EditOrDeactiveModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     EditOrDeactiveModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'edit-or-deactive-modal',
             template: __webpack_require__("../../../../../src/app/edit-or-deactive-modal/edit-or-deactive-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/edit-or-deactive-modal/edit-or-deactive-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__["a" /* CallApiService */], Object])
+        __param(3, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], Object])
     ], EditOrDeactiveModalComponent);
     return EditOrDeactiveModalComponent;
 }());
@@ -1652,10 +1695,11 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProfileComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1673,17 +1717,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var EditProfileComponent = /** @class */ (function () {
-    function EditProfileComponent(route, thisDialog, data, APIServ) {
+    function EditProfileComponent(route, globalSer, thisDialog, data, APIServ) {
         this.route = route;
+        this.globalSer = globalSer;
         this.thisDialog = thisDialog;
         this.data = data;
         this.APIServ = APIServ;
+        this.newUser = {};
     }
     EditProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.APIServ.get("users/me").subscribe(function (data) {
-            _this.newUser = data;
+            if (_this.APIServ.getErrorCode() == 0)
+                _this.newUser = data;
+            else
+                _this.globalSer.somthingError();
         });
     };
     EditProfileComponent.prototype.editProfile = function () {
@@ -1697,14 +1747,11 @@ var EditProfileComponent = /** @class */ (function () {
         else if (this.newUser['email'] == "" || this.newUser['email'] == null) {
             this.message = "الأيميل";
         }
-        // else if (this.newUser['password'] == "" || this.newUser['password'] == null) {
-        //     this.message = "كلمة السر"
-        // }
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
         }
         else {
-            this.APIServ.put("/users/" + this.newUser.id, this.newUser).subscribe(function (data) {
+            this.APIServ.put("/users/" + this.newUser['id'], this.newUser).subscribe(function (data) {
                 if (_this.APIServ.getErrorCode() == 0) {
                     _this.thisDialog.close(false);
                 }
@@ -1712,6 +1759,8 @@ var EditProfileComponent = /** @class */ (function () {
                     _this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     _this.APIServ.setErrorCode(0);
                 }
+                else
+                    _this.globalSer.somthingError();
             });
         }
     };
@@ -1722,13 +1771,13 @@ var EditProfileComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     EditProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'edit-profile',
             template: __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.html"),
             styles: [__webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["d" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */]])
+        __param(3, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["d" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */]])
     ], EditProfileComponent);
     return EditProfileComponent;
 }());
@@ -1842,9 +1891,10 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgetPasswordModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1860,9 +1910,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var ForgetPasswordModalComponent = /** @class */ (function () {
-    function ForgetPasswordModalComponent(APIServ, dialogRef, data) {
+    function ForgetPasswordModalComponent(APIServ, globalSer, dialogRef, data) {
         this.APIServ = APIServ;
+        this.globalSer = globalSer;
         this.dialogRef = dialogRef;
         this.data = data;
         this.user = {};
@@ -1880,16 +1932,18 @@ var ForgetPasswordModalComponent = /** @class */ (function () {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 _this.APIServ.setErrorCode(0);
             }
+            else
+                _this.globalSer.somthingError();
         });
     };
     ForgetPasswordModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'forget-password-modal',
             template: __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
+        __param(3, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ForgetPasswordModalComponent);
     return ForgetPasswordModalComponent;
 }());
@@ -2368,14 +2422,14 @@ var HomePageComponent = /** @class */ (function () {
             }
             if (data.search.title != "" && data.search.title != null) {
                 if (fiedsQuery_1.length == 0)
-                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
                 else
-                    query = { "where": { "and": fiedsQuery_1, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+                    query = { "where": { "and": fiedsQuery_1, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
             }
             else if (fiedsQuery_1.length == 0)
-                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
             else
-                query = { "where": { "and": fiedsQuery_1, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+                query = { "where": { "and": fiedsQuery_1, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip };
         }
         if (!(type == 0 && isTopSearch)) {
             this.loader = true;
@@ -2392,17 +2446,21 @@ var HomePageComponent = /** @class */ (function () {
     HomePageComponent.prototype.getData = function (query, isScrol, limit, type) {
         var _this = this;
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe(function (data) {
-            if (data.length == 0) {
-                _this.noData = true;
-            }
-            else {
-                if (data.length < limit && type != -1)
+            if (_this.APIServ.getErrorCode() == 0) {
+                if (data.length == 0) {
                     _this.noData = true;
-                data.forEach(function (element) {
-                    if (element.category)
-                        _this.advertisemets.push(element);
-                });
+                }
+                else {
+                    if (data.length < limit && type != -1)
+                        _this.noData = true;
+                    data.forEach(function (element) {
+                        if (element.category)
+                            _this.advertisemets.push(element);
+                    });
+                }
             }
+            else
+                _this.globalServ.somthingError();
             _this.loader = false;
         });
     };
@@ -2549,7 +2607,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n    [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\" [ngClass]=\"{'hidden': uploadingImage}\" />\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\" />\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                            />\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv cursorPointer\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <!--[ngClass]=\"{'hidden':isPluse()}\"-->\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" *ngIf=\"isMyProfile\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                    <div  *ngIf=\"isPluse()\" (click)=\"follow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/plus.svg)'}\">\n\n                    </div>\n                    <div *ngIf=\"isMin()\" (click)=\"unFollow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/Minus.svg)'}\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        <!--إعلاناتي-->\n                        {{isMyProfile ? \"إعلاناتي\" : \"إعلانات\"}}\n\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(bookmarks.length)\">\n\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderBook==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noBook==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderAdd==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n        <!--Below main container end-->\n    </div>"
+module.exports = "<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n    [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\" *ngIf=\"userData.firstName != null\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\" [ngClass]=\"{'hidden': uploadingImage}\" />\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\" />\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                            />\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv cursorPointer\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <!--[ngClass]=\"{'hidden':isPluse()}\"-->\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" *ngIf=\"isMyProfile\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                    <div  *ngIf=\"isPluse()\" (click)=\"follow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/plus.svg)'}\">\n\n                    </div>\n                    <div *ngIf=\"isMin()\" (click)=\"unFollow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/Minus.svg)'}\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        <!--إعلاناتي-->\n                        {{isMyProfile ? \"إعلاناتي\" : \"إعلانات\"}}\n\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(2)}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(bookmarks.length)\">\n\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderBook==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noBook==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':isSetTab(1)}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderAdd==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n        <!--Below main container end-->\n    </div>"
 
 /***/ }),
 
@@ -2623,6 +2681,7 @@ var ProfileComponent = /** @class */ (function () {
         this.scrollDistance = 2;
         this.scrollUpDistance = 2;
         var param;
+        this.userData = {};
         this.route.params.subscribe(function (data) { return param = data.userID; });
         if (param == "me") {
             this.setTab(1);
@@ -2675,10 +2734,14 @@ var ProfileComponent = /** @class */ (function () {
         var Fille = event.target.files[0];
         this.releadImage(Fille);
         this.APIServe.uploadImage("files/images/upload", event.target.files, 1).subscribe(function (data) {
-            _this.uploadingImage = false;
-            data.forEach(function (element) {
-                _this.imageProfile = element;
-            });
+            if (_this.APIServe.getErrorCode() == 0) {
+                _this.uploadingImage = false;
+                data.forEach(function (element) {
+                    _this.imageProfile = element;
+                });
+            }
+            else
+                _this.globalServ.somthingError();
         });
     };
     ProfileComponent.prototype.editProfile = function () {
@@ -2742,26 +2805,30 @@ var ProfileComponent = /** @class */ (function () {
             this.loaderAdd = true;
         }
         this.APIServe.get(url + JSON.stringify(query)).subscribe(function (data) {
-            if (isBookMark) {
-                if (data.length < limit) {
-                    _this.noBook = true;
+            if (_this.APIServe.getErrorCode() == 0) {
+                if (isBookMark) {
+                    if (data.length < limit) {
+                        _this.noBook = true;
+                    }
+                    data.forEach(function (element) {
+                        if (element.category)
+                            _this.bookmarks.push(element);
+                    });
+                    _this.loaderBook = false;
                 }
-                data.forEach(function (element) {
-                    if (element.category)
-                        _this.bookmarks.push(element);
-                });
-                _this.loaderBook = false;
-            }
-            else {
-                if (data.length < limit) {
-                    _this.noAdd = true;
+                else {
+                    if (data.length < limit) {
+                        _this.noAdd = true;
+                    }
+                    data.forEach(function (element) {
+                        if (element.category)
+                            _this.advertisemets.push(element);
+                    });
+                    _this.loaderAdd = false;
                 }
-                data.forEach(function (element) {
-                    if (element.category)
-                        _this.advertisemets.push(element);
-                });
-                _this.loaderAdd = false;
             }
+            else
+                _this.globalServ.somthingError();
         });
     };
     ProfileComponent.prototype.onScrollDown = function () {
@@ -2862,9 +2929,10 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2880,9 +2948,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var ReportModalComponent = /** @class */ (function () {
-    function ReportModalComponent(APIServ, dialogRef, data) {
+    function ReportModalComponent(APIServ, globalServ, dialogRef, data) {
         this.APIServ = APIServ;
+        this.globalServ = globalServ;
         this.dialogRef = dialogRef;
         this.data = data;
         this.title = data.report.name;
@@ -2901,20 +2971,24 @@ var ReportModalComponent = /** @class */ (function () {
             "advertisementId": this.addID
         };
         this.APIServ.post("advertisemets/" + this.addID + "/reports", data).subscribe(function (data) {
-            _this.dialogRef.close(true);
+            if (_this.APIServ.getErrorCode() == 0) {
+                _this.dialogRef.close(true);
+            }
+            else
+                _this.globalServ.somthingError();
         });
     };
     ReportModalComponent.prototype.closeModal = function () {
         this.dialogRef.close();
     };
     ReportModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'report-modal',
             template: __webpack_require__("../../../../../src/app/report-modal/report-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/report-modal/report-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
+        __param(3, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ReportModalComponent);
     return ReportModalComponent;
 }());
@@ -2999,6 +3073,8 @@ var ResetPasswordComponent = /** @class */ (function () {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 _this.APIServe.setErrorCode(0);
             }
+            else
+                _this.globalSer.somthingError();
         });
     };
     ResetPasswordComponent = __decorate([
@@ -3046,10 +3122,11 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignInModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3067,9 +3144,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var SignInModalComponent = /** @class */ (function () {
-    function SignInModalComponent(thisDialog, data, LoginSer, APIServ) {
+    function SignInModalComponent(thisDialog, globalSer, data, LoginSer, APIServ) {
         this.thisDialog = thisDialog;
+        this.globalSer = globalSer;
         this.data = data;
         this.LoginSer = LoginSer;
         this.APIServ = APIServ;
@@ -3088,6 +3167,8 @@ var SignInModalComponent = /** @class */ (function () {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 _this.APIServ.setErrorCode(0);
             }
+            else
+                _this.globalSer.somthingError();
         });
     };
     SignInModalComponent.prototype.forgetPassword = function () {
@@ -3097,13 +3178,13 @@ var SignInModalComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     SignInModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'sign-in-modal',
             template: __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["d" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_0__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */]])
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], Object, __WEBPACK_IMPORTED_MODULE_1__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */]])
     ], SignInModalComponent);
     return SignInModalComponent;
 }());
@@ -3142,10 +3223,11 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignUpModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_global_service__ = __webpack_require__("../../../../../src/app/Services/global.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_login_service__ = __webpack_require__("../../../../../src/app/Services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__ = __webpack_require__("../../../../../src/app/Services/call-api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3163,9 +3245,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 var SignUpModalComponent = /** @class */ (function () {
-    function SignUpModalComponent(thisDialog, data, APIServ, LoginSer) {
+    function SignUpModalComponent(thisDialog, globalServ, data, APIServ, LoginSer) {
         this.thisDialog = thisDialog;
+        this.globalServ = globalServ;
         this.data = data;
         this.APIServ = APIServ;
         this.LoginSer = LoginSer;
@@ -3200,6 +3284,8 @@ var SignUpModalComponent = /** @class */ (function () {
                     _this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     _this.APIServ.setErrorCode(0);
                 }
+                else
+                    _this.globalServ.somthingError();
             });
         }
     };
@@ -3210,13 +3296,13 @@ var SignUpModalComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     SignUpModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
             selector: 'sign-up-modal',
             template: __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["d" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_1__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_0__Services_login_service__["a" /* LoginService */]])
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_global_service__["a" /* GlobalService */], Object, __WEBPACK_IMPORTED_MODULE_2__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_1__Services_login_service__["a" /* LoginService */]])
     ], SignUpModalComponent);
     return SignUpModalComponent;
 }());

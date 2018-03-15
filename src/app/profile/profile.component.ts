@@ -34,6 +34,7 @@ export class ProfileComponent {
     scrollUpDistance = 2;
     constructor(public dialog: MatDialog, public APIServe: CallApiService, public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute) {
         let param;
+        this.userData={}
         this.route.params.subscribe(data => param = data.userID);
         if (param == "me") {
             this.setTab(1);
@@ -92,10 +93,14 @@ export class ProfileComponent {
 
 
         this.APIServe.uploadImage("files/images/upload", event.target.files, 1).subscribe((data: any) => {
-            this.uploadingImage = false;
-            data.forEach(element => {
-                this.imageProfile = element;
-            });
+            if (this.APIServe.getErrorCode() == 0) {
+                this.uploadingImage = false;
+                data.forEach(element => {
+                    this.imageProfile = element;
+                });
+            }
+            else this.globalServ.somthingError();
+
         });
     }
 
@@ -163,26 +168,29 @@ export class ProfileComponent {
             this.loaderAdd = true;
         }
         this.APIServe.get(url + JSON.stringify(query)).subscribe((data: any) => {
-            if (isBookMark) {
-                if (data.length < limit) {
-                    this.noBook = true;
-                }
-                data.forEach(element => {
-                    if (element.category)
-                        this.bookmarks.push(element);
-                });
-                this.loaderBook = false;
-            } else {
-                if (data.length < limit) {
-                    this.noAdd = true;
-                }
-                data.forEach(element => {
-                    if (element.category)
-                        this.advertisemets.push(element);
-                });
-                this.loaderAdd = false;
+            if (this.APIServe.getErrorCode() == 0) {
 
-            }
+                if (isBookMark) {
+                    if (data.length < limit) {
+                        this.noBook = true;
+                    }
+                    data.forEach(element => {
+                        if (element.category)
+                            this.bookmarks.push(element);
+                    });
+                    this.loaderBook = false;
+                } else {
+                    if (data.length < limit) {
+                        this.noAdd = true;
+                    }
+                    data.forEach(element => {
+                        if (element.category)
+                            this.advertisemets.push(element);
+                    });
+                    this.loaderAdd = false;
+
+                }
+            }else this.globalServ.somthingError();
         });
 
     }

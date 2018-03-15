@@ -37,10 +37,13 @@ export class EditAdvertisingComponent {
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.categories = data;
             this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
-                this.search = data;
-                this.changeCategory(this.search['categoryId'], true);
-                this.changeSubCategory(this.search['subCategoryId'], true);
-                this.images = this.search['images'];
+                if (this.APIServ.getErrorCode() == 0) {
+                    this.search = data;
+                    this.changeCategory(this.search['categoryId'], true);
+                    this.changeSubCategory(this.search['subCategoryId'], true);
+                    this.images = this.search['images'];
+                } else
+                    this.globalSer.somthingError()
             });
         });
 
@@ -133,14 +136,13 @@ export class EditAdvertisingComponent {
             this.search['city'] = this.cities.find(x => x.id == this.search["cityId"]);
             this.loader = true;
             this.APIServ.put("advertisemets/" + this.search["id"], this.search).subscribe((data: any) => {
-                // this.globalSer.goTo("detail/" + data.id)
                 this.loader = false;
                 if (this.APIServ.getErrorCode() == 0) {
                     this.globalSer.goTo("detail/" + data.id)
                 } else if (this.APIServ.getErrorCode() == 403) {
                     this.APIServ.setErrorCode(0);
                     this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
-                }
+                } else this.globalSer.somthingError();
             });
         }
         else {

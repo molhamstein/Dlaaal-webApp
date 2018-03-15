@@ -114,4 +114,9 @@ export class GlobalService {
     });
   }
 
+  somthingError(){
+    this.APIServe.setErrorCode(0);
+    this.errorDialog('حدث خطأ',"هناك مشكلة ما")
+  }
+
 }

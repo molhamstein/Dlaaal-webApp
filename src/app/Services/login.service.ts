@@ -40,7 +40,8 @@ export class LoginService {
     this.cookieService.set('dalalId', "");
     console.log(this.router.url);
     if ("/myprofile/me" == this.router.url) {
-      location.href='/';
+      this.router.navigateByUrl('/myprofile/me').then(() => this.router.navigateByUrl('/'));
+      location.reload();
     } else
       location.reload();
   }

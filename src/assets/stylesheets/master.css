@@ -62,7 +62,8 @@ input[type='text'] {
     font-size: 20px;
 }
 
-.numberType , input[type='number']{
+.numberType,
+input[type='number'] {
     font-family: 'OpenSans-ExtraBold';
 }
 
@@ -4372,6 +4373,7 @@ figure {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-top: 20px;
+    width: 100%;
 }
 
 .mat-dialog-container {
@@ -4496,4 +4498,43 @@ ngx-carousel button {
     color: red;
     position: absolute;
     border-radius: 50%;
+}
+
+.editOrDeact {
+    display: inherit;
+    width: 100%;
+    min-width: 200px;
+}
+
+.editOrDeact .parent {
+    width: 50%;
+}
+
+.editOrDeact .childe {
+    width: 50px;
+    margin: 0px auto;
+    cursor: pointer;
+    height: 50px;
+    /*background-color: #257310;*/
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: 35px 35px;
+    background-position: center;
+}
+.editOrDeact p{
+    text-align: center;
+    color: #257310;
+    cursor: pointer;
+}
+.editOrDeact .childe:hover{
+transform: scale(1.1);
+}
+
+.editOrDeact .deactive {
+    background-image: url(../../assets/imgs/window-close.svg);
+}
+
+.editOrDeact .edit {
+    margin: 0px auto;
+    background-image: url(../../assets/imgs/pen-square.svg);
 }

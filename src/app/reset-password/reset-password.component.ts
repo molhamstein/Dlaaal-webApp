@@ -31,7 +31,7 @@ export class ResetPasswordComponent {
             } else if (this.APIServe.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 this.APIServe.setErrorCode(0);
-            }
+            }else this.globalSer.somthingError();
         });
     }
 }

@@ -205,7 +205,7 @@ export class HomePageComponent {
             let fiedsQuery = [];
             if (this.keyFilter.length != 0) {
                 this.keyFilter.forEach((element, index) => {
-                    if (this.search['fields'][index].value != "" &&this.search['fields'][index].value != null ) {
+                    if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
                         alert(element.key);
                         fiedsQuery.push({
                             "fields": {
@@ -220,16 +220,16 @@ export class HomePageComponent {
             }
             if (data.search.title != "" && data.search.title != null) {
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
             }
             else
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
 
         }
         if (!(type == 0 && isTopSearch)) {
@@ -251,16 +251,18 @@ export class HomePageComponent {
 
     getData(query, isScrol, limit, type) {
         this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
-            if (data.length == 0) {
-                this.noData = true;
-            } else {
-                if (data.length < limit && type != -1)
+            if (this.APIServ.getErrorCode() == 0) {
+                if (data.length == 0) {
                     this.noData = true;
-                data.forEach(element => {
-                    if (element.category)
-                        this.advertisemets.push(element);
-                });
-            }
+                } else {
+                    if (data.length < limit && type != -1)
+                        this.noData = true;
+                    data.forEach(element => {
+                        if (element.category)
+                            this.advertisemets.push(element);
+                    });
+                }
+            } else this.globalServ.somthingError()
             this.loader = false;
         });
     }

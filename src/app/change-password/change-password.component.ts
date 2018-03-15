@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { CallApiService } from './../Services/call-api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
@@ -10,7 +11,7 @@ import { Component, Inject } from '@angular/core';
 export class ChangePasswordComponent {
     password;
     message = "";
-    constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>, public APIServ: CallApiService) {
+    constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>, public APIServ: CallApiService,public globalServ :GlobalService) {
         this.password = { "oldPassword": "", "newPassword": "" };
     }
     editPassword() {
@@ -21,7 +22,8 @@ export class ChangePasswordComponent {
             } else if (this.APIServ.getErrorCode() == 400) {
                 this.message = "كلمة السر الحالية خاطئة"
                 this.APIServ.setErrorCode(0);
-            }
+            } else
+                this.globalServ.somthingError()
         });
     }
     closeModal() {

@@ -37,13 +37,21 @@ export class AdvertisingComponent {
         this.advertisemet = {}
         this.isMyAdv = false;
         this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
-            this.advertisemet = data;
-            if (this.logInSer.getUserId() == this.advertisemet.ownerId) {
-                this.isMyAdv = true;
+            if (this.APIServ.getErrorCode() == 0) {
+                this.advertisemet = data;
+                if (this.logInSer.getUserId() == this.advertisemet.ownerId) {
+                    this.isMyAdv = true;
+                }
             }
+            else
+                this.globalServ.somthingError()
+
         });
         this.APIServ.get("reports").subscribe(data => {
-            this.reports = data;
+            if (this.APIServ.getErrorCode() == 0)
+                this.reports = data;
+            else
+                this.globalServ.somthingError()
         });
     }
 
@@ -151,6 +159,8 @@ export class AdvertisingComponent {
                     this.advertisemet.isBookmarked = true;
                     this.globalServ.errorDialog("إضافة إعلان إلى المفضلة", "تمت الإضافة بنجاح");
                 }
+                else
+                    this.globalServ.somthingError()
             });
         else {
             this.headerChild.openSignInDialog();
@@ -162,6 +172,8 @@ export class AdvertisingComponent {
                 this.advertisemet.isBookmarked = false;
                 this.globalServ.errorDialog("حذف إعلان من المفضلة", "تم الحذف بنجاح");
             }
+            else
+                this.globalServ.somthingError()
         });
     }
 
@@ -174,8 +186,8 @@ export class AdvertisingComponent {
         dialogRef.afterClosed().subscribe(result => {
             if (result == false) {
                 this.globalServ.goTo("")
-            } else if(result) {
-                this.globalServ.goTo("edit/"+this.advertisemet.id)
+            } else if (result) {
+                this.globalServ.goTo("edit/" + this.advertisemet.id)
             }
         });
     }

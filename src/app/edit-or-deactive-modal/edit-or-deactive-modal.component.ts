@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { CallApiService } from './../Services/call-api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
@@ -9,7 +10,7 @@ import { Component, Inject } from '@angular/core';
 })
 export class EditOrDeactiveModalComponent {
     advId;
-    constructor(public dialogRef: MatDialogRef<EditOrDeactiveModalComponent>, public APIServ: CallApiService, @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(public dialogRef: MatDialogRef<EditOrDeactiveModalComponent>, public globalSer: GlobalService, public APIServ: CallApiService, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.advId = data.Id;
 
     }
@@ -18,7 +19,7 @@ export class EditOrDeactiveModalComponent {
         this.APIServ.delete("advertisemets/" + this.advId).subscribe(data => {
             if (this.APIServ.getErrorCode() == 0) {
                 this.dialogRef.close(false);
-            }
+            } else this.globalSer.somthingError();
         });
     }
 

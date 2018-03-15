@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { LoginService } from './../Services/login.service';
 import { CallApiService } from './../Services/call-api.service';
 import { Component, Inject } from '@angular/core';
@@ -13,7 +14,7 @@ export class SignInModalComponent {
     user = {};
     message;
     loader;
-    constructor(public thisDialog: MatDialogRef<SignInModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public LoginSer: LoginService, public APIServ: CallApiService) {
+    constructor(public thisDialog: MatDialogRef<SignInModalComponent>,public globalSer: GlobalService, @Inject(MAT_DIALOG_DATA) public data: any, public LoginSer: LoginService, public APIServ: CallApiService) {
         this.loader = false;
     }
     login() {
@@ -25,7 +26,7 @@ export class SignInModalComponent {
             } else if (this.APIServ.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 this.APIServ.setErrorCode(0);
-            }
+            }else this.globalSer.somthingError();
         });
     }
 

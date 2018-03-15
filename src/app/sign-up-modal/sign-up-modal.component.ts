@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { LoginService } from './../Services/login.service';
 import { CallApiService } from './../Services/call-api.service';
 import { Component, Inject } from '@angular/core';
@@ -12,7 +13,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class SignUpModalComponent {
     newUser = {};
     message = "";
-    constructor(public thisDialog: MatDialogRef<SignUpModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService, public LoginSer: LoginService) {
+    constructor(public thisDialog: MatDialogRef<SignUpModalComponent>,public globalServ :GlobalService, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService, public LoginSer: LoginService) {
     }
 
     signup() {
@@ -37,7 +38,7 @@ export class SignUpModalComponent {
                 } else if (this.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     this.APIServ.setErrorCode(0);
-                }
+                }else this.globalServ.somthingError();
             });
         }
 

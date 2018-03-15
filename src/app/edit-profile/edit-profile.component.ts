@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { ActivatedRoute } from '@angular/router';
 import { CallApiService } from './../Services/call-api.service';
 import { Component, Inject } from '@angular/core';
@@ -11,14 +12,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     styleUrls: ['edit-profile.component.scss']
 })
 export class EditProfileComponent {
-    newUser;
+    newUser={};
     message;
-    constructor(private route: ActivatedRoute, public thisDialog: MatDialogRef<EditProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService) {
+    constructor(private route: ActivatedRoute, public globalSer: GlobalService, public thisDialog: MatDialogRef<EditProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService) {
 
     }
     ngOnInit() {
         this.APIServ.get("users/me").subscribe(data => {
-            this.newUser = data;
+            if (this.APIServ.getErrorCode() == 0)
+                this.newUser = data;
+            else
+                this.globalSer.somthingError()
         });
     }
     editProfile() {
@@ -29,20 +33,18 @@ export class EditProfileComponent {
         } else if (this.newUser['email'] == "" || this.newUser['email'] == null) {
             this.message = "الأيميل"
         }
-        // else if (this.newUser['password'] == "" || this.newUser['password'] == null) {
-        //     this.message = "كلمة السر"
-        // }
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
         } else {
-            this.APIServ.put("/users/" + this.newUser.id, this.newUser).subscribe(data => {
+            this.APIServ.put("/users/" + this.newUser['id'], this.newUser).subscribe(data => {
 
                 if (this.APIServ.getErrorCode() == 0) {
                     this.thisDialog.close(false);
                 } else if (this.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     this.APIServ.setErrorCode(0);
-                }
+                } else
+                    this.globalSer.somthingError()
             });
         }
 

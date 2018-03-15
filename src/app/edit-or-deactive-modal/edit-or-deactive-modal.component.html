@@ -1,5 +1,5 @@
 <!--component html goes here -->
-<div class="SignInModule">
+<!--<div class="SignInModule">
     <div class="SignInModule-header" style="direction: rtl;">
         <div class="SignInModule-header-title">
             إعلان شخصي
@@ -16,5 +16,26 @@
         أو
         <a class="cursorPointer" (click)="deactive()" style="color: #257310">حذفه</a>        
         </label>
+    </div>
+</div>-->
+
+<div class="SignInModule">
+    <div class="SignInModule-header" style="direction: rtl;">
+        <div class="SignInModule-header-title">
+            إعلان شخصي
+        </div>
+        <div class="SignInModule-header-close" (click)="closeModal()">
+        </div>
+    </div>
+    <div class="SignInModule-body" style="direction:  rtl;">
+        <p>  هذا الإعلان خاص بك  </p> 
+        <div  class="editOrDeact">
+            <div class="parent "><div (click)="deactive()" class="childe deactive"></div>
+            <p (click)="deactive()">حذف </p>
+            </div>
+            <div class="parent"><div (click)="gotToEdit()" class="childe edit"></div>
+            <p (click)="gotToEdit()">تعديل</p>
+            </div>
+        </div>
     </div>
 </div>

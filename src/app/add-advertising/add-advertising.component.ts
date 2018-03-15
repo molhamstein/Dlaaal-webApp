@@ -29,10 +29,16 @@ export class AddAdvertisingComponent {
     ngOnInit() {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         this.APIServ.get("cities").subscribe(data => {
-            this.cities = data;
+            if (this.APIServ.getErrorCode() == 0)
+                this.cities = data;
+            else
+                this.globalSer.somthingError()
         });
         this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
-            this.categories = data;
+            if (this.APIServ.getErrorCode() == 0)
+                this.categories = data;
+            else
+                this.globalSer.somthingError()
         });
     }
 
@@ -60,9 +66,13 @@ export class AddAdvertisingComponent {
         }
         this.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
             this.imageOnLoad = [];
-            data.forEach(element => {
-                this.images.push(element);
-            });
+
+            if (this.APIServ.getErrorCode() == 0)
+                data.forEach(element => {
+                    this.images.push(element);
+                });
+            else
+                this.globalSer.somthingError()
         });
     }
 
@@ -117,14 +127,15 @@ export class AddAdvertisingComponent {
             if (fieldName == "") {
                 this.loader = true;
                 this.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
-                    // this.globalSer.goTo("detail/" + data.id)
                     this.loader = false;
                     if (this.APIServ.getErrorCode() == 0) {
                         this.globalSer.goTo("detail/" + data.id)
                     } else if (this.APIServ.getErrorCode() == 403) {
                         this.APIServ.setErrorCode(0);
                         this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
-                    }
+                    } else
+                        this.globalSer.somthingError()
+
                 });
             }
             else {
@@ -133,7 +144,7 @@ export class AddAdvertisingComponent {
         }
     }
 
-    deleteImage(index){
+    deleteImage(index) {
         this.images.splice(index, 1);
     }
 }

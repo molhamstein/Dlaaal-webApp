@@ -47,8 +47,8 @@ export class CallApiService {
     return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
     }).catch((response: Response) => {
-      let data = { errMsg: "errMsg", error: "error" };
-      return JSON.stringify(data);
+      this.errorCode = response.status;
+      return "E";
     });
   }
 

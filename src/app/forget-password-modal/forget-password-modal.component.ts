@@ -1,3 +1,4 @@
+import { GlobalService } from './../Services/global.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CallApiService } from './../Services/call-api.service';
 import { Component, Inject } from '@angular/core';
@@ -10,7 +11,7 @@ import { Component, Inject } from '@angular/core';
 export class ForgetPasswordModalComponent {
     user;
     message;
-    constructor(public APIServ: CallApiService, public dialogRef: MatDialogRef<ForgetPasswordModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(public APIServ: CallApiService, public globalSer: GlobalService, public dialogRef: MatDialogRef<ForgetPasswordModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.user = {};
     }
     closeModal() {
@@ -24,7 +25,8 @@ export class ForgetPasswordModalComponent {
             } else if (this.APIServ.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 this.APIServ.setErrorCode(0);
-            }
+            } else this.globalSer.somthingError()
+
         });
     }
 
