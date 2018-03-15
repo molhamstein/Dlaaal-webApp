@@ -2584,6 +2584,7 @@ figure {
     transition: all 150ms linear;
     background-color: #525C65;
     border-radius: 5px;
+    font-family: 'Swessra-medium';
     color: #fff;
     cursor: pointer;
     font-size: 16px;
@@ -2809,6 +2810,7 @@ figure {
     color: #fff;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Swessra-medium';
     height: 42px;
     line-height: 32px;
     margin-bottom: 20px;
@@ -3534,6 +3536,9 @@ figure {
     padding: 5px 7% 5px 12%;
     margin-right: -32px;
 }
+.title2{
+    background-image: url(../../assets/imgs/title2.svg);    
+}
 
 @media screen and (max-width: 800px) {
     /* line 175, ../sass/_AddDetailsForm.scss */
@@ -3992,6 +3997,11 @@ figure {
     margin-top: -150px;
     margin-left: -100px;
     cursor: pointer;
+}
+
+.HeaderBox--detailspage-callusbtn.edit{
+    background-image: url(../../assets/imgs/btn-edit.svg);
+    
 }
 
 @media only screen and (max-width: 800px) {

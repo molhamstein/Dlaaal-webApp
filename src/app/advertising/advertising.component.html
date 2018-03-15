@@ -40,7 +40,7 @@
             <div class="HeaderBox--detailspage-callusbtn" *ngIf="isMyAdv==false" (click)="openCommunicationDialog()">
 
             </div>
-            <div class="HeaderBox--detailspage-callusbtn"   style="background-image: url('../../assets/imgs/btn-edit.svg');" *ngIf="isMyAdv" (click)="chaoesActionModal()">
+            <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="chaoesActionModal()">
 
             </div>
           </div>
@@ -50,6 +50,12 @@
     <div class="AddDetailsContainer">
       <div class="AddDetailsForm">
         <div class="AddDetailsForm-column">
+          <!--<div class="AddDetailsForm-header">
+            <div class="AddDetailsForm-header-title title2">
+              {{advertisemet.city.name}}
+            </div>
+          </div>-->
+
           <div class="AddDetailsForm-header">
             <div class="AddDetailsForm-header-title">
               {{advertisemet.category.title}}
@@ -60,10 +66,14 @@
               {{advertisemet.subCategory.title}}
             </div>
             <div class="AddDetailsForm-category-subcat">
-              {{advertisemet.address}}
+              {{advertisemet.city.name}}
             </div>
           </div>
           <div class="AddDetailsForm-inputcontainer">
+            <label for="name">العنوان</label>
+            <div class="AddDetailsForm-inputcontainer-text">
+              {{advertisemet.address}}
+            </div>
           </div>
 
           <div class="AddDetailsForm-inputcontainer" *ngFor="let oneField of advertisemet.fields">
@@ -112,7 +122,7 @@
             <!--*ngFor="let oneImage of advertisemet.images"-->
             <ngx-tile NgxCarouselItem *ngFor="let oneImage of advertisemet.images">
               <!--<div  class="openImage cursorPointer"></div>-->
-              <div  (click)="openFullScreenImage(oneImage)" [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;
+              <div (click)="openFullScreenImage(oneImage)" [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;
     width: 100%;
     height: 180px;
     border-radius: 5px;">
@@ -128,7 +138,7 @@
               <img src="{{advertisemet.images[0]}}" />
             </div>
           </div>
-          <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm" >
+          <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
             <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage cursorPointer" *ngFor="let oneImage of advertisemet.images">
               <img src="{{oneImage}}" />
             </div>

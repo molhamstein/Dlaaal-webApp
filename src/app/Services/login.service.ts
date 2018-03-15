@@ -32,7 +32,6 @@ export class LoginService {
     this.cookieService.set('dalalUserId', data.userId);
     this.cookieService.set('dalalId', data.id);
     location.reload();
-
   }
 
   logout() {

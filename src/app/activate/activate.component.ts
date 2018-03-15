@@ -19,13 +19,11 @@ export class ActivateComponent {
             .subscribe(params => {
                 this.token=params.token;
                 this.userID=params.uid;
-                this.APIServe.activeAccount("/users/"+this.userID+"/activate", this.token).subscribe((data: string) => {
+                this.APIServe.post("users/confirm", {"uid":this.userID,"token":this.token}).subscribe((data: string) => {
                     if (this.APIServe.getErrorCode() == 0) {
                         alert("Success")
                         // this.globalSer.goTo('/')
-                    } else if (this.APIServe.getErrorCode() == 401) {
-                        this.APIServe.setErrorCode(0);
-                    }
+                    } else this.globalSer.somthingError()
                 });
             });
     }

@@ -33,10 +33,11 @@
             <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel"
                 id="checkbox_id" value="value">
             <label for="checkbox_id">
-                  أوافق على
+                 
                   <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/terms'}}">شروط الاستخدام</div>
   
                 <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
+                 أوافق على
                 </label>
         </div>
         <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">

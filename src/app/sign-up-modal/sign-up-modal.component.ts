@@ -13,7 +13,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class SignUpModalComponent {
     newUser = {};
     message = "";
-    constructor(public thisDialog: MatDialogRef<SignUpModalComponent>,public globalServ :GlobalService, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService, public LoginSer: LoginService) {
+    constructor(public thisDialog: MatDialogRef<SignUpModalComponent>, public globalServ: GlobalService, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService, public LoginSer: LoginService) {
     }
 
     signup() {
@@ -29,16 +29,22 @@ export class SignUpModalComponent {
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
         } else {
-            this.newUser['lastName']="";
+            this.newUser['lastName'] = "test";
             this.APIServ.post("users", this.newUser).subscribe(data => {
 
                 if (this.APIServ.getErrorCode() == 0) {
+
+                    this.APIServ.post("users/login", {"email":this.newUser["email"],"password":this.newUser["password"]}).subscribe((data: string) => {
+                        if (this.APIServ.getErrorCode() == 0) {
+                            this.LoginSer.logIn(data);
+                        } else this.globalServ.somthingError();
+                    });
                     // alert("Success")
-                    this.LoginSer.logIn(data);
+                    // this.LoginSer.logIn(data);
                 } else if (this.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     this.APIServ.setErrorCode(0);
-                }else this.globalServ.somthingError();
+                } else this.globalServ.somthingError();
             });
         }
 
@@ -47,7 +53,7 @@ export class SignUpModalComponent {
     login() {
         this.thisDialog.close(true);
     }
-    closeModal(){
+    closeModal() {
         this.thisDialog.close();
     }
 
