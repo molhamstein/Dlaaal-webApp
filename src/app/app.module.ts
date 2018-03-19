@@ -1,3 +1,4 @@
+import { MainService } from './Services/main.service';
 import { EditAdvertisingComponent } from './edit-advertising/edit-advertising.component';
 import { EditOrDeactiveModalComponent } from './edit-or-deactive-modal/edit-or-deactive-modal.component';
 import { ActivateComponent } from './activate/activate.component';
@@ -43,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FormsModule} from '@angular/forms'; 
+import { LocationStrategy } from '@angular/common';
 
 
 
@@ -65,7 +67,7 @@ import { AppComponent } from './app.component';
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
   entryComponents:[ChangePasswordComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
-  providers: [CookieService,LoginService,CallApiService,GlobalService],
+  providers: [MainService,CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

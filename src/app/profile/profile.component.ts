@@ -1,11 +1,9 @@
+import { MainService } from './../Services/main.service';
 import { HeaderComponent } from './../header/header.component';
 import { ChangePasswordComponent } from './../change-password/change-password.component';
 import { MatDialog } from '@angular/material';
 import { EditProfileComponent } from './../edit-profile/edit-profile.component';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalService } from './../Services/global.service';
-import { LoginService } from './../Services/login.service';
-import { CallApiService } from './../Services/call-api.service';
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
@@ -17,7 +15,7 @@ export class ProfileComponent {
     @ViewChild(HeaderComponent) private headerChild: HeaderComponent;
     tabNow;
     loader;
-    imageProfile = "assets/imgs/defult_img.jpg";
+    imageProfile;
     uploadingImage = false;
     userID
     isMyProfile: boolean = false;
@@ -32,17 +30,17 @@ export class ProfileComponent {
     throttle = 100;
     scrollDistance = 2;
     scrollUpDistance = 2;
-    constructor(public dialog: MatDialog, public APIServe: CallApiService, public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute) {
+    constructor(public dialog: MatDialog, public mainServ: MainService, private route: ActivatedRoute) {
         let param;
-        this.userData={}
+        this.userData = {}
         this.route.params.subscribe(data => param = data.userID);
         if (param == "me") {
             this.setTab(1);
             this.isMyProfile = true;
-            this.userID = logInSer.getUserId();
+            this.userID = mainServ.loginServ.getUserId();
         }
         else {
-            if (param == logInSer.getUserId()) {
+            if (param == mainServ.loginServ.getUserId()) {
                 this.isMyProfile = true;
             }
             this.userID = param
@@ -54,19 +52,29 @@ export class ProfileComponent {
     ngOnInit() {
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
-        this.APIServe.get("users/" + this.userID + "/followers").subscribe(data => {
+        this.mainServ.APIServ.get("users/" + this.userID + "/followers").subscribe(data => {
             this.follwers = data;
         });
         if (this.isMyProfile)
             this.getData(true);
 
         if (this.isMyProfile)
-            this.APIServe.get("users/me").subscribe(data => {
+            this.mainServ.APIServ.get("users/me").subscribe(data => {
                 this.userData = data;
+                if (this.userData['avatar'] == null)
+                    this.imageProfile = "assets/imgs/defult_img.jpg";
+                else
+                    this.imageProfile = this.userData['avatar'];
+
             });
         else {
-            this.APIServe.get("users/" + this.userID).subscribe(data => {
+            this.mainServ.APIServ.get("users/" + this.userID).subscribe(data => {
                 this.userData = data;
+                if (this.userData['avatar'] == null)
+                    this.imageProfile = "assets/imgs/defult_img.jpg";
+                else
+                    this.imageProfile = this.userData['avatar'];
+
             });
         }
         this.getData(false);
@@ -92,14 +100,27 @@ export class ProfileComponent {
         this.releadImage(Fille);
 
 
-        this.APIServe.uploadImage("files/images/upload", event.target.files, 1).subscribe((data: any) => {
-            if (this.APIServe.getErrorCode() == 0) {
+        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, 1).subscribe((data: any) => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.uploadingImage = false;
                 data.forEach(element => {
                     this.imageProfile = element;
                 });
+                this.userData['avatar'] = this.imageProfile;
+                this.mainServ.APIServ.put("/users/" + this.userData['id'], this.userData).subscribe(data => {
+
+                    if (this.mainServ.APIServ.getErrorCode() == 0) {
+                        this.mainServ.globalServ.errorDialog('تعديل الصورة الشخصية', "تم تعديل الصورة بنجاح");
+                        this.mainServ.loginServ.setAvatar(this.imageProfile);
+                    } else
+                        this.mainServ.globalServ.somthingError()
+                });
+
+
             }
-            else this.globalServ.somthingError();
+            else {
+                this.mainServ.globalServ.somthingError();
+            }
 
         });
     }
@@ -109,11 +130,10 @@ export class ProfileComponent {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
             if (result) {
                 this.changePassword();
-            } else if (!result)
-                this.globalServ.errorDialog('تعديل الحساب', 'تم تعديل معلومات الحساب')
+            } else if (result == false)
+                this.mainServ.globalServ.errorDialog('تعديل الحساب', 'تم تعديل معلومات الحساب', true)
         });
     }
 
@@ -123,13 +143,13 @@ export class ProfileComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result)
-                this.globalServ.errorDialog('تعديل الحساب', 'تم تعديل كلمة السر')
+                this.mainServ.globalServ.errorDialog('تعديل الحساب', 'تم تعديل كلمة السر')
             console.log('The dialog was closed');
         });
     }
 
     calculateDate(date) {
-        return this.globalServ.calculatDateAdv(date);
+        return this.mainServ.globalServ.calculatDateAdv(date);
     }
 
     setTab(tabNum) {
@@ -167,8 +187,8 @@ export class ProfileComponent {
             }
             this.loaderAdd = true;
         }
-        this.APIServe.get(url + JSON.stringify(query)).subscribe((data: any) => {
-            if (this.APIServe.getErrorCode() == 0) {
+        this.mainServ.APIServ.get(url + JSON.stringify(query)).subscribe((data: any) => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
 
                 if (isBookMark) {
                     if (data.length < limit) {
@@ -190,7 +210,7 @@ export class ProfileComponent {
                     this.loaderAdd = false;
 
                 }
-            }else this.globalServ.somthingError();
+            } else this.mainServ.globalServ.somthingError();
         });
 
     }
@@ -219,23 +239,23 @@ export class ProfileComponent {
     }
 
     unFollow() {
-        this.APIServe.delete("users/" + this.logInSer.getUserId() + "/following/rel/" + this.userID).subscribe(data => {
-            if (this.APIServe.getErrorCode() == 0) {
-                this.APIServe.get("users/" + this.userID).subscribe(data => {
+        this.mainServ.APIServ.delete("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID).subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
+                this.mainServ.APIServ.get("users/" + this.userID).subscribe(data => {
                     this.userData = data;
                 });
-                this.globalServ.errorDialog("إلغاء متابعة", "تم إلغاء المتابعة بنجاح");
+                this.mainServ.globalServ.errorDialog("إلغاء متابعة", "تم إلغاء المتابعة بنجاح");
             }
         });
     }
     follow() {
-        if (this.logInSer.isLogin())
-            this.APIServe.put("users/" + this.logInSer.getUserId() + "/following/rel/" + this.userID, { "ownerId": this.userID, "userId": this.logInSer.getUserId() }).subscribe(data => {
-                if (this.APIServe.getErrorCode() == 0) {
-                    this.APIServe.get("users/" + this.userID).subscribe(data => {
+        if (this.mainServ.loginServ.isLogin())
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID, { "ownerId": this.userID, "userId": this.mainServ.loginServ.getUserId() }).subscribe(data => {
+                if (this.mainServ.APIServ.getErrorCode() == 0) {
+                    this.mainServ.APIServ.get("users/" + this.userID).subscribe(data => {
                         this.userData = data;
                     });
-                    this.globalServ.errorDialog("القيام بمتابعة", "تمت المتابعة بنجاح");
+                    this.mainServ.globalServ.errorDialog("القيام بمتابعة", "تمت المتابعة بنجاح");
                 }
             });
         else {

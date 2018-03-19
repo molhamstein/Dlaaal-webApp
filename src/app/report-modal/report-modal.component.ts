@@ -1,6 +1,4 @@
-import { GlobalService } from './../Services/global.service';
-import { LoginService } from './../Services/login.service';
-import { CallApiService } from './../Services/call-api.service';
+import { MainService } from './../Services/main.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
 
@@ -14,7 +12,7 @@ export class ReportModalComponent {
     addID;
     userID;
     reportID;
-    constructor(public APIServ: CallApiService, public globalServ:GlobalService ,public dialogRef: MatDialogRef<ReportModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(public mainServ: MainService ,public dialogRef: MatDialogRef<ReportModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.title = data.report.name;
         this.reportID = data.report.id;
         this.addID = data.addID;
@@ -29,10 +27,10 @@ export class ReportModalComponent {
             "reportId": 0,
             "advertisementId": this.addID
         }
-        this.APIServ.post("advertisemets/" + this.addID + "/reports", data).subscribe((data: string) => {
-            if (this.APIServ.getErrorCode() == 0) {
+        this.mainServ.APIServ.post("advertisemets/" + this.addID + "/reports", data).subscribe((data: string) => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.dialogRef.close(true);
-            }else this.globalServ.somthingError();
+            }else this.mainServ.globalServ.somthingError();
             });
     }
     closeModal() {

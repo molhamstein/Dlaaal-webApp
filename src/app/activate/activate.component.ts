@@ -1,6 +1,5 @@
+import { MainService } from './../Services/main.service';
 import { ActivatedRoute } from '@angular/router';
-import { CallApiService } from './../Services/call-api.service';
-import { GlobalService } from './../Services/global.service';
 import { MatDialog } from '@angular/material';
 import { Component } from '@angular/core';
 
@@ -12,18 +11,17 @@ import { Component } from '@angular/core';
 export class ActivateComponent {
     token;
     userID;
-    constructor(public dialog: MatDialog, public globalSer: GlobalService, public APIServe: CallApiService, private route: ActivatedRoute) {
-        alert("SSS");
+    constructor(public dialog: MatDialog, public mainServ: MainService, private route: ActivatedRoute) {
         this.route.queryParams
             .filter(params => params.token)
             .subscribe(params => {
                 this.token=params.token;
                 this.userID=params.uid;
-                this.APIServe.post("users/confirm", {"uid":this.userID,"token":this.token}).subscribe((data: string) => {
-                    if (this.APIServe.getErrorCode() == 0) {
-                        alert("Success")
-                        // this.globalSer.goTo('/')
-                    } else this.globalSer.somthingError()
+                this.mainServ.APIServ.get("users/confirm?uid="+this.userID+"&token="+this.token).subscribe((data: string) => {
+                    if (this.mainServ.APIServ.getErrorCode() == 0) {
+                        // alert("Success")
+                        this.mainServ.globalServ.goTo('/')
+                    } else this.mainServ.globalServ.somthingError()
                 });
             });
     }

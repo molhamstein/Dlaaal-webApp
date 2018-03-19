@@ -12,20 +12,23 @@
         </div>
     </div>
     <div class="SignUpModule-body">
-        
+
         <label for="name" style="color: red">{{message}}</label>
 
         <div class="SignUpModule-body-inputcontainer">
             <label for="name">الأسم</label>
-            <input [(ngModel)]="newUser.firstName"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+            <input [(ngModel)]="newUser.firstName" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value=""
+                name="name">
         </div>
         <div class="SignUpModule-body-inputcontainer">
             <label for="name">الرقم</label>
-            <input [(ngModel)]="newUser.phone"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+            <input [(ngModel)]="newUser.phone" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value=""
+                name="name">
         </div>
         <div class="SignUpModule-body-inputcontainer">
             <label for="name">الايميل</label>
-            <input [(ngModel)]="newUser.email" (focus)="message='';"class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+            <input [(ngModel)]="newUser.email" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value=""
+                name="name">
         </div>
         <!--<div class="SignUpModule-body-inputcontainer">
             <label for="name">كلمة السر</label>
@@ -36,10 +39,12 @@
         </button>
     </div>
     <div class="SignUpModule-footer">
-        تريد تغيير كلمة السر
         <div class="u-textPrimaryColor cursorPointer" (click)="changePassword()">
-            تغيير كلمة السر .
+            .تغيير كلمة السر 
         </div>
+
+        تريد تغيير كلمة السر
+
     </div>
 
 </div>

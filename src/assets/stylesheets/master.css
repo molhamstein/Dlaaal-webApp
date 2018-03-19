@@ -57,7 +57,7 @@ body {
 
 /* line 28, ../sass/_Utils.scss */
 
-input[type='text'] {
+input[type='text'] ,input[type='email'] {
     font-family: 'Swessra-medium';
     font-size: 20px;
 }
@@ -4547,4 +4547,8 @@ transform: scale(1.1);
 .editOrDeact .edit {
     margin: 0px auto;
     background-image: url(../../assets/imgs/pen-square.svg);
+}
+
+*:focus {
+    outline: none;
 }

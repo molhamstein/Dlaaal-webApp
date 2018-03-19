@@ -13,7 +13,7 @@
 		<label for="name" style="color: red">{{message}}</label>
 		<div class="SignInModule-body-inputcontainer">
 			<label for="name">اسم المستخدم</label>
-			<input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="text" value=""
+			<input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="email" value=""
 			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer">
@@ -22,7 +22,7 @@
 			 name="name">
 		</div>
 		<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
-			<input type="checkbox" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
+			<input type="checkbox" [(ngModel)]="rememberPass" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
 			<label for="checkbox_id2">
               تذكر كلمة المرور
               </label>

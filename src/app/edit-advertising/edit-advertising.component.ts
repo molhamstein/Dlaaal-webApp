@@ -1,7 +1,5 @@
+import { MainService } from './../Services/main.service';
 import { ActivatedRoute } from '@angular/router';
-import { LoginService } from './../Services/login.service';
-import { CallApiService } from './../Services/call-api.service';
-import { GlobalService } from './../Services/global.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -21,7 +19,7 @@ export class EditAdvertisingComponent {
     imageOnLoad: any = [];
     loader: boolean;
     addID;
-    constructor(public globalSer: GlobalService, public APIServ: CallApiService, private route: ActivatedRoute, public loginSer: LoginService) {
+    constructor(public mainServ: MainService, private route: ActivatedRoute) {
         // this.search['fields'] = [];
         this.route.params.subscribe(addID => this.addID = addID.addID);
         this.loader = false;
@@ -31,19 +29,19 @@ export class EditAdvertisingComponent {
 
     ngOnInit() {
         $("html, body").animate({ scrollTop: 0 }, "slow");
-        this.APIServ.get("cities").subscribe(data => {
+        this.mainServ.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
-        this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
+        this.mainServ.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.categories = data;
-            this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
-                if (this.APIServ.getErrorCode() == 0) {
+            this.mainServ.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
+                if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.search = data;
                     this.changeCategory(this.search['categoryId'], true);
                     this.changeSubCategory(this.search['subCategoryId'], true);
                     this.images = this.search['images'];
                 } else
-                    this.globalSer.somthingError()
+                    this.mainServ.globalServ.somthingError()
             });
         });
 
@@ -71,7 +69,7 @@ export class EditAdvertisingComponent {
             this.releadImage(i, file);
 
         }
-        this.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
+        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
             this.imageOnLoad = [];
             data.forEach(element => {
                 this.images.push(element);
@@ -131,22 +129,22 @@ export class EditAdvertisingComponent {
         if (this.search['images'].length == 0 && fieldName == "") {
             fieldName = "الصور";
         }
-        this.search['ownerId'] = this.loginSer.getUserId();
+        this.search['ownerId'] = this.mainServ.loginServ.getUserId();
         if (fieldName == "") {
             this.search['city'] = this.cities.find(x => x.id == this.search["cityId"]);
             this.loader = true;
-            this.APIServ.put("advertisemets/" + this.search["id"], this.search).subscribe((data: any) => {
+            this.mainServ.APIServ.put("advertisemets/" + this.search["id"], this.search).subscribe((data: any) => {
                 this.loader = false;
-                if (this.APIServ.getErrorCode() == 0) {
-                    this.globalSer.goTo("detail/" + data.id)
-                } else if (this.APIServ.getErrorCode() == 403) {
-                    this.APIServ.setErrorCode(0);
-                    this.globalSer.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
-                } else this.globalSer.somthingError();
+                if (this.mainServ.APIServ.getErrorCode() == 0) {
+                    this.mainServ.globalServ.goTo("detail/" + data.id)
+                } else if (this.mainServ.APIServ.getErrorCode() == 403) {
+                    this.mainServ.APIServ.setErrorCode(0);
+                    this.mainServ.globalServ.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
+                } else this.mainServ.globalServ.somthingError();
             });
         }
         else {
-            this.globalSer.errorDialog(" خطأ إدخال", "الرجاء التحقق من ملئ " + fieldName + " بالقيمه المناسبه ")
+            this.mainServ.globalServ.errorDialog(" خطأ إدخال", "الرجاء التحقق من ملئ " + fieldName + " بالقيمه المناسبه ")
         }
 
     }

@@ -1,9 +1,7 @@
+import { MainService } from './../Services/main.service';
 import { ForgetPasswordModalComponent } from './../forget-password-modal/forget-password-modal.component';
-import { GlobalService } from './../Services/global.service';
 import { element } from 'protractor';
-import { CallApiService } from './../Services/call-api.service';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
-import { LoginService } from './../Services/login.service';
 import { SignUpModalComponent } from './../sign-up-modal/sign-up-modal.component';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
@@ -17,8 +15,8 @@ import { Response } from '@angular/http';
 })
 export class HomePageComponent {
     isLogin: boolean;
-    constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
-        this.isLogin = this.loginSer.isLogin();
+    constructor(public mainServ: MainService, public dialog: MatDialog) {
+        this.isLogin = this.mainServ.loginServ.isLogin();
         this.noData = false;
 
     }
@@ -35,7 +33,7 @@ export class HomePageComponent {
     search = {};
     keyFilter = [];
     subCategories;
-
+    profileImage
 
     // forScrool
     array = [];
@@ -53,27 +51,33 @@ export class HomePageComponent {
 
     ngOnInit() {
         this.search['fields'] = []
-        this.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
-        this.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
+        this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
+        this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
         this.search['max'] = 100000000;
         this.search['min'] = 0;
-        this.APIServ.get("cities").subscribe(data => {
+        this.mainServ.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
 
-        this.APIServ.get("categories").subscribe(data => {
+        this.mainServ.APIServ.get("categories").subscribe(data => {
             this.categories = data;
         });
 
-        this.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
+        this.mainServ.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
 
         });
         this.getAdvertisemets(-1, {});
 
         window.addEventListener('scroll', this.scroll, true); //third parameter
+
+        if (this.mainServ.loginServ.getAvatar() == null || this.mainServ.loginServ.getAvatar() == "") {
+            this.profileImage = "assets/imgs/defult_img.jpg"
+        } else {
+            this.profileImage = this.mainServ.loginServ.getAvatar();
+        }
 
 
     }
@@ -90,16 +94,16 @@ export class HomePageComponent {
             skip = this.notificationBeh.length;
             query = { "order": "createdAt ASC", "limit": limit, "skip": skip, "include": ["advertisement"] }
 
-            this.APIServ.get("users/" + this.loginSer.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+            this.mainServ.APIServ.get("users/" + this.mainServ.loginServ.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
                 for (var index = 0; index < data.length; index++) {
                     var element = data[index];
                     if (!element.isRead) {
-                        this.globalServ.editUnreadNotBeh(this.unreadNotBeh + 1)
+                        this.mainServ.globalServ.editUnreadNotBeh(this.unreadNotBeh + 1)
                     }
                     if (element.advertisement)
                         this.notificationBeh.push(element);
                 }
-                this.globalServ.editNotificationBeh(this.notificationBeh);
+                this.mainServ.globalServ.editNotificationBeh(this.notificationBeh);
             });
         }
     }
@@ -128,7 +132,7 @@ export class HomePageComponent {
         //this is used to be able to remove the event listener
     };
     logout() {
-        this.loginSer.logout();
+        this.mainServ.loginServ.logout();
     }
 
     toggleNot() {
@@ -137,7 +141,7 @@ export class HomePageComponent {
 
 
     calculateDate(date) {
-        return this.globalServ.calculatDateAdv(date);
+        return this.mainServ.globalServ.calculatDateAdv(date);
     }
 
     getAdvertisemets(type, data, isScrol: boolean = false, isTopSearch: boolean = false) {
@@ -206,7 +210,6 @@ export class HomePageComponent {
             if (this.keyFilter.length != 0) {
                 this.keyFilter.forEach((element, index) => {
                     if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
-                        alert(element.key);
                         fiedsQuery.push({
                             "fields": {
                                 "elemMatch": {
@@ -250,8 +253,8 @@ export class HomePageComponent {
 
 
     getData(query, isScrol, limit, type) {
-        this.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
-            if (this.APIServ.getErrorCode() == 0) {
+        this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 if (data.length == 0) {
                     this.noData = true;
                 } else {
@@ -262,7 +265,7 @@ export class HomePageComponent {
                             this.advertisemets.push(element);
                     });
                 }
-            } else this.globalServ.somthingError()
+            } else this.mainServ.globalServ.somthingError()
             this.loader = false;
         });
     }
@@ -333,7 +336,7 @@ export class HomePageComponent {
     }
     hrefAddAdv() {
         if (this.isLogin) {
-            this.globalServ.goTo("addAdvertising")
+            this.mainServ.globalServ.goTo("addAdvertising")
         } else {
             this.openSignInDialog();
         }

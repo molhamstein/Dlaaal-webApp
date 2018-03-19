@@ -1,6 +1,5 @@
-import { GlobalService } from './../Services/global.service';
+import { MainService } from './../Services/main.service';
 import { ActivatedRoute } from '@angular/router';
-import { CallApiService } from './../Services/call-api.service';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -14,15 +13,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class EditProfileComponent {
     newUser={};
     message;
-    constructor(private route: ActivatedRoute, public globalSer: GlobalService, public thisDialog: MatDialogRef<EditProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public APIServ: CallApiService) {
+    constructor(private route: ActivatedRoute, public mainServ:MainService, public thisDialog: MatDialogRef<EditProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
 
     }
     ngOnInit() {
-        this.APIServ.get("users/me").subscribe(data => {
-            if (this.APIServ.getErrorCode() == 0)
+        this.mainServ.APIServ.get("users/me").subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0)
                 this.newUser = data;
             else
-                this.globalSer.somthingError()
+                this.mainServ.globalServ.somthingError()
         });
     }
     editProfile() {
@@ -36,15 +35,15 @@ export class EditProfileComponent {
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
         } else {
-            this.APIServ.put("/users/" + this.newUser['id'], this.newUser).subscribe(data => {
+            this.mainServ.APIServ.put("/users/" + this.newUser['id'], this.newUser).subscribe(data => {
 
-                if (this.APIServ.getErrorCode() == 0) {
+                if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.thisDialog.close(false);
-                } else if (this.APIServ.getErrorCode() == 422) {
+                } else if (this.mainServ.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
-                    this.APIServ.setErrorCode(0);
+                    this.mainServ.APIServ.setErrorCode(0);
                 } else
-                    this.globalSer.somthingError()
+                    this.mainServ.globalServ.somthingError()
             });
         }
 

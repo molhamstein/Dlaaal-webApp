@@ -103,7 +103,7 @@ export class GlobalService {
     location.reload();
   }
 
-  errorDialog(title, containt) {
+  errorDialog(title, containt,withRefrech: boolean = false) {
     let dialogRef = this.dialog.open(ErrorModalComponent, {
       width: '50%',
       data: { title: title, containt: containt }
@@ -111,6 +111,9 @@ export class GlobalService {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      if(withRefrech==true){
+        location.reload();
+      }
     });
   }
 

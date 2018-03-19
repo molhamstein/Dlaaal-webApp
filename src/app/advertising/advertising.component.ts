@@ -1,12 +1,10 @@
+import { MainService } from './../Services/main.service';
 import { EditOrDeactiveModalComponent } from './../edit-or-deactive-modal/edit-or-deactive-modal.component';
 import { HeaderComponent } from './../header/header.component';
-import { LoginService } from './../Services/login.service';
-import { GlobalService } from './../Services/global.service';
 import { ReportModalComponent } from './../report-modal/report-modal.component';
 import { FullScreenModalComponent } from './../full-screen-modal/full-screen-modal.component';
 import { CommunictionModalComponent } from './../communiction-modal/communiction-modal.component';
 import { MatDialog } from '@angular/material';
-import { CallApiService } from './../Services/call-api.service';
 import { Component, ViewChild } from '@angular/core';
 import { Directive } from '@angular/core';
 
@@ -32,26 +30,26 @@ export class AdvertisingComponent {
     isMyAdv: boolean;
     public carouselTileItems: Array<any>;
     public carouselTile: NgxCarousel;
-    constructor(public logInSer: LoginService, public globalServ: GlobalService, private route: ActivatedRoute, public APIServ: CallApiService, public dialog: MatDialog) {
+    constructor(public mainServ:MainService, private route: ActivatedRoute, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
         this.advertisemet = {}
         this.isMyAdv = false;
-        this.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
-            if (this.APIServ.getErrorCode() == 0) {
+        this.mainServ.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.advertisemet = data;
-                if (this.logInSer.getUserId() == this.advertisemet.ownerId) {
+                if (this.mainServ.loginServ.getUserId() == this.advertisemet.ownerId) {
                     this.isMyAdv = true;
                 }
             }
             else
-                this.globalServ.somthingError()
+                this.mainServ.globalServ.somthingError()
 
         });
-        this.APIServ.get("reports").subscribe(data => {
-            if (this.APIServ.getErrorCode() == 0)
+        this.mainServ.APIServ.get("reports").subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0)
                 this.reports = data;
             else
-                this.globalServ.somthingError()
+                this.mainServ.globalServ.somthingError()
         });
     }
 
@@ -131,49 +129,49 @@ export class AdvertisingComponent {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             if (result) {
-                this.globalServ.goTo("profile/" + this.advertisemet.ownerId)
+                this.mainServ.globalServ.goTo("profile/" + this.advertisemet.ownerId)
             }
         });
     }
     makeReport(reportId) {
-        if (!this.logInSer.isLogin())
+        if (!this.mainServ.loginServ.isLogin())
             this.headerChild.openSignInDialog();
         else if (reportId != "تبليغ") {
             let reports = this.reports.find(x => x.id == reportId)
             let dialogRef = this.dialog.open(ReportModalComponent, {
-                data: { report: reports, userID: this.logInSer.getUserId(), addID: this.addID }
+                data: { report: reports, userID: this.mainServ.loginServ.getUserId(), addID: this.addID }
             });
 
             dialogRef.afterClosed().subscribe(result => {
                 if (result) {
-                    this.globalServ.goTo("")
+                    this.mainServ.globalServ.goTo("")
                 }
             });
         }
     }
 
     addToBookmark() {
-        if (this.logInSer.isLogin())
-            this.APIServ.put("users/" + this.logInSer.getUserId() + "/bookmarks/rel/" + this.addID, { "ownerId": this.advertisemet.ownerId, "advertisementId": this.addID }).subscribe(data => {
-                if (this.APIServ.getErrorCode() == 0) {
+        if (this.mainServ.loginServ.isLogin())
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/bookmarks/rel/" + this.addID, { "ownerId": this.advertisemet.ownerId, "advertisementId": this.addID }).subscribe(data => {
+                if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.advertisemet.isBookmarked = true;
-                    this.globalServ.errorDialog("إضافة إعلان إلى المفضلة", "تمت الإضافة بنجاح");
+                    this.mainServ.globalServ.errorDialog("إضافة إعلان إلى المفضلة", "تمت الإضافة بنجاح");
                 }
                 else
-                    this.globalServ.somthingError()
+                    this.mainServ.globalServ.somthingError()
             });
         else {
             this.headerChild.openSignInDialog();
         }
     }
     deleteFromBookmark() {
-        this.APIServ.delete("users/" + this.logInSer.getUserId() + "/bookmarks/rel/" + this.addID).subscribe(data => {
-            if (this.APIServ.getErrorCode() == 0) {
+        this.mainServ.APIServ.delete("users/" + this.mainServ.loginServ.getUserId() + "/bookmarks/rel/" + this.addID).subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.advertisemet.isBookmarked = false;
-                this.globalServ.errorDialog("حذف إعلان من المفضلة", "تم الحذف بنجاح");
+                this.mainServ.globalServ.errorDialog("حذف إعلان من المفضلة", "تم الحذف بنجاح");
             }
             else
-                this.globalServ.somthingError()
+                this.mainServ.globalServ.somthingError()
         });
     }
 
@@ -185,9 +183,9 @@ export class AdvertisingComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result == false) {
-                this.globalServ.goTo("")
+                this.mainServ.globalServ.goTo("")
             } else if (result) {
-                this.globalServ.goTo("edit/" + this.advertisemet.id)
+                this.mainServ.globalServ.goTo("edit/" + this.advertisemet.id)
             }
         });
     }

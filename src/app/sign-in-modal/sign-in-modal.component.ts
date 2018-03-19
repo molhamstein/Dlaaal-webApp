@@ -1,6 +1,4 @@
-import { GlobalService } from './../Services/global.service';
-import { LoginService } from './../Services/login.service';
-import { CallApiService } from './../Services/call-api.service';
+import { MainService } from './../Services/main.service';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,21 +10,23 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class SignInModalComponent {
     user = {};
+    rememberPass;
     message;
     loader;
-    constructor(public thisDialog: MatDialogRef<SignInModalComponent>,public globalSer: GlobalService, @Inject(MAT_DIALOG_DATA) public data: any, public LoginSer: LoginService, public APIServ: CallApiService) {
+    constructor(public thisDialog: MatDialogRef<SignInModalComponent>,public mainServ:MainService, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.loader = false;
+        this.rememberPass=true;
     }
     login() {
         this.loader = true;
-        this.APIServ.post("users/login", this.user).subscribe((data: string) => {
+        this.mainServ.APIServ.post("users/login?include=user", this.user).subscribe((data: string) => {
             this.loader = false;
-            if (this.APIServ.getErrorCode() == 0) {
-                this.LoginSer.logIn(data);
-            } else if (this.APIServ.getErrorCode() == 401) {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
+                this.mainServ.loginServ.logIn(data);
+            } else if (this.mainServ.APIServ.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
-                this.APIServ.setErrorCode(0);
-            }else this.globalSer.somthingError();
+                this.mainServ.APIServ.setErrorCode(0);
+            }else this.mainServ.globalServ.somthingError();
         });
     }
 

@@ -129,7 +129,10 @@ export class CallApiService {
     let _options = { headers: new HttpHeaders({ "Authorization": this.loginSer.getId() }) };
     return this.http.post(this.baseUrl + url, fd, _options).map((Response: Response) => {
       return Response;
-    })
+    }).catch((Response: Response) => {
+      this.errorCode = Response.status;
+      return "E";
+    });
   }
 
 }

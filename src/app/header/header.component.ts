@@ -1,10 +1,8 @@
+import { MainService } from './../Services/main.service';
 import { ForgetPasswordModalComponent } from './../forget-password-modal/forget-password-modal.component';
-import { GlobalService } from './../Services/global.service';
 import { SignUpModalComponent } from './../sign-up-modal/sign-up-modal.component';
 import { SignInModalComponent } from './../sign-in-modal/sign-in-modal.component';
 import { MatDialog } from '@angular/material';
-import { LoginService } from './../Services/login.service';
-import { CallApiService } from './../Services/call-api.service';
 import { Component, Input } from '@angular/core';
 
 
@@ -18,15 +16,15 @@ export class HeaderComponent {
     isLogin: boolean;
     notificationBeh = [];
     unreadNotBeh;
-
+    profileImage;
 
 
     array = [];
     throttle = 100;
     scrollDistance = 2;
     scrollUpDistance = 2;
-    constructor(public globalServ: GlobalService, public dialog: MatDialog, public loginSer: LoginService, public APIServ: CallApiService) {
-        this.isLogin = this.loginSer.isLogin();
+    constructor(public mainServ: MainService, public dialog: MatDialog) {
+        this.isLogin = this.mainServ.loginServ.isLogin();
 
         // this.unreadNot=5;
 
@@ -47,37 +45,42 @@ export class HeaderComponent {
             skip = this.notificationBeh.length;
             query = { "order": "createdAt ASC", "limit": limit, "skip": skip, "include": ["advertisement"] }
 
-            this.APIServ.get("users/" + this.loginSer.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+            this.mainServ.APIServ.get("users/" + this.mainServ.loginServ.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
                 for (var index = 0; index < data.length; index++) {
                     var element = data[index];
                     if (!element.isRead) {
-                        this.globalServ.editUnreadNotBeh(this.unreadNotBeh + 1)
+                        this.mainServ.globalServ.editUnreadNotBeh(this.unreadNotBeh + 1)
                     }
                     if (element.advertisement)
                         this.notificationBeh.push(element);
                 }
-                this.globalServ.editNotificationBeh(this.notificationBeh);
+                this.mainServ.globalServ.editNotificationBeh(this.notificationBeh);
             });
         }
     }
 
     ngOnInit() {
-        this.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
-        this.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
+        this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
+        this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         this.getNotification()
-
+        // profileImage=
+        if (this.mainServ.loginServ.getAvatar() == null || this.mainServ.loginServ.getAvatar() == "") {
+            this.profileImage = "assets/imgs/defult_img.jpg"
+        } else {
+            this.profileImage = this.mainServ.loginServ.getAvatar();
+        }
     }
 
-    visitNot(isRead, idNot,idAdd) {
-        if(isRead){
-            this.globalServ.goTo2(idAdd)
+    visitNot(isRead, idNot, idAdd) {
+        if (isRead) {
+            this.mainServ.globalServ.goTo2(idAdd)
         }
     }
     toggleNot() {
         $(".NotificationMenuTop").toggleClass('NotificationMenu--isShown');
     }
 
-    openMenu(){
+    openMenu() {
         $(".DropMenu-Top").toggleClass('DropMenu--isShown');
     }
     openSignUpDialog() {
@@ -121,11 +124,11 @@ export class HeaderComponent {
     }
 
     logout() {
-        this.loginSer.logout();
+        this.mainServ.loginServ.logout();
     }
     hrefAddAdv() {
         if (this.isLogin) {
-            this.globalServ.goTo("addAdvertising")
+            this.mainServ.globalServ.goTo("addAdvertising")
         } else {
             this.openSignInDialog();
         }

@@ -1,6 +1,5 @@
-import { GlobalService } from './../Services/global.service';
+import { MainService } from './../Services/main.service';
 import { ActivatedRoute } from '@angular/router';
-import { CallApiService } from './../Services/call-api.service';
 import { MatDialog } from '@angular/material';
 import { Component } from '@angular/core';
 
@@ -13,7 +12,7 @@ export class ResetPasswordComponent {
     token;
     user;
     message;
-    constructor(public dialog: MatDialog,public globalSer:GlobalService ,public APIServe: CallApiService, private route: ActivatedRoute) {
+    constructor(public dialog: MatDialog,public mainServ:MainService , private route: ActivatedRoute) {
         this.user={};
         this.route.queryParams
             .filter(params => params.access_token)
@@ -25,13 +24,13 @@ export class ResetPasswordComponent {
        $("html, body").animate({ scrollTop: 0 }, "slow");
     }
     resetPassword() {
-          this.APIServe.resetPassWord("users/reset-password", this.user,this.token).subscribe((data: string) => {
-            if (this.APIServe.getErrorCode() == 0) {
-                this.globalSer.goTo('/')
-            } else if (this.APIServe.getErrorCode() == 401) {
+          this.mainServ.APIServ.resetPassWord("users/reset-password", this.user,this.token).subscribe((data: string) => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
+                this.mainServ.globalServ.goTo('/')
+            } else if (this.mainServ.APIServ.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
-                this.APIServe.setErrorCode(0);
-            }else this.globalSer.somthingError();
+                this.mainServ.APIServ.setErrorCode(0);
+            }else this.mainServ.globalServ.somthingError();
         });
     }
 }
