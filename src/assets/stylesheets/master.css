@@ -1422,8 +1422,13 @@ figure {
 @media screen and (max-width: 640px) {
     /* line 3, ../sass/_CategoryBox.scss */
     .CategoryBox {
-        width: 100%;
+        width: 50%; 
+        margin: 0;
     }
+    .CategoryBoxSub {
+    	width: 48%; 
+	    margin: 10px 1%;
+	}
 }
 
 
@@ -1763,8 +1768,7 @@ figure {
 @media screen and (max-width: 600px) {
     /* line 3, ../sass/_ItemSummary.scss */
     .ItemSummary {
-        min-height: 55%;
-        width: 100%;
+
     }
 }
 
@@ -1917,6 +1921,38 @@ figure {
     margin-left: 10px;
 }
 
+@media screen and (max-width: 600px) {
+    .ItemSummary-price {
+        margin:0px;
+        font-size: 14px; 
+        line-height: 22px;
+    }
+    .ItemSummary-action {
+    	margin:0px;
+    }
+    .ItemSummary-action-btn {
+    	font-size: 12px;
+    	padding: 6px 16px;
+    	height: auto;
+    	line-height: normal;
+    }
+    .ItemSummary-desc {
+    	margin: 8px 0px;
+    }
+    .ItemSummary-head {
+    	margin-bottom: 6px;
+    }
+    .ItemSummary-head-title {
+    	padding: 1px 6% 1px 12%; 
+    	font-size: 10px;
+    }
+    /* line 24, ../sass/_ItemBlock.scss */
+    .ItemBlock-img {
+       
+    }
+}
+
+
 
 /* line 3, ../sass/_ItemBlock.scss */
 
@@ -1940,22 +1976,12 @@ figure {
 
 @media screen and (max-width: 600px) {
     .ItemBlock {
-        -webkit-box-orient: horizontal !important;
-        -webkit-box-direction: reverse !important;
-        -ms-flex-direction: row-reverse !important;
-        flex-direction: row-reverse !important;
-        -webkit-flex-wrap: wrap !important;
-        -ms-flex-flow: wrap-reverse;
-        flex-flow: wrap-reverse !important;
-        min-height: 444px !important;
-        min-width: 320px !important;
-        flex-direction: row-reverse !important;
-        flex-wrap: wrap-reverse;
+        min-height: 140px;
+        margin: 0px 8px 8px 8px;
     }
     /* line 24, ../sass/_ItemBlock.scss */
     .ItemBlock-img {
-        height: 45% !important;
-        width: 100% !important;
+       
     }
 }
 
@@ -2076,6 +2102,17 @@ figure {
 
 .TopMenu-item:hover {
     color: #e6e6e6;
+}
+
+@media only screen and (max-width: 600px) {
+    /* line 4, ../sass/_AddNewContainer.scss */
+    .TopMenu {
+        padding: 10px 8px;
+    }
+    .TopMenu-item--iconDots {
+    	margin-left: 5px; 
+    	margin-right: 8px;
+    }
 }
 
 @font-face {
