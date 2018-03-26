@@ -54,8 +54,8 @@ var CallApiService = /** @class */ (function () {
         //   "users",
         //   "users/login"
         // ];
-        // readonly baseUrl = "http://104.217.253.15:3000/api/"
-        this.baseUrl = "http://localhost:5000/api/";
+        this.baseUrl = "http://104.217.253.15:5000/api/";
+        // readonly baseUrl = "http://localhost:5000/api/"
         this.errorCode = 0;
         this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
         // this.headers2 = this.headers2.append("Content-Type", "application/json");
