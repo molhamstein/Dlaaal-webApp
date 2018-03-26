@@ -250,7 +250,7 @@ export class ProfileComponent {
     }
     follow() {
         if (this.mainServ.loginServ.isLogin())
-            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID, { "ownerId": this.userID, "userId": this.mainServ.loginServ.getUserId() }).subscribe(data => {
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID,{}).subscribe(data => {
                 if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.mainServ.APIServ.get("users/" + this.userID).subscribe(data => {
                         this.userData = data;

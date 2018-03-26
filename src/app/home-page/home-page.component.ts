@@ -173,7 +173,10 @@ export class HomePageComponent {
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
-            this.keyFilter = [];
+            // this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).fields;
+            // this.keyFilter.forEach((element, index) => {
+            //     this.search['fields'][index] = {};
+            // });
         } else if (type == 1) {
             if (!isScrol) {
                 $('html, body').animate({

@@ -169,7 +169,7 @@
 								<input *ngIf="oneKey.type == 'text'"  (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
 								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
 								<select *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-select FiltersPanel-body-down">
-								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
+								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
 								</select>
 							</div>
 							<div class="FiltersPanel-body-inputcontainer">
