@@ -60,7 +60,7 @@
                             <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number"
                                 value="" name="name">
                             <select style="width: 100%" *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
-								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
+								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
 								</select>
                         </div>
                     </div>

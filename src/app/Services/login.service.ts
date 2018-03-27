@@ -31,7 +31,8 @@ export class LoginService {
     console.log(data);
     this.cookieService.set('dalalUserId', data.userId);
     this.cookieService.set('dalalId', data.id);
-    this.cookieService.set('dalalAvatar', data.user.avatar);
+    if (data.user != null)
+      this.cookieService.set('dalalAvatar', data.user.avatar);
     location.reload();
   }
 
@@ -39,7 +40,7 @@ export class LoginService {
     this.cookieService.set('dalalUserId', "");
     this.cookieService.set('dalalId', "");
     this.cookieService.set('dalalAvatar', "");
-    
+
     console.log(this.router.url);
     if ("/myprofile/me" == this.router.url) {
       this.router.navigateByUrl('/myprofile/me').then(() => this.router.navigateByUrl('/'));
@@ -48,10 +49,10 @@ export class LoginService {
       location.reload();
   }
 
-  getAvatar(){
+  getAvatar() {
     return this.cookieService.get("dalalAvatar");
   }
-  setAvatar(newAvatar){
-    this.cookieService.set('dalalAvatar', newAvatar);    
+  setAvatar(newAvatar) {
+    this.cookieService.set('dalalAvatar', newAvatar);
   }
 }

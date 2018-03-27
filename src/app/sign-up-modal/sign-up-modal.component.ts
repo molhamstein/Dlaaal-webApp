@@ -38,7 +38,7 @@ export class SignUpModalComponent {
                         } else this.mainServ.globalServ.somthingError();
                     });
                     // alert("Success")
-                    // this.mainServ.LoginServ.logIn(data);
+                    // this.mainServ.loginServ.logIn(data);
                 } else if (this.mainServ.APIServ.getErrorCode() == 422) {
                     this.message = "هذا البريد الالكتروني مسجل مسبقا";
                     this.mainServ.APIServ.setErrorCode(0);

@@ -63,12 +63,16 @@ export class HeaderComponent {
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         this.getNotification()
-        // profileImage=
-        if (this.mainServ.loginServ.getAvatar() == null || this.mainServ.loginServ.getAvatar() == "") {
+        this.profileImage=this.mainServ.loginServ.getAvatar()
+        if(this.profileImage){
             this.profileImage = "assets/imgs/defult_img.jpg"
-        } else {
-            this.profileImage = this.mainServ.loginServ.getAvatar();
-        }
+        }        
+        // if (!this.mainServ.loginServ.getAvatar() || this.mainServ.loginServ.getAvatar() == "") {
+        //     this.profileImage = "assets/imgs/defult_img.jpg"
+        // } else {
+        //     this.profileImage = this.mainServ.loginServ.getAvatar();
+        // }
+        
     }
 
     visitNot(isRead, idNot, idAdd) {

@@ -73,11 +73,10 @@ export class HomePageComponent {
 
         window.addEventListener('scroll', this.scroll, true); //third parameter
 
-        if (this.mainServ.loginServ.getAvatar() == null || this.mainServ.loginServ.getAvatar() == "") {
+         this.profileImage=this.mainServ.loginServ.getAvatar()
+        if(this.profileImage){
             this.profileImage = "assets/imgs/defult_img.jpg"
-        } else {
-            this.profileImage = this.mainServ.loginServ.getAvatar();
-        }
+        }  
 
 
     }
