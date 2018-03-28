@@ -121,7 +121,7 @@ input[type='number'] {
 @media screen and (max-width: 500px) {
     /* line 56, ../sass/_Utils.scss */
     .u-customBtn img {
-        width: 12px !important;
+        width: 8px !important;
     }
     .u-customBtn {
 	    padding: 8px 10px;
@@ -135,6 +135,7 @@ input[type='number'] {
 @media screen and (max-width: 420px) {
     .u-customBtn {
         margin-left: 0px !important;
+        height: 40px;
     }
 }
 
@@ -396,6 +397,14 @@ input[type='number'] {
     color: #257310;
 }
 
+@media screen and (max-width: 600px) {
+    /* line 3, ../sass/_NotificationMenu.scss */
+    .u-after10p {
+        margin-left: 6px !important;
+    	white-space: nowrap;
+    	font-size: 8px;
+    }
+}
 
 /* line 3, ../sass/_Avatar.scss */
 
@@ -988,28 +997,25 @@ figure {
 }
 
 
-
-
 /* line 2, ../sass/_MainContainer.scss */
 
-.MainContainer {
+.MainContainer {    
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.HeaderBackground {
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
     background-size: cover;
-    max-width: 100%;
-    margin: 0 auto;
-    background-blend-mode: overlay;
     background: url(../../assets/imgs/header.jpg) no-repeat center center fixed;
-    background-color: #616161;
-    max-width: 100%;
-    margin: 0 auto;
     background-color: #616161;
     background-blend-mode: overlay;
 }
 
 @media screen and (max-width: 600px) {
-    .MainContainer {
+    .HeaderBackground {
         background: url(../../assets/imgs/header_mobile.jpg) no-repeat center center fixed;
         background-color: #616161;
         background-size: cover;
@@ -1055,6 +1061,13 @@ figure {
     background-repeat: no-repeat;
     background-size: 100%;
     min-height: 320px;
+}
+
+@media screen and (max-width: 640px) {
+    /* line 52, ../sass/_Triangle.scss */
+    .Triangle {
+        min-height: 200px;
+    }
 }
 
 
@@ -1953,13 +1966,15 @@ figure {
     	margin:0px;
     }
     .ItemSummary-action-btn {
-    	font-size: 10px;
+    	font-size: 6px;
     	padding: 6px 16px;
     	height: auto;
     	line-height: normal;
     }
     .ItemSummary-desc {
-    	margin: 8px 0px;
+    	margin: 4px 0px;
+    	line-height: 14px;
+    	font-size: 10px;
     }
     .ItemSummary-head {
     	margin-bottom: 6px;
@@ -1971,6 +1986,13 @@ figure {
     /* line 24, ../sass/_ItemBlock.scss */
     .ItemBlock-img {
        
+    }
+    .ItemSummary-head-date {
+    	font-size:10px
+    }
+    .ItemSummary-action-views {
+    	font-size: 8px; 
+    	margin-left: 5px;
     }
 }
 
@@ -2000,7 +2022,7 @@ figure {
     .ItemBlock {
         min-height: 140px;
         margin: 0px 8px 8px 8px;
-        min-width: 320px;
+        min-width: auto;
     }
     /* line 24, ../sass/_ItemBlock.scss */
     .ItemBlock-img {
@@ -2120,6 +2142,14 @@ figure {
     min-width: 32px;
 }
 
+@media only screen and (max-width: 600px) {
+
+    .TopMenu-item--logo {
+        min-width: 22px;
+	    width: 40px;
+    	margin-top: 8px;
+    }
+}
 
 /* line 43, ../sass/_TopMenu.scss */
 
@@ -2135,6 +2165,17 @@ figure {
     .TopMenu-item--iconDots {
     	margin-left: 5px; 
     	margin-right: 8px;
+    }
+    .TopMenu-item{
+    	margin-left: 10px;
+    }
+    
+    .SearchBar input {
+    	min-width: 80px;
+    }
+    
+    .SearchBar select {
+    	font-size: 8px;
     }
 }
 
@@ -2461,6 +2502,8 @@ figure {
     -webkit-align-items: flex-start;
     align-items: flex-start;
     height: 100%;
+    max-width: 100%; 
+    width: 100%;
 }
 
 
@@ -4430,8 +4473,9 @@ figure {
 @media only screen and (max-width: 800px) {
     /* line 16, ../sass/_UserProfile.scss */
     .UserProfile-navtabs-tab {
-        width: 40%;
-    }
+		width: 40%;
+		font-size: 12px;
+	}
 }
 
 
@@ -4611,4 +4655,12 @@ transform: scale(1.1);
 
 *:focus {
     outline: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+	select,
+	textarea,
+	input {
+		font-size: 16px;
+	}
 }
