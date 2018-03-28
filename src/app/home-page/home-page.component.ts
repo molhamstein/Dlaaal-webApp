@@ -31,6 +31,7 @@ export class HomePageComponent {
     mainCategories;
     advertisemets;
     search = {};
+    vetcorKeyFilter = [];
     keyFilter = [];
     subCategories;
     profileImage
@@ -73,10 +74,10 @@ export class HomePageComponent {
 
         window.addEventListener('scroll', this.scroll, true); //third parameter
 
-         this.profileImage=this.mainServ.loginServ.getAvatar()
-        if(this.profileImage){
+        this.profileImage = this.mainServ.loginServ.getAvatar()
+        if (this.profileImage) {
             this.profileImage = "assets/imgs/defult_img.jpg"
-        }  
+        }
 
 
     }
@@ -172,10 +173,7 @@ export class HomePageComponent {
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
-            // this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).fields;
-            // this.keyFilter.forEach((element, index) => {
-            //     this.search['fields'][index] = {};
-            // });
+            this.changeCategory(data.categoryID)
         } else if (type == 1) {
             if (!isScrol) {
                 $('html, body').animate({
@@ -187,11 +185,8 @@ export class HomePageComponent {
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             this.search['subCategory'] = data.subCategoryID;
             query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
-            this.keyFilter = this.mainCategories.find(x => x.id == data.categoryID).subCategories.find(y => y.id == data.subCategoryID).fields;
-            if (!isScrol)
-                this.keyFilter.forEach((element, index) => {
-                    this.search['fields'][index] = {};
-                });
+            this.changeCategory(data.categoryID)
+            this.changeSubCategory(data.subCategoryID)
         }
         else if (type == 2) {
             if (isTopSearch && !isScrol) {
@@ -209,8 +204,8 @@ export class HomePageComponent {
         else if (type == 3) {
             console.log(this.search['fields']);
             let fiedsQuery = [];
-            if (this.keyFilter.length != 0) {
-                this.keyFilter.forEach((element, index) => {
+            if (this.vetcorKeyFilter.length != 0) {
+                this.vetcorKeyFilter.forEach((element, index) => {
                     if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
                         fiedsQuery.push({
                             "fields": {
@@ -253,6 +248,50 @@ export class HomePageComponent {
     }
 
 
+    changeValue(value, indexFields) {
+        console.log("value")
+        console.log(value)
+
+        console.log("befor")
+        console.log(this.vetcorKeyFilter)
+
+        var field = this.vetcorKeyFilter[indexFields];
+        console.log("field")
+        console.log(field)
+        var length = field.lengthChilde
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            this.vetcorKeyFilter.splice(indexFields + 1, 1)
+            this.search["fields"].splice(indexFields + 1, 1)
+        }
+
+        var option = field.values.find(x => x.value == value);
+        console.log("option")
+        console.log(option)
+
+        field.lengthChilde = option.fields.length;
+
+        console.log("lengthChilde")
+        console.log(field.lengthChilde)
+        for (var index = option.fields.length; index > 0; index--) {
+
+            var element = option.fields[index - 1];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(elementValue => {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+
+            }
+            else
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
+            this.search["fields"].splice(indexFields + 1, 0, {})
+        }
+        console.log("finish")
+        console.log(this.vetcorKeyFilter)
+
+    }
+
 
     getData(query, isScrol, limit, type) {
         this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
@@ -279,17 +318,50 @@ export class HomePageComponent {
         $(".DropMenu-Down").toggleClass('DropMenu--isShown');
     }
 
-    changeCategory(categortID) {
-        this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
-        this.keyFilter = [];
+    changeCategory(categoryID) {
+        this.keyFilter = this.mainCategories.find(x => x.id == categoryID).fields;
+        this.vetcorKeyFilter = [];
+        if (this.keyFilter)
+            this.keyFilter.forEach((element, index) => {
+                if (element.type == "choose") {
+                    var tempValue = [];
+                    element.values.forEach(elementValue => {
+                        tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                    });
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+
+                }
+                else
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                this.search['fields'][index] = {};
+            });
 
     }
     changeSubCategory(subCategoryID) {
-        this.search["fields"] = [];
-        this.keyFilter = this.mainCategories.find(x => x.id == this.search["category"]).subCategories.find(y => y.id == subCategoryID).fields;
-        this.keyFilter.forEach((element, index) => {
-            this.search['fields'][index] = {};
+        if (this.keyFilter)
+            var lastLength = this.keyFilter.length;
+        else {
+            this.keyFilter = [];
+            var lastLength = 0;
+        }
+        var newFields = this.mainCategories.find(x => x.id == this.search["category"]).subCategories.find(y => y.id == subCategoryID).fields;
+        newFields.forEach(element => {
+            this.keyFilter.push(element);
         });
+        for (var index = lastLength; index < this.keyFilter.length; index++) {
+            var element = this.keyFilter[index];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(elementValue => {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+
+            }
+            else
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+            this.search['fields'][index] = {};
+        };
     }
 
     openSignUpDialog() {

@@ -15,7 +15,7 @@
 						</select>
 					<select name="category" class="SearchBar-category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
 						<option [ngValue]="undefined" selected>اختر الفئة</option>
-						<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option> 
+						<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option> 
 						</select>
 					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" placeholder="أنا أبحث عن" type="text" [(ngModel)]="search.title">
 
@@ -106,7 +106,7 @@
 								</select>
 							<select name="category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)" class="FilterSearchBar-category">
 									<option [ngValue]="undefined" selected>اختر الفئة</option>
-								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
+								 	<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option>
 								</select>
 							<input class="FilterSearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search})" [(ngModel)]="search.title" id="" placeholder="أنا أبحث عن" type="text">
 						</div>
@@ -153,7 +153,7 @@
 								<label for="name"> </label>
 								<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
 									<option [ngValue]="undefined" selected>اختر الفئة</option>								 
-								 	<option *ngFor="let category of categories" value="{{category.id}}" >{{category.title}}</option>
+								 	<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option>
 								</select>
 							</div>
 
@@ -164,11 +164,11 @@
 								 	<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>
 								</select>
 							</div>
-							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of keyFilter;let i=index">
+							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter;let i=index">
 								<label for="name">{{oneKey.key}} </label>
 								<input *ngIf="oneKey.type == 'text'"  (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
 								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" type="number" value="" name="name">
-								<select *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-select FiltersPanel-body-down">
+								<select *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-select FiltersPanel-body-down">
 								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
 								</select>
 							</div>

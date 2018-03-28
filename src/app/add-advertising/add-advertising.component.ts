@@ -13,13 +13,14 @@ export class AddAdvertisingComponent {
     cities;
     categories;
     keyFilter = [];
+    vetcorKeyFilter = [];
     subCategories;
     search = {};
     isAgree = false;
     images = [];
     imageOnLoad: any = [];
     loader;
-    constructor(public mainServ:MainService) {
+    constructor(public mainServ: MainService) {
         this.search['fields'] = [];
         this.loader = false;
     }
@@ -77,17 +78,106 @@ export class AddAdvertisingComponent {
 
     changeCategory(categortID) {
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
-        this.keyFilter = [];
-        this.search['fields'] = [];
-    }
-    changeSubCategory(subCategoryID) {
-        this.search['fields'] = [];
-        this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
-        this.keyFilter.forEach((element, index) => {
-            this.search['fields'][index] = {};
-        });
+
+        this.keyFilter = this.categories.find(x => x.id == categortID).fields;
+        this.vetcorKeyFilter = [];
+        if (this.keyFilter)
+            this.keyFilter.forEach((element, index) => {
+                if (element.type == "choose") {
+                    var tempValue = [];
+                    element.values.forEach(elementValue => {
+                        tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                    });
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+
+                }
+                else
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                this.search['fields'][index] = {};
+            });
+
     }
 
+    changeSubCategory(subCategoryID) {
+        if (this.keyFilter)
+            var lastLength = this.vetcorKeyFilter.length;
+        else {
+            this.keyFilter = [];
+            var lastLength = 0;
+        }
+        var newFields = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
+        newFields.forEach(element => {
+            this.keyFilter.push(element);
+        });
+        for (var index = lastLength; index < this.keyFilter.length; index++) {
+            alert(lastLength);
+            var element = this.keyFilter[index];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(elementValue => {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+            }
+            else
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+            this.search['fields'][index] = {};
+        };
+    }
+
+    // changeSubCategory(subCategoryID) {
+    //     this.search['fields'] = [];
+    //     this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
+    //     this.keyFilter.forEach((element, index) => {
+    //         this.search['fields'][index] = {};
+    //     });
+    // }
+
+    changeValue(value, indexFields) {
+        console.log("value")
+        console.log(value)
+
+
+        console.log("value")
+        console.log(indexFields)
+
+
+        console.log("befor")
+        console.log(this.vetcorKeyFilter)
+
+        var field = this.vetcorKeyFilter[indexFields];
+        console.log("field")
+        console.log(field)
+        var length = field.lengthChilde
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            this.vetcorKeyFilter.splice(indexFields + 1, 1)
+            this.search["fields"].splice(indexFields + 1, 1)
+        }
+
+        var option = field.values.find(x => x.value == value);
+        console.log("option")
+        console.log(option)
+        field.lengthChilde = option.fields.length;
+        console.log("lengthChilde")
+        console.log(field.lengthChilde)
+        for (var index = option.fields.length; index > 0; index--) {
+            var element = option.fields[index - 1];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(elementValue => {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+
+            }
+            else
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
+            this.search["fields"].splice(indexFields + 1, 0, {})
+        }
+        console.log("finish")
+        console.log(this.vetcorKeyFilter)
+
+    }
 
     openSelectImage() {
         document.getElementById('files').click();
@@ -111,7 +201,7 @@ export class AddAdvertisingComponent {
             } else if (this.search['description'] == "" || this.search['description'] == null) {
                 fieldName = "شرح"
             }
-            this.keyFilter.forEach((element, index) => {
+            this.vetcorKeyFilter.forEach((element, index) => {
                 this.search['fields'][index].key = element.key;
                 this.search['fields'][index].type = element.type;
                 if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
