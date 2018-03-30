@@ -54,14 +54,14 @@
                             <label for="name">شرح </label>
                             <input [(ngModel)]="search.description" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
                         </div>
-                        <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of keyFilter; let i = index;">
+                        <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter; let i = index;">
                             <label for="name">{{oneKey.key}} </label>
                             <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text"
                                 value="" name="name">
                             <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number"
                                 value="" name="name">
-                            <select style="width: 100%" *ngIf="oneKey.type == 'choose' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
-								 	<option *ngFor="let value of oneKey.values" value="{{value}}" >{{value}}</option>
+                            <select style="width: 100%" *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
+								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
 								</select>
                         </div>
                     </div>

@@ -202,7 +202,11 @@ export class HomePageComponent {
 
         }
         else if (type == 3) {
-            console.log(this.search['fields']);
+            if (!isScrol) {
+                $('html, body').animate({
+                    scrollTop: $(".ItemsContainer").offset().top - 100
+                }, 2000);
+            }
             let fiedsQuery = [];
             if (this.vetcorKeyFilter.length != 0) {
                 this.vetcorKeyFilter.forEach((element, index) => {
@@ -248,6 +252,17 @@ export class HomePageComponent {
     }
 
 
+    deleteFielde(field, indexFields) {
+        var length = field.lengthChilde;
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            if (this.vetcorKeyFilter[indexFields + 1].type == "choose" && this.vetcorKeyFilter[indexFields + 1].lengthChilde > 0) {
+                this.deleteFielde(this.vetcorKeyFilter[indexFields + 1], indexFields + 1);
+            }
+            this.vetcorKeyFilter.splice(indexFields + 1, 1)
+            this.search["fields"].splice(indexFields + 1, 1)
+        }
+    }
+
     changeValue(value, indexFields) {
         console.log("value")
         console.log(value)
@@ -258,11 +273,8 @@ export class HomePageComponent {
         var field = this.vetcorKeyFilter[indexFields];
         console.log("field")
         console.log(field)
-        var length = field.lengthChilde
-        for (var indexDel = 0; indexDel < length; indexDel++) {
-            this.vetcorKeyFilter.splice(indexFields + 1, 1)
-            this.search["fields"].splice(indexFields + 1, 1)
-        }
+        this.deleteFielde(this.vetcorKeyFilter[indexFields ], indexFields );
+
 
         var option = field.values.find(x => x.value == value);
         console.log("option")

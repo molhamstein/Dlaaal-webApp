@@ -78,7 +78,6 @@ export class AddAdvertisingComponent {
 
     changeCategory(categortID) {
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
-
         this.keyFilter = this.categories.find(x => x.id == categortID).fields;
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
@@ -133,6 +132,17 @@ export class AddAdvertisingComponent {
     //     });
     // }
 
+    deleteFielde(field, indexFields) {
+        var length = field.lengthChilde;
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            if (this.vetcorKeyFilter[indexFields + 1].type == "choose" && this.vetcorKeyFilter[indexFields + 1].lengthChilde > 0) {
+                this.deleteFielde(this.vetcorKeyFilter[indexFields + 1], indexFields + 1);
+            }
+            this.vetcorKeyFilter.splice(indexFields + 1, 1)
+            this.search["fields"].splice(indexFields + 1, 1)
+        }
+    }
+
     changeValue(value, indexFields) {
         console.log("value")
         console.log(value)
@@ -148,11 +158,9 @@ export class AddAdvertisingComponent {
         var field = this.vetcorKeyFilter[indexFields];
         console.log("field")
         console.log(field)
-        var length = field.lengthChilde
-        for (var indexDel = 0; indexDel < length; indexDel++) {
-            this.vetcorKeyFilter.splice(indexFields + 1, 1)
-            this.search["fields"].splice(indexFields + 1, 1)
-        }
+
+        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields );
+
 
         var option = field.values.find(x => x.value == value);
         console.log("option")

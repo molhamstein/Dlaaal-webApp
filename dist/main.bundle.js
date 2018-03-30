@@ -661,6 +661,16 @@ var AddAdvertisingComponent = /** @class */ (function () {
     //         this.search['fields'][index] = {};
     //     });
     // }
+    AddAdvertisingComponent.prototype.deleteFielde = function (field, indexFields) {
+        var length = field.lengthChilde;
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            if (this.vetcorKeyFilter[indexFields + 1].type == "choose" && this.vetcorKeyFilter[indexFields + 1].lengthChilde > 0) {
+                this.deleteFielde(this.vetcorKeyFilter[indexFields + 1], indexFields + 1);
+            }
+            this.vetcorKeyFilter.splice(indexFields + 1, 1);
+            this.search["fields"].splice(indexFields + 1, 1);
+        }
+    };
     AddAdvertisingComponent.prototype.changeValue = function (value, indexFields) {
         console.log("value");
         console.log(value);
@@ -671,11 +681,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
         var field = this.vetcorKeyFilter[indexFields];
         console.log("field");
         console.log(field);
-        var length = field.lengthChilde;
-        for (var indexDel = 0; indexDel < length; indexDel++) {
-            this.vetcorKeyFilter.splice(indexFields + 1, 1);
-            this.search["fields"].splice(indexFields + 1, 1);
-        }
+        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields);
         var option = field.values.find(function (x) { return x.value == value; });
         console.log("option");
         console.log(option);
@@ -1484,7 +1490,7 @@ var ContactUsModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/edit-advertising/edit-advertising.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                تعديل إعلان\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\" type=\"number\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n            </div>\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of keyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"number\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let value of oneKey.values\" value=\"{{value}}\" >{{value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <!--<div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>-->\n                            <div class=\"AddNewForm-btn\" style=\"width: 40%;;margin: 28px 5%\" (click)=\"editAdvertising()\">\n                                تعديل\n                            </div>\n                             <div class=\"AddNewForm-btn\" style=\"width: 40%;;margin: 28px 5%;background-color:  red;\"  routerLink=\"{{'/detail/'+search.id}}\">\n                                إلغاء\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==false}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>"
+module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                تعديل إعلان\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\" type=\"number\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n            </div>\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of vetcorKeyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"number\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" (change)=\"changeValue($event.target.value,i)\" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let oneValue of oneKey.values\" value=\"{{oneValue.value}}\" >{{oneValue.value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <!--<div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>-->\n                            <div class=\"AddNewForm-btn\" style=\"width: 40%;;margin: 28px 5%\" (click)=\"editAdvertising()\">\n                                تعديل\n                            </div>\n                             <div class=\"AddNewForm-btn\" style=\"width: 40%;;margin: 28px 5%;background-color:  red;\"  routerLink=\"{{'/detail/'+search.id}}\">\n                                إلغاء\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==false}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1532,6 +1538,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.mainServ = mainServ;
         this.route = route;
         this.keyFilter = [];
+        this.vetcorKeyFilter = [];
         this.search = {};
         this.isAgree = false;
         this.images = [];
@@ -1551,14 +1558,48 @@ var EditAdvertisingComponent = /** @class */ (function () {
             _this.mainServ.APIServ.get("advertisemets/" + _this.addID).subscribe(function (data) {
                 if (_this.mainServ.APIServ.getErrorCode() == 0) {
                     _this.search = data;
-                    _this.changeCategory(_this.search['categoryId'], true);
-                    _this.changeSubCategory(_this.search['subCategoryId'], true);
+                    _this.initFildes(_this.search['categoryId'], _this.search['subCategoryId']);
+                    // this.changeCategory(this.search['categoryId'], true);
+                    // this.changeSubCategory(this.search['subCategoryId'], true);
                     _this.images = _this.search['images'];
                 }
                 else
                     _this.mainServ.globalServ.somthingError();
             });
         });
+    };
+    EditAdvertisingComponent.prototype.oneField = function (fields, numVlaue) {
+        var _this = this;
+        fields.forEach(function (element, index) {
+            numVlaue++;
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(function (elementValue) {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields });
+                });
+                console.log(_this.search["fields"][numVlaue - 1]);
+                console.log(element.values);
+                var newFildes = element.values.find(function (x) { return x.value == _this.search["fields"][numVlaue - 1].value; }).fields;
+                console.log(newFildes);
+                _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length });
+                numVlaue = _this.oneField(newFildes, numVlaue);
+            }
+            else
+                _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+        });
+        return numVlaue;
+    };
+    EditAdvertisingComponent.prototype.initFildes = function (categortID, subCategoryID) {
+        var _this = this;
+        this.vetcorKeyFilter = [];
+        var numValue = 0;
+        this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
+        this.keyFilter = this.categories.find(function (x) { return x.id == categortID; }).fields;
+        if (this.keyFilter)
+            numValue = this.oneField(this.keyFilter, numValue);
+        this.keyFilter = this.categories.find(function (x) { return x.id == _this.search["categoryId"]; }).subCategories.find(function (y) { return y.id == subCategoryID; }).fields;
+        if (this.keyFilter)
+            numValue = this.oneField(this.keyFilter, numValue);
     };
     EditAdvertisingComponent.prototype.releadImage = function (innerIndex, file) {
         var reader = new FileReader();
@@ -1589,26 +1630,118 @@ var EditAdvertisingComponent = /** @class */ (function () {
             });
         });
     };
-    EditAdvertisingComponent.prototype.changeCategory = function (categortID, isFirst) {
-        if (isFirst === void 0) { isFirst = false; }
-        this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
-        this.keyFilter = [];
-        if (!isFirst) {
-            this.search['fields'] = [];
-            this.search['category'] = this.categories.find(function (x) { return x.id == categortID; });
-        }
-    };
-    EditAdvertisingComponent.prototype.changeSubCategory = function (subCategoryID, isFirst) {
+    // changeCategory(categortID, isFirst: boolean = false) {
+    //     this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
+    //     this.keyFilter = [];
+    //     if (!isFirst) {
+    //         this.search['fields'] = [];
+    //         this.search['category'] = this.categories.find(x => x.id == categortID);
+    //     }
+    // }
+    EditAdvertisingComponent.prototype.changeCategory = function (categortID) {
         var _this = this;
-        if (isFirst === void 0) { isFirst = false; }
-        this.keyFilter = this.categories.find(function (x) { return x.id == _this.search["categoryId"]; }).subCategories.find(function (y) { return y.id == subCategoryID; }).fields;
-        if (!isFirst) {
-            this.search['subCategory'] = this.categories.find(function (x) { return x.id == _this.search["categoryId"]; }).subCategories.find(function (y) { return y.id == subCategoryID; });
-            this.search['fields'] = [];
+        this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
+        this.keyFilter = this.categories.find(function (x) { return x.id == categortID; }).fields;
+        this.vetcorKeyFilter = [];
+        if (this.keyFilter)
             this.keyFilter.forEach(function (element, index) {
+                if (element.type == "choose") {
+                    var tempValue = [];
+                    element.values.forEach(function (elementValue) {
+                        tempValue.push({ value: elementValue.value, fields: elementValue.fields });
+                    });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                }
+                else
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
                 _this.search['fields'][index] = {};
             });
+    };
+    // changeSubCategory(subCategoryID, isFirst: boolean = false) {
+    //     this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
+    //     if (!isFirst) {
+    //         this.search['subCategory'] = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID)
+    //         this.search['fields'] = [];
+    //         this.keyFilter.forEach((element, index) => {
+    //             this.search['fields'][index] = {};
+    //         });
+    //     }
+    // }
+    EditAdvertisingComponent.prototype.changeSubCategory = function (subCategoryID) {
+        var _this = this;
+        if (this.keyFilter)
+            var lastLength = this.vetcorKeyFilter.length;
+        else {
+            this.keyFilter = [];
+            var lastLength = 0;
         }
+        var newFields = this.categories.find(function (x) { return x.id == _this.search["categoryId"]; }).subCategories.find(function (y) { return y.id == subCategoryID; }).fields;
+        newFields.forEach(function (element) {
+            _this.keyFilter.push(element);
+        });
+        for (var index = lastLength; index < this.keyFilter.length; index++) {
+            alert(lastLength);
+            var element = this.keyFilter[index];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(function (elementValue) {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields });
+                });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+            }
+            else
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+            this.search['fields'][index] = {};
+        }
+        ;
+    };
+    EditAdvertisingComponent.prototype.deleteFielde = function (field, indexFields) {
+        var length = field.lengthChilde;
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            if (this.vetcorKeyFilter[indexFields + 1].type == "choose" && this.vetcorKeyFilter[indexFields + 1].lengthChilde > 0) {
+                this.deleteFielde(this.vetcorKeyFilter[indexFields + 1], indexFields + 1);
+            }
+            this.vetcorKeyFilter.splice(indexFields + 1, 1);
+            this.search["fields"].splice(indexFields + 1, 1);
+        }
+    };
+    EditAdvertisingComponent.prototype.changeValue = function (value, indexFields) {
+        // console.log("value")
+        // console.log(value)
+        // console.log("value")
+        // console.log(indexFields)
+        // console.log("befor")
+        // console.log(this.vetcorKeyFilter)
+        var field = this.vetcorKeyFilter[indexFields];
+        // console.log("field")
+        // console.log(field)
+        // var length = field.lengthChilde
+        // for (var indexDel = 0; indexDel < length; indexDel++) {
+        //     this.vetcorKeyFilter.splice(indexFields + 1, 1)
+        //     this.search["fields"].splice(indexFields + 1, 1)
+        // }
+        this.deleteFielde(field, indexFields);
+        var option = field.values.find(function (x) { return x.value == value; });
+        // console.log("option")
+        // console.log(option)
+        field.lengthChilde = option.fields.length;
+        // console.log("lengthChilde")
+        // console.log(field.lengthChilde)
+        for (var index = option.fields.length; index > 0; index--) {
+            var element = option.fields[index - 1];
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(function (elementValue) {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields });
+                });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+            }
+            else
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key });
+            this.search["fields"].splice(indexFields + 1, 0, {});
+        }
+        console.log("finish");
+        console.log(this.vetcorKeyFilter);
     };
     EditAdvertisingComponent.prototype.openSelectImage = function () {
         document.getElementById('files').click();
@@ -1637,7 +1770,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
         else if (this.search['description'] == "" || this.search['description'] == null) {
             fieldName = "شرح";
         }
-        this.keyFilter.forEach(function (element, index) {
+        this.vetcorKeyFilter.forEach(function (element, index) {
             _this.search['fields'][index].key = element.key;
             _this.search['fields'][index].type = element.type;
             if ((_this.search['fields'][index].value == "" || _this.search['fields'][index].value == null) && fieldName == "") {
@@ -2505,7 +2638,11 @@ var HomePageComponent = /** @class */ (function () {
                 query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip };
         }
         else if (type == 3) {
-            console.log(this.search['fields']);
+            if (!isScrol) {
+                $('html, body').animate({
+                    scrollTop: $(".ItemsContainer").offset().top - 100
+                }, 2000);
+            }
             var fiedsQuery_1 = [];
             if (this.vetcorKeyFilter.length != 0) {
                 this.vetcorKeyFilter.forEach(function (element, index) {
@@ -2544,6 +2681,16 @@ var HomePageComponent = /** @class */ (function () {
             }, 1500);
         }
     };
+    HomePageComponent.prototype.deleteFielde = function (field, indexFields) {
+        var length = field.lengthChilde;
+        for (var indexDel = 0; indexDel < length; indexDel++) {
+            if (this.vetcorKeyFilter[indexFields + 1].type == "choose" && this.vetcorKeyFilter[indexFields + 1].lengthChilde > 0) {
+                this.deleteFielde(this.vetcorKeyFilter[indexFields + 1], indexFields + 1);
+            }
+            this.vetcorKeyFilter.splice(indexFields + 1, 1);
+            this.search["fields"].splice(indexFields + 1, 1);
+        }
+    };
     HomePageComponent.prototype.changeValue = function (value, indexFields) {
         console.log("value");
         console.log(value);
@@ -2552,11 +2699,7 @@ var HomePageComponent = /** @class */ (function () {
         var field = this.vetcorKeyFilter[indexFields];
         console.log("field");
         console.log(field);
-        var length = field.lengthChilde;
-        for (var indexDel = 0; indexDel < length; indexDel++) {
-            this.vetcorKeyFilter.splice(indexFields + 1, 1);
-            this.search["fields"].splice(indexFields + 1, 1);
-        }
+        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields);
         var option = field.values.find(function (x) { return x.value == value; });
         console.log("option");
         console.log(option);
