@@ -135,7 +135,7 @@ input[type='number'] {
 @media screen and (max-width: 420px) {
     .u-customBtn {
         margin-left: 0px !important;
-        height: 40px;
+        height: 32px;
     }
 }
 
@@ -403,6 +403,7 @@ input[type='number'] {
         margin-left: 6px !important;
     	white-space: nowrap;
     	font-size: 8px;
+    	line-height:20px
     }
 }
 
@@ -458,6 +459,17 @@ input[type='number'] {
     width: 42px;
 }
 
+@media screen and (max-width: 600px) {
+    .Avatar--lg {
+    	height: 32px;
+	}
+
+	/* line 19, ../sass/_Avatar.scss */
+
+	.Avatar--lg img {
+    	width: 32px;
+	}
+}
 
 /* line 21, ../sass/_Avatar.scss */
 
@@ -655,7 +667,11 @@ figure {
 
 @media screen and (max-width: 600px) {
 	.Jumbotron-subtitle {
-		color: #bbb;
+		color: #fff;
+	    text-shadow: 0 0 3px #000, 0 0 3px #000;
+	}
+	.Jumbotron {
+		padding-top:10px
 	}
 }
 
@@ -992,7 +1008,9 @@ figure {
 @media screen and (max-width: 600px) {
     .SearchBar input {
         max-width:100px;
+        min-width: 80px;
         padding: 5px 10px;
+    	font-size: 10px;   
     }
 }
 
@@ -1608,11 +1626,20 @@ figure {
     }
     /* line 12, ../sass/_ContentMenu.scss */
     .ContentMenu-item {
-        margin-left: 12px !important;
+        margin-left: 10px !important;
+        font-size: 10px;
     }
+    
+    .u-fill .ContentMenu-item:first-child, 
+    .u-fill .TopMenu-item:first-child {
+    	margin-left: 2px !important;
+    }
+    
     /* line 14, ../sass/_ContentMenu.scss */
     .ContentMenu-item--logo {
         margin-left: auto !important;
+        max-width: 32px !important;
+	    min-width: 32px !important;
     }
 }
 
@@ -2023,6 +2050,7 @@ figure {
         min-height: 140px;
         margin: 0px 8px 8px 8px;
         min-width: auto;
+        width:100%
     }
     /* line 24, ../sass/_ItemBlock.scss */
     .ItemBlock-img {
@@ -2168,14 +2196,12 @@ figure {
     }
     .TopMenu-item{
     	margin-left: 10px;
+    	white-space: nowrap;
+	    font-size: 10px;
     }
-    
-    .SearchBar input {
-    	min-width: 80px;
-    }
-    
+        
     .SearchBar select {
-    	font-size: 8px;
+    	font-size: 10px;
     }
 }
 
@@ -2254,6 +2280,7 @@ figure {
     background-size: 22px 22px;
     background-position: center;
     cursor: pointer;
+    padding:10px
 }
 
 
