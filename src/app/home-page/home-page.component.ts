@@ -35,7 +35,7 @@ export class HomePageComponent {
     keyFilter = [];
     subCategories;
     profileImage
-
+saveSearch=false;
     // forScrool
     array = [];
     throttle = 100;
@@ -306,7 +306,10 @@ export class HomePageComponent {
 
 
     getData(query, isScrol, limit, type) {
-        this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)).subscribe((data: any) => {
+        let addSearch=""
+        if(type=="3" && this.saveSearch)
+            addSearch="&save=true"
+        this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)+addSearch).subscribe((data: any) => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 if (data.length == 0) {
                     this.noData = true;

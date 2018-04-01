@@ -148,7 +148,7 @@
             <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
           </div>
           <div class="AddDetailsForm-buttonscontainers">
-            <div (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
+            <div  *ngIf="isMyAdv==false" (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
               التواصل مع البائع
             </div>
 
