@@ -1,3 +1,4 @@
+import { SaveSearchModelComponent } from './save-search-model/save-search-model.component';
 import { MainService } from './Services/main.service';
 import { EditAdvertisingComponent } from './edit-advertising/edit-advertising.component';
 import { EditOrDeactiveModalComponent } from './edit-or-deactive-modal/edit-or-deactive-modal.component';
@@ -55,7 +56,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,EditAdvertisingComponent,EditOrDeactiveModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent,SaveSearchModelComponent,EditAdvertisingComponent,EditOrDeactiveModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
   ],
   imports: [
     // Main
@@ -66,7 +67,7 @@ import { AppComponent } from './app.component';
     // material
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
-  entryComponents:[ChangePasswordComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
+  entryComponents:[ChangePasswordComponent,SaveSearchModelComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
   providers: [MainService,CookieService,LoginService,CallApiService,GlobalService],
   bootstrap: [AppComponent]
 })

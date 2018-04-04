@@ -1,0 +1,26 @@
+<!--component html goes here -->
+<!--<div id="" class="ModalContainer">
+			<div class="SignUpModuleContainer">-->
+
+<div class="SignUpModule">
+    <div class="SignUpModule-header" style="direction: rtl;">
+        <div class="SignUpModule-header-title">
+            إضافة عملية بحث
+        </div>
+        <div class="SignUpModule-header-close" (click)="closeModal()">
+        </div>
+    </div>
+    <div class="SignUpModule-body">
+		<label for="name" style="color: red">{{message}}</label>
+
+        <div class="SignUpModule-body-inputcontainer">
+            <label for="name">أسم عملية البحث</label>
+            <input [(ngModel)]="saveName" (keyup.enter)="save()"  (focus)="message=''; "class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
+        </div>
+        <button  (click)="save()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+            إنشاء
+        </button>
+    </div>
+</div>
+<!--</div>
+		</div>-->

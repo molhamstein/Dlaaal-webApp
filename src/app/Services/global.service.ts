@@ -14,8 +14,12 @@ export class GlobalService {
 
   private unreadNotBeh=new BehaviorSubject<number>(0);
   private notificationBeh=new BehaviorSubject<any>([]);
+
+  private filteringBeh=new BehaviorSubject<any>({});
+
   castUnreadNotBeh =this.unreadNotBeh.asObservable();
   castNotificationBeh =this.notificationBeh.asObservable();
+  castFilteringBeh =this.filteringBeh.asObservable();
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public APIServe: CallApiService) {
     this.notification = [];
     this.unreadNot = 0;
@@ -35,9 +39,17 @@ export class GlobalService {
     this.notificationBeh.next(notificationBeh);
   }
 
+
+  editFilteringBeh(filteringBeh){
+    this.filteringBeh.next(filteringBeh);
+  }
+
   getNotification() {
     return this.notification;
   }
+
+
+
   setNotification(notification) {
     this.notification = notification;
   }

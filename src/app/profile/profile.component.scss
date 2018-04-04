@@ -18,9 +18,11 @@
         text-align: center;
     }
 }
-.myImage{
+
+.myImage {
     position: relative;
 }
+
 .myImage:hover {
     .hoverDiv {
         display: inline-block;
@@ -36,5 +38,42 @@
 @media screen and (max-width: 1250px) {
     .emptyBloack {
         display: none;
+    }
+}
+
+.ItemBlock {
+    min-height: 135px;
+    max-width: 580px;
+    .ItemSummary {
+        width: 100%;
+        .ItemSummary-head {
+            position: relative;
+            .ItemSummary-head-title-search {
+                color: #a0a0a0;
+                font-weight: bold;
+                font-size: 23px;
+                width: 70%;
+                padding: 13px 4% 7px 14%;
+            }
+            .ItemSummary-head-date {
+                margin-left: 30px;
+            }
+            .ItemSummary-head-close {
+                position: absolute;
+                background-size: 40px 40px;
+                height: 50px;
+                background-repeat: no-repeat;
+                width: 50px;
+                left: -16px;
+                top: -28px;
+                background-image: url("../../assets/imgs/close icon.png")
+            }
+        }
+        .ItemSummary-desc {
+            color: inherit;
+            font-size: 16px;
+            padding: 0px 4%;
+            margin: 15px 0px;
+        }
     }
 }

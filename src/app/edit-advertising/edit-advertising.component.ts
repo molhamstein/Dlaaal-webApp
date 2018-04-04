@@ -58,13 +58,8 @@ export class EditAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                console.log(this.search["fields"][numVlaue - 1]);
-                console.log(element.values);
-
                 let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
-                console.log(newFildes);
                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length })
-
                 numVlaue = this.oneField(newFildes, numVlaue);
             }
             else
@@ -79,7 +74,6 @@ export class EditAdvertisingComponent {
         this.vetcorKeyFilter = [];
         let numValue = 0;
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
-        
         this.keyFilter = this.categories.find(x => x.id == categortID).fields;
         if (this.keyFilter)
             numValue = this.oneField(this.keyFilter, numValue);

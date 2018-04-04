@@ -144,30 +144,14 @@ export class AddAdvertisingComponent {
     }
 
     changeValue(value, indexFields) {
-        console.log("value")
-        console.log(value)
-
-
-        console.log("value")
-        console.log(indexFields)
-
-
-        console.log("befor")
-        console.log(this.vetcorKeyFilter)
-
+      
         var field = this.vetcorKeyFilter[indexFields];
-        console.log("field")
-        console.log(field)
-
+      
         this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields );
 
 
         var option = field.values.find(x => x.value == value);
-        console.log("option")
-        console.log(option)
         field.lengthChilde = option.fields.length;
-        console.log("lengthChilde")
-        console.log(field.lengthChilde)
         for (var index = option.fields.length; index > 0; index--) {
             var element = option.fields[index - 1];
             if (element.type == "choose") {
@@ -182,9 +166,7 @@ export class AddAdvertisingComponent {
                 this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
-        console.log("finish")
-        console.log(this.vetcorKeyFilter)
-
+      
     }
 
     openSelectImage() {

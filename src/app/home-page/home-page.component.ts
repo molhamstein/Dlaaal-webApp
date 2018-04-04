@@ -1,3 +1,4 @@
+import { SaveSearchModelComponent } from './../save-search-model/save-search-model.component';
 import { MainService } from './../Services/main.service';
 import { ForgetPasswordModalComponent } from './../forget-password-modal/forget-password-modal.component';
 import { element } from 'protractor';
@@ -35,7 +36,7 @@ export class HomePageComponent {
     keyFilter = [];
     subCategories;
     profileImage
-saveSearch=false;
+    saveSearch = false;
     // forScrool
     array = [];
     throttle = 100;
@@ -48,12 +49,15 @@ saveSearch=false;
     noData: boolean;
     notificationBeh = [];
     unreadNotBeh;
-
+    tempFilter;
 
     ngOnInit() {
         this.search['fields'] = []
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
+        this.mainServ.globalServ.castFilteringBeh.subscribe(filter => this.tempFilter = filter)
+
+        console.log(this.search);
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
         this.search['max'] = 100000000;
@@ -68,9 +72,27 @@ saveSearch=false;
 
         this.mainServ.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
+            this.mainServ.globalServ.castFilteringBeh.subscribe(filter => this.tempFilter = filter)
+            if (this.tempFilter.name == "" || this.tempFilter.name == null) {
+                alert("SSS");
+                this.getAdvertisemets(-1, {});
+            }
+            else {
+                // this.search=this.tempFilter;
+                this.search['city'] = this.tempFilter['cityId'];
+                this.search['category'] = this.tempFilter['categoryId'];
+                this.search['subCategory'] = this.tempFilter['subCategoryId'];
+                this.initFildes(this.search['category'], this.search['subCategory'])
+                this.search['max'] = this.tempFilter['maxPrice'];
+                this.search['min'] = this.tempFilter['minPrice'];
+                this.search['title']=this.tempFilter['title'];
+                // this.getAdvertisemets(-1, {});
+                this.mainServ.globalServ.editFilteringBeh({});
+                this.getAdvertisemets(3, { "search": this.search });
 
+            }
         });
-        this.getAdvertisemets(-1, {});
+
 
         window.addEventListener('scroll', this.scroll, true); //third parameter
 
@@ -80,6 +102,43 @@ saveSearch=false;
         }
 
 
+    }
+
+
+    oneField(fields, numVlaue) {
+        fields.forEach((element, index) => {
+            numVlaue++;
+            if (element.type == "choose") {
+                var tempValue = [];
+                element.values.forEach(elementValue => {
+                    tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+                });
+                let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length })
+                // numVlaue = this.oneField(newFildes, numVlaue);
+            }
+            else
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+        });
+        return numVlaue;
+    }
+
+    initFildes(categortID, subCategoryID) {
+        this.vetcorKeyFilter = [];
+        let numValue = 0;
+        if (categortID != null) {
+            this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
+            this.keyFilter = this.mainCategories.find(x => x.id == categortID).fields;
+            if (this.keyFilter)
+                // alert("SS");
+                numValue = this.oneField(this.keyFilter, numValue);
+            if (subCategoryID != null) {
+                this.keyFilter = this.mainCategories.find(x => x.id == categortID).subCategories.find(y => y.id == subCategoryID).fields;
+                if (this.keyFilter)
+                    // alert("SS");
+                    numValue = this.oneField(this.keyFilter, numValue);
+            }
+        }
     }
 
     ngOnDestroy() {
@@ -264,26 +323,12 @@ saveSearch=false;
     }
 
     changeValue(value, indexFields) {
-        console.log("value")
-        console.log(value)
-
-        console.log("befor")
-        console.log(this.vetcorKeyFilter)
-
         var field = this.vetcorKeyFilter[indexFields];
-        console.log("field")
-        console.log(field)
-        this.deleteFielde(this.vetcorKeyFilter[indexFields ], indexFields );
+        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields);
 
 
         var option = field.values.find(x => x.value == value);
-        console.log("option")
-        console.log(option)
-
         field.lengthChilde = option.fields.length;
-
-        console.log("lengthChilde")
-        console.log(field.lengthChilde)
         for (var index = option.fields.length; index > 0; index--) {
 
             var element = option.fields[index - 1];
@@ -299,17 +344,14 @@ saveSearch=false;
                 this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
-        console.log("finish")
-        console.log(this.vetcorKeyFilter)
-
     }
 
 
     getData(query, isScrol, limit, type) {
-        let addSearch=""
-        if(type=="3" && this.saveSearch)
-            addSearch="&save=true"
-        this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query)+addSearch).subscribe((data: any) => {
+        let addSearch = ""
+        if (type == "3" && this.saveSearch)
+            addSearch = "&save=true"
+        this.mainServ.APIServ.get("advertisemets/actived?filter=" + JSON.stringify(query) + addSearch).subscribe((data: any) => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 if (data.length == 0) {
                     this.noData = true;
@@ -437,6 +479,35 @@ saveSearch=false;
         }
         // console.log (this.keyFilter.length==0);
         return number % 2 == 0;
+    }
+
+    sveSearch(data) {
+        let dialogRef = this.dialog.open(SaveSearchModelComponent, {
+            //   width: '70%',
+            panelClass: 'communictioDialogStyle'
+
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+
+            if (result) {
+                let query, fields = []
+                this.vetcorKeyFilter.forEach((element, index) => {
+                    if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
+                        fields.push({
+                            "key": element.key,
+                            "value": this.search['fields'][index].value
+                        })
+                    }
+                });
+                query = { "name": result.saveName, "fields": fields, "title": data.search.title, "minPrice": data.search.min, "maxPrice": data.search.max, "subCategoryId": data.search.subCategory, "categoryId": data.search.category, "cityId": data.search.city };
+                console.log(query);
+                this.mainServ.APIServ.post("searches", query).subscribe(data => {
+                    this.mainServ.globalServ.errorDialog("إضافة عملية بحث", "تمت الإضافة بنجاح")
+                });
+            }
+        });
     }
 
 }

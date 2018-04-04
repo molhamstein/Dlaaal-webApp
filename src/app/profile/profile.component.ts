@@ -22,10 +22,13 @@ export class ProfileComponent {
     userData
     follwers
     loaderBook = false;
+    loaderSearch = false;
     loaderAdd = false;
     noBook = false;
     noAdd = false;
+    noSearch = false;
     bookmarks = [];
+    searches = [];
     advertisemets = [];
     throttle = 100;
     scrollDistance = 2;
@@ -55,9 +58,10 @@ export class ProfileComponent {
         this.mainServ.APIServ.get("users/" + this.userID + "/followers").subscribe(data => {
             this.follwers = data;
         });
-        if (this.isMyProfile)
-            this.getData(true);
-
+        if (this.isMyProfile) {
+            this.getData(1);
+            this.getData(3);
+        }
         if (this.isMyProfile)
             this.mainServ.APIServ.get("users/me").subscribe(data => {
                 this.userData = data;
@@ -77,7 +81,7 @@ export class ProfileComponent {
 
             });
         }
-        this.getData(false);
+        this.getData(2);
 
     }
 
@@ -160,26 +164,33 @@ export class ProfileComponent {
         return this.tabNow == tabNum
     }
 
-    getData(isBookMark, isScrol: boolean = false) {
+    getTab() {
+        return this.tabNow;
+    }
+
+    getData(setNum, isFirst: boolean = false, isScrol: boolean = false) {
         let url, query, skip, limit;
         limit = 10;
         if (isScrol == true) {
-            if (!isBookMark)
+            if (setNum == 2)
                 skip = this.advertisemets.length;
-            else
+            else if (setNum == 1)
                 skip = this.bookmarks.length;
+            else
+                skip = this.searches.length;
+
         } else {
             skip = 0;
         }
 
-        if (isBookMark) {
+        if (setNum == 1) {
             url = "users/" + this.userID + "/bookmarks?filter=";
             query = { "order": "createdAt ASC", "limit": limit, "skip": skip };
             if (this.noBook || this.loaderBook) {
                 return;
             }
             this.loaderBook = true;
-        } else {
+        } else if (setNum == 2) {
             url = "advertisemets/actived?filter=";
             query = { "where": { "ownerId": this.userID }, "order": "createdAt ASC", "limit": limit, "skip": skip };
             if (this.noAdd || this.loaderAdd) {
@@ -187,10 +198,18 @@ export class ProfileComponent {
             }
             this.loaderAdd = true;
         }
+        else {
+            url = "searches?filter=";
+            query = { "where": { "ownerId": this.userID }, "order": "createdAt ASC", "limit": limit, "skip": skip };
+            if (this.noSearch || this.loaderSearch) {
+                return;
+            }
+            this.loaderSearch = true;
+        }
         this.mainServ.APIServ.get(url + JSON.stringify(query)).subscribe((data: any) => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
 
-                if (isBookMark) {
+                if (setNum == 1) {
                     if (data.length < limit) {
                         this.noBook = true;
                     }
@@ -199,7 +218,7 @@ export class ProfileComponent {
                             this.bookmarks.push(element);
                     });
                     this.loaderBook = false;
-                } else {
+                } else if (setNum == 2) {
                     if (data.length < limit) {
                         this.noAdd = true;
                     }
@@ -209,17 +228,21 @@ export class ProfileComponent {
                     });
                     this.loaderAdd = false;
 
+                } else {
+                    if (data.length < limit) {
+                        this.noSearch = true;
+                    }
+                    data.forEach(element => {
+                        this.searches.push(element);
+                    });
+                    this.loaderSearch = false;
                 }
             } else this.mainServ.globalServ.somthingError();
         });
 
     }
     onScrollDown() {
-        if (this.tabNow == 1) {
-            this.getData(true, true)
-        } else {
-            this.getData(false, true)
-        }
+        this.getData(this.tabNow, false, true)
     }
     cheackOdd(number) {
         return number % 2 == 0;
@@ -250,7 +273,7 @@ export class ProfileComponent {
     }
     follow() {
         if (this.mainServ.loginServ.isLogin())
-            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID,{}).subscribe(data => {
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/following/rel/" + this.userID, {}).subscribe(data => {
                 if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.mainServ.APIServ.get("users/" + this.userID).subscribe(data => {
                         this.userData = data;
@@ -261,6 +284,20 @@ export class ProfileComponent {
         else {
             this.headerChild.openSignInDialog();
         }
+    }
+
+    deleteSearch(id, index) {
+        this.mainServ.APIServ.delete("searches/" + id).subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
+                this.searches.splice(index, 1);
+                this.mainServ.globalServ.errorDialog("حذف", "تمت عملية الحذف بنجاح");
+            }
+        });
+    }
+
+    applyFilter(index) {
+        this.mainServ.globalServ.editFilteringBeh(this.searches[index]);
+        this.mainServ.globalServ.goTo("/")
     }
 
 }
