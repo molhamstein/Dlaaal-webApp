@@ -74,7 +74,6 @@ export class HomePageComponent {
             this.mainCategories = data;
             this.mainServ.globalServ.castFilteringBeh.subscribe(filter => this.tempFilter = filter)
             if (this.tempFilter.name == "" || this.tempFilter.name == null) {
-                alert("SSS");
                 this.getAdvertisemets(-1, {});
             }
             else {

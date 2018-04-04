@@ -2509,7 +2509,6 @@ var HomePageComponent = /** @class */ (function () {
             _this.mainCategories = data;
             _this.mainServ.globalServ.castFilteringBeh.subscribe(function (filter) { return _this.tempFilter = filter; });
             if (_this.tempFilter.name == "" || _this.tempFilter.name == null) {
-                alert("SSS");
                 _this.getAdvertisemets(-1, {});
             }
             else {
