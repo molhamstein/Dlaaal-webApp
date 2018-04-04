@@ -109,7 +109,6 @@ export class AddAdvertisingComponent {
             this.keyFilter.push(element);
         });
         for (var index = lastLength; index < this.keyFilter.length; index++) {
-            alert(lastLength);
             var element = this.keyFilter[index];
             if (element.type == "choose") {
                 var tempValue = [];

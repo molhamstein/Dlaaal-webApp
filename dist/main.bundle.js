@@ -54,8 +54,8 @@ var CallApiService = /** @class */ (function () {
         //   "users",
         //   "users/login"
         // ];
-        this.baseUrl = "http://104.217.253.15:5000/api/";
-        // readonly baseUrl = "http://localhost:5000/api/"
+        // readonly baseUrl = "http://104.217.253.15:5000/api/"
+        this.baseUrl = "http://localhost:5000/api/";
         this.errorCode = 0;
         this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
         // this.headers2 = this.headers2.append("Content-Type", "application/json");
@@ -644,7 +644,6 @@ var AddAdvertisingComponent = /** @class */ (function () {
             _this.keyFilter.push(element);
         });
         for (var index = lastLength; index < this.keyFilter.length; index++) {
-            alert(lastLength);
             var element = this.keyFilter[index];
             if (element.type == "choose") {
                 var tempValue = [];
@@ -2916,6 +2915,58 @@ var HomePageComponent = /** @class */ (function () {
     return HomePageComponent;
 }());
 
+//   {"title": "ملابس",
+//     "fields": [
+//       {
+//         "key": "ألجنس",
+//         "type": "choose",
+//         "values": [
+//           {
+//             "value": "رجالي",
+//             "fields": [
+//               {
+//                 "key": "المقاس",
+//                 "type": "choose",
+//                 "values": [
+//                   {
+//                     "value": "42"
+//                   },
+//                   {
+//                     "value": "44"
+//                   },
+//                   {
+//                     "value": "46"
+//                   }
+//                 ]
+//               }
+//             ]
+//           },
+//           {
+//             "value": "نسواني",
+//             "fields": [
+//               {
+//                 "key": "المقاس",
+//                 "type": "choose",
+//                 "values": [
+//                   {
+//                     "value": "36"
+//                   },
+//                   {
+//                     "value": "38"
+//                   },
+//                   {
+//                     "value": "40"
+//                   }
+//                 ]
+//               }
+//             ]
+//           }
+//         ]
+//       }
+//     ],
+//     "id": "5ac3207e99c45242a458bc96"
+//   }
+//   Authorization Required 
 
 
 /***/ }),
