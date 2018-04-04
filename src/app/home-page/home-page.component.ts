@@ -81,7 +81,7 @@ export class HomePageComponent {
                 this.search['city'] = this.tempFilter['cityId'];
                 this.search['category'] = this.tempFilter['categoryId'];
                 this.search['subCategory'] = this.tempFilter['subCategoryId'];
-                this.initFildes(this.search['category'], this.search['subCategory'])
+                // this.initFildes(this.search['category'], this.search['subCategory'])
                 this.search['max'] = this.tempFilter['maxPrice'];
                 this.search['min'] = this.tempFilter['minPrice'];
                 this.search['title']=this.tempFilter['title'];
