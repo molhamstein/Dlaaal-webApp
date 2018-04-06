@@ -2411,6 +2411,7 @@ figure {
 .FiltersPanel-body-inputcontainer label {
     color: #525C65;
     font-size: 12px;
+    direction: ltr;
 }
 
 
@@ -2745,6 +2746,7 @@ figure {
     width: 100%;
     line-height: 50px;
     font-size: 14px;
+    direction:rtl;
 }
 
 
@@ -2805,6 +2807,11 @@ figure {
     }
 }
 
+@media screen and (max-width: 780px) {
+    .SignUpModule-body-inputcontainer {
+        padding:0;
+    }
+}
 
 /* line 22, ../sass/_SignInModule.scss */
 
@@ -2971,6 +2978,15 @@ figure {
     font-size: 14px;
 }
 
+@media screen and (max-width: 780px) {
+    .SignUpModule-body-inputcontainer {
+        line-height: 35px;
+        margin-top: 0
+    }
+    .SignUpModule-footer {
+        margin-top: 0
+    }
+}
 
 /* line 3, ../sass/_SignInModuleContainer.scss */
 
@@ -3066,6 +3082,7 @@ figure {
 .AddNewForm-inputcontainer label {
     color: #525C65;
     font-size: 12px;
+    direction: ltr;
 }
 
 
@@ -4543,6 +4560,7 @@ figure {
 
 .myDialogStyle {
     width: auto !important;
+    margin: auto !important;
 }
 
 .myDialogStyle .mat-dialog-container {
