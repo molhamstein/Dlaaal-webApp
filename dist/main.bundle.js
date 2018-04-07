@@ -2352,14 +2352,9 @@ var HeaderComponent = /** @class */ (function () {
         this.mainServ.globalServ.castNotificationBeh.subscribe(function (notificationBeh) { return _this.notificationBeh = notificationBeh; });
         this.getNotification();
         this.profileImage = this.mainServ.loginServ.getAvatar();
-        if (this.profileImage) {
+        if (this.profileImage == "" || this.profileImage == null) {
             this.profileImage = "assets/imgs/defult_img.jpg";
         }
-        // if (!this.mainServ.loginServ.getAvatar() || this.mainServ.loginServ.getAvatar() == "") {
-        //     this.profileImage = "assets/imgs/defult_img.jpg"
-        // } else {
-        //     this.profileImage = this.mainServ.loginServ.getAvatar();
-        // }
     };
     HeaderComponent.prototype.visitNot = function (isRead, id) {
         this.mainServ.globalServ.goTo2(id);
@@ -2536,7 +2531,7 @@ var HomePageComponent = /** @class */ (function () {
             this.getAdvertisemets(-1, {});
         window.addEventListener('scroll', this.scroll, true); //third parameter
         this.profileImage = this.mainServ.loginServ.getAvatar();
-        if (this.profileImage) {
+        if (this.profileImage == "" || this.profileImage == null) {
             this.profileImage = "assets/imgs/defult_img.jpg";
         }
     };
@@ -3195,8 +3190,8 @@ var ProfileComponent = /** @class */ (function () {
                 _this.userData['avatar'] = _this.imageProfile;
                 _this.mainServ.APIServ.put("/users/" + _this.userData['id'], _this.userData).subscribe(function (data) {
                     if (_this.mainServ.APIServ.getErrorCode() == 0) {
-                        _this.mainServ.globalServ.errorDialog('تعديل الصورة الشخصية', "تم تعديل الصورة بنجاح");
                         _this.mainServ.loginServ.setAvatar(_this.imageProfile);
+                        _this.mainServ.globalServ.reload();
                     }
                     else
                         _this.mainServ.globalServ.somthingError();
