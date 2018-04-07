@@ -276,8 +276,6 @@ var GlobalService = /** @class */ (function () {
             return this.diff_days(new Date(), new Date(date)) + " يوم ";
         else if (this.diff_week(new Date(), new Date(date)) < 4)
             return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
-        else if (this.diff_month(new Date(), new Date(date)) < 12)
-            return this.diff_month(new Date(), new Date(date)) + " شهر ";
         else
             return date;
     };
@@ -358,19 +356,29 @@ var LoginService = /** @class */ (function () {
         // if (user != "")
         return user;
     };
-    LoginService.prototype.logIn = function (data) {
-        console.log(data);
-        this.cookieService.set('dalalUserId', data.userId);
-        this.cookieService.set('dalalId', data.id);
-        if (data.user != null)
-            this.cookieService.set('dalalAvatar', data.user.avatar);
+    LoginService.prototype.logIn = function (data, rememberPass) {
+        if (rememberPass === void 0) { rememberPass = true; }
+        if (rememberPass) {
+            var now = new Date();
+            var exp = 1;
+            this.cookieService.set('dalalUserId', data.userIdm, exp);
+            this.cookieService.set('dalalId', data.id, exp);
+            if (data.user != null)
+                this.cookieService.set('dalalAvatar', data.user.avatar, exp);
+        }
+        else {
+            this.cookieService.set('dalalUserId', data.userId);
+            this.cookieService.set('dalalId', data.id);
+            if (data.user != null)
+                this.cookieService.set('dalalAvatar', data.user.avatar);
+        }
         location.reload();
     };
     LoginService.prototype.logout = function () {
         var _this = this;
-        this.cookieService.set('dalalUserId', "");
-        this.cookieService.set('dalalId', "");
-        this.cookieService.set('dalalAvatar', "");
+        this.cookieService.delete('dalalUserId');
+        this.cookieService.delete('dalalId');
+        this.cookieService.delete('dalalAvatar');
         console.log(this.router.url);
         if ("/myprofile/me" == this.router.url) {
             this.router.navigateByUrl('/myprofile/me').then(function () { return _this.router.navigateByUrl('/'); });
@@ -2103,7 +2111,7 @@ var ErrorModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/forget-password-modal/forget-password-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tنسيت كلمة السر\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">الإيميل</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div (click)=\"sendEmail()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tإرسال لإعادة تعيين كلمة السر\n\t\t</div>\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tنسيت كلمة السر\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">الإيميل</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n\t\t</div>\n\t\t<div (click)=\"sendEmail()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tإرسال \n\t\t</div>\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -2352,7 +2360,7 @@ var HeaderComponent = /** @class */ (function () {
         this.mainServ.globalServ.castNotificationBeh.subscribe(function (notificationBeh) { return _this.notificationBeh = notificationBeh; });
         this.getNotification();
         this.profileImage = this.mainServ.loginServ.getAvatar();
-        if (this.profileImage == "" || this.profileImage == null) {
+        if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg";
         }
     };
@@ -3485,7 +3493,7 @@ var ReportModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/reset-password/reset-password.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n\n        <header></header>\n        <div class=\"Triangle\">\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n                <div class=\"Jumbotron-subtitle\">\n                    أكثر من\n                    <span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n                </div>\n            </div>\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\"style=\"padding: 5%;\">\n\n            <!--component html goes here -->\n            <!--component html goes here -->\n            <!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n            <div class=\"SignInModule\">\n                <div class=\"SignInModule-body\">\n                    <div class=\"SignInModule-body-inputcontainer\">\n                        <label for=\"name\">كلمة السر الجديدة</label>\n                        <input [(ngModel)]=\"user.newPassword\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\"\n                            name=\"name\">\n                    </div>\n                    <div (click)=\"resetPassword()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n                        إرسال لأغعادة تعيين كلمة السر\n                    </div>\n                </div>\n            </div>\n\n            <!--</div>\n\t\t</div>-->\n\n        </div>\n\n\n\n    </div>\n    <!--Below main container end-->\n</div>"
+module.exports = "<!--component html goes here -->\n<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n\n        <header></header>\n        <div class=\"Triangle\">\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\n\n                <div class=\"Jumbotron-subtitle\">\n                    أكثر من\n                    <span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\n                </div>\n            </div>\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\"style=\"padding: 5%;\">\n\n            <!--component html goes here -->\n            <!--component html goes here -->\n            <!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n            <div class=\"SignInModule\">\n                <div class=\"SignInModule-body\">\n                    <div class=\"SignInModule-body-inputcontainer\">\n                        <label for=\"name\">كلمة السر الجديدة</label>\n                        <input [(ngModel)]=\"user.newPassword\" class=\"SignInModule-body-inputcontainer-text\" type=\"text\" value=\"\"\n                            name=\"name\">\n                    </div>\n                    <div (click)=\"resetPassword()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n                        إعادة تعيين كلمة السر\n                    </div>\n                </div>\n            </div>\n\n            <!--</div>\n\t\t</div>-->\n\n        </div>\n\n\n\n    </div>\n    <!--Below main container end-->\n</div>"
 
 /***/ }),
 
@@ -3651,7 +3659,7 @@ var SaveSearchModelComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sign-in-modal/sign-in-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\" style=\"position: relative;overflow: hidden;\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">اسم المستخدم</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (keyup.enter)=\"login()\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"email\" value=\"\"\n\t\t\t name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t<input [(ngModel)]=\"user.password\" (keyup.enter)=\"login()\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"password\" value=\"\"\n\t\t\t name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t<input type=\"checkbox\" [(ngModel)]=\"rememberPass\" style=\"float: right;\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\" value=\"value\">\n\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t</div>\n\t\t<div (click)=\"login()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t<div class=\"u-textPrimaryColor cursorPointer\" (click)=\"forgetPassword()\"> هل نسيت كلمة السر ؟</div>\n\t\t</div>\n\t\t<div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n\t\t\t<img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n\t\t</div>\n\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
+module.exports = "<!--component html goes here -->\n<!--<div id=\"\" class=\"ModalContainer\">\n\t\t\t<div class=\"SignInModuleContainer\">-->\n<div class=\"SignInModule\" style=\"position: relative;overflow: hidden;\">\n\t<div class=\"SignInModule-header\" style=\"direction: rtl;\">\n\t\t<div class=\"SignInModule-header-title\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n\t\t</div>\n\t</div>\n\t<div class=\"SignInModule-body\">\n\t\t<label for=\"name\" style=\"color: red\">{{message}}</label>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">الإيميل</label>\n\t\t\t<input [(ngModel)]=\"user.email\" (keyup.enter)=\"login()\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"email\" value=\"\"\n\t\t\t name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer\">\n\t\t\t<label for=\"name\">كلمة السر</label>\n\t\t\t<input [(ngModel)]=\"user.password\" (keyup.enter)=\"login()\" (focus)=\"message='';\" class=\"SignInModule-body-inputcontainer-text\" type=\"password\" value=\"\"\n\t\t\t name=\"name\">\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer\">\n\t\t\t<input type=\"checkbox\" [(ngModel)]=\"rememberPass\" style=\"float: right;\" class=\"SignInModule-body-inputcontainer-checkboxlabel\" id=\"checkbox_id2\" value=\"value\">\n\t\t\t<label for=\"checkbox_id2\">\n              تذكر كلمة المرور\n              </label>\n\t\t</div>\n\t\t<div (click)=\"login()\" class=\"SignInModule-body-inputcontainer SignInModule-body-btn\">\n\t\t\tتسجيل الدخول\n\t\t</div>\n\t\t<div class=\"SignInModule-body-inputcontainer u-textCenter\">\n\t\t\t<div class=\"u-textPrimaryColor cursorPointer\" (click)=\"forgetPassword()\"> هل نسيت كلمة السر ؟</div>\n\t\t</div>\n\t\t<div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n\t\t\t<img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n\t\t</div>\n\n\t</div>\n</div>\n\n<!--</div>\n\t\t</div>-->"
 
 /***/ }),
 
@@ -3712,7 +3720,7 @@ var SignInModalComponent = /** @class */ (function () {
         this.mainServ.APIServ.post("users/login?include=user", this.user).subscribe(function (data) {
             _this.loader = false;
             if (_this.mainServ.APIServ.getErrorCode() == 0) {
-                _this.mainServ.loginServ.logIn(data);
+                _this.mainServ.loginServ.logIn(data, _this.rememberPass);
             }
             else if (_this.mainServ.APIServ.getErrorCode() == 401) {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
