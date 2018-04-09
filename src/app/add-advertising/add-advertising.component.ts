@@ -87,11 +87,11 @@ export class AddAdvertisingComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -115,10 +115,10 @@ export class AddAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id ,values: tempValue, lengthChilde: 0 })
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id })
             this.search['fields'][index] = {};
         };
     }
@@ -158,11 +158,11 @@ export class AddAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id,values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key,_id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
       
@@ -193,6 +193,7 @@ export class AddAdvertisingComponent {
             this.vetcorKeyFilter.forEach((element, index) => {
                 this.search['fields'][index].key = element.key;
                 this.search['fields'][index].type = element.type;
+                this.search['fields'][index]._id = element._id;
                 if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
                     fieldName = element.key;
                 }

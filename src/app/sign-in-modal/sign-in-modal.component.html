@@ -12,7 +12,7 @@
 	<div class="SignInModule-body">
 		<label for="name" style="color: red">{{message}}</label>
 		<div class="SignInModule-body-inputcontainer">
-			<label for="name">اسم المستخدم</label>
+			<label for="name">الإيميل</label>
 			<input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="email" value=""
 			 name="name">
 		</div>

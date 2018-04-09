@@ -30,9 +30,9 @@ export class HomePageComponent {
     cities;
     categories;
     mainCategories;
-    advertisemets;
+    advertisemets = [];
     search = {};
-    vetcorKeyFilter = [];
+    vetcorKeyFilter;
     keyFilter = [];
     subCategories;
     profileImage
@@ -57,7 +57,6 @@ export class HomePageComponent {
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         this.mainServ.globalServ.castFilteringBeh.subscribe(filter => this.tempFilter = filter)
 
-        console.log(this.search);
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
         this.search['max'] = 100000000;
@@ -73,69 +72,108 @@ export class HomePageComponent {
         this.mainServ.APIServ.get("categories?filter=%7B%22include%22%3A[%22subCategories%22]%7D").subscribe(data => {
             this.mainCategories = data;
             this.mainServ.globalServ.castFilteringBeh.subscribe(filter => this.tempFilter = filter)
-            if (this.tempFilter.name == "" || this.tempFilter.name == null) {
-                this.getAdvertisemets(-1, {});
-            }
-            else {
+            if (!(this.tempFilter.name == "" || this.tempFilter.name == null)) {
                 // this.search=this.tempFilter;
-                this.search['city'] = this.tempFilter['cityId'];
+                // this.search['city'] = this.tempFilter['cityId'];
                 this.search['category'] = this.tempFilter['categoryId'];
                 this.search['subCategory'] = this.tempFilter['subCategoryId'];
-                // this.initFildes(this.search['category'], this.search['subCategory'])
+                this.initFildes(this.search['category'], this.search['subCategory'])
                 this.search['max'] = this.tempFilter['maxPrice'];
                 this.search['min'] = this.tempFilter['minPrice'];
-                this.search['title']=this.tempFilter['title'];
+                this.search['title'] = this.tempFilter['title'];
                 // this.getAdvertisemets(-1, {});
-                this.mainServ.globalServ.editFilteringBeh({});
+                // this.mainServ.globalServ.editFilteringBeh({});
                 this.getAdvertisemets(3, { "search": this.search });
+
+                console.log("this.tempFilter.fields");
+                console.log(this.tempFilter["fields"]);
 
             }
         });
-
+        if (this.tempFilter.name == "" || this.tempFilter.name == null)
+            this.getAdvertisemets(-1, {});
 
         window.addEventListener('scroll', this.scroll, true); //third parameter
 
         this.profileImage = this.mainServ.loginServ.getAvatar()
-        if (this.profileImage) {
+        if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg"
         }
-
 
     }
 
 
-    oneField(fields, numVlaue) {
+    // oneField(fields, fieldValue) {
+    //     let numVlaue = this.vetcorKeyFilter.length;
+    //     fields.forEach((element, index) => {
+    //         if (this.tempFilter["fields"][fieldValue] != null && element.key == this.tempFilter["fields"][fieldValue].key) {
+    //             this.search['fields'][numVlaue] = { "value": this.tempFilter["fields"][fieldValue].value }
+    //             fieldValue++;
+    //         }
+    //         else
+    //             this.search['fields'][numVlaue] = {}
+    //         numVlaue++;
+
+    //         if (element.type == "choose") {
+    //             var tempValue = [];
+    //             element.values.forEach(elementValue => {
+    //                 tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+    //             });
+    //             if (this.search['fields'][numVlaue - 1].value != null) {
+    //                 let newFildes = element.values.find(x => x.value == this.tempFilter["fields"][fieldValue - 1].value).fields;
+    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+    //                 fieldValue = this.oneField(newFildes, fieldValue);
+    //             } else {
+    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+    //             }
+    //         }
+    //         else
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+    //     });
+    //     return fieldValue;
+    // }
+    oneField(fields) {
         fields.forEach((element, index) => {
-            numVlaue++;
+            var thisField = this.tempFilter["fields"].find(x => x._id == element._id);
+            if (thisField)
+                this.search['fields'].push({ "value": thisField.value })
+            else
+                this.search['fields'].push({});
+
             if (element.type == "choose") {
                 var tempValue = [];
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length })
-                // numVlaue = this.oneField(newFildes, numVlaue);
+                if (thisField) {
+                    let newFildes = element.values.find(x => x.value == thisField.value).fields;
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+                    this.oneField(newFildes);
+                } else {
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                }
             }
-            else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
-        });
-        return numVlaue;
+            else {
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+            }
+        })
     }
 
     initFildes(categortID, subCategoryID) {
         this.vetcorKeyFilter = [];
-        let numValue = 0;
+        let fieldValue = 0;
         if (categortID != null) {
             this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
             this.keyFilter = this.mainCategories.find(x => x.id == categortID).fields;
+            console.log("this.keyFilter");
+            console.log(this.keyFilter);
             if (this.keyFilter)
-                // alert("SS");
-                numValue = this.oneField(this.keyFilter, numValue);
+                // alert("rrr");
+                this.oneField(this.keyFilter);
             if (subCategoryID != null) {
                 this.keyFilter = this.mainCategories.find(x => x.id == categortID).subCategories.find(y => y.id == subCategoryID).fields;
                 if (this.keyFilter)
-                    // alert("SS");
-                    numValue = this.oneField(this.keyFilter, numValue);
+                    this.oneField(this.keyFilter);
             }
         }
     }
@@ -150,7 +188,7 @@ export class HomePageComponent {
         if (isScroll) {
             limit = 5;
             skip = this.notificationBeh.length;
-            query = { "order": "createdAt ASC", "limit": limit, "skip": skip, "include": ["advertisement"] }
+            query = { "order": "createdAt DESC", "limit": limit, "skip": skip, "include": ["advertisement"] }
 
             this.mainServ.APIServ.get("users/" + this.mainServ.loginServ.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
                 for (var index = 0; index < data.length; index++) {
@@ -171,19 +209,15 @@ export class HomePageComponent {
     }
 
     visitNot(isRead, id) {
-
+        this.mainServ.globalServ.goTo("detail/" + id)
     }
 
     scroll() {
         var topOfOthDiv = $(".CategoriesContainer").offset().top;
         if ($(window).scrollTop() > topOfOthDiv) { //scrolled past the other div?
-            // this.viewNavBar=true;
-
             $(".MenuContainer").fadeIn('slow');
-            // $("#dvid").show(); //reached the desired point -- show div
         } else {
             $(".MenuContainer").fadeOut('slow');
-            // this.viewNavBar=false;
         }
         //handle your scroll here
         //notice the 'odd' function assignment to a class field
@@ -201,6 +235,9 @@ export class HomePageComponent {
     calculateDate(date) {
         return this.mainServ.globalServ.calculatDateAdv(date);
     }
+
+
+
 
     getAdvertisemets(type, data, isScrol: boolean = false, isTopSearch: boolean = false) {
         if (isScrol && this.noData || this.loader == true) {
@@ -220,7 +257,7 @@ export class HomePageComponent {
                 this.advertisemets = [];
         }
         if (type == -1) {
-            query = { "order": "createdAt ASC", "limit": 10, "skip": 0 };
+            query = { "order": "createdAt DESC", "limit": 10, "skip": 0 };
         } else if (type == 0) {
             if (!isScrol) {
                 $('html, body').animate({
@@ -230,7 +267,7 @@ export class HomePageComponent {
             }
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
-            query = { "where": { "categoryId": data.categoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            query = { "where": { "categoryId": data.categoryID }, "order": "createdAt DESC", "limit": limit, "skip": skip }
             this.changeCategory(data.categoryID)
         } else if (type == 1) {
             if (!isScrol) {
@@ -242,7 +279,7 @@ export class HomePageComponent {
             this.search['category'] = data.categoryID;
             this.subCategories = this.mainCategories.find(x => x.id == data.categoryID).subCategories;
             this.search['subCategory'] = data.subCategoryID;
-            query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+            query = { "where": { "categoryId": data.categoryID, "subCategoryId": data.subCategoryID }, "order": "createdAt DESC", "limit": limit, "skip": skip }
             this.changeCategory(data.categoryID)
             this.changeSubCategory(data.subCategoryID)
         }
@@ -254,9 +291,9 @@ export class HomePageComponent {
             }
             if (data.search.title != "" && data.search.title != null) {
                 // let title = "%" + data.search.title + "%"
-                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "title": { "like": data.search.title } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "title": { "like": data.search.title } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
             } else
-                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                query = { "where": { "categoryId": data.search.category, "cityId": data.search.city }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
         }
         else if (type == 3) {
@@ -273,7 +310,8 @@ export class HomePageComponent {
                             "fields": {
                                 "elemMatch": {
                                     "key": element.key,
-                                    "value": this.search['fields'][index].value
+                                    "value": this.search['fields'][index].value,
+                                    "_id": element._id
                                 }
                             }
                         })
@@ -282,22 +320,21 @@ export class HomePageComponent {
             }
             if (data.search.title != "" && data.search.title != null) {
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
             }
             else
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt ASC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
         }
         if (!(type == 0 && isTopSearch)) {
             this.loader = true;
             this.getData(query, isScrol, limit, type);
-
         }
         else {
             setTimeout(() => {
@@ -336,11 +373,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
     }
@@ -375,6 +412,7 @@ export class HomePageComponent {
     }
 
     changeCategory(categoryID) {
+        this.subCategories = this.mainCategories.find(x => x.id == categoryID).subCategories;
         this.keyFilter = this.mainCategories.find(x => x.id == categoryID).fields;
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
@@ -384,11 +422,11 @@ export class HomePageComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -411,11 +449,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
             this.search['fields'][index] = {};
         };
     }
@@ -461,7 +499,7 @@ export class HomePageComponent {
     }
 
     onScrollDown(ev) {
-        if (this.lastType != -1)
+        if (this.lastType != -1 && this.lastType != null)
             this.getAdvertisemets(this.lastType, this.lastData, true);
     }
     hrefAddAdv() {
@@ -496,12 +534,12 @@ export class HomePageComponent {
                     if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
                         fields.push({
                             "key": element.key,
+                            "_id": element._id,
                             "value": this.search['fields'][index].value
                         })
                     }
                 });
                 query = { "name": result.saveName, "fields": fields, "title": data.search.title, "minPrice": data.search.min, "maxPrice": data.search.max, "subCategoryId": data.search.subCategory, "categoryId": data.search.category, "cityId": data.search.city };
-                console.log(query);
                 this.mainServ.APIServ.post("searches", query).subscribe(data => {
                     this.mainServ.globalServ.errorDialog("إضافة عملية بحث", "تمت الإضافة بنجاح")
                 });

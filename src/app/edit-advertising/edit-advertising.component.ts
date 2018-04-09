@@ -13,6 +13,7 @@ export class EditAdvertisingComponent {
     cities;
     categories;
     keyFilter = [];
+    tempFields = []
     vetcorKeyFilter = [];
     subCategories;
     search = {};
@@ -39,6 +40,8 @@ export class EditAdvertisingComponent {
             this.mainServ.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
                 if (this.mainServ.APIServ.getErrorCode() == 0) {
                     this.search = data;
+                    this.tempFields = this.search['fields'];
+                    this.search['fields'] = [];
                     this.initFildes(this.search['categoryId'], this.search['subCategoryId'])
                     // this.changeCategory(this.search['categoryId'], true);
                     // this.changeSubCategory(this.search['subCategoryId'], true);
@@ -50,22 +53,49 @@ export class EditAdvertisingComponent {
 
     }
 
-    oneField(fields, numVlaue) {
+    // oneField(fields, numVlaue) {
+    //     fields.forEach((element, index) => {
+    //         numVlaue++;
+    //         if (element.type == "choose") {
+    //             var tempValue = [];
+    //             element.values.forEach(elementValue => {
+    //                 tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+    //             });
+    //             let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id, values: tempValue, lengthChilde: newFildes.length })
+    //             numVlaue = this.oneField(newFildes, numVlaue);
+    //         }
+    //         else
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key ,_id: element._id})
+    //     });
+    //     return numVlaue;
+    // }
+
+    oneField(fields) {
         fields.forEach((element, index) => {
-            numVlaue++;
+            var thisField = this.tempFields.find(x => x._id == element._id);
+            if (thisField)
+                this.search['fields'].push({ "value": thisField.value })
+            else
+                this.search['fields'].push({});
+
             if (element.type == "choose") {
                 var tempValue = [];
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length })
-                numVlaue = this.oneField(newFildes, numVlaue);
+                if (thisField) {
+                    let newFildes = element.values.find(x => x.value == thisField.value).fields;
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+                    this.oneField(newFildes);
+                } else {
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                }
             }
-            else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
-        });
-        return numVlaue;
+            else {
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+            }
+        })
     }
 
 
@@ -76,10 +106,10 @@ export class EditAdvertisingComponent {
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
         this.keyFilter = this.categories.find(x => x.id == categortID).fields;
         if (this.keyFilter)
-            numValue = this.oneField(this.keyFilter, numValue);
+            this.oneField(this.keyFilter);
         this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
         if (this.keyFilter)
-            numValue = this.oneField(this.keyFilter, numValue);
+            this.oneField(this.keyFilter);
 
     }
     releadImage(innerIndex, file) {
@@ -132,11 +162,11 @@ export class EditAdvertisingComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -172,10 +202,10 @@ export class EditAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
             this.search['fields'][index] = {};
         };
     }
@@ -227,11 +257,11 @@ export class EditAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
         console.log("finish")
@@ -263,6 +293,7 @@ export class EditAdvertisingComponent {
         this.vetcorKeyFilter.forEach((element, index) => {
             this.search['fields'][index].key = element.key;
             this.search['fields'][index].type = element.type;
+            this.search['fields'][index]._id = element._id;
             if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
                 fieldName = element.key;
             }

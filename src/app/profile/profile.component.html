@@ -168,13 +168,13 @@
                             </div>
                         </div>
                         <div class="ItemsContainer" [ngClass]="{'hidden':getTab()!=3}">
-                            <div *ngFor="let oneSearch of searches;let i=index" class="ItemBlock cursorPointer">
+                            <div *ngFor="let oneSearch of searches;let i=index" class="ItemBlock">
                                 <div class="ItemSummary">
                                     <div class="ItemSummary-head">
                                         <div class="ItemSummary-head-title-search">
                                             أنا أبحث عن
                                         </div>
-                                        <div (click)="deleteSearch(oneSearch.id,i)" class="ItemSummary-head-close">
+                                        <div (click)="deleteSearch(oneSearch.id,i)" class="ItemSummary-head-close cursorPointer">
 
                                         </div>
                                         <div class="ItemSummary-head-date ItemSummary-head-date--text">

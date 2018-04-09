@@ -26,18 +26,23 @@
  [infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollDownNoti()">
 									<div *ngFor="let oneNot of notificationBeh">
 										<!--routerLink="{{'/detail/'+oneNot.advertisement.id}}"-->
-								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }"  (click)="visitNot(oneNot.isRead,5,oneNot.advertisement.id)" >
+								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }"  (click)="visitNot(oneNot.isRead,oneNot.advertisement.id)" >
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
 						                <img src="{{oneNot.advertisement.images[0]}}" alt="avatar">
 						              </figure>
 						            </div>
 						            <div class="u-inlineBlock u-alignTop">
-										<div>
-											قام
-											<span> {{oneNot.advertisement.owner.firstName}} </span>
-										 	 بإضافة إعلان جديد
-										 </div>
+										<div *ngIf="oneNot.type=='NEW_ADS'">
+												قام
+												<span> {{oneNot.advertisement.owner.firstName}} </span>
+											 	 بإضافة إعلان جديد
+											 </div>
+											 <div *ngIf="oneNot.type=='SEARCH_ADS'">
+												إعلان يوافق
+												<span> {{oneNot.name}} </span>
+											 	 
+											 </div>
 										<span class="NotificationMenu-item-date">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>
 									</div>
 								</li>

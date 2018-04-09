@@ -74,18 +74,23 @@
 						<i class="ContentMenu-item ContentMenu-item--iconBell" (click)="toggleNot()" *ngIf="isLogin">
 								<span class="Badge Badge--center"  [attr.data-badge]="unreadNotBeh"></span>
 					            <ul class="NotificationMenu NotificationMenuDown" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"[infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollUpNoti()" >
-								<div *ngFor="let oneNot of notificationBeh">
-									<li [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" class="NotificationMenu-item">
+								<div *ngFor="let oneNot of notificationBeh" >
+									<li  [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" (click)="visitNot(oneNot.isRead,oneNot.advertisement.id)" class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
 											<img src="{{oneNot.advertisement.images[0]}}" alt="avatar">
 							              </figure>
 							            </div>
 							            <div class="u-inlineBlock u-alignTop">
-											<div>
+											<div *ngIf="oneNot.type=='NEW_ADS'">
 												قام
 												<span> {{oneNot.advertisement.owner.firstName}} </span>
 											 	 بإضافة إعلان جديد
+											 </div>
+											 <div *ngIf="oneNot.type=='SEARCH_ADS'">
+												إعلان يوافق
+												<span> {{oneNot.name}} </span>
+											 	 
 											 </div>
 										<span class="NotificationMenu-item-date">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>
 										</div>
@@ -167,7 +172,7 @@
 								</select>
 							</div>
 							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter;let i=index">
-								<label for="name">{{oneKey.key}} </label>
+								<label for="name">{{oneKey.key}}</label>
 								<input *ngIf="oneKey.type == 'text'" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value"
 								 class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
 								<input *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value"

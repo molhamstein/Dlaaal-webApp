@@ -24,7 +24,7 @@ export class CallApiService {
   //   "users",
   //   "users/login"
   // ];
-  readonly baseUrl = "http://104.217.253.15:5000/api/"
+  readonly baseUrl = "http://104.217.253.15:7500/api/"
   // readonly baseUrl = "http://localhost:5000/api/"
   private errorCode = 0;
 
@@ -48,7 +48,10 @@ export class CallApiService {
     return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
     }).catch((response: Response) => {
-      this.errorCode = response.status;
+      this.errorCode = response['error'].statusCode;
+      // console.log(response);
+      if (this.errorCode == 401 && response['error'].code == "AUTHORIZATION_REQUIRED")
+        this.loginSer.logout()
       return "E";
     });
   }

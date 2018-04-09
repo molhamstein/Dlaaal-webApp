@@ -12,35 +12,35 @@ export class GlobalService {
   notification;
   unreadNot;
 
-  private unreadNotBeh=new BehaviorSubject<number>(0);
-  private notificationBeh=new BehaviorSubject<any>([]);
+  private unreadNotBeh = new BehaviorSubject<number>(0);
+  private notificationBeh = new BehaviorSubject<any>([]);
 
-  private filteringBeh=new BehaviorSubject<any>({});
+  private filteringBeh = new BehaviorSubject<any>({});
 
-  castUnreadNotBeh =this.unreadNotBeh.asObservable();
-  castNotificationBeh =this.notificationBeh.asObservable();
-  castFilteringBeh =this.filteringBeh.asObservable();
+  castUnreadNotBeh = this.unreadNotBeh.asObservable();
+  castNotificationBeh = this.notificationBeh.asObservable();
+  castFilteringBeh = this.filteringBeh.asObservable();
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public APIServe: CallApiService) {
     this.notification = [];
     this.unreadNot = 0;
   }
 
 
-  goTo2(id){
-    this.router.navigateByUrl('/detail').then(() => this.router.navigateByUrl('/detail/'+id));
+  goTo2(id) {
+    this.router.navigateByUrl('/detail').then(() => this.router.navigateByUrl('/detail/' + id));
 
   }
 
-  editUnreadNotBeh(unreadNotBeh){
+  editUnreadNotBeh(unreadNotBeh) {
     this.unreadNotBeh.next(unreadNotBeh);
   }
 
-  editNotificationBeh(notificationBeh){
+  editNotificationBeh(notificationBeh) {
     this.notificationBeh.next(notificationBeh);
   }
 
 
-  editFilteringBeh(filteringBeh){
+  editFilteringBeh(filteringBeh) {
     this.filteringBeh.next(filteringBeh);
   }
 
@@ -60,6 +60,14 @@ export class GlobalService {
 
   getUnreadNot() {
     return this.unreadNot;
+  }
+
+  private diff_minutes(dt2, dt1) {
+
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= (60);
+    return Math.abs(Math.round(diff));
+
   }
 
   private diff_hours(dt2, dt1) {
@@ -94,15 +102,17 @@ export class GlobalService {
 
   }
   calculatDateAdv(date) {
-    var time = this.diff_hours(new Date(), new Date(date))
-    if (time < 24)
-      return time + " ساعة ";
+    var time = this.diff_minutes(new Date(), new Date(date))
+    if (time < 1)
+      return "الأن"
+    else if (time < 60)
+      return time + " دقيقة ";
+    else if (this.diff_hours(new Date(), new Date(date)) < 24)
+      return this.diff_hours(new Date(), new Date(date)) + " ساعة ";
     else if (this.diff_days(new Date(), new Date(date)) < 7)
       return this.diff_days(new Date(), new Date(date)) + " يوم ";
     else if (this.diff_week(new Date(), new Date(date)) < 4)
       return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
-    else if (this.diff_month(new Date(), new Date(date)) < 12)
-      return this.diff_month(new Date(), new Date(date)) + " شهر ";
     else
       return date
 
@@ -115,7 +125,7 @@ export class GlobalService {
     location.reload();
   }
 
-  errorDialog(title, containt,withRefrech: boolean = false) {
+  errorDialog(title, containt, withRefrech: boolean = false) {
     let dialogRef = this.dialog.open(ErrorModalComponent, {
       width: '50%',
       data: { title: title, containt: containt }
@@ -123,15 +133,15 @@ export class GlobalService {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if(withRefrech==true){
+      if (withRefrech == true) {
         location.reload();
       }
     });
   }
 
-  somthingError(){
+  somthingError() {
     this.APIServe.setErrorCode(0);
-    this.errorDialog('حدث خطأ',"هناك مشكلة ما")
+    this.errorDialog('حدث خطأ', "هناك مشكلة ما")
   }
 
 }

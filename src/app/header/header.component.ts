@@ -63,23 +63,16 @@ export class HeaderComponent {
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         this.getNotification()
-        this.profileImage=this.mainServ.loginServ.getAvatar()
-        if(this.profileImage){
+        this.profileImage = this.mainServ.loginServ.getAvatar();
+        if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg"
-        }        
-        // if (!this.mainServ.loginServ.getAvatar() || this.mainServ.loginServ.getAvatar() == "") {
-        //     this.profileImage = "assets/imgs/defult_img.jpg"
-        // } else {
-        //     this.profileImage = this.mainServ.loginServ.getAvatar();
-        // }
-        
-    }
-
-    visitNot(isRead, idNot, idAdd) {
-        if (isRead) {
-            this.mainServ.globalServ.goTo2(idAdd)
         }
     }
+
+    visitNot(isRead, id) {
+        this.mainServ.globalServ.goTo2(id)
+    }
+
     toggleNot() {
         $(".NotificationMenuTop").toggleClass('NotificationMenu--isShown');
     }

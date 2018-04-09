@@ -54,7 +54,7 @@ var CallApiService = /** @class */ (function () {
         //   "users",
         //   "users/login"
         // ];
-        this.baseUrl = "http://104.217.253.15:5000/api/";
+        this.baseUrl = "http://104.217.253.15:7500/api/";
         // readonly baseUrl = "http://localhost:5000/api/"
         this.errorCode = 0;
         this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
@@ -644,10 +644,10 @@ var AddAdvertisingComponent = /** @class */ (function () {
                     element.values.forEach(function (elementValue) {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                     });
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
                 }
                 else
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
                 _this.search['fields'][index] = {};
             });
     };
@@ -670,10 +670,10 @@ var AddAdvertisingComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
             this.search['fields'][index] = {};
         }
         ;
@@ -707,10 +707,10 @@ var AddAdvertisingComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id });
             this.search["fields"].splice(indexFields + 1, 0, {});
         }
     };
@@ -745,6 +745,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
             this.vetcorKeyFilter.forEach(function (element, index) {
                 _this.search['fields'][index].key = element.key;
                 _this.search['fields'][index].type = element.type;
+                _this.search['fields'][index]._id = element._id;
                 if ((_this.search['fields'][index].value == "" || _this.search['fields'][index].value == null) && fieldName_1 == "") {
                     fieldName_1 = element.key;
                 }
@@ -1057,9 +1058,12 @@ var AppComponent = /** @class */ (function () {
         this.dialog = dialog;
     }
     AppComponent.prototype.openContactUs = function () {
+        var _this = this;
         var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], {});
         dialogRef.afterClosed().subscribe(function (result) {
-            console.log('The dialog was closed');
+            if (result) {
+                _this.globalServ.errorDialog("إرسال رسالة", "تمت عملية الإرسال بنجاح");
+            }
         });
     };
     AppComponent = __decorate([
@@ -1457,8 +1461,9 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactUsModalComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_main_service__ = __webpack_require__("../../../../../src/app/Services/main.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__ = __webpack_require__("../../../material/esm5/dialog.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1468,29 +1473,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
+
 
 
 var ContactUsModalComponent = /** @class */ (function () {
-    function ContactUsModalComponent(dialogRef, data) {
+    function ContactUsModalComponent(dialogRef, mainServ) {
         this.dialogRef = dialogRef;
-        this.data = data;
+        this.mainServ = mainServ;
+        this.mail = {};
     }
     ContactUsModalComponent.prototype.send = function () {
+        var _this = this;
+        if (this.mail['email'] == "" || this.mail['email'] == null) {
+            this.message = "الإيميل";
+        }
+        else if (this.mail['subject'] == "" || this.mail['subject'] == null) {
+            this.message = "العنوان";
+        }
+        else if (this.mail['message'] == "" || this.mail['message'] == null) {
+            this.message = "الرسالة";
+        }
+        if (this.message != "") {
+            this.message = "الرجاء إدخال حقل " + this.message;
+        }
+        else {
+            this.mainServ.APIServ.post("users/contactUs", this.mail).subscribe(function (data) {
+                if (_this.mainServ.APIServ.getErrorCode() == 0) {
+                    _this.dialogRef.close(true);
+                }
+                else {
+                    _this.message = "الرجاء المحاولة لاحقاً";
+                    _this.mainServ.APIServ.setErrorCode(0);
+                }
+            });
+        }
     };
     ContactUsModalComponent.prototype.closeModal = function () {
         this.dialogRef.close();
     };
     ContactUsModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
             selector: 'contact-us-modal',
             template: __webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */]])
     ], ContactUsModalComponent);
     return ContactUsModalComponent;
 }());
@@ -1550,6 +1577,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.mainServ = mainServ;
         this.route = route;
         this.keyFilter = [];
+        this.tempFields = [];
         this.vetcorKeyFilter = [];
         this.search = {};
         this.isAgree = false;
@@ -1570,6 +1598,8 @@ var EditAdvertisingComponent = /** @class */ (function () {
             _this.mainServ.APIServ.get("advertisemets/" + _this.addID).subscribe(function (data) {
                 if (_this.mainServ.APIServ.getErrorCode() == 0) {
                     _this.search = data;
+                    _this.tempFields = _this.search['fields'];
+                    _this.search['fields'] = [];
                     _this.initFildes(_this.search['categoryId'], _this.search['subCategoryId']);
                     // this.changeCategory(this.search['categoryId'], true);
                     // this.changeSubCategory(this.search['subCategoryId'], true);
@@ -1580,23 +1610,49 @@ var EditAdvertisingComponent = /** @class */ (function () {
             });
         });
     };
-    EditAdvertisingComponent.prototype.oneField = function (fields, numVlaue) {
+    // oneField(fields, numVlaue) {
+    //     fields.forEach((element, index) => {
+    //         numVlaue++;
+    //         if (element.type == "choose") {
+    //             var tempValue = [];
+    //             element.values.forEach(elementValue => {
+    //                 tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+    //             });
+    //             let newFildes = element.values.find(x => x.value == this.search["fields"][numVlaue - 1].value).fields;
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id, values: tempValue, lengthChilde: newFildes.length })
+    //             numVlaue = this.oneField(newFildes, numVlaue);
+    //         }
+    //         else
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key ,_id: element._id})
+    //     });
+    //     return numVlaue;
+    // }
+    EditAdvertisingComponent.prototype.oneField = function (fields) {
         var _this = this;
         fields.forEach(function (element, index) {
-            numVlaue++;
+            var thisField = _this.tempFields.find(function (x) { return x._id == element._id; });
+            if (thisField)
+                _this.search['fields'].push({ "value": thisField.value });
+            else
+                _this.search['fields'].push({});
             if (element.type == "choose") {
                 var tempValue = [];
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                var newFildes = element.values.find(function (x) { return x.value == _this.search["fields"][numVlaue - 1].value; }).fields;
-                _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length });
-                numVlaue = _this.oneField(newFildes, numVlaue);
+                if (thisField) {
+                    var newFildes = element.values.find(function (x) { return x.value == thisField.value; }).fields;
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length });
+                    _this.oneField(newFildes);
+                }
+                else {
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
+                }
             }
-            else
-                _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+            else {
+                _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
+            }
         });
-        return numVlaue;
     };
     EditAdvertisingComponent.prototype.initFildes = function (categortID, subCategoryID) {
         var _this = this;
@@ -1605,10 +1661,10 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
         this.keyFilter = this.categories.find(function (x) { return x.id == categortID; }).fields;
         if (this.keyFilter)
-            numValue = this.oneField(this.keyFilter, numValue);
+            this.oneField(this.keyFilter);
         this.keyFilter = this.categories.find(function (x) { return x.id == _this.search["categoryId"]; }).subCategories.find(function (y) { return y.id == subCategoryID; }).fields;
         if (this.keyFilter)
-            numValue = this.oneField(this.keyFilter, numValue);
+            this.oneField(this.keyFilter);
     };
     EditAdvertisingComponent.prototype.releadImage = function (innerIndex, file) {
         var reader = new FileReader();
@@ -1659,10 +1715,10 @@ var EditAdvertisingComponent = /** @class */ (function () {
                     element.values.forEach(function (elementValue) {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                     });
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
                 }
                 else
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
                 _this.search['fields'][index] = {};
             });
     };
@@ -1695,10 +1751,10 @@ var EditAdvertisingComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
             this.search['fields'][index] = {};
         }
         ;
@@ -1742,10 +1798,10 @@ var EditAdvertisingComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id });
             this.search["fields"].splice(indexFields + 1, 0, {});
         }
         console.log("finish");
@@ -1781,6 +1837,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.vetcorKeyFilter.forEach(function (element, index) {
             _this.search['fields'][index].key = element.key;
             _this.search['fields'][index].type = element.type;
+            _this.search['fields'][index]._id = element._id;
             if ((_this.search['fields'][index].value == "" || _this.search['fields'][index].value == null) && fieldName == "") {
                 fieldName = element.key;
             }
@@ -2539,39 +2596,64 @@ var HomePageComponent = /** @class */ (function () {
             this.getAdvertisemets(-1, {});
         window.addEventListener('scroll', this.scroll, true); //third parameter
         this.profileImage = this.mainServ.loginServ.getAvatar();
-        if (this.profileImage == "" || this.profileImage == null) {
+        if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg";
         }
     };
-    HomePageComponent.prototype.oneField = function (fields, fieldValue) {
+    // oneField(fields, fieldValue) {
+    //     let numVlaue = this.vetcorKeyFilter.length;
+    //     fields.forEach((element, index) => {
+    //         if (this.tempFilter["fields"][fieldValue] != null && element.key == this.tempFilter["fields"][fieldValue].key) {
+    //             this.search['fields'][numVlaue] = { "value": this.tempFilter["fields"][fieldValue].value }
+    //             fieldValue++;
+    //         }
+    //         else
+    //             this.search['fields'][numVlaue] = {}
+    //         numVlaue++;
+    //         if (element.type == "choose") {
+    //             var tempValue = [];
+    //             element.values.forEach(elementValue => {
+    //                 tempValue.push({ value: elementValue.value, fields: elementValue.fields })
+    //             });
+    //             if (this.search['fields'][numVlaue - 1].value != null) {
+    //                 let newFildes = element.values.find(x => x.value == this.tempFilter["fields"][fieldValue - 1].value).fields;
+    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+    //                 fieldValue = this.oneField(newFildes, fieldValue);
+    //             } else {
+    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+    //             }
+    //         }
+    //         else
+    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+    //     });
+    //     return fieldValue;
+    // }
+    HomePageComponent.prototype.oneField = function (fields) {
         var _this = this;
-        var numVlaue = this.vetcorKeyFilter.length;
         fields.forEach(function (element, index) {
-            if (_this.tempFilter["fields"][fieldValue] != null && element.key == _this.tempFilter["fields"][fieldValue].key) {
-                _this.search['fields'][numVlaue] = { "value": _this.tempFilter["fields"][fieldValue].value };
-                fieldValue++;
-            }
+            var thisField = _this.tempFilter["fields"].find(function (x) { return x._id == element._id; });
+            if (thisField)
+                _this.search['fields'].push({ "value": thisField.value });
             else
-                _this.search['fields'][numVlaue] = {};
-            numVlaue++;
+                _this.search['fields'].push({});
             if (element.type == "choose") {
                 var tempValue = [];
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                if (_this.search['fields'][numVlaue - 1].value != null) {
-                    var newFildes = element.values.find(function (x) { return x.value == _this.tempFilter["fields"][fieldValue - 1].value; }).fields;
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: newFildes.length });
-                    fieldValue = _this.oneField(newFildes, fieldValue);
+                if (thisField) {
+                    var newFildes = element.values.find(function (x) { return x.value == thisField.value; }).fields;
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length });
+                    _this.oneField(newFildes);
                 }
                 else {
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
                 }
             }
-            else
-                _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+            else {
+                _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
+            }
         });
-        return fieldValue;
     };
     HomePageComponent.prototype.initFildes = function (categortID, subCategoryID) {
         this.vetcorKeyFilter = [];
@@ -2583,11 +2665,11 @@ var HomePageComponent = /** @class */ (function () {
             console.log(this.keyFilter);
             if (this.keyFilter)
                 // alert("rrr");
-                fieldValue = this.oneField(this.keyFilter, fieldValue);
+                this.oneField(this.keyFilter);
             if (subCategoryID != null) {
                 this.keyFilter = this.mainCategories.find(function (x) { return x.id == categortID; }).subCategories.find(function (y) { return y.id == subCategoryID; }).fields;
                 if (this.keyFilter)
-                    fieldValue = this.oneField(this.keyFilter, fieldValue);
+                    this.oneField(this.keyFilter);
             }
         }
     };
@@ -2719,7 +2801,8 @@ var HomePageComponent = /** @class */ (function () {
                             "fields": {
                                 "elemMatch": {
                                     "key": element.key,
-                                    "value": _this.search['fields'][index].value
+                                    "value": _this.search['fields'][index].value,
+                                    "_id": element._id
                                 }
                             }
                         });
@@ -2771,10 +2854,10 @@ var HomePageComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key });
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id });
             this.search["fields"].splice(indexFields + 1, 0, {});
         }
     };
@@ -2820,10 +2903,10 @@ var HomePageComponent = /** @class */ (function () {
                     element.values.forEach(function (elementValue) {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                     });
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
                 }
                 else
-                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                    _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
                 _this.search['fields'][index] = {};
             });
     };
@@ -2846,10 +2929,10 @@ var HomePageComponent = /** @class */ (function () {
                 element.values.forEach(function (elementValue) {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields });
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, values: tempValue, lengthChilde: 0 });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 });
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key });
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
             this.search['fields'][index] = {};
         }
         ;
@@ -2917,6 +3000,7 @@ var HomePageComponent = /** @class */ (function () {
                     if (_this.search['fields'][index].value != "" && _this.search['fields'][index].value != null) {
                         fields_1.push({
                             "key": element.key,
+                            "_id": element._id,
                             "value": _this.search['fields'][index].value
                         });
                     }
@@ -3056,7 +3140,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n    [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\" *ngIf=\"userData.firstName != null\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\" [ngClass]=\"{'hidden': uploadingImage}\" />\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\" />\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                            />\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv cursorPointer\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <!--[ngClass]=\"{'hidden':isPluse()}\"-->\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" *ngIf=\"isMyProfile\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                    <div *ngIf=\"isPluse()\" (click)=\"follow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/plus.svg)'}\">\n\n                    </div>\n                    <div *ngIf=\"isMin()\" (click)=\"unFollow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/Minus.svg)'}\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(3)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(3),'hidden':!isMyProfile}\">\n                        قائمة البحث\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        <!--إعلاناتي-->\n                        {{isMyProfile ? \"إعلاناتي\" : \"إعلانات\"}}\n\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden': getTab()!=1}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(bookmarks.length)\">\n\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderBook==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noBook==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':getTab()!=2}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderAdd==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':getTab()!=3}\">\n                            <div *ngFor=\"let oneSearch of searches;let i=index\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title-search\">\n                                            أنا أبحث عن\n                                        </div>\n                                        <div (click)=\"deleteSearch(oneSearch.id,i)\" class=\"ItemSummary-head-close\">\n\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneSearch.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneSearch.name}}\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a (click)=\"applyFilter(i)\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tعرض النتائج\n    \t\t\t\t\t\t\t\t</a>\n                                    </div>\n\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderSearch==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n        <!--Below main container end-->\n    </div>"
+module.exports = "<div class=\"MainContainer\" data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n    [infiniteScrollThrottle]=\"throttle\" (scrolled)=\"onScrollDown()\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--profilepage\" *ngIf=\"userData.firstName != null\">\n                <div class=\"HeaderBox HeaderBox--profilepage-usercontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-avatar\">\n                        <div class=\"myImage\">\n                            <img src=\"{{imageProfile}}\" [ngClass]=\"{'hidden': uploadingImage}\" />\n                            <img id=\"{{'uploadImage'}}\" [ngClass]=\"{'hidden': !uploadingImage}\" />\n                            <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" [ngClass]=\"{'hidden': !uploadingImage}\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                            />\n\n                            <div *ngIf=\"isMyProfile\" _ngcontent-c1=\"\" (click)=\"openSelectImage()\" class=\"hoverDiv cursorPointer\" style=\"\">\n                                <span _ngcontent-c1=\"\" class=\"glyphicon glyphicon-camera\"></span>\n                                <span _ngcontent-c1=\"\">تغيير الصورة</span>\n                                <input type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-usercontainer-username\">\n                        {{userData.firstName}}\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer\">\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            الإعلانات المضافة\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.advertisementCount| number}}\n                        </div>\n                    </div>\n                    <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column\">\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-title\">\n                            المتابعون\n                        </div>\n                        <div class=\"HeaderBox HeaderBox--profilepage-detailscontainer-column-value\">\n                            {{userData.followersCount| number}}\n                        </div>\n\n                    </div>\n\n                </div>\n                <!--[ngClass]=\"{'hidden':isPluse()}\"-->\n                <div class=\"HeaderBox HeaderBox--profilepage-btncontainer\">\n                    <div (click)=\"editProfile()\" *ngIf=\"isMyProfile\" class=\"HeaderBox--profilepage-editbtn\">\n\n                    </div>\n                    <div *ngIf=\"isPluse()\" (click)=\"follow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/plus.svg)'}\">\n\n                    </div>\n                    <div *ngIf=\"isMin()\" (click)=\"unFollow()\" class=\"HeaderBox--profilepage-editbtn\" [ngStyle]=\"{'background-image': 'url(assets/imgs/Minus.svg)'}\">\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n        <div class=\"UserProfileContainer\">\n            <div class=\"UserProfile\">\n                <div class=\"UserProfile-navtabs\">\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(1)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(1),'hidden':!isMyProfile}\">\n                        قائمة التفضيلات\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(3)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(3),'hidden':!isMyProfile}\">\n                        قائمة البحث\n                    </div>\n                    <div class=\"UserProfile-navtabs-tab cursorPointer\" (click)=\"setTab(2)\" [ngClass]=\"{'UserProfile-navtabs-tab--active':isSetTab(2)}\">\n                        <!--إعلاناتي-->\n                        {{isMyProfile ? \"إعلاناتي\" : \"إعلانات\"}}\n\n                    </div>\n                </div>\n                <div class=\"UserProfile-navcontent\">\n                    <div class=\"ItemsContainer\">\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden': getTab()!=1}\">\n                            <div *ngFor=\"let oneBookMark of bookmarks\" routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneBookMark.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneBookMark.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneBookMark.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneBookMark.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneBookMark.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneBookMark.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneBookMark.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(bookmarks.length)\">\n\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderBook==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noBook==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':getTab()!=2}\">\n                            <div *ngFor=\"let oneAdvertisemet of advertisemets\" routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemBlock cursorPointer\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title\">\n                                            {{oneAdvertisemet.category.title}}\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneAdvertisemet.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneAdvertisemet.title}}\n                                    </div>\n                                    <div class=\"ItemSummary-price\">\n                                        <span class=\"ItemSummary-price-num\">{{oneAdvertisemet.price | number}}</span>\n                                        <span class=\"ItemSummary-price-text\">ل.س</span>\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a routerLink=\"{{'/detail/'+oneAdvertisemet.id}}\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tمشاهدة المزيد\n    \t\t\t\t\t\t\t\t</a>\n                                        <div class=\"ItemSummary-action-views\">\n                                            <span> {{oneAdvertisemet.viewsCount}} </span>\n                                            <div style=\"width:10px;\"></div>\n                                            <img src=\"../imgs/eye.svg\" alt=\"\" style=\"height: 24px;\">\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"ItemBlock-img\" [ngStyle]=\"{'background-image': 'url(' + oneAdvertisemet.images[0] + ')'}\">\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderAdd==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                        <div class=\"ItemsContainer\" [ngClass]=\"{'hidden':getTab()!=3}\">\n                            <div *ngFor=\"let oneSearch of searches;let i=index\" class=\"ItemBlock\">\n                                <div class=\"ItemSummary\">\n                                    <div class=\"ItemSummary-head\">\n                                        <div class=\"ItemSummary-head-title-search\">\n                                            أنا أبحث عن\n                                        </div>\n                                        <div (click)=\"deleteSearch(oneSearch.id,i)\" class=\"ItemSummary-head-close cursorPointer\">\n\n                                        </div>\n                                        <div class=\"ItemSummary-head-date ItemSummary-head-date--text\">\n                                            {{calculateDate(oneSearch.createdAt)}}\n                                        </div>\n                                    </div>\n                                    <div class=\"ItemSummary-desc\">\n                                        {{oneSearch.name}}\n                                    </div>\n                                    <div class=\"ItemSummary-action\">\n                                        <a (click)=\"applyFilter(i)\" class=\"ItemSummary-action-btn\">\n    \t\t\t\t\t\t\t\t\tعرض النتائج\n    \t\t\t\t\t\t\t\t</a>\n                                    </div>\n\n                                </div>\n                            </div>\n                            <div class=\"ItemBlock emptyBloack\" *ngIf=\"!cheackOdd(advertisemets.length)\">\n\n                            </div>\n\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':loaderSearch==0}\">\n                                <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                            </div>\n                            <div class=\"ItemsContainer-loader\" [ngClass]=\"{'hidden':noAdd==0}\">\n                                <img src=\"assets/imgs/empty placeholder.png\" alt=\"Kiwi standing on oval\">\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n        <!--Below main container end-->\n    </div>"
 
 /***/ }),
 

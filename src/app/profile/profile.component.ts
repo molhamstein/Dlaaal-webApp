@@ -55,9 +55,9 @@ export class ProfileComponent {
     ngOnInit() {
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
-        this.mainServ.APIServ.get("users/" + this.userID + "/followers").subscribe(data => {
-            this.follwers = data;
-        });
+        // this.mainServ.APIServ.get("users/" + this.userID + "/followers").subscribe(data => {
+        //     this.follwers = data;
+        // });
         if (this.isMyProfile) {
             this.getData(1);
             this.getData(3);
@@ -114,8 +114,8 @@ export class ProfileComponent {
                 this.mainServ.APIServ.put("/users/" + this.userData['id'], this.userData).subscribe(data => {
 
                     if (this.mainServ.APIServ.getErrorCode() == 0) {
-                        this.mainServ.globalServ.errorDialog('تعديل الصورة الشخصية', "تم تعديل الصورة بنجاح");
                         this.mainServ.loginServ.setAvatar(this.imageProfile);
+                        this.mainServ.globalServ.reload();
                     } else
                         this.mainServ.globalServ.somthingError()
                 });

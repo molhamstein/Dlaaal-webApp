@@ -27,19 +27,28 @@ export class LoginService {
     // if (user != "")
     return user;
   }
-  logIn(data) {
-    console.log(data);
-    this.cookieService.set('dalalUserId', data.userId);
-    this.cookieService.set('dalalId', data.id);
-    if (data.user != null)
-      this.cookieService.set('dalalAvatar', data.user.avatar);
+  logIn(data, rememberPass: boolean = true) {
+    // if (rememberPass) {
+    //   var now = new Date();
+    //   var exp = 1;
+    //   this.cookieService.set('dalalUserId', data.userIdm, exp)
+    //   this.cookieService.set('dalalId', data.id, exp);
+    //   if (data.user != null)
+    //     this.cookieService.set('dalalAvatar', data.user.avatar, exp);
+    // }
+    // else {
+      this.cookieService.set('dalalUserId', data.userId);
+      this.cookieService.set('dalalId', data.id);
+      if (data.user != null)
+        this.cookieService.set('dalalAvatar', data.user.avatar);
+    // }
     location.reload();
   }
 
   logout() {
-    this.cookieService.set('dalalUserId', "");
-    this.cookieService.set('dalalId', "");
-    this.cookieService.set('dalalAvatar', "");
+    this.cookieService.delete('dalalUserId');
+    this.cookieService.delete('dalalId');
+    this.cookieService.delete('dalalAvatar');
 
     console.log(this.router.url);
     if ("/myprofile/me" == this.router.url) {

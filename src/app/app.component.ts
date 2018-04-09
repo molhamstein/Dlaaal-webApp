@@ -21,7 +21,9 @@ export class AppComponent {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+          if(result){
+            this.globalServ.errorDialog("إرسال رسالة","تمت عملية الإرسال بنجاح")
+          }
         });
   }
   
