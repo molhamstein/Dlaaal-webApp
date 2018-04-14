@@ -9,13 +9,15 @@ import { Component, Inject } from '@angular/core';
 })
 export class EditOrDeactiveModalComponent {
     advId;
+    ads;
     constructor(public dialogRef: MatDialogRef<EditOrDeactiveModalComponent>, public mainServ:MainService, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.advId = data.Id;
-
+        this.ads=data.ads;
     }
 
     deactive() {
-        this.mainServ.APIServ.delete("advertisemets/" + this.advId).subscribe(data => {
+        this.ads.status="deactive"
+        this.mainServ.APIServ.put("advertisemets/" + this.advId,this.ads).subscribe(data => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.dialogRef.close(false);
             } else this.mainServ.globalServ.somthingError();

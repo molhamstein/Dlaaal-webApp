@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function () {
 	// initialize paroller.js
 	$(window).paroller();
 	var Menu = $("#Menu");
@@ -14,43 +14,43 @@ $( document ).ready(function() {
 
 	Jumbotron.paroller({ factor: '-0.2', type: 'foreground', direction: 'vertical' });
 
-	MenuBtn.click(function(event) {
+	MenuBtn.click(function (event) {
 		// DropMenu.toggleClass('DropMenu--isShown');
 	});
-	FilterMenuBtn.click(function(event) {
+	FilterMenuBtn.click(function (event) {
 		// DropMenu.toggleClass('DropMenu--isShown');
 	});
-	$(".TopMenu-item--iconBell").click(function(event) {
+	$(".TopMenu-item--iconBell").click(function (event) {
 		// NotificationMenu.toggleClass('NotificationMenu--isShown');
 	});
-	$(".ContentMenu-item--iconBell").click(function(event) {
+	$(".ContentMenu-item--iconBell").click(function (event) {
 		// NotificationMenu.toggleClass('NotificationMenu--isShown');
 	});
-	$(".FiltersPanel-header-collapse").click(function(event) {
+	$(".FiltersPanel-header-collapse").click(function (event) {
 		$('.FiltersPanel-body , .FiltersPanel-footer').toggle();
 	});
-	$(".FiltersPanel-header-close").click(function(event) {
+	$(".FiltersPanel-header-close").click(function (event) {
 		$('.FiltersPanelContianer').hide();
 		$('.ItemsContainer').removeClass('ItemsContainer--filtespanelexpanded');
 	});
 
-	$(window).resize(function() {
+	$(window).resize(function () {
 		menuPosition = Menu.offset().top;
 		currentScroll = $(window).scrollTop();
 	});
 
-	$(window).scroll(function() {
+	$(window).scroll(function () {
 
-	    currentScroll = $(window).scrollTop();
-	    //Temporary workaround
-	    if (currentScroll >= ( menuPosition + Menu.height()/3) && (Content.height()>1350) ) {
-	        // FullContainer.addClass('u-trans');
-	        // FullContainer.css('margin-top', (Menu.height()*4/3 + 25 )+'px');
-	        // Menu.addClass("MenuContainer--isFixed");
-	    } else {
-	    	// FullContainer.removeClass('u-trans');
-	        // FullContainer.css('margin-top', '0px');
-	        // Menu.removeClass("MenuContainer--isFixed");
-	    }
+		currentScroll = $(window).scrollTop();
+		//Temporary workaround
+		if (currentScroll >= (menuPosition + Menu.height() / 3) && (Content.height() > 1350)) {
+			// FullContainer.addClass('u-trans');
+			// FullContainer.css('margin-top', (Menu.height()*4/3 + 25 )+'px');
+			// Menu.addClass("MenuContainer--isFixed");
+		} else {
+			// FullContainer.removeClass('u-trans');
+			// FullContainer.css('margin-top', '0px');
+			// Menu.removeClass("MenuContainer--isFixed");
+		}
 	});
 });

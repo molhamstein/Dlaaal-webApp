@@ -28,15 +28,32 @@ export class AdvertisingComponent {
     advertisemet;
     reports;
     isMyAdv: boolean;
+    lg;
+    lg2;
     public carouselTileItems: Array<any>;
     public carouselTile: NgxCarousel;
-    constructor(public mainServ:MainService, private route: ActivatedRoute, public dialog: MatDialog) {
+    constructor(public mainServ: MainService, private route: ActivatedRoute, public dialog: MatDialog) {
         this.route.params.subscribe(addID => this.addID = addID.addID);
         this.advertisemet = {}
         this.isMyAdv = false;
         this.mainServ.APIServ.get("advertisemets/" + this.addID).subscribe(data => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.advertisemet = data;
+                setTimeout(function () {
+                     
+
+                    ($("#lightgallery") as any).lightGallery({
+                        share:false,
+                        thumbnail:false
+                    });;
+                    ($("#lightgallery2") as any).lightGallery({
+                        selector: 'ngx-tile',
+                        share:false,
+                        thumbnail:false
+                    });
+                    console.log($("#lightgallery"));
+                }, 2000);
+
                 if (this.mainServ.loginServ.getUserId() == this.advertisemet.ownerId) {
                     this.isMyAdv = true;
                 }
@@ -118,6 +135,7 @@ export class AdvertisingComponent {
             console.log('The dialog was closed');
         });
     }
+
     openCommunicationDialog() {
         let dialogRef = this.dialog.open(CommunictionModalComponent, {
             // width: '35%',
@@ -178,7 +196,7 @@ export class AdvertisingComponent {
     chaoesActionModal() {
         let dialogRef = this.dialog.open(EditOrDeactiveModalComponent, {
             panelClass: 'communictioDialogStyle',
-            data: { Id: this.advertisemet.id }
+            data: { Id: this.advertisemet.id, ads: this.advertisemet }
         });
 
         dialogRef.afterClosed().subscribe(result => {

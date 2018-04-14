@@ -50,9 +50,11 @@ export class LoginService {
     this.cookieService.delete('dalalId');
     this.cookieService.delete('dalalAvatar');
 
-    console.log(this.router.url);
     if ("/myprofile/me" == this.router.url) {
       this.router.navigateByUrl('/myprofile/me').then(() => this.router.navigateByUrl('/'));
+      location.reload();
+    }else if ("/addAdvertising" == this.router.url) {
+      this.router.navigateByUrl('/addAdvertising').then(() => this.router.navigateByUrl('/'));
       location.reload();
     } else
       location.reload();

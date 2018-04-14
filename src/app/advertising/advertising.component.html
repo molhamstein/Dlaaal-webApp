@@ -1,4 +1,6 @@
 <!--component html goes here -->
+
+
 <div class="MainContainer">
   <div class="HeaderBackground">
     <header></header>
@@ -115,17 +117,11 @@
         </div>
         <div class="AddDetailsForm-column">
 
-          <ngx-carousel [inputs]="carouselTile" style="
-    width:  100%;
-    direction:  initial;
-">
+          <ngx-carousel id="lightgallery2" [inputs]="carouselTile" style="width:  100%;direction:  initial;">
             <!--*ngFor="let oneImage of advertisemet.images"-->
-            <ngx-tile NgxCarouselItem *ngFor="let oneImage of advertisemet.images">
+            <ngx-tile NgxCarouselItem  [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" *ngFor="let oneImage of advertisemet.images">
               <!--<div  class="openImage cursorPointer"></div>-->
-              <div (click)="openFullScreenImage(oneImage)" [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;
-    width: 100%;
-    height: 180px;
-    border-radius: 5px;">
+                <div [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;width: 100%;height: 180px;border-radius: 5px;">
               </div>
             </ngx-tile>
 
@@ -133,22 +129,31 @@
             <button NgxCarouselPrev class='leftRs'>&lt;</button>
             <button NgxCarouselNext class='rightRs'>&gt;</button>
           </ngx-carousel>
+         
           <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
-            <div class="AddDetailsForm-imagescontainer-largeimage cursorPointer" (click)="openFullScreenImage(advertisemet.images[0])">
+            <div class="AddDetailsForm-imagescontainer-largeimage cursorPointer" (click)="openSlide(advertisemet.images[0])">
               <img src="{{advertisemet.images[0]}}" />
             </div>
           </div>
-          <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
-            <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage cursorPointer" *ngFor="let oneImage of advertisemet.images">
+          <div id="lightgallery" class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
+            <div [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" class="AddDetailsForm-imagescontainer-smallimage cursorPointer"
+              *ngFor="let oneImage of advertisemet.images">
               <img src="{{oneImage}}" />
             </div>
           </div>
+
+
+          <!--<div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
+            <div (click)="openFullScreenImage(oneImage)" class="AddDetailsForm-imagescontainer-smallimage cursorPointer" *ngFor="let oneImage of advertisemet.images">
+              <img src="{{oneImage}}" />
+            </div>
+          </div>-->
           <div class="AddDetailsForm-pricepontainer">
             <div class="AddDetailsForm-pricepontainer-num">{{advertisemet.price |number}}</div>
             <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
           </div>
           <div class="AddDetailsForm-buttonscontainers">
-            <div  *ngIf="isMyAdv==false" (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
+            <div *ngIf="isMyAdv==false" (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
               التواصل مع البائع
             </div>
 

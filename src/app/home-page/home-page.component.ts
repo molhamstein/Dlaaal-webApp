@@ -14,6 +14,7 @@ import { Response } from '@angular/http';
     templateUrl: 'home-page.component.html',
     styleUrls: ['home-page.component.scss']
 })
+
 export class HomePageComponent {
     isLogin: boolean;
     constructor(public mainServ: MainService, public dialog: MatDialog) {
@@ -52,6 +53,8 @@ export class HomePageComponent {
     tempFilter;
 
     ngOnInit() {
+
+
         this.search['fields'] = []
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)

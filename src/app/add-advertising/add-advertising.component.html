@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="AddNewContainer">
                 <div class="AddNewForm">
                     <div class="AddNewForm-column">
@@ -46,6 +46,19 @@
                                 <option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>	
                             </select>
                         </div>
+
+                        <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter; let i = index;">
+                            <label for="name">{{oneKey.key}} </label>
+                            <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text"
+                                value="" name="name">
+                            <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number"
+                                value="" name="name">
+                            <select style="width: 100%" *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value"
+                                class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
+								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
+								</select>
+                        </div>
+
                         <div class="AddNewForm-inputcontainer">
                             <label for="name">عنوان </label>
                             <input [(ngModel)]="search.address" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
@@ -53,16 +66,6 @@
                         <div class="AddNewForm-inputcontainer">
                             <label for="name">شرح </label>
                             <input [(ngModel)]="search.description" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
-                        </div>
-                        <div class="AddNewForm-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter; let i = index;">
-                            <label for="name">{{oneKey.key}} </label>
-                            <input *ngIf="oneKey.type == 'text' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="text"
-                                value="" name="name">
-                            <input *ngIf="oneKey.type == 'number' " [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-text" type="number"
-                                value="" name="name">
-                            <select style="width: 100%" *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md">
-								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
-								</select>
                         </div>
                     </div>
                     <div class="AddNewForm-column">

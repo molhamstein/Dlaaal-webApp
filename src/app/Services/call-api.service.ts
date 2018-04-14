@@ -25,7 +25,7 @@ export class CallApiService {
   //   "users/login"
   // ];
   readonly baseUrl = "http://104.217.253.15:7500/api/"
-  // readonly baseUrl = "http://localhost:5000/api/"
+  // readonly baseUrl = "http://localhost:7500/api/"
   private errorCode = 0;
 
   // get(url) {

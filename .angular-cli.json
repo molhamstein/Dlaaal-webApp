@@ -20,12 +20,14 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "assets/stylesheets/master.css"
+        "assets/stylesheets/master.css",
+        "assets/stylesheets/lightgallery.css"  
       ],
       "scripts": [
         "assets/js/jquery-3.2.1.min.js",
         "assets/js/jquery.paroller.min.js",
-        "assets/js/custom.js"
+        "assets/js/custom.js",
+        "assets/js/lightgallery-all.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
