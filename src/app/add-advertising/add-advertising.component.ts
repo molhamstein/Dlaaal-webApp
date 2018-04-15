@@ -205,6 +205,7 @@ export class AddAdvertisingComponent {
             this.search['ownerId'] = this.mainServ.loginServ.getUserId();
             if (fieldName == "") {
                 this.loader = true;
+                this.search['price']=Number(this.search['price']).toFixed(25);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
                     this.loader = false;
                     if (this.mainServ.APIServ.getErrorCode() == 0) {

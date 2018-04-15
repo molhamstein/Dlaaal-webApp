@@ -24,7 +24,7 @@ export class ReportModalComponent {
     ok() {
         let data = {
             "userId": this.userID,
-            "reportId": 0,
+            "reportId": this.reportID,
             "advertisementId": this.addID
         }
         this.mainServ.APIServ.post("advertisemets/" + this.addID + "/reports", data).subscribe((data: string) => {

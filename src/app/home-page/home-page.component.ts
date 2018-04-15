@@ -124,14 +124,14 @@ export class HomePageComponent {
     //             });
     //             if (this.search['fields'][numVlaue - 1].value != null) {
     //                 let newFildes = element.values.find(x => x.value == this.tempFilter["fields"][fieldValue - 1].value).fields;
-    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+    //                 this.vetcorKeyFilter.push({ type: element.type,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
     //                 fieldValue = this.oneField(newFildes, fieldValue);
     //             } else {
-    //                 this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+    //                 this.vetcorKeyFilter.push({ type: element.type,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
     //             }
     //         }
     //         else
-    //             this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+    //             this.vetcorKeyFilter.push({ type: element.type,priority: element.priority, key: element.key, _id: element._id })
     //     });
     //     return fieldValue;
     // }
@@ -150,14 +150,14 @@ export class HomePageComponent {
                 });
                 if (thisField) {
                     let newFildes = element.values.find(x => x.value == thisField.value).fields;
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
                     this.oneField(newFildes);
                 } else {
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
                 }
             }
             else {
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
             }
         })
     }
@@ -168,15 +168,16 @@ export class HomePageComponent {
         if (categortID != null) {
             this.subCategories = this.mainCategories.find(x => x.id == categortID).subCategories;
             this.keyFilter = this.mainCategories.find(x => x.id == categortID).fields;
-            console.log("this.keyFilter");
-            console.log(this.keyFilter);
-            if (this.keyFilter)
-                // alert("rrr");
-                this.oneField(this.keyFilter);
+
+            // if (this.keyFilter)
+            // alert("rrr");
+            // this.oneField(this.keyFilter);
             if (subCategoryID != null) {
-                this.keyFilter = this.mainCategories.find(x => x.id == categortID).subCategories.find(y => y.id == subCategoryID).fields;
-                if (this.keyFilter)
-                    this.oneField(this.keyFilter);
+                this.keyFilter = this.keyFilter.concat(this.mainCategories.find(x => x.id == categortID).subCategories.find(y => y.id == subCategoryID).fields);
+            }
+            if (this.keyFilter) {
+                this.keyFilter.sort(this.compare);
+                this.oneField(this.keyFilter);
             }
         }
     }
@@ -323,16 +324,16 @@ export class HomePageComponent {
             }
             if (data.search.title != "" && data.search.title != null) {
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
             }
             else
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [data.search.min, data.search.max.toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
         }
         if (!(type == 0 && isTopSearch)) {
@@ -376,11 +377,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, priority: element.priority, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
     }
@@ -414,9 +415,18 @@ export class HomePageComponent {
         $(".DropMenu-Down").toggleClass('DropMenu--isShown');
     }
 
+    compare(a, b) {
+        if (a.priority < b.priority)
+            return 1;
+        if (a.priority > b.priority)
+            return -1;
+        return 0;
+    }
+
     changeCategory(categoryID) {
         this.subCategories = this.mainCategories.find(x => x.id == categoryID).subCategories;
         this.keyFilter = this.mainCategories.find(x => x.id == categoryID).fields;
+        this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
             this.keyFilter.forEach((element, index) => {
@@ -425,11 +435,11 @@ export class HomePageComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -445,18 +455,21 @@ export class HomePageComponent {
         newFields.forEach(element => {
             this.keyFilter.push(element);
         });
-        for (var index = lastLength; index < this.keyFilter.length; index++) {
+        this.vetcorKeyFilter = []
+        this.keyFilter.sort(this.compare);
+
+        for (var index = 0; index < this.keyFilter.length; index++) {
             var element = this.keyFilter[index];
             if (element.type == "choose") {
                 var tempValue = [];
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
             this.search['fields'][index] = {};
         };
     }
