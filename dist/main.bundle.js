@@ -894,7 +894,9 @@ var AddAdvertisingComponent = /** @class */ (function () {
             this.search['ownerId'] = this.mainServ.loginServ.getUserId();
             if (fieldName_1 == "") {
                 this.loader = true;
-                this.search['price'] = this.convertNumber(this.search['price']);
+                // this.search['price']="٢٢٢٢"
+                alert(this.search['price']);
+                // this.search['price'] = this.convertNumber(this.search['price']);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe(function (data) {
                     _this.loader = false;
                     if (_this.mainServ.APIServ.getErrorCode() == 0) {
