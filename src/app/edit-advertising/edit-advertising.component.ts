@@ -304,7 +304,7 @@ export class EditAdvertisingComponent {
         }
         this.search['ownerId'] = this.mainServ.loginServ.getUserId();
         if (fieldName == "") {
-            this.search['price'] = Number(this.search['price']).toFixed(25);
+            this.search['price'] = this.mainServ.globalServ.convertNumber(this.search['price']);
             this.search['city'] = this.cities.find(x => x.id == this.search["cityId"]);
             this.loader = true;
             this.mainServ.APIServ.put("advertisemets/" + this.search["id"], this.search).subscribe((data: any) => {

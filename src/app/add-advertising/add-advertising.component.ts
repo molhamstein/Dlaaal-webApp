@@ -172,31 +172,7 @@ export class AddAdvertisingComponent {
         document.getElementById('files').click();
     }
 
-    convertNumber(fromNum) {
-        var result = "";
-        var number;
-        var arabicMap = {
-            '٩': 9,
-            '٨': 8,
-            '٧': 7,
-            '٦': 6,
-            '٥': 5,
-            '٤': 4,
-            '٣': 3,
-            '٢': 2,
-            '١': 1,
-            '٠': 0
-        };
-        for (var index = 0; index < fromNum.length; index++) {
-            var element = fromNum.charAt(index);
-            if (arabicMap[element] != null)
-                result += arabicMap[element];
-            else
-                result += element;
-        };
-        number = Number(result);
-        return result;
-    }
+
 
     addAdvertising() {
 
@@ -233,8 +209,8 @@ export class AddAdvertisingComponent {
             if (fieldName == "") {
                 this.loader = true;
                 // this.search['price']="٢٢٢٢"
-                alert(this.search['price']);
-                // this.search['price'] = this.convertNumber(this.search['price']);
+                // alert(this.search['price']);
+                this.search['price'] = this.mainServ.globalServ.convertNumber(this.search['price']);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
                     this.loader = false;
                     if (this.mainServ.APIServ.getErrorCode() == 0) {

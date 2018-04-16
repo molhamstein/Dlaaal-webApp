@@ -43,7 +43,7 @@ export class HeaderComponent {
         if (this.isLogin && this.notificationBeh.length == 0 || isScroll) {
             limit = 5;
             skip = this.notificationBeh.length;
-            query = { "order": "createdAt ASC", "limit": limit, "skip": skip, "include": ["advertisement"] }
+            query = { "order": "createdAt DESC", "limit": limit, "skip": skip, "include": ["advertisement"] }
 
             this.mainServ.APIServ.get("users/" + this.mainServ.loginServ.getUserId() + "/notifications?filter=" + JSON.stringify(query)).subscribe((data: any) => {
                 for (var index = 0; index < data.length; index++) {
@@ -69,8 +69,17 @@ export class HeaderComponent {
         }
     }
 
-    visitNot(isRead, id) {
-        this.mainServ.globalServ.goTo2(id)
+    visitNot(isRead, id,notId) {
+        if (isRead == false) {
+            alert("make Read")
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/mak-notifications-read/" + notId, {}).subscribe((data: any) => {
+                this.mainServ.globalServ.editUnreadNotBeh(this.unreadNotBeh - 1);
+                this.notificationBeh.find(x => x.id == notId).isRead=true;
+                this.mainServ.globalServ.editNotificationBeh(this.notificationBeh);
+                this.mainServ.globalServ.goTo2(id)
+            })
+        } else
+            this.mainServ.globalServ.goTo2(id)
     }
 
     toggleNot() {

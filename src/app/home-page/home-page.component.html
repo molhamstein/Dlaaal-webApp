@@ -85,10 +85,10 @@
 						</div>
 
 						<i class="ContentMenu-item ContentMenu-item--iconBell" (click)="toggleNot()" *ngIf="isLogin">
-								<span class="Badge Badge--center"  [attr.data-badge]="unreadNotBeh"></span>
+								<span class="Badge Badge--center" *ngIf="unreadNotBeh!=0" [attr.data-badge]="unreadNotBeh"></span>
 					            <ul class="NotificationMenu NotificationMenuDown" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"[infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollUpNoti()" >
 								<div *ngFor="let oneNot of notificationBeh" >
-									<li  [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" (click)="visitNot(oneNot.isRead,oneNot.advertisement.id)" class="NotificationMenu-item">
+									<li  [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" (click)="visitNot(oneNot.isRead,oneNot.advertisement.id,oneNot.id)" class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
 							              <figure class="Avatar Avatar--lg">
 											<img src="{{oneNot.advertisement.images[0]}}" alt="avatar">

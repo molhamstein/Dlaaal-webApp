@@ -21,12 +21,12 @@
 				</figure>
 			</div>
 			<i class="TopMenu-item TopMenu-item--iconBell" (click)="toggleNot()" *ngIf="isLogin">
-								<span class="Badge Badge--center"  [attr.data-badge]="unreadNotBeh"></span>
+								<span class="Badge Badge--center" *ngIf="unreadNotBeh!=0" [attr.data-badge]="unreadNotBeh"></span>
 								<ul class="NotificationMenu NotificationMenuTop"   data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
  [infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollDownNoti()">
 									<div *ngFor="let oneNot of notificationBeh">
 										<!--routerLink="{{'/detail/'+oneNot.advertisement.id}}"-->
-								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }"  (click)="visitNot(oneNot.isRead,oneNot.advertisement.id)" >
+								<li class="NotificationMenu-item" [ngClass]="{'isReadNot' : !oneNot.isRead }"  (click)="visitNot(oneNot.isRead,oneNot.advertisement.id,oneNot.id)" >
 									<div href="#" class="u-after10p u-inlineBlock">
 						              <figure class="Avatar Avatar--lg">
 						                <img src="{{oneNot.advertisement.images[0]}}" alt="avatar">

@@ -62,8 +62,8 @@ export class HomePageComponent {
 
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
-        this.search['max'] = 100000000;
-        this.search['min'] = 0;
+        this.search['max'] = "100000000";
+        this.search['min'] = "0";
         this.mainServ.APIServ.get("cities").subscribe(data => {
             this.cities = data;
         });
@@ -212,8 +212,16 @@ export class HomePageComponent {
 
     }
 
-    visitNot(isRead, id) {
-        this.mainServ.globalServ.goTo("detail/" + id)
+    visitNot(isRead, id, notId) {
+        if (isRead == false) {
+            this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/mak-notifications-read/" + notId, {}).subscribe((data: any) => {
+                this.mainServ.globalServ.editUnreadNotBeh(this.unreadNotBeh - 1)
+                this.notificationBeh.find(x => x.id == notId).isRead = true;
+                this.mainServ.globalServ.editNotificationBeh(this.notificationBeh);
+                this.mainServ.globalServ.goTo("detail/" + id)
+            })
+        } else
+            this.mainServ.globalServ.goTo("detail/" + id)
     }
 
     scroll() {
@@ -324,16 +332,16 @@ export class HomePageComponent {
             }
             if (data.search.title != "" && data.search.title != null) {
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [this.mainServ.globalServ.convertNumber(data.search.min), this.mainServ.globalServ.convertNumber(data.search.max)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "title": { "like": data.search.title }, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [this.mainServ.globalServ.convertNumber(data.search.min), this.mainServ.globalServ.convertNumber(data.search.max)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
             }
             else
                 if (fiedsQuery.length == 0)
-                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [this.mainServ.globalServ.convertNumber(data.search.min), this.mainServ.globalServ.convertNumber(data.search.max)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
                 else
-                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [ Number(data.search.min).toFixed(25), Number(data.search.max).toFixed(25)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
+                    query = { "where": { "and": fiedsQuery, "categoryId": data.search.category, "cityId": data.search.city, "subCategoryId": data.search.subCategory, "price": { "between": [this.mainServ.globalServ.convertNumber(data.search.min), this.mainServ.globalServ.convertNumber(data.search.max)] } }, "order": "createdAt DESC", "limit": limit, "skip": skip }
 
         }
         if (!(type == 0 && isTopSearch)) {

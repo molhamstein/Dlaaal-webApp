@@ -144,4 +144,40 @@ export class GlobalService {
     this.errorDialog('حدث خطأ', "هناك مشكلة ما")
   }
 
+  convertNumber(fromNum) {
+    console.log("fromNum");
+    console.log(fromNum);
+    console.log("fromNum.length");
+    console.log(fromNum.length);
+    var result = "";
+    var number;
+    var arabicMap = {
+      '٩': 9,
+      '٨': 8,
+      '٧': 7,
+      '٦': 6,
+      '٥': 5,
+      '٤': 4,
+      '٣': 3,
+      '٢': 2,
+      '١': 1,
+      '٠': 0
+    };
+    for (var index = 0; index < fromNum.length; index++) {
+      var element = fromNum.charAt(index);
+      console.log("element");
+      console.log(element);
+      if (arabicMap[element] != null)
+        result += arabicMap[element];
+      else
+        result += element;
+    };
+    console.log("result");
+    console.log(result);
+    number = Number(result);
+    console.log("number");
+    console.log(number);
+    return number;
+  }
+
 }
