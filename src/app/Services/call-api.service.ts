@@ -44,7 +44,14 @@ export class CallApiService {
   }
 
   get(url) {
-    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+    let auth;
+    if (this.loginSer.getId() != null) {
+      auth = this.loginSer.getId();
+    } else {
+      auth = ""
+    }
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": auth }) };
+
     return this.http.get(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
     }).catch((response: Response) => {
@@ -70,7 +77,13 @@ export class CallApiService {
   }
 
   post(url, data) {
-    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+    let auth;
+    if (this.loginSer.getId() != null) {
+      auth = this.loginSer.getId();
+    } else {
+      auth = ""
+    }
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": auth }) };
 
     return this.http.post(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
@@ -91,6 +104,8 @@ export class CallApiService {
       return "E";
     });
   }
+
+
   activeAccount(url, token) {
     let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": token }) };
 
@@ -104,7 +119,14 @@ export class CallApiService {
 
 
   put(url, data) {
-    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+
+    let auth;
+    if (this.loginSer.getId() != null) {
+      auth = this.loginSer.getId();
+    } else {
+      auth = ""
+    }
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": auth }) };
 
     return this.http.put(this.baseUrl + url, data, _options).map((Response: Response) => {
       return Response;
@@ -115,7 +137,13 @@ export class CallApiService {
   }
 
   delete(url) {
-    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+    let auth;
+    if (this.loginSer.getId() != null) {
+      auth = this.loginSer.getId();
+    } else {
+      auth = ""
+    }
+    let _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": auth }) };
 
     return this.http.delete(this.baseUrl + url, _options).map((Response: Response) => {
       return Response;
@@ -130,7 +158,14 @@ export class CallApiService {
     for (var index = 0; index < length; index++) {
       fd.append("file", data[index], data[index].name)
     }
-    let _options = { headers: new HttpHeaders({ "Authorization": this.loginSer.getId() }) };
+    let auth;
+    if (this.loginSer.getId() != null) {
+      auth = this.loginSer.getId();
+    } else {
+      auth = ""
+    }
+    let _options = { headers: new HttpHeaders({ "Authorization": auth }) };
+
     return this.http.post(this.baseUrl + url, fd, _options).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {

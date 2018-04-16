@@ -87,11 +87,11 @@ export class AddAdvertisingComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id })
+                    this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -115,10 +115,10 @@ export class AddAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id ,values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, key: element.key,_id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
             this.search['fields'][index] = {};
         };
     }
@@ -143,10 +143,10 @@ export class AddAdvertisingComponent {
     }
 
     changeValue(value, indexFields) {
-      
+
         var field = this.vetcorKeyFilter[indexFields];
-      
-        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields );
+
+        this.deleteFielde(this.vetcorKeyFilter[indexFields], indexFields);
 
 
         var option = field.values.find(x => x.value == value);
@@ -158,21 +158,48 @@ export class AddAdvertisingComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id,values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key,_id: element._id })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
-      
+
     }
 
     openSelectImage() {
         document.getElementById('files').click();
     }
 
+    convertNumber(fromNum) {
+        var result = "";
+        var number;
+        var arabicMap = {
+            '٩': 9,
+            '٨': 8,
+            '٧': 7,
+            '٦': 6,
+            '٥': 5,
+            '٤': 4,
+            '٣': 3,
+            '٢': 2,
+            '١': 1,
+            '٠': 0
+        };
+        for (var index = 0; index < fromNum.length; index++) {
+            var element = fromNum.charAt(index);
+            if (arabicMap[element] != null)
+                result += arabicMap[element];
+            else
+                result += element;
+        };
+        number = Number(result);
+        return result;
+    }
+
     addAdvertising() {
+
         if (this.isAgree) {
             let fieldName = ""
             if (this.search['address'] == "" || this.search['address'] == null) {
@@ -205,7 +232,7 @@ export class AddAdvertisingComponent {
             this.search['ownerId'] = this.mainServ.loginServ.getUserId();
             if (fieldName == "") {
                 this.loader = true;
-                this.search['price']=Number(this.search['price']).toFixed(25);
+                this.search['price'] = this.convertNumber(this.search['price']);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
                     this.loader = false;
                     if (this.mainServ.APIServ.getErrorCode() == 0) {

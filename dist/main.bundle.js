@@ -74,7 +74,14 @@ var CallApiService = /** @class */ (function () {
     };
     CallApiService.prototype.get = function (url) {
         var _this = this;
-        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+        var auth;
+        if (this.loginSer.getId() != null) {
+            auth = this.loginSer.getId();
+        }
+        else {
+            auth = "";
+        }
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": auth }) };
         return this.http.get(this.baseUrl + url, _options).map(function (Response) {
             return Response;
         }).catch(function (response) {
@@ -99,7 +106,14 @@ var CallApiService = /** @class */ (function () {
     };
     CallApiService.prototype.post = function (url, data) {
         var _this = this;
-        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+        var auth;
+        if (this.loginSer.getId() != null) {
+            auth = this.loginSer.getId();
+        }
+        else {
+            auth = "";
+        }
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": auth }) };
         return this.http.post(this.baseUrl + url, data, _options).map(function (Response) {
             return Response;
         }).catch(function (Response) {
@@ -129,7 +143,14 @@ var CallApiService = /** @class */ (function () {
     };
     CallApiService.prototype.put = function (url, data) {
         var _this = this;
-        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+        var auth;
+        if (this.loginSer.getId() != null) {
+            auth = this.loginSer.getId();
+        }
+        else {
+            auth = "";
+        }
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": auth }) };
         return this.http.put(this.baseUrl + url, data, _options).map(function (Response) {
             return Response;
         }).catch(function (Response) {
@@ -139,7 +160,14 @@ var CallApiService = /** @class */ (function () {
     };
     CallApiService.prototype.delete = function (url) {
         var _this = this;
-        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": this.loginSer.getId() }) };
+        var auth;
+        if (this.loginSer.getId() != null) {
+            auth = this.loginSer.getId();
+        }
+        else {
+            auth = "";
+        }
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'Content-Type': 'application/json', "Authorization": auth }) };
         return this.http.delete(this.baseUrl + url, _options).map(function (Response) {
             return Response;
         }).catch(function (Response) {
@@ -153,7 +181,14 @@ var CallApiService = /** @class */ (function () {
         for (var index = 0; index < length; index++) {
             fd.append("file", data[index], data[index].name);
         }
-        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ "Authorization": this.loginSer.getId() }) };
+        var auth;
+        if (this.loginSer.getId() != null) {
+            auth = this.loginSer.getId();
+        }
+        else {
+            auth = "";
+        }
+        var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ "Authorization": auth }) };
         return this.http.post(this.baseUrl + url, fd, _options).map(function (Response) {
             return Response;
         }).catch(function (Response) {
@@ -321,6 +356,7 @@ var GlobalService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ngx_cookie_service__ = __webpack_require__("../../../../ngx-cookie-service/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_persistence__ = __webpack_require__("../../../../angular-persistence/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -333,52 +369,75 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LoginService = /** @class */ (function () {
-    function LoginService(cookieService, router) {
+    function LoginService(persistenceService, cookieService, router) {
+        this.persistenceService = persistenceService;
         this.cookieService = cookieService;
         this.router = router;
-    }
-    LoginService.prototype.isLogin = function () {
-        if (this.cookieService.get('dalalUserId') == "") {
-            return false;
+        if (this.cookieService.get('isRemember') == "true") {
+            this.isLogIn = this.isLoginCook();
+            this.isRemember = true;
+        }
+        else if (this.cookieService.get('isRemember') == "false") {
+            this.isLogIn = this.isLoginSet();
+            this.isRemember = false;
         }
         else {
-            return true;
+            this.isLogIn = false;
+        }
+        if (this.isLogIn) {
+            this.init();
+        }
+    }
+    LoginService.prototype.init = function () {
+        if (this.isRemember) {
+            this.userId = this.cookieService.get("dalalUserId");
+            this.id = this.cookieService.get("dalalId");
+            this.avatar = this.cookieService.get("dalalAvatar");
+        }
+        else {
+            this.userId = sessionStorage.getItem("dalalUserId");
+            this.id = sessionStorage.getItem("dalalId");
+            this.avatar = sessionStorage.getItem("dalalAvatar");
         }
     };
+    LoginService.prototype.isLogin = function () {
+        return this.isLogIn;
+    };
     LoginService.prototype.getUserId = function () {
-        var user = this.cookieService.get("dalalUserId");
-        if (user != "")
-            return user;
+        if (this.userId != "")
+            return this.userId;
     };
     LoginService.prototype.getId = function () {
-        var user = this.cookieService.get("dalalId");
-        // if (user != "")
-        return user;
+        return this.id;
+    };
+    LoginService.prototype.getAvatar = function () {
+        return this.avatar;
     };
     LoginService.prototype.logIn = function (data, rememberPass) {
         if (rememberPass === void 0) { rememberPass = true; }
-        // if (rememberPass) {
-        //   var now = new Date();
-        //   var exp = 1;
-        //   this.cookieService.set('dalalUserId', data.userIdm, exp)
-        //   this.cookieService.set('dalalId', data.id, exp);
-        //   if (data.user != null)
-        //     this.cookieService.set('dalalAvatar', data.user.avatar, exp);
-        // }
-        // else {
-        this.cookieService.set('dalalUserId', data.userId);
-        this.cookieService.set('dalalId', data.id);
-        if (data.user != null)
-            this.cookieService.set('dalalAvatar', data.user.avatar);
-        // }
-        location.reload();
+        this.isRemember = rememberPass;
+        this.isLogIn = true;
+        if (rememberPass) {
+            this.cookieService.set('isRemember', "true");
+            this.logInCook(data);
+        }
+        else {
+            this.cookieService.set('isRemember', "false");
+            this.logInSet(data);
+        }
+        this.init();
     };
     LoginService.prototype.logout = function () {
         var _this = this;
-        this.cookieService.delete('dalalUserId');
-        this.cookieService.delete('dalalId');
-        this.cookieService.delete('dalalAvatar');
+        this.cookieService.set('isRemember', "");
+        if (this.isRemember) {
+            this.logoutCook();
+        }
+        else {
+            this.logoutSet();
+        }
         if ("/myprofile/me" == this.router.url) {
             this.router.navigateByUrl('/myprofile/me').then(function () { return _this.router.navigateByUrl('/'); });
             location.reload();
@@ -390,15 +449,64 @@ var LoginService = /** @class */ (function () {
         else
             location.reload();
     };
-    LoginService.prototype.getAvatar = function () {
-        return this.cookieService.get("dalalAvatar");
-    };
     LoginService.prototype.setAvatar = function (newAvatar) {
+        if (this.isRemember) {
+            this.setAvatarCook(newAvatar);
+        }
+        else {
+            this.setAvatarSet(newAvatar);
+        }
+    };
+    LoginService.prototype.isLoginCook = function () {
+        if (this.cookieService.get('dalalUserId') == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    LoginService.prototype.logInCook = function (data) {
+        this.cookieService.set('dalalUserId', data.userId);
+        this.cookieService.set('dalalId', data.id);
+        if (data.user != null)
+            this.cookieService.set('dalalAvatar', data.user.avatar);
+        // }
+        location.reload();
+    };
+    LoginService.prototype.logoutCook = function () {
+        this.cookieService.delete('dalalUserId');
+        this.cookieService.delete('dalalId');
+        this.cookieService.delete('dalalAvatar');
+    };
+    LoginService.prototype.setAvatarCook = function (newAvatar) {
         this.cookieService.set('dalalAvatar', newAvatar);
+    };
+    LoginService.prototype.isLoginSet = function () {
+        if (sessionStorage.getItem('dalalUserId') == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    LoginService.prototype.logInSet = function (data) {
+        sessionStorage.setItem('dalalUserId', data.userId);
+        sessionStorage.setItem('dalalId', data.id);
+        if (data.user != null)
+            sessionStorage.setItem('dalalAvatar', data.user.avatar);
+        location.reload();
+    };
+    LoginService.prototype.logoutSet = function () {
+        sessionStorage.removeItem('dalalUserId');
+        sessionStorage.removeItem('dalalId');
+        sessionStorage.removeItem('dalalAvatar');
+    };
+    LoginService.prototype.setAvatarSet = function (newAvatar) {
+        sessionStorage.setItem('dalalAvatar', newAvatar);
     };
     LoginService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_angular_persistence__["b" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_2_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]])
     ], LoginService);
     return LoginService;
 }());
@@ -720,6 +828,32 @@ var AddAdvertisingComponent = /** @class */ (function () {
     AddAdvertisingComponent.prototype.openSelectImage = function () {
         document.getElementById('files').click();
     };
+    AddAdvertisingComponent.prototype.convertNumber = function (fromNum) {
+        var result = "";
+        var number;
+        var arabicMap = {
+            '٩': 9,
+            '٨': 8,
+            '٧': 7,
+            '٦': 6,
+            '٥': 5,
+            '٤': 4,
+            '٣': 3,
+            '٢': 2,
+            '١': 1,
+            '٠': 0
+        };
+        for (var index = 0; index < fromNum.length; index++) {
+            var element = fromNum.charAt(index);
+            if (arabicMap[element] != null)
+                result += arabicMap[element];
+            else
+                result += element;
+        }
+        ;
+        number = Number(result);
+        return result;
+    };
     AddAdvertisingComponent.prototype.addAdvertising = function () {
         var _this = this;
         if (this.isAgree) {
@@ -760,7 +894,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
             this.search['ownerId'] = this.mainServ.loginServ.getUserId();
             if (fieldName_1 == "") {
                 this.loader = true;
-                this.search['price'] = Number(this.search['price']).toFixed(25);
+                this.search['price'] = this.convertNumber(this.search['price']);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe(function (data) {
                     _this.loader = false;
                     if (_this.mainServ.APIServ.getErrorCode() == 0) {
@@ -1137,16 +1271,17 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__ = __webpack_require__("../../../material/esm5/slider.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__angular_material_input__ = __webpack_require__("../../../material/esm5/input.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ngx_carousel__ = __webpack_require__("../../../../ngx-carousel/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37_hammerjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_angular_persistence__ = __webpack_require__("../../../../angular-persistence/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ngx_infinite_scroll__ = __webpack_require__("../../../../ngx-infinite-scroll/modules/ngx-infinite-scroll.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__ = __webpack_require__("../../../../ngx-carousel/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38_hammerjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1195,27 +1330,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_34__angular_core__["K" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_35__angular_core__["K" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_41__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_2__edit_advertising_edit_advertising_component__["a" /* EditAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_4__activate_activate_component__["a" /* ActivateComponent */], __WEBPACK_IMPORTED_MODULE_5__reset_password_reset_password_component__["a" /* ResetPasswordComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_8__terms_terms_component__["a" /* TermsComponent */], __WEBPACK_IMPORTED_MODULE_9__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */], __WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_27__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_20__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_17__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_18__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_16__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 // Main
-                __WEBPACK_IMPORTED_MODULE_33__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_40__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_38__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_36_ngx_carousel__["a" /* NgxCarouselModule */],
+                __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_41__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_40__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__["a" /* NgxCarouselModule */], __WEBPACK_IMPORTED_MODULE_33_angular_persistence__["a" /* PersistenceModule */],
                 // Route
                 __WEBPACK_IMPORTED_MODULE_23__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_22__app_routes__["a" /* routes */], { useHash: true })
                 // material
                 ,
-                __WEBPACK_IMPORTED_MODULE_29__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_31__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_32__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_35_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__["a" /* MatSliderModule */]
+                __WEBPACK_IMPORTED_MODULE_29__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_31__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_32__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_36_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__["a" /* MatSliderModule */]
             ],
             entryComponents: [__WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
             providers: [__WEBPACK_IMPORTED_MODULE_1__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_25_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_26__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_21__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_15__Services_global_service__["a" /* GlobalService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_41__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_42__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -2345,7 +2481,7 @@ var FullScreenModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\n<div class=\"Header\">\n\t<div class=\"TopMenu\">\n\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" (click)=\"openMenu()\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu DropMenu-Top\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t<figure class=\"Avatar Avatar--lg cursorPointer\">\n\t\t\t\t\t<img src=\"{{profileImage}}\" alt=\"avatar\" routerLink=\"{{'/myprofile/me'}}\">\n\t\t\t\t</figure>\n\t\t\t</div>\n\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" (click)=\"toggleNot()\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t\t<span class=\"Badge Badge--center\"  [attr.data-badge]=\"unreadNotBeh\"></span>\n\t\t\t\t\t\t\t\t<ul class=\"NotificationMenu NotificationMenuTop\"   data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n [infiniteScrollThrottle]=\"throttle\" [scrollWindow]=\"false\" (scrolled)=\"onScrollDownNoti()\">\n\t\t\t\t\t\t\t\t\t<div *ngFor=\"let oneNot of notificationBeh\">\n\t\t\t\t\t\t\t\t\t\t<!--routerLink=\"{{'/detail/'+oneNot.advertisement.id}}\"-->\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\" [ngClass]=\"{'isReadNot' : !oneNot.isRead }\"  (click)=\"visitNot(oneNot.isRead,oneNot.advertisement.id)\" >\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"{{oneNot.advertisement.images[0]}}\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div *ngIf=\"oneNot.type=='NEW_ADS'\">\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> {{oneNot.advertisement.owner.firstName}} </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t <div *ngIf=\"oneNot.type=='SEARCH_ADS'\">\n\t\t\t\t\t\t\t\t\t\t\t\tإعلان يوافق\n\t\t\t\t\t\t\t\t\t\t\t\t<span> {{oneNot.name}} </span>\n\t\t\t\t\t\t\t\t\t\t\t \t \n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<!--<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>-->\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t<a class=\"TopMenu-item cursorPointer\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t<a class=\"TopMenu-item cursorPointer\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t</div>\n\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t<img class=\"TopMenu-item TopMenu-item--logo cursorPointer\" routerLink=\"{{''}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t</div>\n\n\t</div>\n</div>"
+module.exports = "<!--component html goes here -->\n<div class=\"Header\">\n\t<div class=\"TopMenu\">\n\t\t<div class=\"u-flex u-flexRowReverse u-flexAlignCenter u-flexJustifyStart  u-fill\">\n\t\t\t<i class=\"TopMenu-item TopMenu-item--iconDots\" (click)=\"openMenu()\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t<ul class=\"DropMenu DropMenu-Top\">\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">شروط الإستخدام </li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\">سياسة الخصوصية</li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"DropMenu-item\" (click)=\"logout()\">تسجيل الخروج</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</i>\n\t\t\t<a (click)=\"hrefAddAdv()\" class=\"TopMenu-item u-customBtn\">\n\t\t\t\t\t\t<img class=\"\" src=\"assets/imgs/w-plus.svg\" alt=\"\">\n\t\t\t\t\t\t<span class=\"u-hideOnMedium u-after10p\" >إضافة إعلان</span>\n\t\t\t\t\t</a>\n\t\t\t<div href=\"#\" class=\"u-after10p\" *ngIf=\"isLogin\">\n\t\t\t\t<figure class=\"Avatar Avatar--lg cursorPointer\">\n\t\t\t\t\t<img src=\"{{profileImage}}\" alt=\"avatar\" routerLink=\"{{'/myprofile/me'}}\">\n\t\t\t\t</figure>\n\t\t\t</div>\n\t\t\t<i class=\"TopMenu-item TopMenu-item--iconBell\" (click)=\"toggleNot()\" *ngIf=\"isLogin\">\n\t\t\t\t\t\t\t\t<span class=\"Badge Badge--center\"  [attr.data-badge]=\"unreadNotBeh\"></span>\n\t\t\t\t\t\t\t\t<ul class=\"NotificationMenu NotificationMenuTop\"   data-infinite-scroll debounce [infiniteScrollDistance]=\"scrollDistance\" [infiniteScrollUpDistance]=\"scrollUpDistance\"\n [infiniteScrollThrottle]=\"throttle\" [scrollWindow]=\"false\" (scrolled)=\"onScrollDownNoti()\">\n\t\t\t\t\t\t\t\t\t<div *ngFor=\"let oneNot of notificationBeh\">\n\t\t\t\t\t\t\t\t\t\t<!--routerLink=\"{{'/detail/'+oneNot.advertisement.id}}\"-->\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\" [ngClass]=\"{'isReadNot' : !oneNot.isRead }\"  (click)=\"visitNot(oneNot.isRead,oneNot.advertisement.id)\" >\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"{{oneNot.advertisement.images[0]}}\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div *ngIf=\"oneNot.type=='NEW_ADS'\">\n\t\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t\t<span> {{oneNot.advertisement.owner.firstName}} </span>\n\t\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t\t <div *ngIf=\"oneNot.type=='SEARCH_ADS'\">\n\t\t\t\t\t\t\t\t\t\t\t\tإعلان يوافق\n\t\t\t\t\t\t\t\t\t\t\t\t<span> {{oneNot.name}} </span>\n\t\t\t\t\t\t\t\t\t\t\t \t \n\t\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<!--<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-divider\"></li>\n\t\t\t\t\t\t\t\t<li class=\"NotificationMenu-item\">\n\t\t\t\t\t\t\t\t\t<div href=\"#\" class=\"u-after10p u-inlineBlock\">\n\t\t\t\t\t\t              <figure class=\"Avatar Avatar--lg\">\n\t\t\t\t\t\t                <img src=\"assets/imgs/avatar.jpg\" alt=\"avatar\">\n\t\t\t\t\t\t              </figure>\n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t            <div class=\"u-inlineBlock u-alignTop\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\tقام\n\t\t\t\t\t\t\t\t\t\t\t<span> أبو عبدو </span>\n\t\t\t\t\t\t\t\t\t\t \t بإضافة إعلان جديد\n\t\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t\t<span class=\"NotificationMenu-item-date\">12/12/2018</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</li>-->\n\t\t\t\t\t\t\t</ul>\n\t\t\t            </i>\n\t\t\t<a class=\"TopMenu-item cursorPointer\" (click)=\"openSignInDialog()\" *ngIf=\"!isLogin\">الدخول</a>\n\t\t\t<a class=\"TopMenu-item cursorPointer\" (click)=\"openSignUpDialog()\" *ngIf=\"!isLogin\">حساب جديد</a>\n\t\t</div>\n\t\t<div class=\"u-flexAlignSelfStart\">\n\t\t\t<img class=\"TopMenu-item TopMenu-item--logo cursorPointer\" routerLink=\"{{''}}\" src=\"assets/imgs/logo.png\" alt=\"\">\n\t\t</div>\n\n\t</div>\n</div>"
 
 /***/ }),
 

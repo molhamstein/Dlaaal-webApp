@@ -32,6 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatSliderModule} from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
+import { PersistenceModule } from 'angular-persistence';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -60,7 +61,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     // Main
-    BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,NgxCarouselModule,
+    BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,NgxCarouselModule,PersistenceModule,
     // Route
     RouterModule.forRoot(routes,{useHash: true})
     
