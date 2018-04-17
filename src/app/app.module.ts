@@ -42,6 +42,10 @@ import { NgxCarouselModule } from 'ngx-carousel';
 
 import 'hammerjs';
 import { HttpClientModule } from '@angular/common/http';
+import {ImageCompress} from "ngx-image-compress";
+import { ImageCompressService,ResizeOptions,ImageUtilityService } from 'ng2-image-compress';
+
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -69,7 +73,7 @@ import { AppComponent } from './app.component';
     ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule
   ],
   entryComponents:[ChangePasswordComponent,SaveSearchModelComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
-  providers: [MainService,CookieService,LoginService,CallApiService,GlobalService],
+  providers: [MainService,CookieService,LoginService,CallApiService,GlobalService,ImageCompressService,ResizeOptions],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

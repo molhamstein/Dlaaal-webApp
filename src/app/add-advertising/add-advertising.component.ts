@@ -2,6 +2,9 @@ import { MainService } from './../Services/main.service';
 
 import { element } from 'protractor';
 import { Component } from '@angular/core';
+import { ImageCompressService, ResizeOptions, ImageUtilityService, IImage, SourceImage } from 'ng2-image-compress';
+
+import * as Pica from 'pica/dist/pica';
 
 @Component({
     selector: 'add-advertising',
@@ -19,8 +22,11 @@ export class AddAdvertisingComponent {
     isAgree = false;
     images = [];
     imageOnLoad: any = [];
+    processedImages: any = [];
+    showTitle = false;
+
     loader;
-    constructor(public mainServ: MainService) {
+    constructor(public mainServ: MainService, private imgCompressService: ImageCompressService) {
         this.search['fields'] = [];
         this.loader = false;
     }
@@ -42,6 +48,81 @@ export class AddAdvertisingComponent {
         });
     }
 
+    maxWidth = 8000;
+    maxHeight = 5000
+    resize(filesTarget) {
+        let pica = Pica({ features: ['js', 'wasm', 'ww', 'cib'] });
+        for (var index = 0; index < filesTarget.length; index++) {
+            var fileTarget = filesTarget[index];
+            console.log(fileTarget);
+            let imageTarget = new Image();
+            imageTarget.src = fileTarget;
+            imageTarget.onload = (event) => {
+                alert("SSSS");
+                let currentWidth = imageTarget.naturalWidth || imageTarget.width;
+                console.log("currentWidth");
+                console.log(currentWidth);
+                let currentHeight = imageTarget.naturalHeight || imageTarget.height;
+                console.log("currentHeight");
+                console.log(currentHeight);
+                let newWidth = currentWidth;
+                let newHeight = currentHeight;
+                if (newWidth > this.maxWidth) {
+                    newWidth = this.maxWidth
+                    //resize height proportionally
+                    let ratio = this.maxWidth / currentWidth; //is gonna be <1
+                    newHeight = newHeight * ratio;
+                }
+                currentHeight = newHeight;
+                if (newHeight > this.maxHeight) {
+                    newHeight = this.maxHeight;
+                    //resize width proportionally
+                    let ratio = this.maxHeight / currentHeight; //is gonna be <1
+                    newWidth = newWidth * ratio;
+                }
+                if (newHeight === currentHeight && newWidth === currentWidth) {// no need to resize, upload now
+                    this.mainServ.APIServ.uploadImage("files/images/upload", fileTarget, 1).subscribe((data: any) => {
+                        this.imageOnLoad = [];
+
+                        if (this.mainServ.APIServ.getErrorCode() == 0)
+                            data.forEach(element => {
+                                this.images.push(element);
+                            });
+                        else
+                            this.mainServ.globalServ.somthingError()
+                    });
+                }
+                else {
+                    // To canvas
+                    let toCanvas: HTMLCanvasElement = document.createElement('canvas');
+                    toCanvas.width = newWidth;
+                    toCanvas.height = newHeight;
+                    pica.resize(imageTarget, toCanvas)
+                        .then(result => pica.toBlob(result, 'image/jpeg', 90))
+                        .then((blob: Blob) => {
+                            let file: any = blob;
+                            file.name = fileTarget.name;
+                            this.mainServ.APIServ.uploadImage("files/images/upload", file, 1).subscribe((data: any) => {
+                                this.imageOnLoad = [];
+
+                                if (this.mainServ.APIServ.getErrorCode() == 0)
+                                    data.forEach(element => {
+                                        this.images.push(element);
+                                    });
+                                else
+                                    this.mainServ.globalServ.somthingError()
+                            });
+
+                        })
+                        .catch(error => {
+                            console.error('resizing error:' + error.message, error);
+                        })
+                }
+            }
+
+        }
+    }
+
     releadImage(innerIndex, file) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -51,9 +132,19 @@ export class AddAdvertisingComponent {
         }
         reader.readAsDataURL(file);
     }
+
+    dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    }
     onChange(event: any) {
         let files = [].slice.call(event.target.files);
         let allFilles = event.target.files;
+        let images: any = [];
         this.imageOnLoad = Array(files.length);
         var innerIndex = 0;
         for (var i = 0; i < allFilles.length; i++) {
@@ -62,23 +153,73 @@ export class AddAdvertisingComponent {
             console.log("fromOut");
             console.log(i);
             this.releadImage(i, file);
-
+            this.resize(file)
         }
-        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
-            this.imageOnLoad = [];
-
-            if (this.mainServ.APIServ.getErrorCode() == 0)
-                data.forEach(element => {
-                    this.images.push(element);
+        let files2 = Array.from(event.target.files);
+        ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
+            observableImages.subscribe((image) => {
+                images.push(this.dataURLtoFile(image.imageDataUrl,"1"));
+            }, (error) => {
+                console.log("Error while converting");
+            }, () => {
+                this.processedImages = images;
+                this.showTitle = true;
+                console.log("files");
+                console.log(event.target.files);
+                console.log("images");
+                console.log(images);
+                this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe((data: any) => {
+                    this.imageOnLoad = [];
+                    if (this.mainServ.APIServ.getErrorCode() == 0)
+                        data.forEach(element => {
+                            this.images.push(element);
+                        });
+                    else
+                        this.mainServ.globalServ.somthingError()
                 });
-            else
-                this.mainServ.globalServ.somthingError()
+            });
         });
+        // ImageCompressService.filesToCompressedImageSource(event.target.files).then(observableImages => {
+        //     observableImages.subscribe((image) => {
+        //         images.push(image.compressedImage);
+        //     }, (error) => {
+        //         console.log("Error while converting");
+        //     }, () => {
+        //         console.log("files");
+        //         console.log(event.target.files);
+        //         console.log("images");
+        //         console.log(images);
+        //         this.processedImages = images;
+        //         this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
+        //             this.imageOnLoad = [];
+
+        //             if (this.mainServ.APIServ.getErrorCode() == 0)
+        //                 data.forEach(element => {
+        //                     this.images.push(element);
+        //                 });
+        //             else
+        //                 this.mainServ.globalServ.somthingError()
+        //         });
+        //         this.showTitle = true;
+        //     });
+        // });
+
     }
 
+    compare(a, b) {
+        if (a.priority < b.priority)
+            return 1;
+        if (a.priority > b.priority)
+            return -1;
+        return 0;
+    }
+
+
     changeCategory(categortID) {
-        this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
-        this.keyFilter = this.categories.find(x => x.id == categortID).fields;
+        this.search["subCategoryId"];
+        this.keyFilter = [];
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
+        this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
             this.keyFilter.forEach((element, index) => {
@@ -94,6 +235,7 @@ export class AddAdvertisingComponent {
                     this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
+        this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
 
     }
 
@@ -108,7 +250,11 @@ export class AddAdvertisingComponent {
         newFields.forEach(element => {
             this.keyFilter.push(element);
         });
-        for (var index = lastLength; index < this.keyFilter.length; index++) {
+
+        this.vetcorKeyFilter = []
+        this.keyFilter.sort(this.compare);
+
+        for (var index = 0; index < this.keyFilter.length; index++) {
             var element = this.keyFilter[index];
             if (element.type == "choose") {
                 var tempValue = [];
@@ -123,13 +269,6 @@ export class AddAdvertisingComponent {
         };
     }
 
-    // changeSubCategory(subCategoryID) {
-    //     this.search['fields'] = [];
-    //     this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
-    //     this.keyFilter.forEach((element, index) => {
-    //         this.search['fields'][index] = {};
-    //     });
-    // }
 
     deleteFielde(field, indexFields) {
         var length = field.lengthChilde;
@@ -175,7 +314,7 @@ export class AddAdvertisingComponent {
 
 
     addAdvertising() {
-
+        this.search['fields'] = [];
         if (this.isAgree) {
             let fieldName = ""
             if (this.search['address'] == "" || this.search['address'] == null) {
@@ -194,11 +333,13 @@ export class AddAdvertisingComponent {
                 fieldName = "شرح"
             }
             this.vetcorKeyFilter.forEach((element, index) => {
-                this.search['fields'][index].key = element.key;
-                this.search['fields'][index].type = element.type;
-                this.search['fields'][index]._id = element._id;
-                if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
-                    fieldName = element.key;
+                if (element.key == null) {
+                    this.search['fields'][index].key = element.key;
+                    this.search['fields'][index].type = element.type;
+                    this.search['fields'][index]._id = element._id;
+                    if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
+                        fieldName = element.key;
+                    }
                 }
             });
             this.search['images'] = this.images
@@ -229,7 +370,10 @@ export class AddAdvertisingComponent {
         }
     }
 
+
     deleteImage(index) {
         this.images.splice(index, 1);
     }
+
+
 }

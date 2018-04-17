@@ -153,7 +153,9 @@ export class EditAdvertisingComponent {
 
     changeCategory(categortID) {
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
-        this.keyFilter = this.categories.find(x => x.id == categortID).fields;
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
+
+        // this.keyFilter = this.categories.find(x => x.id == categortID).fields;
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
             this.keyFilter.forEach((element, index) => {

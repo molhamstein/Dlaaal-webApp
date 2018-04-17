@@ -179,6 +179,9 @@ var CallApiService = /** @class */ (function () {
         var _this = this;
         var fd = new FormData();
         for (var index = 0; index < length; index++) {
+            if (data[index].size > 5000)
+                // data[index].size = 5000
+                console.log(data[index].size);
             fd.append("file", data[index], data[index].name);
         }
         var auth;
@@ -197,7 +200,7 @@ var CallApiService = /** @class */ (function () {
         });
     };
     CallApiService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["C" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_0__login_service__["a" /* LoginService */]])
     ], CallApiService);
     return CallApiService;
@@ -374,7 +377,7 @@ var GlobalService = /** @class */ (function () {
         return number;
     };
     GlobalService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["C" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_0__call_api_service__["a" /* CallApiService */]])
     ], GlobalService);
     return GlobalService;
@@ -541,7 +544,7 @@ var LoginService = /** @class */ (function () {
         sessionStorage.setItem('dalalAvatar', newAvatar);
     };
     LoginService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["C" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_angular_persistence__["b" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_2_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]])
     ], LoginService);
     return LoginService;
@@ -580,7 +583,7 @@ var MainService = /** @class */ (function () {
         this.globalServ = globalServ;
     }
     MainService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["C" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_1__login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_0__global_service__["a" /* GlobalService */]])
     ], MainService);
     return MainService;
@@ -662,7 +665,7 @@ var ActivateComponent = /** @class */ (function () {
         $("html, body").animate({ scrollTop: 0 }, "slow");
     };
     ActivateComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Component"])({
             selector: 'activate',
             template: __webpack_require__("../../../../../src/app/activate/activate.component.html"),
             styles: [__webpack_require__("../../../../../src/app/activate/activate.component.scss")]
@@ -679,7 +682,7 @@ var ActivateComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/add-advertising/add-advertising.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                إضافة إعلان جديد\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\">\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of vetcorKeyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" (change)=\"changeValue($event.target.value,i)\" [(ngModel)]=\"search.fields[i].value\"\n                                class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let oneValue of oneKey.values\" value=\"{{oneValue.value}}\" >{{oneValue.value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>\n                            <div class=\"AddNewForm-btn\" [ngStyle]=\"{'background-color':  isAgree ? '#257310' : '#257310a1'}\" (click)=\"addAdvertising()\">\n                                إضافة إعلان\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>\n<!--\n<div class=\"Footer\">\n\n    <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n            عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n            <div class=\"Footer-about-bar-item\">\n                شروط الاستخدام\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                سياسية الخصوصية\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                تواصل معنا\n            </div>\n        </div>\n    </div>\n    <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n            تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n            </div>\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n            </div>\n        </div>\n\n    </div>\n    <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n            All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n            <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n    </div>\n</div>-->"
+module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                إضافة إعلان جديد\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\">\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        {{vetcorKeyFilter | json}}\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of vetcorKeyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" (change)=\"changeValue($event.target.value,i)\" [(ngModel)]=\"search.fields[i].value\"\n                                class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let oneValue of oneKey.values\" value=\"{{oneValue.value}}\" >{{oneValue.value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n                            \n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>\n                            <div class=\"AddNewForm-btn\" [ngStyle]=\"{'background-color':  isAgree ? '#257310' : '#257310a1'}\" (click)=\"addAdvertising()\">\n                                إضافة إعلان\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>\n<!--\n<div class=\"Footer\">\n\n    <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n            عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n            <div class=\"Footer-about-bar-item\">\n                شروط الاستخدام\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                سياسية الخصوصية\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                تواصل معنا\n            </div>\n        </div>\n    </div>\n    <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n            تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n            </div>\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n            </div>\n        </div>\n\n    </div>\n    <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n            All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n            <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n    </div>\n</div>-->"
 
 /***/ }),
 
@@ -708,6 +711,10 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddAdvertisingComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_main_service__ = __webpack_require__("../../../../../src/app/Services/main.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__ = __webpack_require__("../../../../ng2-image-compress/ng2-image-compress.umd.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__ = __webpack_require__("../../../../pica/dist/pica.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -719,15 +726,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var AddAdvertisingComponent = /** @class */ (function () {
-    function AddAdvertisingComponent(mainServ) {
+    function AddAdvertisingComponent(mainServ, imgCompressService) {
         this.mainServ = mainServ;
+        this.imgCompressService = imgCompressService;
         this.keyFilter = [];
         this.vetcorKeyFilter = [];
         this.search = {};
         this.isAgree = false;
         this.images = [];
         this.imageOnLoad = [];
+        this.processedImages = [];
+        this.showTitle = false;
+        this.maxWidth = 8000;
+        this.maxHeight = 5000;
         this.search['fields'] = [];
         this.loader = false;
     }
@@ -747,6 +761,79 @@ var AddAdvertisingComponent = /** @class */ (function () {
                 _this.mainServ.globalServ.somthingError();
         });
     };
+    AddAdvertisingComponent.prototype.resize = function (filesTarget) {
+        var _this = this;
+        var pica = __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__({ features: ['js', 'wasm', 'ww', 'cib'] });
+        var _loop_1 = function () {
+            fileTarget = filesTarget[index];
+            console.log(fileTarget);
+            var imageTarget = new Image();
+            imageTarget.src = fileTarget;
+            imageTarget.onload = function (event) {
+                alert("SSSS");
+                var currentWidth = imageTarget.naturalWidth || imageTarget.width;
+                console.log("currentWidth");
+                console.log(currentWidth);
+                var currentHeight = imageTarget.naturalHeight || imageTarget.height;
+                console.log("currentHeight");
+                console.log(currentHeight);
+                var newWidth = currentWidth;
+                var newHeight = currentHeight;
+                if (newWidth > _this.maxWidth) {
+                    newWidth = _this.maxWidth;
+                    //resize height proportionally
+                    var ratio = _this.maxWidth / currentWidth; //is gonna be <1
+                    newHeight = newHeight * ratio;
+                }
+                currentHeight = newHeight;
+                if (newHeight > _this.maxHeight) {
+                    newHeight = _this.maxHeight;
+                    //resize width proportionally
+                    var ratio = _this.maxHeight / currentHeight; //is gonna be <1
+                    newWidth = newWidth * ratio;
+                }
+                if (newHeight === currentHeight && newWidth === currentWidth) {
+                    _this.mainServ.APIServ.uploadImage("files/images/upload", fileTarget, 1).subscribe(function (data) {
+                        _this.imageOnLoad = [];
+                        if (_this.mainServ.APIServ.getErrorCode() == 0)
+                            data.forEach(function (element) {
+                                _this.images.push(element);
+                            });
+                        else
+                            _this.mainServ.globalServ.somthingError();
+                    });
+                }
+                else {
+                    // To canvas
+                    var toCanvas = document.createElement('canvas');
+                    toCanvas.width = newWidth;
+                    toCanvas.height = newHeight;
+                    pica.resize(imageTarget, toCanvas)
+                        .then(function (result) { return pica.toBlob(result, 'image/jpeg', 90); })
+                        .then(function (blob) {
+                        var file = blob;
+                        file.name = fileTarget.name;
+                        _this.mainServ.APIServ.uploadImage("files/images/upload", file, 1).subscribe(function (data) {
+                            _this.imageOnLoad = [];
+                            if (_this.mainServ.APIServ.getErrorCode() == 0)
+                                data.forEach(function (element) {
+                                    _this.images.push(element);
+                                });
+                            else
+                                _this.mainServ.globalServ.somthingError();
+                        });
+                    })
+                        .catch(function (error) {
+                        console.error('resizing error:' + error.message, error);
+                    });
+                }
+            };
+        };
+        var fileTarget;
+        for (var index = 0; index < filesTarget.length; index++) {
+            _loop_1();
+        }
+    };
     AddAdvertisingComponent.prototype.releadImage = function (innerIndex, file) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -756,10 +843,18 @@ var AddAdvertisingComponent = /** @class */ (function () {
         };
         reader.readAsDataURL(file);
     };
+    AddAdvertisingComponent.prototype.dataURLtoFile = function (dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    };
     AddAdvertisingComponent.prototype.onChange = function (event) {
         var _this = this;
         var files = [].slice.call(event.target.files);
         var allFilles = event.target.files;
+        var images = [];
         this.imageOnLoad = Array(files.length);
         var innerIndex = 0;
         for (var i = 0; i < allFilles.length; i++) {
@@ -768,21 +863,69 @@ var AddAdvertisingComponent = /** @class */ (function () {
             console.log("fromOut");
             console.log(i);
             this.releadImage(i, file);
+            this.resize(file);
         }
-        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe(function (data) {
-            _this.imageOnLoad = [];
-            if (_this.mainServ.APIServ.getErrorCode() == 0)
-                data.forEach(function (element) {
-                    _this.images.push(element);
+        var files2 = Array.from(event.target.files);
+        __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__["ImageCompressService"].filesArrayToCompressedImageSource(files).then(function (observableImages) {
+            observableImages.subscribe(function (image) {
+                images.push(_this.dataURLtoFile(image.imageDataUrl, "1"));
+            }, function (error) {
+                console.log("Error while converting");
+            }, function () {
+                _this.processedImages = images;
+                _this.showTitle = true;
+                console.log("files");
+                console.log(event.target.files);
+                console.log("images");
+                console.log(images);
+                _this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe(function (data) {
+                    _this.imageOnLoad = [];
+                    if (_this.mainServ.APIServ.getErrorCode() == 0)
+                        data.forEach(function (element) {
+                            _this.images.push(element);
+                        });
+                    else
+                        _this.mainServ.globalServ.somthingError();
                 });
-            else
-                _this.mainServ.globalServ.somthingError();
+            });
         });
+        // ImageCompressService.filesToCompressedImageSource(event.target.files).then(observableImages => {
+        //     observableImages.subscribe((image) => {
+        //         images.push(image.compressedImage);
+        //     }, (error) => {
+        //         console.log("Error while converting");
+        //     }, () => {
+        //         console.log("files");
+        //         console.log(event.target.files);
+        //         console.log("images");
+        //         console.log(images);
+        //         this.processedImages = images;
+        //         this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, files.length).subscribe((data: any) => {
+        //             this.imageOnLoad = [];
+        //             if (this.mainServ.APIServ.getErrorCode() == 0)
+        //                 data.forEach(element => {
+        //                     this.images.push(element);
+        //                 });
+        //             else
+        //                 this.mainServ.globalServ.somthingError()
+        //         });
+        //         this.showTitle = true;
+        //     });
+        // });
+    };
+    AddAdvertisingComponent.prototype.compare = function (a, b) {
+        if (a.priority < b.priority)
+            return 1;
+        if (a.priority > b.priority)
+            return -1;
+        return 0;
     };
     AddAdvertisingComponent.prototype.changeCategory = function (categortID) {
         var _this = this;
-        this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
-        this.keyFilter = this.categories.find(function (x) { return x.id == categortID; }).fields;
+        this.search["subCategoryId"];
+        this.keyFilter = [];
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(function (x) { return x.id == categortID; }).fields));
+        this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
             this.keyFilter.forEach(function (element, index) {
@@ -797,6 +940,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
                     _this.vetcorKeyFilter.push({ type: element.type, key: element.key, _id: element._id });
                 _this.search['fields'][index] = {};
             });
+        this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
     };
     AddAdvertisingComponent.prototype.changeSubCategory = function (subCategoryID) {
         var _this = this;
@@ -810,7 +954,9 @@ var AddAdvertisingComponent = /** @class */ (function () {
         newFields.forEach(function (element) {
             _this.keyFilter.push(element);
         });
-        for (var index = lastLength; index < this.keyFilter.length; index++) {
+        this.vetcorKeyFilter = [];
+        this.keyFilter.sort(this.compare);
+        for (var index = 0; index < this.keyFilter.length; index++) {
             var element = this.keyFilter[index];
             if (element.type == "choose") {
                 var tempValue = [];
@@ -825,13 +971,6 @@ var AddAdvertisingComponent = /** @class */ (function () {
         }
         ;
     };
-    // changeSubCategory(subCategoryID) {
-    //     this.search['fields'] = [];
-    //     this.keyFilter = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
-    //     this.keyFilter.forEach((element, index) => {
-    //         this.search['fields'][index] = {};
-    //     });
-    // }
     AddAdvertisingComponent.prototype.deleteFielde = function (field, indexFields) {
         var length = field.lengthChilde;
         for (var indexDel = 0; indexDel < length; indexDel++) {
@@ -866,6 +1005,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
     };
     AddAdvertisingComponent.prototype.addAdvertising = function () {
         var _this = this;
+        this.search['fields'] = [];
         if (this.isAgree) {
             var fieldName_1 = "";
             if (this.search['address'] == "" || this.search['address'] == null) {
@@ -890,11 +1030,13 @@ var AddAdvertisingComponent = /** @class */ (function () {
                 fieldName_1 = "شرح";
             }
             this.vetcorKeyFilter.forEach(function (element, index) {
-                _this.search['fields'][index].key = element.key;
-                _this.search['fields'][index].type = element.type;
-                _this.search['fields'][index]._id = element._id;
-                if ((_this.search['fields'][index].value == "" || _this.search['fields'][index].value == null) && fieldName_1 == "") {
-                    fieldName_1 = element.key;
+                if (element.key == null) {
+                    _this.search['fields'][index].key = element.key;
+                    _this.search['fields'][index].type = element.type;
+                    _this.search['fields'][index]._id = element._id;
+                    if ((_this.search['fields'][index].value == "" || _this.search['fields'][index].value == null) && fieldName_1 == "") {
+                        fieldName_1 = element.key;
+                    }
                 }
             });
             this.search['images'] = this.images;
@@ -929,12 +1071,12 @@ var AddAdvertisingComponent = /** @class */ (function () {
         this.images.splice(index, 1);
     };
     AddAdvertisingComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'add-advertising',
             template: __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.html"),
             styles: [__webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__["ImageCompressService"]])
     ], AddAdvertisingComponent);
     return AddAdvertisingComponent;
 }());
@@ -1145,11 +1287,11 @@ var AdvertisingComponent = /** @class */ (function () {
         });
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_2__header_header_component__["a" /* HeaderComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2__header_header_component__["a" /* HeaderComponent */]),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2__header_header_component__["a" /* HeaderComponent */])
     ], AdvertisingComponent.prototype, "headerChild", void 0);
     AdvertisingComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["Component"])({
             selector: 'advertising',
             template: __webpack_require__("../../../../../src/app/advertising/advertising.component.html"),
             styles: [__webpack_require__("../../../../../src/app/advertising/advertising.component.scss")]
@@ -1231,7 +1373,7 @@ var AppComponent = /** @class */ (function () {
         });
     };
     AppComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["Component"])({
             selector: 'app-root',
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
@@ -1291,9 +1433,11 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38_hammerjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__ = __webpack_require__("../../../../ng2-image-compress/ng2-image-compress.umd.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1343,18 +1487,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_35__angular_core__["K" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_35__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_42__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_2__edit_advertising_edit_advertising_component__["a" /* EditAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_4__activate_activate_component__["a" /* ActivateComponent */], __WEBPACK_IMPORTED_MODULE_5__reset_password_reset_password_component__["a" /* ResetPasswordComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_8__terms_terms_component__["a" /* TermsComponent */], __WEBPACK_IMPORTED_MODULE_9__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */], __WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_27__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_20__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_17__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_18__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_16__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 // Main
-                __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_41__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_40__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__["a" /* NgxCarouselModule */], __WEBPACK_IMPORTED_MODULE_33_angular_persistence__["a" /* PersistenceModule */],
+                __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_42__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_41__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__["a" /* NgxCarouselModule */], __WEBPACK_IMPORTED_MODULE_33_angular_persistence__["a" /* PersistenceModule */],
                 // Route
                 __WEBPACK_IMPORTED_MODULE_23__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_22__app_routes__["a" /* routes */], { useHash: true })
                 // material
@@ -1362,8 +1507,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_29__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_31__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_32__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_36_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__["a" /* MatSliderModule */]
             ],
             entryComponents: [__WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_1__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_25_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_26__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_21__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_15__Services_global_service__["a" /* GlobalService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_42__app_component__["a" /* AppComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_1__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_25_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_26__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_21__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_15__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__["ImageCompressService"], __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__["ResizeOptions"]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_43__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -1510,7 +1655,7 @@ var ChangePasswordComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     ChangePasswordComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Component"])({
             selector: 'change-password',
             template: __webpack_require__("../../../../../src/app/change-password/change-password.component.html"),
             styles: [__webpack_require__("../../../../../src/app/change-password/change-password.component.scss")]
@@ -1527,7 +1672,7 @@ var ChangePasswordComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/communiction-modal/communiction-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label>  {{data.phone}}:للتواصل مع صاحب الإعلان </label> \n        <br>\n        <label>\n        أو عن طريق زيارة \n        <a (click)=\"goToPage()\" style=\"color: #257310\">صفحته الشخصية</a>\n        </label>\n    </div>\n</div>"
+module.exports = "<div class=\"SignInModule\">\n    <div class=\"SignInModule-header\" style=\"direction: rtl;\">\n        <div class=\"SignInModule-header-title\">\n            معلومات الاتصال\n        </div>\n        <div class=\"SignInModule-header-close\" (click)=\"closeModal()\">\n        </div>\n    </div>\n    <div class=\"SignInModule-body\">\n        <label style=\"    text-align: center;width: 100%;\">  {{data.phone}}:للتواصل مع صاحب الإعلان </label> \n        <br>\n        <label>\n        أو عن طريق زيارة \n        <a (click)=\"goToPage()\" style=\"color: #257310\">صفحته الشخصية</a>\n        </label>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1582,12 +1727,12 @@ var CommunictionModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     CommunictionModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'communiction-modal',
             template: __webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/communiction-modal/communiction-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], CommunictionModalComponent);
     return CommunictionModalComponent;
@@ -1678,7 +1823,7 @@ var ContactUsModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     ContactUsModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'contact-us-modal',
             template: __webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/contact-us-modal/contact-us-modal.component.scss")]
@@ -1872,7 +2017,8 @@ var EditAdvertisingComponent = /** @class */ (function () {
     EditAdvertisingComponent.prototype.changeCategory = function (categortID) {
         var _this = this;
         this.subCategories = this.categories.find(function (x) { return x.id == categortID; }).subCategories;
-        this.keyFilter = this.categories.find(function (x) { return x.id == categortID; }).fields;
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(function (x) { return x.id == categortID; }).fields));
+        // this.keyFilter = this.categories.find(x => x.id == categortID).fields;
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
             this.keyFilter.forEach(function (element, index) {
@@ -2038,7 +2184,7 @@ var EditAdvertisingComponent = /** @class */ (function () {
         this.images.splice(index, 1);
     };
     EditAdvertisingComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'edit-advertising',
             template: __webpack_require__("../../../../../src/app/edit-advertising/edit-advertising.component.html"),
             styles: [__webpack_require__("../../../../../src/app/edit-advertising/edit-advertising.component.scss")]
@@ -2126,12 +2272,12 @@ var EditOrDeactiveModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     EditOrDeactiveModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'edit-or-deactive-modal',
             template: __webpack_require__("../../../../../src/app/edit-or-deactive-modal/edit-or-deactive-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/edit-or-deactive-modal/edit-or-deactive-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], Object])
     ], EditOrDeactiveModalComponent);
     return EditOrDeactiveModalComponent;
@@ -2244,12 +2390,12 @@ var EditProfileComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     EditProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'edit-profile',
             template: __webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.html"),
             styles: [__webpack_require__("../../../../../src/app/edit-profile/edit-profile.component.scss")]
         }),
-        __param(3, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(3, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_3__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], EditProfileComponent);
     return EditProfileComponent;
@@ -2319,12 +2465,12 @@ var ErrorModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     ErrorModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'error-modal',
             template: __webpack_require__("../../../../../src/app/error-modal/error-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/error-modal/error-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(1, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ErrorModalComponent);
     return ErrorModalComponent;
@@ -2407,12 +2553,12 @@ var ForgetPasswordModalComponent = /** @class */ (function () {
         });
     };
     ForgetPasswordModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'forget-password-modal',
             template: __webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/forget-password-modal/forget-password-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ForgetPasswordModalComponent);
     return ForgetPasswordModalComponent;
@@ -2475,12 +2621,12 @@ var FullScreenModalComponent = /** @class */ (function () {
         this.URL = this.data.URL;
     }
     FullScreenModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'full-screen-modal',
             template: __webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/full-screen-modal/full-screen-modal.component.scss")]
         }),
-        __param(1, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(1, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], FullScreenModalComponent);
     return FullScreenModalComponent;
@@ -2652,7 +2798,7 @@ var HeaderComponent = /** @class */ (function () {
         }
     };
     HeaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_5__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_5__angular_core__["Component"])({
             selector: 'header',
             template: __webpack_require__("../../../../../src/app/header/header.component.html"),
             styles: [__webpack_require__("../../../../../src/app/header/header.component.scss")]
@@ -3091,7 +3237,7 @@ var HomePageComponent = /** @class */ (function () {
     HomePageComponent.prototype.changeCategory = function (categoryID) {
         var _this = this;
         this.subCategories = this.mainCategories.find(function (x) { return x.id == categoryID; }).subCategories;
-        this.keyFilter = this.mainCategories.find(function (x) { return x.id == categoryID; }).fields;
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(function (x) { return x.id == categoryID; }).fields));
         this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
@@ -3213,7 +3359,7 @@ var HomePageComponent = /** @class */ (function () {
         });
     };
     HomePageComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["Component"])({
             selector: 'home-page',
             template: __webpack_require__("../../../../../src/app/home-page/home-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/home-page/home-page.component.scss")]
@@ -3324,7 +3470,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
         $("html, body").animate({ scrollTop: 0 }, "slow");
     };
     PrivacyPolicyComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'privacy-policy',
             template: __webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.html"),
             styles: [__webpack_require__("../../../../../src/app/privacy-policy/privacy-policy.component.scss")]
@@ -3661,11 +3807,11 @@ var ProfileComponent = /** @class */ (function () {
         this.mainServ.globalServ.goTo("/");
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__header_header_component__["a" /* HeaderComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_1__header_header_component__["a" /* HeaderComponent */]),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__header_header_component__["a" /* HeaderComponent */])
     ], ProfileComponent.prototype, "headerChild", void 0);
     ProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["Component"])({
             selector: 'profile',
             template: __webpack_require__("../../../../../src/app/profile/profile.component.html"),
             styles: [__webpack_require__("../../../../../src/app/profile/profile.component.scss")]
@@ -3759,12 +3905,12 @@ var ReportModalComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     ReportModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'report-modal',
             template: __webpack_require__("../../../../../src/app/report-modal/report-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/report-modal/report-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_1__angular_material_dialog__["d" /* MatDialogRef */], Object])
     ], ReportModalComponent);
     return ReportModalComponent;
@@ -3852,7 +3998,7 @@ var ResetPasswordComponent = /** @class */ (function () {
         });
     };
     ResetPasswordComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Component"])({
             selector: 'reset-password',
             template: __webpack_require__("../../../../../src/app/reset-password/reset-password.component.html"),
             styles: [__webpack_require__("../../../../../src/app/reset-password/reset-password.component.scss")]
@@ -3926,7 +4072,7 @@ var SaveSearchModelComponent = /** @class */ (function () {
             this.thisDialog.close({ "saveName": this.saveName });
     };
     SaveSearchModelComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'save-search-model',
             template: __webpack_require__("../../../../../src/app/save-search-model/save-search-model.component.html"),
             styles: [__webpack_require__("../../../../../src/app/save-search-model/save-search-model.component.scss")]
@@ -4021,12 +4167,12 @@ var SignInModalComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     SignInModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'sign-in-modal',
             template: __webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sign-in-modal/sign-in-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], Object])
     ], SignInModalComponent);
     return SignInModalComponent;
@@ -4140,12 +4286,12 @@ var SignUpModalComponent = /** @class */ (function () {
         this.thisDialog.close();
     };
     SignUpModalComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'sign-up-modal',
             template: __webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sign-up-modal/sign-up-modal.component.scss")]
         }),
-        __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["a" /* MAT_DIALOG_DATA */])),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_material_dialog__["d" /* MatDialogRef */], __WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], Object])
     ], SignUpModalComponent);
     return SignUpModalComponent;
@@ -4200,7 +4346,7 @@ var TermsComponent = /** @class */ (function () {
         $("html, body").animate({ scrollTop: 0 }, "slow");
     };
     TermsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'terms',
             template: __webpack_require__("../../../../../src/app/terms/terms.component.html"),
             styles: [__webpack_require__("../../../../../src/app/terms/terms.component.scss")]
@@ -4250,7 +4396,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* enableProdMode */])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */])
     .catch(function (err) { return console.log(err); });

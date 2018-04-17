@@ -433,7 +433,7 @@ export class HomePageComponent {
 
     changeCategory(categoryID) {
         this.subCategories = this.mainCategories.find(x => x.id == categoryID).subCategories;
-        this.keyFilter = this.mainCategories.find(x => x.id == categoryID).fields;
+        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categoryID).fields));
         this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
