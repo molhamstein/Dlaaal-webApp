@@ -152,7 +152,7 @@ export class AddAdvertisingComponent {
         //   )
         files.forEach((fileElement,index) => {
             let countDelete=0
-            this.ng2ImgMaxService.compress([fileElement], 3).subscribe((result) => {
+            this.ng2ImgMaxService.compress([fileElement], 0.05).subscribe((result) => {
                 this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe((data: any) => {
                     this.imageOnLoad=[];
                     countDelete++;

@@ -856,7 +856,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
         //   )
         files.forEach(function (fileElement, index) {
             var countDelete = 0;
-            _this.ng2ImgMaxService.compress([fileElement], 3).subscribe(function (result) {
+            _this.ng2ImgMaxService.compress([fileElement], 0.05).subscribe(function (result) {
                 _this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe(function (data) {
                     _this.imageOnLoad = [];
                     countDelete++;
