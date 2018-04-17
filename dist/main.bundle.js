@@ -192,7 +192,7 @@ var CallApiService = /** @class */ (function () {
             auth = "";
         }
         var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ "Authorization": auth }) };
-        return this.http.post(this.baseUrl + url, fd, _options).map(function (Response) {
+        return this.http.post(this.baseUrl + url, fd, _options).timeout(15000).map(function (Response) {
             return Response;
         }).catch(function (Response) {
             _this.errorCode = Response.status;
@@ -856,7 +856,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
         //   )
         files.forEach(function (fileElement, index) {
             var countDelete = 0;
-            _this.ng2ImgMaxService.compress([fileElement], 0.05).subscribe(function (result) {
+            _this.ng2ImgMaxService.compress([fileElement], 0.5, true, true).subscribe(function (result) {
                 _this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe(function (data) {
                     _this.imageOnLoad = [];
                     countDelete++;

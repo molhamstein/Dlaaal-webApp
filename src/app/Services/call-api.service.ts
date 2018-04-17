@@ -169,7 +169,7 @@ export class CallApiService {
     }
     let _options = { headers: new HttpHeaders({ "Authorization": auth }) };
 
-    return this.http.post(this.baseUrl + url, fd, _options).map((Response: Response) => {
+    return this.http.post(this.baseUrl + url, fd, _options).timeout(15000).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
       this.errorCode = Response.status;
