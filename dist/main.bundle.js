@@ -192,7 +192,7 @@ var CallApiService = /** @class */ (function () {
             auth = "";
         }
         var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ "Authorization": auth }) };
-        return this.http.post(this.baseUrl + url, fd, _options).timeout(15000).map(function (Response) {
+        return this.http.post(this.baseUrl + url, fd, _options).timeout(45000).map(function (Response) {
             return Response;
         }).catch(function (Response) {
             _this.errorCode = Response.status;
