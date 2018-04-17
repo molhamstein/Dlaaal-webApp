@@ -34,7 +34,6 @@
             <div class="AddNewContainer">
                 <div class="AddNewForm">
                     <div class="AddNewForm-column">
-                        {{vetcorKeyFilter | json}}
                         <div class="AddNewForm-inputcontainer">
                             <select [(ngModel)]="search.cityId" class="AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg">
                                 <option [ngValue]="undefined" selected>اختر المدينة</option>
@@ -100,7 +99,7 @@
 
 
                             <div (click)="openSelectImage()" for="file" class="AddNewForm-imagescontainer-browseimage cursorPointer">
-                                <input multiple type="file" style="display:none" id="files" (change)="onChange($event)" />
+                                <input multiple type="file" style="display:none" id="files" accept="image/*" (change)="onChange($event)" />
                                 <img src="assets/imgs/browse.png" />
                             </div>
                         </div>

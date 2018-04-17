@@ -156,9 +156,9 @@ export class CallApiService {
   uploadImage(url, data, length) {
     let fd = new FormData();
     for (var index = 0; index < length; index++) {
-      if (data[index].size > 5000)
-        // data[index].size = 5000
-      console.log(data[index].size);
+      // if (data[index].size > 5000)
+      //   // data[index].size = 5000
+      // console.log(data[index].size);
       fd.append("file", data[index], data[index].name)
     }
     let auth;

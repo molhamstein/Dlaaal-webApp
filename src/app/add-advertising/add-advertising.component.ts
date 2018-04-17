@@ -6,6 +6,9 @@ import { ImageCompressService, ResizeOptions, ImageUtilityService, IImage, Sourc
 
 import * as Pica from 'pica/dist/pica';
 
+import { Ng2ImgMaxService } from 'ng2-img-max';
+
+
 @Component({
     selector: 'add-advertising',
     templateUrl: 'add-advertising.component.html',
@@ -26,7 +29,7 @@ export class AddAdvertisingComponent {
     showTitle = false;
 
     loader;
-    constructor(public mainServ: MainService, private imgCompressService: ImageCompressService) {
+    constructor(public mainServ: MainService, public ng2ImgMaxService: Ng2ImgMaxService, private imgCompressService: ImageCompressService) {
         this.search['fields'] = [];
         this.loader = false;
     }
@@ -52,76 +55,55 @@ export class AddAdvertisingComponent {
     maxHeight = 5000
     resize(filesTarget) {
         let pica = Pica({ features: ['js', 'wasm', 'ww', 'cib'] });
-        for (var index = 0; index < filesTarget.length; index++) {
-            var fileTarget = filesTarget[index];
-            console.log(fileTarget);
-            let imageTarget = new Image();
-            imageTarget.src = fileTarget;
-            imageTarget.onload = (event) => {
-                alert("SSSS");
-                let currentWidth = imageTarget.naturalWidth || imageTarget.width;
-                console.log("currentWidth");
-                console.log(currentWidth);
-                let currentHeight = imageTarget.naturalHeight || imageTarget.height;
-                console.log("currentHeight");
-                console.log(currentHeight);
-                let newWidth = currentWidth;
-                let newHeight = currentHeight;
-                if (newWidth > this.maxWidth) {
-                    newWidth = this.maxWidth
-                    //resize height proportionally
-                    let ratio = this.maxWidth / currentWidth; //is gonna be <1
-                    newHeight = newHeight * ratio;
-                }
-                currentHeight = newHeight;
-                if (newHeight > this.maxHeight) {
-                    newHeight = this.maxHeight;
-                    //resize width proportionally
-                    let ratio = this.maxHeight / currentHeight; //is gonna be <1
-                    newWidth = newWidth * ratio;
-                }
-                if (newHeight === currentHeight && newWidth === currentWidth) {// no need to resize, upload now
-                    this.mainServ.APIServ.uploadImage("files/images/upload", fileTarget, 1).subscribe((data: any) => {
-                        this.imageOnLoad = [];
+        alert("SSS")
 
-                        if (this.mainServ.APIServ.getErrorCode() == 0)
-                            data.forEach(element => {
-                                this.images.push(element);
-                            });
-                        else
-                            this.mainServ.globalServ.somthingError()
-                    });
-                }
-                else {
-                    // To canvas
-                    let toCanvas: HTMLCanvasElement = document.createElement('canvas');
-                    toCanvas.width = newWidth;
-                    toCanvas.height = newHeight;
-                    pica.resize(imageTarget, toCanvas)
-                        .then(result => pica.toBlob(result, 'image/jpeg', 90))
-                        .then((blob: Blob) => {
-                            let file: any = blob;
-                            file.name = fileTarget.name;
-                            this.mainServ.APIServ.uploadImage("files/images/upload", file, 1).subscribe((data: any) => {
-                                this.imageOnLoad = [];
-
-                                if (this.mainServ.APIServ.getErrorCode() == 0)
-                                    data.forEach(element => {
-                                        this.images.push(element);
-                                    });
-                                else
-                                    this.mainServ.globalServ.somthingError()
-                            });
-
-                        })
-                        .catch(error => {
-                            console.error('resizing error:' + error.message, error);
-                        })
-                }
-            }
-
+        let imageTarget = filesTarget;
+        // imageTarget.onload = (image) => {
+        alert("SSS")
+        let currentWidth = imageTarget.naturalWidth || imageTarget.width;
+        let currentHeight = imageTarget.naturalHeight || imageTarget.height;
+        console.log("currentWidth")
+        console.log(currentWidth)
+        let newWidth = currentWidth;
+        let newHeight = currentHeight;
+        if (newWidth > this.maxWidth) {
+            newWidth = this.maxWidth
+            //resize height proportionally
+            let ratio = this.maxWidth / currentWidth; //is gonna be <1
+            newHeight = newHeight * ratio;
         }
+        currentHeight = newHeight;
+        if (newHeight > this.maxHeight) {
+            newHeight = this.maxHeight;
+            //resize width proportionally
+            let ratio = this.maxHeight / currentHeight; //is gonna be <1
+            newWidth = newWidth * ratio;
+        }
+        if (newHeight === currentHeight && newWidth === currentWidth) {// no need to resize, upload now
+            // this.utilityLoading = false;
+            // this.uploadImage(fileTarget); // this is your functions to upload after you reisze
+        }
+        else {
+            // To canvas
+            let toCanvas: HTMLCanvasElement = document.createElement('canvas');
+            toCanvas.width = newWidth;
+            toCanvas.height = newHeight;
+            pica.resize(imageTarget, toCanvas)
+                .then(result => pica.toBlob(result, 'image/jpeg', 90))
+                .then((blob: Blob) => {
+                    // this.utilityLoading = false;
+                    // let file: any = blob;
+                    // file.name = fileTarget.name;
+                    // this.uploadImage(<File>file) // this is your functions to upload after you reisze
+                })
+                .catch(error => {
+                    // this.utilityLoading = false;
+                    console.error('resizing error:' + error.message, error);
+                })
+        }
+        // }
     }
+
 
     releadImage(innerIndex, file) {
         var reader = new FileReader();
@@ -153,23 +135,27 @@ export class AddAdvertisingComponent {
             console.log("fromOut");
             console.log(i);
             this.releadImage(i, file);
-            this.resize(file)
         }
         let files2 = Array.from(event.target.files);
-        ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
-            observableImages.subscribe((image) => {
-                images.push(this.dataURLtoFile(image.imageDataUrl,"1"));
-            }, (error) => {
-                console.log("Error while converting");
-            }, () => {
-                this.processedImages = images;
-                this.showTitle = true;
-                console.log("files");
-                console.log(event.target.files);
-                console.log("images");
-                console.log(images);
-                this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe((data: any) => {
-                    this.imageOnLoad = [];
+
+
+
+        //         this.ng2ImgMaxService.compressImage(fileTarget, this.maxSize, true)
+        // .subscribe( 
+        //    result => {
+        //    this.resize(result);
+        //    },
+        //    err => {
+        //    console.error('error when compressed',err)
+        //    this.uploadImage(err.compressedFile)
+        //       }
+        //   )
+        files.forEach((fileElement,index) => {
+            let countDelete=0
+            this.ng2ImgMaxService.compress([fileElement], 3).subscribe((result) => {
+                this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe((data: any) => {
+                    this.imageOnLoad=[];
+                    countDelete++;
                     if (this.mainServ.APIServ.getErrorCode() == 0)
                         data.forEach(element => {
                             this.images.push(element);
@@ -179,6 +165,30 @@ export class AddAdvertisingComponent {
                 });
             });
         });
+
+        // ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
+        //     observableImages.subscribe((image) => {
+        //         // images.push(this.dataURLtoFile(image.imageDataUrl,"1"));
+        //         images.push(image);
+        //     }, (error) => {
+        //         console.log("Error while converting");
+        //     }, () => {
+        //         this.processedImages = images;
+        //         this.showTitle = true;
+        //         this.ng2ImgMaxService.resize(files, 2000, 1000).subscribe((result) => {
+        //             console.log(result);
+        //         });
+        //         // this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe((data: any) => {
+        //         //     this.imageOnLoad = [];
+        //         //     if (this.mainServ.APIServ.getErrorCode() == 0)
+        //         //         data.forEach(element => {
+        //         //             this.images.push(element);
+        //         //         });
+        //         //     else
+        //         //         this.mainServ.globalServ.somthingError()
+        //         // });
+        //     });
+        // });
         // ImageCompressService.filesToCompressedImageSource(event.target.files).then(observableImages => {
         //     observableImages.subscribe((image) => {
         //         images.push(image.compressedImage);

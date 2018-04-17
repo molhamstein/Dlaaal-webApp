@@ -179,9 +179,9 @@ var CallApiService = /** @class */ (function () {
         var _this = this;
         var fd = new FormData();
         for (var index = 0; index < length; index++) {
-            if (data[index].size > 5000)
-                // data[index].size = 5000
-                console.log(data[index].size);
+            // if (data[index].size > 5000)
+            //   // data[index].size = 5000
+            // console.log(data[index].size);
             fd.append("file", data[index], data[index].name);
         }
         var auth;
@@ -682,7 +682,7 @@ var ActivateComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/add-advertising/add-advertising.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                إضافة إعلان جديد\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\">\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        {{vetcorKeyFilter | json}}\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of vetcorKeyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" (change)=\"changeValue($event.target.value,i)\" [(ngModel)]=\"search.fields[i].value\"\n                                class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let oneValue of oneKey.values\" value=\"{{oneValue.value}}\" >{{oneValue.value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n                            \n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>\n                            <div class=\"AddNewForm-btn\" [ngStyle]=\"{'background-color':  isAgree ? '#257310' : '#257310a1'}\" (click)=\"addAdvertising()\">\n                                إضافة إعلان\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>\n<!--\n<div class=\"Footer\">\n\n    <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n            عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n            <div class=\"Footer-about-bar-item\">\n                شروط الاستخدام\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                سياسية الخصوصية\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                تواصل معنا\n            </div>\n        </div>\n    </div>\n    <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n            تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n            </div>\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n            </div>\n        </div>\n\n    </div>\n    <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n            All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n            <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n    </div>\n</div>-->"
+module.exports = "<div class=\"MainContainer\">\n    <div class=\"HeaderBackground\">\n        <header></header>\n        <div class=\"Triangle Triangle--pages\">\n            <div class=\"Triangle--pages-title\">\n                إضافة إعلان جديد\n            </div>\n\n            <div class=\"Triangle--spacer\"></div>\n        </div>\n    </div>\n    <div class=\"Content\">\n        <div class=\"GridContainer\">\n            <div class=\"HeaderBoxContianer HeaderBoxContianer--addpage\">\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">عنوان الإعلان</label>\n                        <input [(ngModel)]=\"search.title\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                    </div>\n                </div>\n                <div class=\"HeaderBox HeaderBox--adspage\">\n                    <div class=\"AddNewForm-inputcontainer\">\n                        <label for=\"name\">السعر المطلوب</label>\n                        <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" [(ngModel)]=\"search.price\" class=\"AddNewForm-inputcontainer-text\">\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"AddNewContainer\">\n                <div class=\"AddNewForm\">\n                    <div class=\"AddNewForm-column\">\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select [(ngModel)]=\"search.cityId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--lg\">\n                                <option [ngValue]=\"undefined\" selected>اختر المدينة</option>\n\t\t\t\t\t\t        <option *ngFor=\"let city of cities\" value=\"{{city.id}}\" >{{city.name}}</option>\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <select (change)=\"changeCategory($event.target.value)\" [(ngModel)]=\"search.categoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n                            \t<option [ngValue]=\"undefined\" selected>اختر الفئة</option>\n\t\t\t\t        \t\t<option *ngFor=\"let category of categories\" value=\"{{category.id}}\" >{{category.title}}</option> \n                            </select>\n                            <select (change)=\"changeSubCategory($event.target.value)\" [(ngModel)]=\"search.subCategoryId\" class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--sm\">\n                                <option [ngValue]=\"undefined\" selected> اختر الفئة الفرعية</option>\t\t\t\t\t\t\t\t \n                                <option *ngFor=\"let subCategory of subCategories\" value=\"{{subCategory.id}}\" >{{subCategory.title}}</option>\t\n                            </select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\" *ngFor=\"let oneKey of vetcorKeyFilter; let i = index;\">\n                            <label for=\"name\">{{oneKey.key}} </label>\n                            <input *ngIf=\"oneKey.type == 'text' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\" type=\"text\"\n                                value=\"\" name=\"name\">\n                            <input type=\"text\" onkeydown=\"return ( event.ctrlKey || event.altKey \n                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) \n                    || (95<event.keyCode && event.keyCode<106)\n                    || (event.keyCode==8) || (event.keyCode==9) \n                    || (event.keyCode>34 && event.keyCode<40) \n                    || (event.keyCode==46) )\" *ngIf=\"oneKey.type == 'number' \" [(ngModel)]=\"search.fields[i].value\" class=\"AddNewForm-inputcontainer-text\"\n                                value=\"\" name=\"name\">\n                            <select style=\"width: 100%\" *ngIf=\"oneKey.type == 'choose' \" (change)=\"changeValue($event.target.value,i)\" [(ngModel)]=\"search.fields[i].value\"\n                                class=\"AddNewForm-inputcontainer-select AddNewForm-down AddNewForm-inputcontainer-select--md\">\n\t\t\t\t\t\t\t\t \t<option *ngFor=\"let oneValue of oneKey.values\" value=\"{{oneValue.value}}\" >{{oneValue.value}}</option>\n\t\t\t\t\t\t\t\t</select>\n                        </div>\n\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">عنوان </label>\n                            <input [(ngModel)]=\"search.address\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                        <div class=\"AddNewForm-inputcontainer\">\n                            <label for=\"name\">شرح </label>\n                            <input [(ngModel)]=\"search.description\" class=\"AddNewForm-inputcontainer-text\" type=\"text\" value=\"\" name=\"name\">\n                        </div>\n                    </div>\n                    <div class=\"AddNewForm-column\">\n                        <div [ngClass]=\"{'hidden':images.length==0}\" class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--lg\">\n                            <div class=\"AddNewForm-imagescontainer-largeimage\">\n                                <img src=\"{{images[0]}}\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-imagescontainer AddNewForm-imagescontainer--sm\">\n                            <div *ngFor=\"let value of images;let i=index\" class=\"AddNewForm-imagescontainer-smallimage\">\n                                <div (click)=\"deleteImage(i)\" class=\"openImage cursorPointer\"></div>\n                                <img src=\"{{value}}\" />\n                            </div>\n                            <div *ngFor=\"let image of imageOnLoad;let i = index\" class=\"AddNewForm-imagescontainer-smallimage\" style=\"    position: relative;\">\n                                <img id=\"{{'uploadImage'+i}}\" />\n                                <img src=\"assets/imgs/infinity_loader_by_volorf.gif\" style=\"position:  absolute;opacity: 0.5;top: 0px;height: 100%;left:  0px;width: 100%;\"\n                                />\n\n                            </div>\n                            \n\n\n                            <div (click)=\"openSelectImage()\" for=\"file\" class=\"AddNewForm-imagescontainer-browseimage cursorPointer\">\n                                <input multiple type=\"file\" style=\"display:none\" id=\"files\" accept=\"image/*\" (change)=\"onChange($event)\" />\n                                <img src=\"assets/imgs/browse.png\" />\n                            </div>\n                        </div>\n                        <div class=\"AddNewForm-submitcontainer\">\n                            <div class=\"AddNewForm-checkboxcontainer\">\n                                <input type=\"checkbox\" id=\"checkbox_id\" [(ngModel)]=\"isAgree\" value=\"value\">\n                                <label for=\"checkbox_id\">\n                                    أوافق على\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/terms'}}\">شروط الاستخدام</div>\n                                     و\n                                    <div class=\"u-textPrimaryColor cursorPointer\" routerLink=\"{{'/privacy'}}\">اتفاقية الخصوصية</div>\n                                </label>\n                            </div>\n                            <div class=\"AddNewForm-btn\" [ngStyle]=\"{'background-color':  isAgree ? '#257310' : '#257310a1'}\" (click)=\"addAdvertising()\">\n                                إضافة إعلان\n                            </div>\n                        </div>\n\n\n                    </div>\n\n                </div>\n                <div class=\"ItemsContainer-loader\" style=\"width:  100%;position:  absolute;height:  100%;\" [ngClass]=\"{'hidden':loader==0}\">\n                    <img src=\"assets/imgs/spinner.svg\" alt=\"Kiwi standing on oval\">\n                </div>\n            </div>\n        </div>\n\n        <!--Below main container end-->\n\n\n    </div>\n\n</div>\n<!--\n<div class=\"Footer\">\n\n    <div class=\"Footer-about\">\n        <div class=\"Footer-about-title\">\n            عن دلال\n        </div>\n        <div class=\"Footer-about-body\">\n            شرح بسيط عن دلال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\n        </div>\n        <div class=\"Footer-about-bar\">\n            <div class=\"Footer-about-bar-item\">\n                شروط الاستخدام\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                سياسية الخصوصية\n            </div>\n            <div class=\"Footer-about-bar-item\">\n                تواصل معنا\n            </div>\n        </div>\n    </div>\n    <div class=\"Footer-contact\">\n        <div class=\"Footer-contact-title\">\n            تواصل معنا على.....\n        </div>\n        <div class=\"Footer-contact-icons\">\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/facebook.svg');\">\n\n            </div>\n            <div class=\"Footer-contact-icon\" style=\"background-image: url('../imgs/insta.svg');\">\n\n            </div>\n        </div>\n\n    </div>\n    <div class=\"Footer-right\">\n\n        <div class=\"Footer-right-text\">\n            All Rights Reserved\n        </div>\n        <div class=\"Footer-right-logo\">\n            <img src=\"../imgs/logo.png\" alt=\"\">\n        </div>\n    </div>\n</div>-->"
 
 /***/ }),
 
@@ -715,6 +715,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__ = __webpack_require__("../../../../pica/dist/pica.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_img_max__ = __webpack_require__("../../../../ng2-img-max/dist/ng2-img-max.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -728,9 +729,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AddAdvertisingComponent = /** @class */ (function () {
-    function AddAdvertisingComponent(mainServ, imgCompressService) {
+    function AddAdvertisingComponent(mainServ, ng2ImgMaxService, imgCompressService) {
         this.mainServ = mainServ;
+        this.ng2ImgMaxService = ng2ImgMaxService;
         this.imgCompressService = imgCompressService;
         this.keyFilter = [];
         this.vetcorKeyFilter = [];
@@ -762,77 +765,53 @@ var AddAdvertisingComponent = /** @class */ (function () {
         });
     };
     AddAdvertisingComponent.prototype.resize = function (filesTarget) {
-        var _this = this;
         var pica = __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__({ features: ['js', 'wasm', 'ww', 'cib'] });
-        var _loop_1 = function () {
-            fileTarget = filesTarget[index];
-            console.log(fileTarget);
-            var imageTarget = new Image();
-            imageTarget.src = fileTarget;
-            imageTarget.onload = function (event) {
-                alert("SSSS");
-                var currentWidth = imageTarget.naturalWidth || imageTarget.width;
-                console.log("currentWidth");
-                console.log(currentWidth);
-                var currentHeight = imageTarget.naturalHeight || imageTarget.height;
-                console.log("currentHeight");
-                console.log(currentHeight);
-                var newWidth = currentWidth;
-                var newHeight = currentHeight;
-                if (newWidth > _this.maxWidth) {
-                    newWidth = _this.maxWidth;
-                    //resize height proportionally
-                    var ratio = _this.maxWidth / currentWidth; //is gonna be <1
-                    newHeight = newHeight * ratio;
-                }
-                currentHeight = newHeight;
-                if (newHeight > _this.maxHeight) {
-                    newHeight = _this.maxHeight;
-                    //resize width proportionally
-                    var ratio = _this.maxHeight / currentHeight; //is gonna be <1
-                    newWidth = newWidth * ratio;
-                }
-                if (newHeight === currentHeight && newWidth === currentWidth) {
-                    _this.mainServ.APIServ.uploadImage("files/images/upload", fileTarget, 1).subscribe(function (data) {
-                        _this.imageOnLoad = [];
-                        if (_this.mainServ.APIServ.getErrorCode() == 0)
-                            data.forEach(function (element) {
-                                _this.images.push(element);
-                            });
-                        else
-                            _this.mainServ.globalServ.somthingError();
-                    });
-                }
-                else {
-                    // To canvas
-                    var toCanvas = document.createElement('canvas');
-                    toCanvas.width = newWidth;
-                    toCanvas.height = newHeight;
-                    pica.resize(imageTarget, toCanvas)
-                        .then(function (result) { return pica.toBlob(result, 'image/jpeg', 90); })
-                        .then(function (blob) {
-                        var file = blob;
-                        file.name = fileTarget.name;
-                        _this.mainServ.APIServ.uploadImage("files/images/upload", file, 1).subscribe(function (data) {
-                            _this.imageOnLoad = [];
-                            if (_this.mainServ.APIServ.getErrorCode() == 0)
-                                data.forEach(function (element) {
-                                    _this.images.push(element);
-                                });
-                            else
-                                _this.mainServ.globalServ.somthingError();
-                        });
-                    })
-                        .catch(function (error) {
-                        console.error('resizing error:' + error.message, error);
-                    });
-                }
-            };
-        };
-        var fileTarget;
-        for (var index = 0; index < filesTarget.length; index++) {
-            _loop_1();
+        alert("SSS");
+        var imageTarget = filesTarget;
+        // imageTarget.onload = (image) => {
+        alert("SSS");
+        var currentWidth = imageTarget.naturalWidth || imageTarget.width;
+        var currentHeight = imageTarget.naturalHeight || imageTarget.height;
+        console.log("currentWidth");
+        console.log(currentWidth);
+        var newWidth = currentWidth;
+        var newHeight = currentHeight;
+        if (newWidth > this.maxWidth) {
+            newWidth = this.maxWidth;
+            //resize height proportionally
+            var ratio = this.maxWidth / currentWidth; //is gonna be <1
+            newHeight = newHeight * ratio;
         }
+        currentHeight = newHeight;
+        if (newHeight > this.maxHeight) {
+            newHeight = this.maxHeight;
+            //resize width proportionally
+            var ratio = this.maxHeight / currentHeight; //is gonna be <1
+            newWidth = newWidth * ratio;
+        }
+        if (newHeight === currentHeight && newWidth === currentWidth) {
+            // this.utilityLoading = false;
+            // this.uploadImage(fileTarget); // this is your functions to upload after you reisze
+        }
+        else {
+            // To canvas
+            var toCanvas = document.createElement('canvas');
+            toCanvas.width = newWidth;
+            toCanvas.height = newHeight;
+            pica.resize(imageTarget, toCanvas)
+                .then(function (result) { return pica.toBlob(result, 'image/jpeg', 90); })
+                .then(function (blob) {
+                // this.utilityLoading = false;
+                // let file: any = blob;
+                // file.name = fileTarget.name;
+                // this.uploadImage(<File>file) // this is your functions to upload after you reisze
+            })
+                .catch(function (error) {
+                // this.utilityLoading = false;
+                console.error('resizing error:' + error.message, error);
+            });
+        }
+        // }
     };
     AddAdvertisingComponent.prototype.releadImage = function (innerIndex, file) {
         var reader = new FileReader();
@@ -863,23 +842,24 @@ var AddAdvertisingComponent = /** @class */ (function () {
             console.log("fromOut");
             console.log(i);
             this.releadImage(i, file);
-            this.resize(file);
         }
         var files2 = Array.from(event.target.files);
-        __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__["ImageCompressService"].filesArrayToCompressedImageSource(files).then(function (observableImages) {
-            observableImages.subscribe(function (image) {
-                images.push(_this.dataURLtoFile(image.imageDataUrl, "1"));
-            }, function (error) {
-                console.log("Error while converting");
-            }, function () {
-                _this.processedImages = images;
-                _this.showTitle = true;
-                console.log("files");
-                console.log(event.target.files);
-                console.log("images");
-                console.log(images);
-                _this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe(function (data) {
+        //         this.ng2ImgMaxService.compressImage(fileTarget, this.maxSize, true)
+        // .subscribe( 
+        //    result => {
+        //    this.resize(result);
+        //    },
+        //    err => {
+        //    console.error('error when compressed',err)
+        //    this.uploadImage(err.compressedFile)
+        //       }
+        //   )
+        files.forEach(function (fileElement, index) {
+            var countDelete = 0;
+            _this.ng2ImgMaxService.compress([fileElement], 3).subscribe(function (result) {
+                _this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe(function (data) {
                     _this.imageOnLoad = [];
+                    countDelete++;
                     if (_this.mainServ.APIServ.getErrorCode() == 0)
                         data.forEach(function (element) {
                             _this.images.push(element);
@@ -889,6 +869,29 @@ var AddAdvertisingComponent = /** @class */ (function () {
                 });
             });
         });
+        // ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
+        //     observableImages.subscribe((image) => {
+        //         // images.push(this.dataURLtoFile(image.imageDataUrl,"1"));
+        //         images.push(image);
+        //     }, (error) => {
+        //         console.log("Error while converting");
+        //     }, () => {
+        //         this.processedImages = images;
+        //         this.showTitle = true;
+        //         this.ng2ImgMaxService.resize(files, 2000, 1000).subscribe((result) => {
+        //             console.log(result);
+        //         });
+        //         // this.mainServ.APIServ.uploadImage("files/images/upload", images, files.length).subscribe((data: any) => {
+        //         //     this.imageOnLoad = [];
+        //         //     if (this.mainServ.APIServ.getErrorCode() == 0)
+        //         //         data.forEach(element => {
+        //         //             this.images.push(element);
+        //         //         });
+        //         //     else
+        //         //         this.mainServ.globalServ.somthingError()
+        //         // });
+        //     });
+        // });
         // ImageCompressService.filesToCompressedImageSource(event.target.files).then(observableImages => {
         //     observableImages.subscribe((image) => {
         //         images.push(image.compressedImage);
@@ -1076,7 +1079,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.html"),
             styles: [__webpack_require__("../../../../../src/app/add-advertising/add-advertising.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__["ImageCompressService"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_4_ng2_img_max__["b" /* Ng2ImgMaxService */], __WEBPACK_IMPORTED_MODULE_2_ng2_image_compress__["ImageCompressService"]])
     ], AddAdvertisingComponent);
     return AddAdvertisingComponent;
 }());
@@ -1435,9 +1438,11 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__ = __webpack_require__("../../../../ng2-image-compress/ng2-image-compress.umd.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41_ng2_img_tools__ = __webpack_require__("../../../../ng2-img-tools/dist/ng2-img-tools.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42_ng2_img_max__ = __webpack_require__("../../../../ng2-img-max/dist/ng2-img-max.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1485,6 +1490,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+ // <-- import the module
+ // <-- import the module
 
 
 
@@ -1494,21 +1501,23 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_35__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_43__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_2__edit_advertising_edit_advertising_component__["a" /* EditAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_4__activate_activate_component__["a" /* ActivateComponent */], __WEBPACK_IMPORTED_MODULE_5__reset_password_reset_password_component__["a" /* ResetPasswordComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_8__terms_terms_component__["a" /* TermsComponent */], __WEBPACK_IMPORTED_MODULE_9__privacy_policy_privacy_policy_component__["a" /* PrivacyPolicyComponent */], __WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_27__home_page_home_page_component__["a" /* HomePageComponent */], __WEBPACK_IMPORTED_MODULE_20__advertising_advertising_component__["a" /* AdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_17__add_advertising_add_advertising_component__["a" /* AddAdvertisingComponent */], __WEBPACK_IMPORTED_MODULE_18__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_16__profile_profile_component__["a" /* ProfileComponent */]
             ],
             imports: [
                 // Main
-                __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_42__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_41__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__["a" /* NgxCarouselModule */], __WEBPACK_IMPORTED_MODULE_33_angular_persistence__["a" /* PersistenceModule */],
+                __WEBPACK_IMPORTED_MODULE_34__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_44__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_43__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */], __WEBPACK_IMPORTED_MODULE_39__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_37_ngx_carousel__["a" /* NgxCarouselModule */], __WEBPACK_IMPORTED_MODULE_33_angular_persistence__["a" /* PersistenceModule */],
                 // Route
                 __WEBPACK_IMPORTED_MODULE_23__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_22__app_routes__["a" /* routes */], { useHash: true })
                 // material
                 ,
-                __WEBPACK_IMPORTED_MODULE_29__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_31__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_32__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_36_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__["a" /* MatSliderModule */]
+                __WEBPACK_IMPORTED_MODULE_29__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_31__angular_material__["b" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_32__angular_material_input__["b" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_36_ngx_infinite_scroll__["a" /* InfiniteScrollModule */], __WEBPACK_IMPORTED_MODULE_30__angular_material_slider__["a" /* MatSliderModule */],
+                // comprase Image
+                __WEBPACK_IMPORTED_MODULE_41_ng2_img_tools__["a" /* Ng2ImgToolsModule */], __WEBPACK_IMPORTED_MODULE_42_ng2_img_max__["a" /* Ng2ImgMaxModule */]
             ],
             entryComponents: [__WEBPACK_IMPORTED_MODULE_10__change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_0__save_search_model_save_search_model_component__["a" /* SaveSearchModelComponent */], __WEBPACK_IMPORTED_MODULE_3__edit_or_deactive_modal_edit_or_deactive_modal_component__["a" /* EditOrDeactiveModalComponent */], __WEBPACK_IMPORTED_MODULE_6__forget_password_modal_forget_password_modal_component__["a" /* ForgetPasswordModalComponent */], __WEBPACK_IMPORTED_MODULE_7__contact_us_modal_contact_us_modal_component__["a" /* ContactUsModalComponent */], __WEBPACK_IMPORTED_MODULE_11__edit_profile_edit_profile_component__["a" /* EditProfileComponent */], __WEBPACK_IMPORTED_MODULE_28__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], __WEBPACK_IMPORTED_MODULE_12__error_modal_error_modal_component__["a" /* ErrorModalComponent */], __WEBPACK_IMPORTED_MODULE_13__report_modal_report_modal_component__["a" /* ReportModalComponent */], __WEBPACK_IMPORTED_MODULE_24__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], __WEBPACK_IMPORTED_MODULE_19__communiction_modal_communiction_modal_component__["a" /* CommunictionModalComponent */], __WEBPACK_IMPORTED_MODULE_14__full_screen_modal_full_screen_modal_component__["a" /* FullScreenModalComponent */]],
             providers: [__WEBPACK_IMPORTED_MODULE_1__Services_main_service__["a" /* MainService */], __WEBPACK_IMPORTED_MODULE_25_ngx_cookie_service__["a" /* CookieService */], __WEBPACK_IMPORTED_MODULE_26__Services_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_21__Services_call_api_service__["a" /* CallApiService */], __WEBPACK_IMPORTED_MODULE_15__Services_global_service__["a" /* GlobalService */], __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__["ImageCompressService"], __WEBPACK_IMPORTED_MODULE_40_ng2_image_compress__["ResizeOptions"]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_43__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_45__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
