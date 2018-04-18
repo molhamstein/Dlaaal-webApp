@@ -179,9 +179,6 @@ var CallApiService = /** @class */ (function () {
         var _this = this;
         var fd = new FormData();
         for (var index = 0; index < length; index++) {
-            // if (data[index].size > 5000)
-            //   // data[index].size = 5000
-            // console.log(data[index].size);
             fd.append("file", data[index], data[index].name);
         }
         var auth;
@@ -192,7 +189,7 @@ var CallApiService = /** @class */ (function () {
             auth = "";
         }
         var _options = { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ "Authorization": auth }) };
-        return this.http.post(this.baseUrl + url, fd, _options).timeout(45000).map(function (Response) {
+        return this.http.post(this.baseUrl + url, fd, _options).timeout(90000).map(function (Response) {
             return Response;
         }).catch(function (Response) {
             _this.errorCode = Response.status;
@@ -766,10 +763,8 @@ var AddAdvertisingComponent = /** @class */ (function () {
     };
     AddAdvertisingComponent.prototype.resize = function (filesTarget) {
         var pica = __WEBPACK_IMPORTED_MODULE_3_pica_dist_pica__({ features: ['js', 'wasm', 'ww', 'cib'] });
-        alert("SSS");
         var imageTarget = filesTarget;
         // imageTarget.onload = (image) => {
-        alert("SSS");
         var currentWidth = imageTarget.naturalWidth || imageTarget.width;
         var currentHeight = imageTarget.naturalHeight || imageTarget.height;
         console.log("currentWidth");
@@ -1237,7 +1232,6 @@ var AdvertisingComponent = /** @class */ (function () {
             this.headerChild.openSignInDialog();
         else if (reportId != "تبليغ") {
             var reports = this.reports.find(function (x) { return x.id == reportId; });
-            alert(reports);
             var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__report_modal_report_modal_component__["a" /* ReportModalComponent */], {
                 data: { report: reports, userID: this.mainServ.loginServ.getUserId(), addID: this.addID }
             });

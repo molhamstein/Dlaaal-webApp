@@ -156,7 +156,6 @@ export class AdvertisingComponent {
             this.headerChild.openSignInDialog();
         else if (reportId != "تبليغ") {
             let reports = this.reports.find(x => x.id == reportId)
-            alert(reports);
             let dialogRef = this.dialog.open(ReportModalComponent, {
                 data: { report: reports, userID: this.mainServ.loginServ.getUserId(), addID: this.addID }
             });

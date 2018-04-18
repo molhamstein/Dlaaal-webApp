@@ -156,9 +156,6 @@ export class CallApiService {
   uploadImage(url, data, length) {
     let fd = new FormData();
     for (var index = 0; index < length; index++) {
-      // if (data[index].size > 5000)
-      //   // data[index].size = 5000
-      // console.log(data[index].size);
       fd.append("file", data[index], data[index].name)
     }
     let auth;
@@ -169,7 +166,7 @@ export class CallApiService {
     }
     let _options = { headers: new HttpHeaders({ "Authorization": auth }) };
 
-    return this.http.post(this.baseUrl + url, fd, _options).timeout(45000).map((Response: Response) => {
+    return this.http.post(this.baseUrl + url, fd, _options).timeout(90000).map((Response: Response) => {
       return Response;
     }).catch((Response: Response) => {
       this.errorCode = Response.status;

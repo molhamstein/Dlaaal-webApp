@@ -55,11 +55,9 @@ export class AddAdvertisingComponent {
     maxHeight = 5000
     resize(filesTarget) {
         let pica = Pica({ features: ['js', 'wasm', 'ww', 'cib'] });
-        alert("SSS")
 
         let imageTarget = filesTarget;
         // imageTarget.onload = (image) => {
-        alert("SSS")
         let currentWidth = imageTarget.naturalWidth || imageTarget.width;
         let currentHeight = imageTarget.naturalHeight || imageTarget.height;
         console.log("currentWidth")
