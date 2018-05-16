@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="408" height="408" version="1.1" viewBox="0 0 107.95 107.95" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <defs>
+  <clipPath id="clipPath6598">
+   <path d="m429.42 1599h11.091v-16.23h-11.091z"/>
+  </clipPath>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(0,-189.05)">
+  <g transform="matrix(5.8464 0 0 -5.8464 -2489 9539.4)">
+   <g clip-path="url(#clipPath6598)">
+    <g transform="translate(433.06 1593.5)">
+     <path d="m0 0c-0.126-1.186 0.884-2.026 1.843-2.036 1.129-0.012 2.065 0.896 2.077 2.023 0.012 1.13-0.892 2.054-2.008 2.032-0.935-0.019-1.991-0.577-1.912-2.019zm1.919-10.432c-0.095 0.146-0.165 0.245-0.228 0.349-1.371 2.275-2.745 4.547-4.108 6.826-0.426 0.713-0.787 1.459-0.943 2.288-0.488 2.595 1.062 5.171 3.553 5.965 2.452 0.782 5.568-0.225 6.729-3.365 0.533-1.439 0.442-2.802-0.287-4.104-0.72-1.286-1.533-2.519-2.288-3.786-0.696-1.169-1.369-2.354-2.052-3.532-0.114-0.196-0.229-0.391-0.376-0.641z" fill="none" stroke="#999" stroke-miterlimit="10" stroke-width=".38"/>
+    </g>
+   </g>
+  </g>
+  <g transform="matrix(5.8464 0 0 -5.8464 81.41 290.34)">
+   <path d="m-0.38219 0c0-0.351-1.93-0.636-4.311-0.636-2.38 0-4.31 0.285-4.31 0.636s1.93 0.636 4.31 0.636c2.381 0 4.311-0.285 4.311-0.636z" fill="none" stroke="#999" stroke-miterlimit="10" stroke-width=".474"/>
+  </g>
+ </g>
+</svg>
