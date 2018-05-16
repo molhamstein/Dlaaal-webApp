@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DatePipe } from '@angular/common';
 
 
 @Injectable()
@@ -103,6 +104,8 @@ export class GlobalService {
   }
   calculatDateAdv(date) {
     var time = this.diff_minutes(new Date(), new Date(date))
+    var pipe = new DatePipe('en-US'); // Use your own locale
+
     if (time < 1)
       return "الأن"
     else if (time < 60)
@@ -114,7 +117,8 @@ export class GlobalService {
     else if (this.diff_week(new Date(), new Date(date)) < 4)
       return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
     else
-      return date
+      return  pipe.transform(date, 'dd-yyyy-MMM');
+
 
   }
 
