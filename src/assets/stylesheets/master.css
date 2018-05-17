@@ -17,7 +17,7 @@ html {
     box-sizing: border-box;
     color: #525C65;
     direction: rtl;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 13px;
     line-height: 22px;
     text-align: right;
@@ -46,7 +46,7 @@ html::-webkit-scrollbar-thumb {
 body {
     background-color: #fcfcfc;
     color: #525C65;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 0;
     overflow-x: hidden;
     padding: 0;
@@ -57,7 +57,7 @@ body {
 /* line 28, ../sass/_Utils.scss */
 
 input[type='text'] ,input[type='email'] {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 20px;
 }
 
@@ -111,7 +111,7 @@ input[type='number'] {
     cursor: pointer;
     font-size: 16px;
     height: 48px;
-    line-height: 36px;
+    line-height: 30px;
     padding: 8px 20px;
     text-align: center;
     text-decoration: none;
@@ -1022,13 +1022,14 @@ figure {
 }
 
 .HeaderBackground {
+    
+    background: url(../../assets/imgs/header.jpg) no-repeat center center;
+    background-color: #616161;
+    background-blend-mode: overlay;
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
     background-size: cover;
-    background: url(../../assets/imgs/header.jpg) no-repeat center center fixed;
-    background-color: #616161;
-    background-blend-mode: overlay;
 }
 
 @media screen and (max-width: 600px) {
@@ -1877,7 +1878,7 @@ figure {
 /* line 34, ../sass/_ItemSummary.scss */
 
 .ItemSummary-head-date--text {
-    font-family: 'Swessra-medium' !important;
+    font-family: 'Cairo-SemiBold' !important;
     font-weight: bold;
 }
 
@@ -1915,7 +1916,7 @@ figure {
 /* line 57, ../sass/_ItemSummary.scss */
 
 .ItemSummary-price-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 90%;
 }
 
@@ -2382,7 +2383,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
 }
 
 
@@ -2714,7 +2715,7 @@ figure {
     transition: all 150ms linear;
     background-color: #525C65;
     border-radius: 5px;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     color: #fff;
     cursor: pointer;
     font-size: 16px;
@@ -2946,7 +2947,7 @@ figure {
     color: #fff;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     height: 42px;
     line-height: 32px;
     margin-bottom: 20px;
@@ -3335,7 +3336,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
 }
 
 
@@ -3571,7 +3572,7 @@ figure {
 /* line 112, ../sass/_AddDetailsForm.scss */
 
 .AddDetailsForm-pricepontainer-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 3px 3px;
     font-weight: bold;
 }
@@ -3747,7 +3748,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
     margin: 5px 0;
 }
 
@@ -4104,7 +4105,7 @@ figure {
 /* line 97, ../sass/_HeaderBox.scss */
 
 .HeaderBox--detailspage-pricecontainer-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 3px 3px;
     font-weight: bold;
 }
