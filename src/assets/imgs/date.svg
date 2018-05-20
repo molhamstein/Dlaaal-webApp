@@ -3,26 +3,27 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1"
 	 id="Layer_1" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="40.8 123.9 50 50"
-	 enable-background="new 40.8 123.9 50 50" xml:space="preserve">
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="40.8 2323.9 1202.4 1202.4" enable-background="new 40.8 2323.9 1202.4 1202.4" xml:space="preserve">
 <g>
 	<g>
 		<g id="calendar_9_">
-			<path fill="#7D97AD" d="M86.7,128.6h-6.8v-3.1c0-0.9-0.7-1.6-1.6-1.6c-0.9,0-1.6,0.7-1.6,1.6v3.1h-9.4v-3.1
-				c0-0.9-0.7-1.6-1.6-1.6c-0.9,0-1.6,0.7-1.6,1.6v3.1h-9.4v-3.1c0-0.9-0.7-1.6-1.6-1.6s-1.6,0.7-1.6,1.6v3.1H45
-				c-2.3,0-4.2,1.9-4.2,4.2v37c0,2.3,1.9,4.2,4.2,4.2h41.7c2.3,0,4.2-1.9,4.2-4.2v-37C90.8,130.5,89,128.6,86.7,128.6z M87.7,169.7
-				c0,0.6-0.5,1-1,1H45c-0.6,0-1-0.5-1-1v-37c0-0.6,0.5-1,1-1h6.8v3.1c0,0.9,0.7,1.6,1.6,1.6s1.6-0.7,1.6-1.6v-3.1h9.4v3.1
-				c0,0.9,0.7,1.6,1.6,1.6c0.9,0,1.6-0.7,1.6-1.6v-3.1h9.4v3.1c0,0.9,0.7,1.6,1.6,1.6c0.9,0,1.6-0.7,1.6-1.6v-3.1h6.8
-				c0.6,0,1,0.5,1,1V169.7z"/>
-			<rect x="51.8" y="142.7" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="51.8" y="150.5" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="51.8" y="158.3" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="62.7" y="158.3" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="62.7" y="150.5" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="62.7" y="142.7" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="73.6" y="158.3" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="73.6" y="150.5" fill="#7D97AD" width="6.2" height="4.7"/>
-			<rect x="73.6" y="142.7" fill="#7D97AD" width="6.2" height="4.7"/>
+			<path fill="#FFFFFF" d="M1142.4,2436.7H979.2v-74.4c0-21.6-16.8-38.4-38.4-38.4s-38.4,16.8-38.4,38.4v74.4H676.8v-74.4
+				c0-21.6-16.8-38.4-38.4-38.4s-38.4,16.8-38.4,38.4v74.4H374.4v-74.4c0-21.6-16.8-38.4-38.4-38.4s-38.4,16.8-38.4,38.4v74.4h-156
+				c-55.2,0-100.8,45.6-100.8,100.8v888c0,55.2,45.6,100.8,100.8,100.8h1000.8c55.2,0,100.8-45.6,100.8-100.8v-888
+				C1240.8,2482.3,1197.6,2436.7,1142.4,2436.7z M1166.4,3423.1c0,14.4-12,24-24,24H141.6c-14.4,0-24-12-24-24v-888
+				c0-14.4,12-24,24-24h163.2v74.4c0,21.6,16.8,38.4,38.4,38.4s38.4-16.8,38.4-38.4v-74.4h225.6v74.4c0,21.6,16.8,38.4,38.4,38.4
+				s38.4-16.8,38.4-38.4v-74.4h225.6v74.4c0,21.6,16.8,38.4,38.4,38.4s38.4-16.8,38.4-38.4v-74.4h163.2c14.4,0,24,12,24,24v888
+				H1166.4z"/>
+			<rect x="304.8" y="2775.1" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="304.8" y="2962.3" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="304.8" y="3149.5" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="566.4" y="3149.5" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="566.4" y="2962.3" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="566.4" y="2775.1" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="828" y="3149.5" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="828" y="2962.3" fill="#FFFFFF" width="148.8" height="112.8"/>
+			<rect x="828" y="2775.1" fill="#FFFFFF" width="148.8" height="112.8"/>
 		</g>
 	</g>
 </g>
