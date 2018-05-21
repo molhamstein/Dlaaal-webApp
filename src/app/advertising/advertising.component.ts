@@ -40,17 +40,23 @@ export class AdvertisingComponent {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.advertisemet = data;
                 setTimeout(function () {
-                     
+
 
                     ($("#lightgallery") as any).lightGallery({
-                        share:false,
-                        thumbnail:false
+                        share: false,
+                        thumbnail: false
                     });;
                     ($("#lightgallery2") as any).lightGallery({
                         selector: 'ngx-tile',
-                        share:false,
-                        thumbnail:false
+                        share: false,
+                        thumbnail: false
                     });
+                    ($("#lightgallery3") as any).lightGallery({
+                        selector: '.AddDetailsForm-imagescontainer-smallimage',
+                        share: false,
+                        thumbnail: false
+                    });;
+
                     console.log($("#lightgallery"));
                 }, 2000);
 
@@ -208,5 +214,8 @@ export class AdvertisingComponent {
         });
     }
 
+    openLightgallery = function () {
+        $("#lightgallery_0").click();
+    }
 
 }

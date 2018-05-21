@@ -17,7 +17,7 @@ html {
     box-sizing: border-box;
     color: #525C65;
     direction: rtl;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 13px;
     line-height: 22px;
     text-align: right;
@@ -46,7 +46,7 @@ html::-webkit-scrollbar-thumb {
 body {
     background-color: #fcfcfc;
     color: #525C65;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 0;
     overflow-x: hidden;
     padding: 0;
@@ -57,7 +57,7 @@ body {
 /* line 28, ../sass/_Utils.scss */
 
 input[type='text'] ,input[type='email'] {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 20px;
 }
 
@@ -111,7 +111,7 @@ input[type='number'] {
     cursor: pointer;
     font-size: 16px;
     height: 48px;
-    line-height: 36px;
+    line-height: 30px;
     padding: 8px 20px;
     text-align: center;
     text-decoration: none;
@@ -402,7 +402,7 @@ input[type='number'] {
         margin-left: 6px !important;
     	white-space: nowrap;
     	font-size: 8px;
-    	line-height:20px
+    	line-height:18px
     }
 }
 
@@ -639,7 +639,7 @@ figure {
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
-    padding-top: 80px;
+    padding-top: 0px;
     text-align: center;
 }
 
@@ -658,20 +658,22 @@ figure {
 /* line 17, ../sass/_Jumbotron.scss */
 
 .Jumbotron-subtitle {
-    color: inherit;
+    
     font-size: 16px;
     line-height: 22px;
     padding: 15px;
+    color: #fff;
+	text-shadow: 0 0 3px #000, 0 0 3px #000;
 }
 
 @media screen and (max-width: 600px) {
-	.Jumbotron-subtitle {
-		color: #fff;
-	    text-shadow: 0 0 3px #000, 0 0 3px #000;
-	}
+	
 	.Jumbotron {
 		padding-top:10px
-	}
+    }
+    .Jumbotron-title {
+        font-size: 26px
+    }
 }
 
 
@@ -1013,6 +1015,10 @@ figure {
     }
 }
 
+header {
+    background: linear-gradient(to bottom, #00000099, #00000066, #00000000);
+}
+
 
 /* line 2, ../sass/_MainContainer.scss */
 
@@ -1022,13 +1028,15 @@ figure {
 }
 
 .HeaderBackground {
+    
+    background: url(../../assets/imgs/header.jpg) no-repeat center center;
+    background-color: #616161;
+    background-blend-mode: overlay;
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
     background-size: cover;
-    background: url(../../assets/imgs/header.jpg) no-repeat center center fixed;
-    background-color: #616161;
-    background-blend-mode: overlay;
+    background-position: center bottom;
 }
 
 @media screen and (max-width: 600px) {
@@ -1073,7 +1081,7 @@ figure {
     justify-content: center;
     -webkit-align-items: center;
     align-items: center;
-    background-image: url("../imgs/triangle.png");
+    /**background-image: url("../imgs/triangle.png");**/
     background-position: bottom right;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1192,7 +1200,7 @@ figure {
 .Triangle--pages {
     -webkit-justify-content: flex-start;
     justify-content: flex-start;
-    background-image: url("../imgs/triangle-s.png");
+    /**background-image: url("../imgs/triangle-s.png");**/
 }
 
 
@@ -1251,6 +1259,14 @@ figure {
     padding: 60px;
 }
 
+@media screen and (max-width: 600px) {
+    /* line 33, ../sass/_Footer.scss */
+    .Footer-about {
+        -webkit-flex-grow: 3;
+        flex-grow: 3;
+        padding: 30px;
+    }
+}
 
 /* line 17, ../sass/_Footer.scss */
 
@@ -1294,7 +1310,6 @@ figure {
     padding: 60px;
     width: 15%;
 }
-
 
 /* line 41, ../sass/_Footer.scss */
 
@@ -1341,7 +1356,14 @@ figure {
     /* line 33, ../sass/_Footer.scss */
     .Footer-contact {
         width: 100%;
-        min-height: 250px;
+        min-height: 120px;
+        padding: 10px 30px 30px 30px;
+        flex-wrap: nowrap
+    }
+    .Footer-contact-title {
+        font-size: 20px;
+        -webkit-justify-content: initial;
+        justify-content: initial;
     }
 }
 
@@ -1426,7 +1448,7 @@ figure {
     flex-wrap: wrap;
     -webkit-justify-content: space-around;
     justify-content: space-around;
-    padding: 15px 15px 0 15px;
+    padding: 15px 5px 0 5px;
     width: 100%;
 }
 
@@ -1457,6 +1479,8 @@ figure {
     height: auto;
     margin: 0px 10px 15px 10px;
     width: 290px;
+    width: 23%;
+    margin: 1%;
 }
 
 
@@ -1637,8 +1661,8 @@ figure {
     /* line 14, ../sass/_ContentMenu.scss */
     .ContentMenu-item--logo {
         margin-left: auto !important;
-        max-width: 32px !important;
-	    min-width: 32px !important;
+        max-width: 35px !important;
+	    min-width: 35px !important;
     }
 }
 
@@ -1877,10 +1901,13 @@ figure {
 /* line 34, ../sass/_ItemSummary.scss */
 
 .ItemSummary-head-date--text {
-    font-family: 'Swessra-medium' !important;
+    font-family: 'Cairo-SemiBold' !important;
     font-weight: bold;
 }
 
+.ItemSummary-head-city--text{
+    color: inherit;
+}
 
 /* line 40, ../sass/_ItemSummary.scss */
 
@@ -1915,7 +1942,7 @@ figure {
 /* line 57, ../sass/_ItemSummary.scss */
 
 .ItemSummary-price-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     font-size: 90%;
 }
 
@@ -2018,8 +2045,11 @@ figure {
     	font-size:10px
     }
     .ItemSummary-action-views {
-    	font-size: 8px; 
+    	font-size: 12px; 
     	margin-left: 5px;
+    }
+    .ItemSummary-action-views img {
+        height: 20px !important
     }
 }
 
@@ -2042,7 +2072,7 @@ figure {
     max-width: 1180px;
     margin: 0px 15px 30px 15px;
     min-height: 250px;
-    min-width: 580px;
+    min-width: 520px;
 }
 
 @media screen and (max-width: 600px) {
@@ -2111,6 +2141,12 @@ figure {
     height: 200px;
 }
 
+@media screen and (max-width: 600px){
+    .ItemsContainer-loader img {
+        width: 150px;
+    }
+}
+
 
 /* line 3, ../sass/_TopMenu.scss */
 
@@ -2141,12 +2177,13 @@ figure {
 .TopMenu-item--iconBell {
     background: url("../imgs/bell.svg") no-repeat;
     background-color: #fff;
-    background-size: contain;
     border-radius: 50%;
     cursor: pointer;
     height: 30px;
     min-width: 28px;
     position: relative;
+    background-size: 22px;
+    background-position: center;
 }
 
 
@@ -2174,7 +2211,7 @@ figure {
 
     .TopMenu-item--logo {
         min-width: 22px;
-	    width: 40px;
+	    width: 60px;
     	margin-top: 8px;
     }
 }
@@ -2188,7 +2225,7 @@ figure {
 @media only screen and (max-width: 600px) {
     /* line 4, ../sass/_AddNewContainer.scss */
     .TopMenu {
-        padding: 10px 8px;
+        padding: 0px 8px;
     }
     .TopMenu-item--iconDots {
     	margin-left: 5px; 
@@ -2382,7 +2419,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
 }
 
 
@@ -2478,6 +2515,9 @@ figure {
     /* line 4, ../sass/_FiltersPanel.scss */
     .FiltersPanel {
         width: 100%;
+    }
+    .FiltersPanel-body select {
+        font-size: 16px;
     }
 }
 
@@ -2714,7 +2754,7 @@ figure {
     transition: all 150ms linear;
     background-color: #525C65;
     border-radius: 5px;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     color: #fff;
     cursor: pointer;
     font-size: 16px;
@@ -2946,7 +2986,7 @@ figure {
     color: #fff;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     height: 42px;
     line-height: 32px;
     margin-bottom: 20px;
@@ -3335,7 +3375,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
 }
 
 
@@ -3571,7 +3611,7 @@ figure {
 /* line 112, ../sass/_AddDetailsForm.scss */
 
 .AddDetailsForm-pricepontainer-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 3px 3px;
     font-weight: bold;
 }
@@ -3747,7 +3787,7 @@ figure {
     padding: 11px 24px;
     text-align: right;
     vertical-align: middle;
-    font-family: "Swessra-medium" !important;
+    font-family: "Cairo-SemiBold" !important;
     margin: 5px 0;
 }
 
@@ -3901,7 +3941,8 @@ figure {
 @media only screen and (max-width: 800px) {
     /* line 21, ../sass/_HeaderBoxContainer.scss */
     .HeaderBoxContianer--detailspage {
-        margin-top: 10px;
+        margin-top: -150px;
+        min-height: 180px
     }
 }
 
@@ -4046,7 +4087,7 @@ figure {
     width: 100%;
     font-size: 20px;
     line-height: 30px;
-    color: #525C65;
+    color:white;
 }
 
 
@@ -4104,7 +4145,7 @@ figure {
 /* line 97, ../sass/_HeaderBox.scss */
 
 .HeaderBox--detailspage-pricecontainer-text {
-    font-family: 'Swessra-medium';
+    font-family: 'Cairo-SemiBold';
     margin: 3px 3px;
     font-weight: bold;
 }
@@ -4165,15 +4206,16 @@ figure {
     }
     /* line 135, ../sass/_HeaderBox.scss */
     .HeaderBox--detailspage-image {
-        width: 60%;
+        width: 35%;
+        height:120px;
     }
     /* line 138, ../sass/_HeaderBox.scss */
     .HeaderBox--detailspage-body {
-        width: 38%;
+        width: 63%;
     }
     /* line 139, ../sass/_HeaderBox.scss */
     .HeaderBox--detailspage-body-header {
-        color: #525C65;
+        /*color: #525C65;*/
     }
     /* line 144, ../sass/_HeaderBox.scss */
     .HeaderBox--detailspage-pricecontainer {
@@ -4259,7 +4301,7 @@ figure {
 
 .HeaderBox--profilepage-usercontainer-avatar img {
     width: 180px;
-    max-height: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 0 11px 5px #d0d0d04d;
@@ -4339,6 +4381,29 @@ figure {
     }
 }
 
+@media only screen and (max-width: 600px) {
+    /* .HeaderBox--profilepage-usercontainer-avatar img {
+        width: 90px;
+        height: 90px;
+    }
+    .HeaderBoxContianer--profilepage {
+        margin-top: -200px;
+    }
+    .HeaderBox--profilepage-usercontainer-avatar {
+        height: 80px;
+    }
+    .HeaderBox--profilepage-detailscontainer {
+        height: 70px;
+    }
+    .HeaderBox--profilepage-detailscontainer-column {
+        font-size: 16px
+    }
+
+    .hoverDiv[_ngcontent-c1] {
+        width: 90px;
+        height: 90px
+    } */
+}
 
 /* line 236, ../sass/_HeaderBox.scss */
 
@@ -4451,6 +4516,28 @@ figure {
     align-self: flex-end;
 }
 
+@media only screen and (max-width: 600px) {
+    
+    .HeaderBox--profilepage-detailscontainer-column {
+        font-size: 16px
+    }
+    .HeaderBox--profilepage-detailscontainer {
+        width: 70%;
+        margin-right: 5%;
+    }
+    .HeaderBox--profilepage-btncontainer {
+        width: 20%;
+        margin-left: 5%;
+    }
+    .HeaderBox--profilepage-editbtn {
+        width: 60px;
+        height: 60px;
+        background-size: 27px;
+    }
+    .HeaderBox--stretch {
+        display: none
+    }
+}
 
 /* line 4, ../sass/_UserProfileContainer.scss */
 
@@ -4516,7 +4603,7 @@ figure {
 @media only screen and (max-width: 800px) {
     /* line 16, ../sass/_UserProfile.scss */
     .UserProfile-navtabs-tab {
-		width: 40%;
+		width: 30%;
 		font-size: 12px;
 	}
 }

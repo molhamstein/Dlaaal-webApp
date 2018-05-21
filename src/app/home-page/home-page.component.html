@@ -23,14 +23,20 @@
 				<div class="SearchBar">
 					<div class="SearchBar-box" (click)="getAdvertisemets(2,{'search':search},false,true)"></div>
 					<select name="city" class="SearchBar-location" [(ngModel)]="search.city">
-						<option [ngValue]="undefined" selected>اختر المدينة</option>
+						<option [ngValue]="undefined" selected>
+							{{isMobileSize() ? "المدينة" : "أختر المدينة"}}
+							<!--{{isMobileSize()== false : "اختر المدينة" : "المدينة"}}-->
+							<!--{{foo == "bar" | iif : "it's true" : "no, it's not"}}-->
+							</option>
 						<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
 						</select>
 					<select name="category" class="SearchBar-category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
-						<option [ngValue]="undefined" selected>اختر الفئة</option>
+						<option [ngValue]="undefined" selected>
+							{{isMobileSize() ? "الفئة" : "أختر الفئة"}}
+							</option>
 						<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option> 
 						</select>
-					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" placeholder="أنا أبحث عن"
+					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" [placeholder]="isMobileSize() ? 'أبحث عن' : 'أنا أبحث عن'" 
 					 type="text" [(ngModel)]="search.title">
 
 				</div>
@@ -242,6 +248,9 @@
 									{{calculateDate(advertisemet.createdAt)}}
 								</div>
 							</div>
+							<div class="ItemSummary-head-date ItemSummary-head-date--text  ItemSummary-head-city--text">
+									{{advertisemet.city.name}}
+								</div>
 							<div class="ItemSummary-desc">
 								{{advertisemet.title}}
 							</div>
@@ -255,7 +264,7 @@
   								</a>
 								<div class="ItemSummary-action-views">
 									<span> {{advertisemet.viewsCount}} </span>
-									<div style="width:10px;"></div>
+									
 									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>

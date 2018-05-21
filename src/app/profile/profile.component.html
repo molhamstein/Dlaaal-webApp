@@ -105,7 +105,7 @@
     								</a>
                                         <div class="ItemSummary-action-views">
                                             <span> {{oneBookMark.viewsCount}} </span>
-                                            <div style="width:10px;"></div>
+                                            
                                             <img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
                                         </div>
                                     </div>
@@ -135,6 +135,9 @@
                                             {{calculateDate(oneAdvertisemet.createdAt)}}
                                         </div>
                                     </div>
+                                    <div class="ItemSummary-head-date ItemSummary-head-date--text  ItemSummary-head-city--text">
+									{{oneAdvertisemet.city.name}}
+								</div>
                                     <div class="ItemSummary-desc">
                                         {{oneAdvertisemet.title}}
                                     </div>
@@ -148,7 +151,7 @@
     								</a>
                                         <div class="ItemSummary-action-views">
                                             <span> {{oneAdvertisemet.viewsCount}} </span>
-                                            <div style="width:10px;"></div>
+                                            
                                             <img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
                                         </div>
                                     </div>

@@ -13,8 +13,12 @@
     <div class="GridContainer">
       <div class="HeaderBoxContianer HeaderBoxContianer--detailspage">
         <div class="HeaderBox HeaderBox--detailspage">
-          <div class="HeaderBox--detailspage-image cursorPointer" (click)="openFullScreenImage(advertisemet.images[0])" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
+          <!--<div>-->
+          <div   class="HeaderBox--detailspage-image cursorPointer"   (click)="openLightgallery()" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
+            
+          <!--<div class="HeaderBox--detailspage-image cursorPointer"  (click)="openFullScreenImage(advertisemet.images[0])" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">-->
           </div>
+          <!--</div>-->
           <div class="HeaderBox--detailspage-body">
             <div class="HeaderBox--detailspage-body-header">
               <div class="HeaderBox--detailspage-body-header-title">
@@ -131,13 +135,13 @@
           </ngx-carousel>
          
           <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
-            <div class="AddDetailsForm-imagescontainer-largeimage cursorPointer" (click)="openSlide(advertisemet.images[0])">
+            <div class="AddDetailsForm-imagescontainer-largeimage cursorPointer" (click)="openLightgallery()">
               <img src="{{advertisemet.images[0]}}" />
             </div>
           </div>
           <div id="lightgallery" class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
-            <div [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" class="AddDetailsForm-imagescontainer-smallimage cursorPointer"
-              *ngFor="let oneImage of advertisemet.images">
+            <div [attr.data-responsive]="oneImage"  [attr.id]="'lightgallery_'+ i" [attr.data-src]="oneImage" class="AddDetailsForm-imagescontainer-smallimage cursorPointer"
+              *ngFor="let oneImage of advertisemet.images;let i = index">
               <img src="{{oneImage}}" />
             </div>
           </div>
