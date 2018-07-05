@@ -54,7 +54,8 @@ var CallApiService = /** @class */ (function () {
         //   "users",
         //   "users/login"
         // ];
-        this.baseUrl = "http://104.217.253.15:7500/api/";
+        // readonly baseUrl = "http://104.217.253.15:7500/api/"
+        this.baseUrl = "http://108.179.218.237:7500/api/";
         // readonly baseUrl = "http://localhost:7500/api/"
         this.errorCode = 0;
         this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
