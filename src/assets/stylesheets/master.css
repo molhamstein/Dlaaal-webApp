@@ -1906,6 +1906,9 @@ header {
     font-weight: bold;
 }
 
+.ItemSummary-head-city--text{
+    color: inherit;
+}
 
 /* line 40, ../sass/_ItemSummary.scss */
 

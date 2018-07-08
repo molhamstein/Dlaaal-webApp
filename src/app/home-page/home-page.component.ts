@@ -571,59 +571,16 @@ export class HomePageComponent {
         });
     }
 
+    isMobileSize(){
+        var size =$( window ).width();
+        console.log(size);
+        if(size>600){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }
 
 
-
-//   {"title": "ملابس",
-//     "fields": [
-//       {
-//         "key": "ألجنس",
-//         "type": "choose",
-//         "values": [
-//           {
-//             "value": "رجالي",
-//             "fields": [
-//               {
-//                 "key": "المقاس",
-//                 "type": "choose",
-//                 "values": [
-//                   {
-//                     "value": "42"
-//                   },
-//                   {
-//                     "value": "44"
-//                   },
-//                   {
-//                     "value": "46"
-//                   }
-//                 ]
-//               }
-//             ]
-//           },
-//           {
-//             "value": "نسواني",
-//             "fields": [
-//               {
-//                 "key": "المقاس",
-//                 "type": "choose",
-//                 "values": [
-//                   {
-//                     "value": "36"
-//                   },
-//                   {
-//                     "value": "38"
-//                   },
-//                   {
-//                     "value": "40"
-//                   }
-//                 ]
-//               }
-//             ]
-//           }
-//         ]
-//       }
-//     ],
-//     "id": "5ac3207e99c45242a458bc96"
-//   }
-//   Authorization Required

@@ -114,10 +114,8 @@ export class GlobalService {
       return this.diff_hours(new Date(), new Date(date)) + " ساعة ";
     else if (this.diff_days(new Date(), new Date(date)) < 7)
       return this.diff_days(new Date(), new Date(date)) + " يوم ";
-    else if (this.diff_week(new Date(), new Date(date)) < 4)
-      return this.diff_week(new Date(), new Date(date)) + " اسبوع ";
     else
-      return  pipe.transform(date, 'dd-yyyy-MMM');
+      return  pipe.transform(date, 'dd-MM-yyyy');
 
 
   }
