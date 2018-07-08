@@ -1016,7 +1016,7 @@ figure {
 }
 
 header {
-    background: linear-gradient(to bottom, #00000099, #00000066, #00000000);
+    background: linear-gradient(to bottom, #000000bb, #00000066, #00000000);
 }
 
 
@@ -1705,8 +1705,9 @@ header {
 
 .ContentMenu-item--logo {
     margin-left: auto;
-    max-width: 50px;
+    max-width: 60px;
     min-width: 32px;
+    margin-top: 8px;
 }
 
 
