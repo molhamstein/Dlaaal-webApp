@@ -1486,13 +1486,12 @@ header {
 
 /* line 14, ../sass/_CategoryBox.scss */
 
-.CategoryBox:hover {
+.CategoryBox:hover  {
     -moz-transition: all 200ms linear;
     -o-transition: all 200ms linear;
     -webkit-transition: all 200ms linear;
     transition: all 200ms linear;
     box-shadow: 0 0 15px 10px #d0d0d04d;
-    margin-top: -5px;
 }
 
 @media screen and (max-width: 640px) {
@@ -1513,10 +1512,12 @@ header {
 .CategoryBox-head {
     display: -webkit-flex;
     display: flex;
-    background-size: cover;
-    background-color: #383838;
-    background-blend-mode: overlay;
+    display: flex;
+    background-size: 70px;
+    background-color: #fff;
     height: 128px;
+    background-repeat: no-repeat;
+    background-position: center 20px;
 }
 
 
@@ -1525,18 +1526,28 @@ header {
 .CategoryBox-head-title {
     -webkit-align-self: center;
     align-self: center;
-    color: #fff;
+    color: #555c68;
     font-size: 20px;
-    padding-right: 16px;
+    padding-top: 65px;
+    margin: 0 auto;
 }
 
 
 /* line 35, ../sass/_CategoryBox.scss */
 
 .CategoryBox-body {
-    height: auto;
+    max-height: 0;
+    -moz-transition: all 200ms linear;
+    -o-transition: all 200ms linear;
+    -webkit-transition: all 200ms linear;
+    transition: all 200ms linear;
+    overflow: hidden;
 }
 
+.CategoryBox:hover .CategoryBox-body{
+    max-height: 300px;
+    height:auto
+}
 
 /* line 39, ../sass/_CategoryBox.scss */
 
