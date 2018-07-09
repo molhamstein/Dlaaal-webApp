@@ -1005,7 +1005,7 @@ var AddAdvertisingComponent = /** @class */ (function () {
     };
     AddAdvertisingComponent.prototype.addAdvertising = function () {
         var _this = this;
-        this.search['fields'] = [];
+        // this.search['fields'] = [];
         if (this.isAgree) {
             var fieldName_1 = "";
             if (this.search['address'] == "" || this.search['address'] == null) {
