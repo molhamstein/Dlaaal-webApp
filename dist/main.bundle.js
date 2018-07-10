@@ -55,8 +55,8 @@ var CallApiService = /** @class */ (function () {
         //   "users/login"
         // ];
         // readonly baseUrl = "http://104.217.253.15:7500/api/"
-        this.baseUrl = "http://108.179.218.237:7500/api/";
-        // readonly baseUrl = "http://localhost:7500/api/"
+        // readonly baseUrl = "http://108.179.218.237:7500/api/"
+        this.baseUrl = "http://localhost:7500/api/";
         this.errorCode = 0;
         this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));
         // this.headers2 = this.headers2.append("Content-Type", "application/json");
@@ -595,7 +595,7 @@ var MainService = /** @class */ (function () {
 /***/ "../../../../../src/app/activate/activate.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\r\n<!--component html goes here -->\r\n<div class=\"MainContainer\">\r\n    <div class=\"HeaderBackground\">\r\n\r\n        <header></header>\r\n        <div class=\"Triangle\">\r\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\r\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\r\n\r\n                <div class=\"Jumbotron-subtitle\">\r\n                    أكثر من\r\n                    <span class=\"u-num\">300</span> إعلان بإنتظارك لتتفقدها\r\n                </div>\r\n            </div>\r\n            <div class=\"Triangle--spacer\"></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"Content\">\r\n        <div class=\"GridContainer\"style=\"padding: 5%;\">\r\n\r\n            <!--component html goes here -->\r\n            <!--component html goes here -->\r\n            <!--<div id=\"\" class=\"ModalContainer\">\r\n\t\t\t<div class=\"SignInModuleContainer\">-->\r\n        \r\n\r\n            <!--</div>\r\n\t\t</div>-->\r\n\r\n        </div>\r\n\r\n\r\n\r\n    </div>\r\n    <!--Below main container end-->\r\n</div>"
+module.exports = "<!--component html goes here -->\r\n<!--component html goes here -->\r\n<div class=\"MainContainer\">\r\n    <div class=\"HeaderBackground\">\r\n        <header></header>\r\n        <div class=\"Triangle\">\r\n            <div class=\"Jumbotron\" data-paroller-factor=\"-0.2\">\r\n                <div class=\"Jumbotron-title\">هل تبحث عن شيئ معيّن ؟</div>\r\n\r\n                <div class=\"Jumbotron-subtitle\">\r\n                    الكثير من الاعلانات بانتظارك لتفقدها\r\n                </div>\r\n            </div>\r\n            <div class=\"Triangle--spacer\"></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"Content\">\r\n        <div class=\"GridContainer customPage\">\r\n            <div [ngClass]=\"{'hidden':verify==0}\">\r\n                <h1>تم تأكيد الحساب بنجاح</h1>\r\n                <button style=\"margin-top: 10px;max-width: 173px;    padding: 0px;\" (click)=\"gotoPgage()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\r\n                العودة للصفحة الرئيسية</button>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n<!--Below main container end-->"
 
 /***/ }),
 
@@ -607,7 +607,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".hidden {\n  display: none; }\n", ""]);
 
 // exports
 
@@ -645,6 +645,7 @@ var ActivateComponent = /** @class */ (function () {
         this.dialog = dialog;
         this.mainServ = mainServ;
         this.route = route;
+        this.verify = 0;
         this.route.queryParams
             .filter(function (params) { return params.token; })
             .subscribe(function (params) {
@@ -652,14 +653,17 @@ var ActivateComponent = /** @class */ (function () {
             _this.userID = params.uid;
             _this.mainServ.APIServ.get("users/confirm?uid=" + _this.userID + "&token=" + _this.token).subscribe(function (data) {
                 if (_this.mainServ.APIServ.getErrorCode() == 0) {
-                    // alert("Success")
-                    _this.mainServ.globalServ.goTo('/');
+                    _this.verify = 1;
+                    // this.mainServ.globalServ.goTo('/')
                 }
                 else
                     _this.mainServ.globalServ.somthingError();
             });
         });
     }
+    ActivateComponent.prototype.gotoPgage = function () {
+        this.mainServ.globalServ.goTo('/');
+    };
     ActivateComponent.prototype.ngOnInit = function () {
         $("html, body").animate({ scrollTop: 0 }, "slow");
     };
