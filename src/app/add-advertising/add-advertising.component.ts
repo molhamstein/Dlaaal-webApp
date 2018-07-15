@@ -322,7 +322,7 @@ export class AddAdvertisingComponent {
 
 
     addAdvertising() {
-        this.search['fields'] = [];
+        // this.search['fields'] = [];
         if (this.isAgree) {
             let fieldName = ""
             if (this.search['address'] == "" || this.search['address'] == null) {
