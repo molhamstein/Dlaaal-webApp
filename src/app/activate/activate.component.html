@@ -2,36 +2,28 @@
 <!--component html goes here -->
 <div class="MainContainer">
     <div class="HeaderBackground">
-
         <header></header>
         <div class="Triangle">
             <div class="Jumbotron" data-paroller-factor="-0.2">
                 <div class="Jumbotron-title">هل تبحث عن شيئ معيّن ؟</div>
 
                 <div class="Jumbotron-subtitle">
-                    أكثر من
-                    <span class="u-num">300</span> إعلان بإنتظارك لتتفقدها
+                    الكثير من الاعلانات بانتظارك لتفقدها
                 </div>
             </div>
             <div class="Triangle--spacer"></div>
         </div>
     </div>
     <div class="Content">
-        <div class="GridContainer"style="padding: 5%;">
-
-            <!--component html goes here -->
-            <!--component html goes here -->
-            <!--<div id="" class="ModalContainer">
-			<div class="SignInModuleContainer">-->
-        
-
-            <!--</div>
-		</div>-->
-
+        <div class="GridContainer customPage">
+            <div [ngClass]="{'hidden':verify==0}">
+                <h1>تم تأكيد الحساب بنجاح</h1>
+                <button style="margin-top: 10px;max-width: 173px;    padding: 0px;" (click)="gotoPgage()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+                العودة للصفحة الرئيسية</button>
+            </div>
         </div>
 
-
-
     </div>
-    <!--Below main container end-->
+
 </div>
+<!--Below main container end-->

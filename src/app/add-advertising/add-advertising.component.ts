@@ -341,14 +341,14 @@ export class AddAdvertisingComponent {
                 fieldName = "شرح"
             }
             this.vetcorKeyFilter.forEach((element, index) => {
-                if (element.key == null) {
+                // if (element.key == null) {
                     this.search['fields'][index].key = element.key;
                     this.search['fields'][index].type = element.type;
                     this.search['fields'][index]._id = element._id;
                     if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
                         fieldName = element.key;
                     }
-                }
+                // }
             });
             this.search['images'] = this.images
             if (this.search['images'].length == 0 && fieldName == "") {

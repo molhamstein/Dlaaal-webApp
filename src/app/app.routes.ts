@@ -41,6 +41,10 @@ export const routes: Routes = [
     }, {
         path: "login/verify",
         component: ActivateComponent
+    },
+    {
+        path: "",
+        component: HomePageComponent
     }, {
         path: "**",
         component: HomePageComponent
