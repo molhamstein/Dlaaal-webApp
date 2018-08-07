@@ -12,9 +12,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
         path: 'detail/:addID',
         component: AdvertisingComponent
-    },{
+    }, {
         path: 'edit/:addID',
         component: EditAdvertisingComponent
     }, {
@@ -43,9 +48,6 @@ export const routes: Routes = [
         component: ActivateComponent
     },
     {
-        path: "",
-        component: HomePageComponent
-    }, {
         path: "**",
         component: HomePageComponent
     }

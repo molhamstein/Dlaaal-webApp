@@ -1562,6 +1562,11 @@ var AppModule = /** @class */ (function () {
 // export const routing = RouterModule.forRoot(APP_ROUTES, { enableTracing: true })
 var routes = [
     {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
         path: 'detail/:addID',
         component: __WEBPACK_IMPORTED_MODULE_7__advertising_advertising_component__["a" /* AdvertisingComponent */]
     }, {
@@ -1593,9 +1598,6 @@ var routes = [
         component: __WEBPACK_IMPORTED_MODULE_1__activate_activate_component__["a" /* ActivateComponent */]
     },
     {
-        path: "",
-        component: __WEBPACK_IMPORTED_MODULE_8__home_page_home_page_component__["a" /* HomePageComponent */]
-    }, {
         path: "**",
         component: __WEBPACK_IMPORTED_MODULE_8__home_page_home_page_component__["a" /* HomePageComponent */]
     }
