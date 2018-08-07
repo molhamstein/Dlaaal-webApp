@@ -1562,11 +1562,6 @@ var AppModule = /** @class */ (function () {
 // export const routing = RouterModule.forRoot(APP_ROUTES, { enableTracing: true })
 var routes = [
     {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-    },
-    {
         path: 'detail/:addID',
         component: __WEBPACK_IMPORTED_MODULE_7__advertising_advertising_component__["a" /* AdvertisingComponent */]
     }, {
