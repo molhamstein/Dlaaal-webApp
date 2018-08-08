@@ -46,7 +46,10 @@
             <div class="HeaderBox--detailspage-callusbtn" *ngIf="isMyAdv==false" (click)="openCommunicationDialog()">
 
             </div>
-            <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="chaoesActionModal()">
+            <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="edit()" >
+
+            </div>
+            <div class="HeaderBox--detailspage-callusbtn delete" *ngIf="isMyAdv" (click)="deactive()">
 
             </div>
           </div>
@@ -162,7 +165,7 @@
             </div>
 
             <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
-              <select (change)="makeReport($event.target.value)" class="cursorPointer AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
+              <select *ngIf="isMyAdv==false" (change)="makeReport($event.target.value)" class="cursorPointer AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
                 <option [ngValue]="undefined" selected>تبليغ</option>
                     <option class="cursorPointer" *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.name}}</option>	
                  </select>

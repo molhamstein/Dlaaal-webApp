@@ -199,21 +199,32 @@ export class AdvertisingComponent {
         });
     }
 
-    chaoesActionModal() {
-        let dialogRef = this.dialog.open(EditOrDeactiveModalComponent, {
-            panelClass: 'communictioDialogStyle',
-            data: { Id: this.advertisemet.id, ads: this.advertisemet }
-        });
+    // chaoesActionModal() {
+    //     let dialogRef = this.dialog.open(EditOrDeactiveModalComponent, {
+    //         panelClass: 'communictioDialogStyle',
+    //         data: { Id: this.advertisemet.id, ads: this.advertisemet }
+    //     });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result == false) {
+    //     dialogRef.afterClosed().subscribe(result => {
+    //         if (result == false) {
+    //             this.mainServ.globalServ.goTo("")
+    //         } else if (result) {
+    //             this.mainServ.globalServ.goTo("edit/" + this.advertisemet.id)
+    //         }
+    //     });
+    // }
+
+    deactive() {
+        this.advertisemet.status="deactive"
+        this.mainServ.APIServ.put("advertisemets/" + this.advertisemet.id,this.advertisemet).subscribe(data => {
+            if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.mainServ.globalServ.goTo("")
-            } else if (result) {
-                this.mainServ.globalServ.goTo("edit/" + this.advertisemet.id)
-            }
+            } else this.mainServ.globalServ.somthingError();
         });
     }
-
+    edit(){
+        this.mainServ.globalServ.goTo("edit/" + this.advertisemet.id)
+    }
     openLightgallery = function () {
         $("#lightgallery_0").click();
     }

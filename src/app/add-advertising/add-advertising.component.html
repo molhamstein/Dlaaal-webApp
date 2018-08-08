@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="Content">
+        {{subCategories|json}}
         <div class="GridContainer">
             <div class="HeaderBoxContianer HeaderBoxContianer--addpage">
                 <div class="HeaderBox HeaderBox--adspage">
@@ -69,11 +70,11 @@
                         </div>
 
                         <div class="AddNewForm-inputcontainer">
-                            <label for="name">عنوان </label>
+                            <label for="name" style="direction:  rtl;">العنوان (الجادة, الشارع) </label>
                             <input [(ngModel)]="search.address" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
                         </div>
                         <div class="AddNewForm-inputcontainer">
-                            <label for="name">شرح </label>
+                            <label for="name" style="direction:  rtl;">الشرح (يمكنك شرح إعلانك بشكل مفصل) </label>
                             <input [(ngModel)]="search.description" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
                         </div>
                     </div>

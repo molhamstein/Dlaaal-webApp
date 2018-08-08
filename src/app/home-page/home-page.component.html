@@ -152,9 +152,9 @@
 					<div class="FiltersPanel">
 						<div class="FiltersPanel-header">
 							<div class="FiltersPanel-header-title">
-								البحث المتقدم
+								البحث المتقدم Filter
 							</div>
-							<div class="FiltersPanel-header-collapse">
+							<div class="FiltersPanel-header-collapse" (click)="collapse()">
 								--
 							</div>
 							<div class="FiltersPanel-header-close" (click)="reseat()">
@@ -162,6 +162,7 @@
 							</div>
 
 						</div>
+						<div  class="FiltersPanel-main">
 						<div class="FiltersPanel-body">
 							<div class="FiltersPanel-body-inputcontainer">
 								<label for="name"> </label>
@@ -229,12 +230,13 @@
 							</div>
 
 						</div>
-						<div class="FiltersPanel-footer" (click)="sveSearch({'search':search})" *ngIf="isLogin" style="background-image: none;background-color: #7b9f0c;color: white;">
+						<div class="FiltersPanel-footer-save" (click)="sveSearch({'search':search})" *ngIf="isLogin">
 							حفظ
 						</div>
-						<div class="FiltersPanel-footer" (click)="getAdvertisemets(3,{'search':search})">
+						<div class="FiltersPanel-footer-search" (click)="getAdvertisemets(3,{'search':search})">
 
 						</div>
+					</div>
 					</div>
 				</div>
 				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded':lastType != -1}">

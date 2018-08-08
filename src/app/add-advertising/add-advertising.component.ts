@@ -148,11 +148,11 @@ export class AddAdvertisingComponent {
         //    this.uploadImage(err.compressedFile)
         //       }
         //   )
-        files.forEach((fileElement,index) => {
-            let countDelete=0
-            this.ng2ImgMaxService.compress([fileElement], 0.5,true,true).subscribe((result) => {
+        files.forEach((fileElement, index) => {
+            let countDelete = 0
+            this.ng2ImgMaxService.compress([fileElement], 0.5, true, true).subscribe((result) => {
                 this.mainServ.APIServ.uploadImage("files/images/upload", [result], 1).subscribe((data: any) => {
-                    this.imageOnLoad=[];
+                    this.imageOnLoad = [];
                     countDelete++;
                     if (this.mainServ.APIServ.getErrorCode() == 0)
                         data.forEach(element => {
@@ -226,7 +226,8 @@ export class AddAdvertisingComponent {
     changeCategory(categortID) {
         this.search["subCategoryId"];
         this.keyFilter = [];
-        this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
+        if (this.categories.find(x => x.id == categortID).fields)
+            this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
         this.keyFilter.sort(this.compare);
         this.vetcorKeyFilter = [];
         if (this.keyFilter)
@@ -248,12 +249,14 @@ export class AddAdvertisingComponent {
     }
 
     changeSubCategory(subCategoryID) {
-        if (this.keyFilter)
-            var lastLength = this.vetcorKeyFilter.length;
-        else {
-            this.keyFilter = [];
-            var lastLength = 0;
-        }
+        // if (this.keyFilter)
+        //     var lastLength = this.vetcorKeyFilter.length;
+        // else {
+        //     this.keyFilter = [];
+        //     var lastLength = 0;
+        // }
+        this.keyFilter = [];
+        this.changeCategory(this.search["categoryId"]);
         var newFields = this.categories.find(x => x.id == this.search["categoryId"]).subCategories.find(y => y.id == subCategoryID).fields;
         newFields.forEach(element => {
             this.keyFilter.push(element);
@@ -342,12 +345,15 @@ export class AddAdvertisingComponent {
             }
             this.vetcorKeyFilter.forEach((element, index) => {
                 // if (element.key == null) {
-                    this.search['fields'][index].key = element.key;
-                    this.search['fields'][index].type = element.type;
-                    this.search['fields'][index]._id = element._id;
-                    if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
-                        fieldName = element.key;
-                    }
+                this.search['fields'][index].key = element.key;
+                this.search['fields'][index].type = element.type;
+                this.search['fields'][index]._id = element._id;
+                if (element.type == "number" && this.search['fields'][index].value != null) {
+                    this.search['fields'][index].value = this.mainServ.globalServ.convertNumber(this.search['fields'][index].value);
+                }
+                if ((this.search['fields'][index].value == "" || this.search['fields'][index].value == null) && fieldName == "") {
+                    fieldName = element.key;
+                }
                 // }
             });
             this.search['images'] = this.images

@@ -2493,7 +2493,7 @@ header {
 
 /* line 136, ../sass/_FiltersPanel.scss */
 
-.FiltersPanel-footer {
+.FiltersPanel-footer-search,.FiltersPanel-footer-save {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-grow: 1;
@@ -2513,6 +2513,11 @@ header {
     cursor: pointer;
 }
 
+.FiltersPanel-footer-save{
+    background-image: none;
+    background-color: #7b9f0c;
+    color: white;
+}
 
 /* line 152, ../sass/_FiltersPanel.scss */
 
@@ -4185,9 +4190,16 @@ header {
 }
 
 .HeaderBox--detailspage-callusbtn.edit{
+    margin-left: -220px;
     background-image: url(../../assets/imgs/btn-edit.svg);
-    
 }
+
+.HeaderBox--detailspage-callusbtn.delete{
+    margin-left: 0px;
+
+    background-image: url(../../assets/imgs/btn-delete.png);
+}
+
 
 @media only screen and (max-width: 800px) {
     /* line 115, ../sass/_HeaderBox.scss */

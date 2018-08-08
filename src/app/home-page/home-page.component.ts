@@ -103,6 +103,10 @@ export class HomePageComponent {
             this.profileImage = "assets/imgs/defult_img.jpg"
         }
 
+        if(this.isMobileSize(799)==true){
+            this.collapse()
+        }
+
     }
 
 
@@ -419,6 +423,13 @@ export class HomePageComponent {
     reseat() {
         this.getAdvertisemets(-1, {});
     }
+    collapse() {
+        
+		$(".FiltersPanel-main").toggle();
+        // $("").toggle();
+        // $("").toggle();
+        
+    }
     openMenu() {
         $(".DropMenu-Down").toggleClass('DropMenu--isShown');
     }
@@ -571,10 +582,9 @@ export class HomePageComponent {
         });
     }
 
-    isMobileSize(){
+    isMobileSize(defultSize = 600){
         var size =$( window ).width();
-        console.log(size);
-        if(size>600){
+        if(size>defultSize){
             return false;
         }else{
             return true;

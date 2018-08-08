@@ -27,7 +27,7 @@ $(document).ready(function () {
 		// NotificationMenu.toggleClass('NotificationMenu--isShown');
 	});
 	$(".FiltersPanel-header-collapse").click(function (event) {
-		$('.FiltersPanel-body , .FiltersPanel-footer').toggle();
+		// $('.FiltersPanel-body , .FiltersPanel-footer').toggle();
 	});
 	$(".FiltersPanel-header-close").click(function (event) {
 		$('.FiltersPanelContianer').hide();
