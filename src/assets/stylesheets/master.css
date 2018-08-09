@@ -4048,6 +4048,7 @@ header {
     height: 180px;
     border-radius: 5px;
     box-shadow: 0 0 7px 0 #0032504d;
+    background-position: center
 }
 
 
@@ -4552,9 +4553,9 @@ header {
         height: 60px;
         background-size: 27px;
     }
-    .HeaderBox--stretch {
+    /* .HeaderBox--stretch {
         display: none
-    }
+    } */
 }
 
 /* line 4, ../sass/_UserProfileContainer.scss */
