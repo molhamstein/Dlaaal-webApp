@@ -3193,6 +3193,14 @@ header {
     width: 100%;
 }
 
+@media screen and (max-width: 800px) {
+    .AddNewForm-inputcontainer-select--sm {
+        width: 100%;
+    }
+    .AddNewForm-inputcontainer-select--md {
+        width: 100%;
+    }
+}
 
 /* line 72, ../sass/_AddNewForm.scss */
 
