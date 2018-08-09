@@ -14,9 +14,9 @@
       <div class="HeaderBoxContianer HeaderBoxContianer--detailspage">
         <div class="HeaderBox HeaderBox--detailspage">
           <!--<div>-->
-          <div   class="HeaderBox--detailspage-image cursorPointer"   (click)="openLightgallery()" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
-            
-          <!--<div class="HeaderBox--detailspage-image cursorPointer"  (click)="openFullScreenImage(advertisemet.images[0])" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">-->
+          <div class="HeaderBox--detailspage-image cursorPointer" (click)="openLightgallery()" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">
+
+            <!--<div class="HeaderBox--detailspage-image cursorPointer"  (click)="openFullScreenImage(advertisemet.images[0])" [ngStyle]="{'background-image': 'url(' +advertisemet.images[0] + ')'}">-->
           </div>
           <!--</div>-->
           <div class="HeaderBox--detailspage-body">
@@ -46,7 +46,7 @@
             <div class="HeaderBox--detailspage-callusbtn" *ngIf="isMyAdv==false" (click)="openCommunicationDialog()">
 
             </div>
-            <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="edit()" >
+            <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="edit()">
 
             </div>
             <div class="HeaderBox--detailspage-callusbtn delete" *ngIf="isMyAdv" (click)="deactive()">
@@ -91,6 +91,13 @@
               {{oneField.value}}
             </div>
           </div>
+          <div class="AddDetailsForm-inputcontainer">
+            <label for="name">الشرح</label>
+            <div class="AddDetailsForm-inputcontainer-text">
+              {{advertisemet.description}}
+            </div>
+          </div>
+
           <!--<div class="AddDetailsForm-inputcontainer">
               <label for="name">اسم المنتج</label>
               <div class="AddDetailsForm-inputcontainer-text">
@@ -126,9 +133,9 @@
 
           <ngx-carousel id="lightgallery2" [inputs]="carouselTile" style="width:  100%;direction:  initial;">
             <!--*ngFor="let oneImage of advertisemet.images"-->
-            <ngx-tile NgxCarouselItem  [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" *ngFor="let oneImage of advertisemet.images">
+            <ngx-tile NgxCarouselItem [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" *ngFor="let oneImage of advertisemet.images">
               <!--<div  class="openImage cursorPointer"></div>-->
-                <div [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;width: 100%;height: 180px;border-radius: 5px;">
+              <div [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;width: 100%;height: 180px;border-radius: 5px;">
               </div>
             </ngx-tile>
 
@@ -136,14 +143,14 @@
             <button NgxCarouselPrev class='leftRs'>&lt;</button>
             <button NgxCarouselNext class='rightRs'>&gt;</button>
           </ngx-carousel>
-         
+
           <div class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--lg">
             <div class="AddDetailsForm-imagescontainer-largeimage cursorPointer" (click)="openLightgallery()">
               <img src="{{advertisemet.images[0]}}" />
             </div>
           </div>
           <div id="lightgallery" class="AddDetailsForm-imagescontainer AddDetailsForm-imagescontainer--sm">
-            <div [attr.data-responsive]="oneImage"  [attr.id]="'lightgallery_'+ i" [attr.data-src]="oneImage" class="AddDetailsForm-imagescontainer-smallimage cursorPointer"
+            <div [attr.data-responsive]="oneImage" [attr.id]="'lightgallery_'+ i" [attr.data-src]="oneImage" class="AddDetailsForm-imagescontainer-smallimage cursorPointer"
               *ngFor="let oneImage of advertisemet.images;let i = index">
               <img src="{{oneImage}}" />
             </div>
@@ -167,8 +174,8 @@
             <div class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  ">
               <select *ngIf="isMyAdv==false" (change)="makeReport($event.target.value)" class="cursorPointer AddDetailsForm-inputcontainer-select  AddNewForm-down  AddDetailsForm-inputcontainer-select--sm AddDetailsForm-inputcontainer-select--btnalign">
                 <option [ngValue]="undefined" selected>تبليغ</option>
-                    <option class="cursorPointer" *ngFor="let oneReport of reports" value="{{oneReport.id}}" >{{oneReport.name}}</option>	
-                 </select>
+                <option class="cursorPointer" *ngFor="let oneReport of reports" value="{{oneReport.id}}">{{oneReport.name}}</option>
+              </select>
               <!--<div (click)="addToBookmark()" [ngClass]="{'hidden':advertisemet.isBookmarked || advertisemet.isBookmarked==null }" class="AddDetailsForm-inputcontainer AddDetailsForm-btn AddDetailsForm-btn--addfav">
                   إضافة إلى المفضلة{{advertisemet.isBookmarked}}
                 </div>
