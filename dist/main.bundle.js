@@ -2745,7 +2745,6 @@ var HeaderComponent = /** @class */ (function () {
         var unreadNot = 0;
         var limit, skip, query;
         if (this.isLogin && this.notificationBeh.length == 0 || isScroll) {
-            alert("RRR");
             limit = 5;
             skip = this.notificationBeh.length;
             query = { "order": "createdAt DESC", "limit": limit, "skip": skip, "include": ["advertisement"] };
@@ -2767,7 +2766,6 @@ var HeaderComponent = /** @class */ (function () {
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(function (unreadNotBeh) { return _this.unreadNotBeh = unreadNotBeh; });
         this.mainServ.globalServ.castNotificationBeh.subscribe(function (notificationBeh) { return _this.notificationBeh = notificationBeh; });
         this.getNotification();
-        alert("SS");
         this.profileImage = this.mainServ.loginServ.getAvatar();
         if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg";

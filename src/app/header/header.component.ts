@@ -41,7 +41,6 @@ export class HeaderComponent {
         let unreadNot = 0;
         let limit, skip, query;
         if (this.isLogin && this.notificationBeh.length == 0 || isScroll) {
-            alert("RRR");
             limit = 5;
             skip = this.notificationBeh.length;
             query = { "order": "createdAt DESC", "limit": limit, "skip": skip, "include": ["advertisement"] }
@@ -64,7 +63,6 @@ export class HeaderComponent {
         this.mainServ.globalServ.castUnreadNotBeh.subscribe(unreadNotBeh => this.unreadNotBeh = unreadNotBeh)
         this.mainServ.globalServ.castNotificationBeh.subscribe(notificationBeh => this.notificationBeh = notificationBeh)
         this.getNotification()
-        alert("SS");
         this.profileImage = this.mainServ.loginServ.getAvatar();
         if (this.profileImage == null || this.profileImage == "" || this.profileImage == "undefined") {
             this.profileImage = "assets/imgs/defult_img.jpg"
