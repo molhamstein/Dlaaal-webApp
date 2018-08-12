@@ -2323,7 +2323,6 @@ header {
 .FiltersPanel-header-close {
     -webkit-flex-grow: 1;
     flex-grow: 1;
-    background-color: #257310;
     background-image: url(../../assets/imgs/close.svg);
     background-repeat: no-repeat;
     background-size: 22px 22px;
@@ -3138,8 +3137,9 @@ header {
 
 .AddNewForm-inputcontainer label {
     color: #525C65;
-    font-size: 12px;
+    font-size: 15px;
     direction: ltr;
+    font-weight: bold;
 }
 
 
@@ -3503,7 +3503,8 @@ header {
 
 .AddDetailsForm-inputcontainer label {
     color: #525C65;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 
@@ -4196,6 +4197,8 @@ header {
     margin-top: -150px;
     margin-left: -100px;
     cursor: pointer;
+    text-align: center;
+    padding-top: 44px;
 }
 
 .HeaderBox--detailspage-callusbtn.edit{

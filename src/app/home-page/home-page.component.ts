@@ -319,7 +319,7 @@ export class HomePageComponent {
                 }, 2000);
             }
             let fiedsQuery = [];
-            if (this.vetcorKeyFilter.length != 0) {
+            if (this.vetcorKeyFilter && this.vetcorKeyFilter.length != 0) {
                 this.vetcorKeyFilter.forEach((element, index) => {
                     if (this.search['fields'][index].value != "" && this.search['fields'][index].value != null) {
                         fiedsQuery.push({
