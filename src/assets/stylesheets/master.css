@@ -4190,8 +4190,9 @@ header {
     background-color: #257310;
     background-image: url(../../assets/imgs/btn-call.svg);
     background-repeat: no-repeat;
-    background-size: 40px 40px;
-    background-position: center;
+    background-size: 33px 33px;
+    font-size: 24px;
+    background-position: center 13px;
     width: 90px;
     height: 90px;
     margin-top: -150px;
@@ -4208,7 +4209,6 @@ header {
 
 .HeaderBox--detailspage-callusbtn.delete{
     margin-left: 0px;
-
     background-image: url(../../assets/imgs/btn-delete.png);
 }
 
