@@ -154,14 +154,14 @@ export class HomePageComponent {
                 });
                 if (thisField) {
                     let newFildes = element.values.find(x => x.value == thisField.value).fields;
-                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
+                    this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
                     this.oneField(newFildes);
                 } else {
-                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
                 }
             }
             else {
-                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
             }
         })
     }
@@ -389,11 +389,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, priority: element.priority, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
     }
@@ -454,11 +454,11 @@ export class HomePageComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
+                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -484,11 +484,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.push({ type: element.type, priority: element.priority, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id })
             this.search['fields'][index] = {};
         };
     }

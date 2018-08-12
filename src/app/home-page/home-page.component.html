@@ -27,16 +27,16 @@
 							{{isMobileSize() ? "المدينة" : "أختر المدينة"}}
 							<!--{{isMobileSize()== false : "اختر المدينة" : "المدينة"}}-->
 							<!--{{foo == "bar" | iif : "it's true" : "no, it's not"}}-->
-							</option>
-						<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
-						</select>
+						</option>
+						<option *ngFor="let city of cities" value="{{city.id}}">{{city.name}}</option>
+					</select>
 					<select name="category" class="SearchBar-category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
 						<option [ngValue]="undefined" selected>
 							{{isMobileSize() ? "الفئة" : "أختر الفئة"}}
-							</option>
-						<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option> 
-						</select>
-					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" [placeholder]="isMobileSize() ? 'أبحث عن' : 'أنا أبحث عن'" 
+						</option>
+						<option *ngFor="let category of mainCategories" value="{{category.id}}">{{category.title}}</option>
+					</select>
+					<input class="SearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search},false,true)" id="" [placeholder]="isMobileSize() ? 'أبحث عن' : 'أنا أبحث عن'"
 					 type="text" [(ngModel)]="search.title">
 
 				</div>
@@ -71,14 +71,14 @@
 				<div class="ContentMenu">
 					<div class="u-flex u-flexRowReverse u-flexWrap u-flexAlignCenter u-fill">
 						<i class="ContentMenu-item ContentMenu-item--iconDots" (click)="openMenu()" *ngIf="isLogin">
-								<ul class="DropMenu DropMenu-Down">
-									<li class="DropMenu-item">شروط الإستخدام</li>
-									<li class="DropMenu-divider"></li>
-									<li class="DropMenu-item">سياسة الخصوصية</li>
-									<li class="DropMenu-divider"></li>
-									<li class="DropMenu-item" (click)="logout()">تسجيل الخروج</li>
-								</ul>
-							</i>
+							<ul class="DropMenu DropMenu-Down">
+								<li class="DropMenu-item">شروط الإستخدام</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item">سياسة الخصوصية</li>
+								<li class="DropMenu-divider"></li>
+								<li class="DropMenu-item" (click)="logout()">تسجيل الخروج</li>
+							</ul>
+						</i>
 						<a (click)="hrefAddAdv()" class="ContentMenu-item u-customBtn">
 							<!-- <i class="ContentMenu-item-iconPlus"> </i> -->
 							<img class="" src="assets/imgs/w-plus.svg" alt="">
@@ -91,48 +91,50 @@
 						</div>
 
 						<i class="ContentMenu-item ContentMenu-item--iconBell" (click)="toggleNot()" *ngIf="isLogin">
-								<span class="Badge Badge--center" *ngIf="unreadNotBeh!=0" [attr.data-badge]="unreadNotBeh"></span>
-					            <ul class="NotificationMenu NotificationMenuDown" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"[infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollUpNoti()" >
-								<div *ngFor="let oneNot of notificationBeh" >
-									<li  [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" (click)="visitNot(oneNot.isRead,oneNot.advertisement.id,oneNot.id)" class="NotificationMenu-item">
+							<span class="Badge Badge--center" *ngIf="unreadNotBeh!=0" [attr.data-badge]="unreadNotBeh"></span>
+							<ul class="NotificationMenu NotificationMenuDown" data-infinite-scroll debounce [infiniteScrollDistance]="scrollDistance"
+							 [infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle" [scrollWindow]="false" (scrolled)="onScrollUpNoti()">
+								<div *ngFor="let oneNot of notificationBeh">
+									<li [ngStyle]="{'background-color':oneNot.isRead == false ? '#afafaf75' : 'auto' }" (click)="visitNot(oneNot.isRead,oneNot.advertisement.id,oneNot.id)"
+									 class="NotificationMenu-item">
 										<div href="#" class="u-after10p u-inlineBlock">
-							              <figure class="Avatar Avatar--lg">
-											<img src="{{oneNot.advertisement.images[0]}}" alt="avatar">
-							              </figure>
-							            </div>
-							            <div class="u-inlineBlock u-alignTop">
+											<figure class="Avatar Avatar--lg">
+												<img src="{{oneNot.advertisement.images[0]}}" alt="avatar">
+											</figure>
+										</div>
+										<div class="u-inlineBlock u-alignTop">
 											<div *ngIf="oneNot.type=='NEW_ADS'">
 												قام
 												<span> {{oneNot.advertisement.owner.firstName}} </span>
-											 	 بإضافة إعلان جديد
-											 </div>
-											 <div *ngIf="oneNot.type=='SEARCH_ADS'">
+												بإضافة إعلان جديد
+											</div>
+											<div *ngIf="oneNot.type=='SEARCH_ADS'">
 												إعلان يوافق
 												<span> {{oneNot.name}} </span>
-											 	 
-											 </div>
-										<span class="NotificationMenu-item-date">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>
+
+											</div>
+											<span class="NotificationMenu-item-date">{{oneNot.createdAt | date:'yyyy/MM/dd'}}</span>
 										</div>
 									</li>
 									<li class="NotificationMenu-divider"></li>
-									</div>
-								</ul>
-				            </i>
+								</div>
+							</ul>
+						</i>
 						<a class="ContentMenu-item cursorPointer" (click)="openSignInDialog()" *ngIf="!isLogin">الدخول</a>
 						<a class="ContentMenu-item u-before10p cursorPointer" (click)="openSignUpDialog()" *ngIf="!isLogin">حساب جديد</a>
 						<img class="ContentMenu-item ContentMenu-item--logo u-hidden u-showOn700" src="assets/imgs/logo.png" alt="">
 						<div class="FilterSearchBar">
 							<div class="FilterSearchBar-box" (click)="getAdvertisemets(2,{'search':search})"></div>
 							<select name="city" [(ngModel)]="search.city" class="FilterSearchBar-location">
-									 <option [ngValue]="undefined" selected>اختر المدينة</option>
+								<option [ngValue]="undefined" selected>اختر المدينة</option>
 
 
-								 	<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
-								</select>
+								<option *ngFor="let city of cities" value="{{city.id}}">{{city.name}}</option>
+							</select>
 							<select name="category" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)" class="FilterSearchBar-category">
-									<option [ngValue]="undefined" selected>اختر الفئة</option>
-								 	<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option>
-								</select>
+								<option [ngValue]="undefined" selected>اختر الفئة</option>
+								<option *ngFor="let category of mainCategories" value="{{category.id}}">{{category.title}}</option>
+							</select>
 							<input class="FilterSearchBar-input" (keyup.enter)="getAdvertisemets(2,{'search':search})" [(ngModel)]="search.title" id=""
 							 placeholder="أنا أبحث عن" type="text">
 						</div>
@@ -162,81 +164,83 @@
 							</div>
 
 						</div>
-						<div  class="FiltersPanel-main">
-						<div class="FiltersPanel-body">
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> </label>
-								<input [(ngModel)]="search.title" (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text"
-								 placeholder="أنا أبحث عن" type="text" value="" name="name">
-							</div>
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> </label>
-								<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.city">
-									<option [ngValue]="undefined" selected>اختر المدينة</option>
-								 	<option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</option>
-								</select>
-							</div>
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> </label>
-								<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
-									<option [ngValue]="undefined" selected>اختر الفئة</option>								 
-								 	<option *ngFor="let category of mainCategories" value="{{category.id}}" >{{category.title}}</option>
-								</select>
-							</div>
+						<div class="FiltersPanel-main">
+							<div class="FiltersPanel-body">
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> </label>
+									<input [(ngModel)]="search.title" (keyup.enter)="getAdvertisemets(3,{'search':search})" class="FiltersPanel-body-inputcontainer-text"
+									 placeholder="أنا أبحث عن" type="text" value="" name="name">
+								</div>
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> </label>
+									<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.city">
+										<option [ngValue]="undefined" selected>اختر المدينة</option>
+										<option *ngFor="let city of cities" value="{{city.id}}">{{city.name}}</option>
+									</select>
+								</div>
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> </label>
+									<select class="FiltersPanel-body-select FiltersPanel-body-down" [(ngModel)]="search.category" (change)="changeCategory($event.target.value)">>
+										<option [ngValue]="undefined" selected>اختر الفئة</option>
+										<option *ngFor="let category of mainCategories" value="{{category.id}}">{{category.title}}</option>
+									</select>
+								</div>
 
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> </label>
-								<select class="FiltersPanel-body-select FiltersPanel-body-down" (change)="changeSubCategory($event.target.value)" [(ngModel)]="search.subCategory">
-									<option [ngValue]="undefined" selected> اختر الفئة الفرعية</option>								 
-								 	<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}" >{{subCategory.title}}</option>
-								</select>
-							</div>
-							<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter;let i=index">
-								<label for="name">{{oneKey.key}}</label>
-								<input *ngIf="oneKey.type == 'text'" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value"
-								 class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
-								<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> </label>
+									<select class="FiltersPanel-body-select FiltersPanel-body-down" (change)="changeSubCategory($event.target.value)" [(ngModel)]="search.subCategory">
+										<option [ngValue]="undefined" selected> اختر الفئة الفرعية</option>
+										<option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}">{{subCategory.title}}</option>
+									</select>
+								</div>
+								<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter;let i=index">
+									<div *ngIf="oneKey.isInFilter=='true'">
+										<label for="name">{{oneKey.key}}</label>
+										<input *ngIf="oneKey.type == 'text'" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value"
+										 class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
+										<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
                     || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                     || (95<event.keyCode && event.keyCode<106)
                     || (event.keyCode==8) || (event.keyCode==9) 
                     || (event.keyCode>34 && event.keyCode<40) 
                     || (event.keyCode==46) )" *ngIf="oneKey.type == 'number' " (keyup.enter)="getAdvertisemets(3,{'search':search})"
-								 [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" value="" name="name">
-								<select *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value"
-								 class="FiltersPanel-body-select FiltersPanel-body-down">
-								 	<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}" >{{oneValue.value}}</option>
-								</select>
-							</div>
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> أقل سعر </label>
-								<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
+										 [(ngModel)]="search.fields[i].value" class="FiltersPanel-body-inputcontainer-text" value="" name="name">
+										<select *ngIf="oneKey.type == 'choose' " (change)="changeValue($event.target.value,i)" [(ngModel)]="search.fields[i].value"
+										 class="FiltersPanel-body-select FiltersPanel-body-down">
+											<option *ngFor="let oneValue of oneKey.values" value="{{oneValue.value}}">{{oneValue.value}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> أقل سعر </label>
+									<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
                     || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                     || (95<event.keyCode && event.keyCode<106)
                     || (event.keyCode==8) || (event.keyCode==9) 
                     || (event.keyCode>34 && event.keyCode<40) 
                     || (event.keyCode==46) )" class="FiltersPanel-body-inputcontainer-text" (keyup.enter)="getAdvertisemets(3,{'search':search})"
-								 [(ngModel)]="search.min" value="" name="name">
-							</div>
+									 [(ngModel)]="search.min" value="" name="name">
+								</div>
 
-							<div class="FiltersPanel-body-inputcontainer">
-								<label for="name"> أكبر سعر </label>
-								<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
+								<div class="FiltersPanel-body-inputcontainer">
+									<label for="name"> أكبر سعر </label>
+									<input type="text" onkeydown="return ( event.ctrlKey || event.altKey 
                     || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                     || (95<event.keyCode && event.keyCode<106)
                     || (event.keyCode==8) || (event.keyCode==9) 
                     || (event.keyCode>34 && event.keyCode<40) 
                     || (event.keyCode==46) )" class="FiltersPanel-body-inputcontainer-text" (keyup.enter)="getAdvertisemets(3,{'search':search})"
-								 [(ngModel)]="search.max" value="" name="name">
+									 [(ngModel)]="search.max" value="" name="name">
+								</div>
+
 							</div>
+							<div class="FiltersPanel-footer-save" (click)="sveSearch({'search':search})" *ngIf="isLogin">
+								حفظ
+							</div>
+							<div class="FiltersPanel-footer-search" (click)="getAdvertisemets(3,{'search':search})">
 
+							</div>
 						</div>
-						<div class="FiltersPanel-footer-save" (click)="sveSearch({'search':search})" *ngIf="isLogin">
-							حفظ
-						</div>
-						<div class="FiltersPanel-footer-search" (click)="getAdvertisemets(3,{'search':search})">
-
-						</div>
-					</div>
 					</div>
 				</div>
 				<div class="ItemsContainer" [ngClass]="{'ItemsContainer--filtespanelexpanded':lastType != -1}">
@@ -251,8 +255,8 @@
 								</div>
 							</div>
 							<div class="ItemSummary-head-date ItemSummary-head-date--text  ItemSummary-head-city--text">
-									{{advertisemet.city.name}}
-								</div>
+								{{advertisemet.city.name}}
+							</div>
 							<div class="ItemSummary-desc">
 								{{advertisemet.title}}
 							</div>
@@ -262,11 +266,11 @@
 							</div>
 							<div class="ItemSummary-action">
 								<a routerLink="{{'/detail/'+advertisemet.id}}" class="ItemSummary-action-btn">
-  									مشاهدة المزيد
-  								</a>
+									مشاهدة المزيد
+								</a>
 								<div class="ItemSummary-action-views">
 									<span> {{advertisemet.viewsCount}} </span>
-									
+
 									<img src="assets/imgs/eye.svg" alt="" style="height: 24px;">
 								</div>
 							</div>
@@ -320,11 +324,11 @@
 						<div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
 							<input type="checkbox" class="SignUpModule-body-inputcontainer-checkboxlabel" id="checkbox_id" value="value">
 							<label for="checkbox_id">
-                  أوافق على
-                  <div class="u-textPrimaryColor">شروط الاستخدام</div>
-  
-                <div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
-                </label>
+								أوافق على
+								<div class="u-textPrimaryColor">شروط الاستخدام</div>
+
+								<div class="u-textPrimaryColor">اتفاقية الخصوصية</div>
+							</label>
 						</div>
 						<div class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
 							إنشاء الحساب
@@ -365,8 +369,8 @@
 						<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
 							<input type="checkbox" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
 							<label for="checkbox_id2">
-              تذكر كلمة المرور
-              </label>
+								تذكر كلمة المرور
+							</label>
 						</div>
 						<div class="SignInModule-body-inputcontainer SignInModule-body-btn">
 							تسجيل الدخول
@@ -384,17 +388,29 @@
 </div>
 <div style="display:none;text-align: center;">
 	<div style="font-family: 'OpenSans-Regular' ">
-		OpenSans Regular <br/> اوبن سانس عادي 1234 ل.س
-	</div><br/><br/>
+		OpenSans Regular
+		<br/> اوبن سانس عادي 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'OpenSans-ExtraBold' ">
-		OpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س
-	</div><br/><br/>
+		OpenSans-ExtraBold
+		<br/> اوبن سانس 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'Swessra-light' ">
-		Swessra-light<br/> سويسرا خفيف 1234 ل.س
-	</div><br/><br/>
+		Swessra-light
+		<br/> سويسرا خفيف 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'Swessra-medium' ">
-		Swessra-medium<br/> سويسرا وسط 1234 ل.س
-	</div><br/><br/>
+		Swessra-medium
+		<br/> سويسرا وسط 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 </div>
 
 <div class="CategoriesContainer">
@@ -424,15 +440,27 @@
 
 <div style="display:none;text-align: center;">
 	<div style="font-family: 'OpenSans-Regular' ">
-		OpenSans Regular <br/> اوبن سانس عادي 1234 ل.س
-	</div><br/><br/>
+		OpenSans Regular
+		<br/> اوبن سانس عادي 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'OpenSans-ExtraBold' ">
-		OpenSans-ExtraBold <br/> اوبن سانس 1234 ل.س
-	</div><br/><br/>
+		OpenSans-ExtraBold
+		<br/> اوبن سانس 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'Swessra-light' ">
-		Swessra-light<br/> سويسرا خفيف 1234 ل.س
-	</div><br/><br/>
+		Swessra-light
+		<br/> سويسرا خفيف 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 	<div style="font-family: 'Swessra-medium' ">
-		Swessra-medium<br/> سويسرا وسط 1234 ل.س
-	</div><br/><br/>
+		Swessra-medium
+		<br/> سويسرا وسط 1234 ل.س
+	</div>
+	<br/>
+	<br/>
 </div>
