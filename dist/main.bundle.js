@@ -3619,7 +3619,7 @@ var ProfileComponent = /** @class */ (function () {
         this.uploadingImage = true;
         var Fille = event.target.files[0];
         this.releadImage(Fille);
-        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, 1).subscribe(function (data) {
+        this.mainServ.APIServ.uploadImage("files/Profile/upload", event.target.files, 1).subscribe(function (data) {
             if (_this.mainServ.APIServ.getErrorCode() == 0) {
                 _this.uploadingImage = false;
                 data.forEach(function (element) {

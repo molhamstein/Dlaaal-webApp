@@ -104,7 +104,7 @@ export class ProfileComponent {
         this.releadImage(Fille);
 
 
-        this.mainServ.APIServ.uploadImage("files/images/upload", event.target.files, 1).subscribe((data: any) => {
+        this.mainServ.APIServ.uploadImage("files/Profile/upload", event.target.files, 1).subscribe((data: any) => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.uploadingImage = false;
                 data.forEach(element => {
