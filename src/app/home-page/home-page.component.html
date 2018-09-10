@@ -194,7 +194,7 @@
 									</select>
 								</div>
 								<div class="FiltersPanel-body-inputcontainer" *ngFor="let oneKey of vetcorKeyFilter;let i=index">
-									<div *ngIf="oneKey.isInFilter=='true'">
+									<div *ngIf="oneKey.isInFilter==true">
 										<label for="name">{{oneKey.key}}</label>
 										<input *ngIf="oneKey.type == 'text'" (keyup.enter)="getAdvertisemets(3,{'search':search})" [(ngModel)]="search.fields[i].value"
 										 class="FiltersPanel-body-inputcontainer-text" type="text" value="" name="name">
