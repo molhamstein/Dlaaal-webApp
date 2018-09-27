@@ -636,6 +636,8 @@ figure {
   text-shadow: 0 0 3px #000, 0 0 3px #000;
 }
 
+
+
 @media screen and (max-width: 600px) {
   .Jumbotron {
     padding-top: 10px
@@ -2139,6 +2141,10 @@ header {
   src: url("../fonts/OpenSans-ExtraBold.ttf") format("truetype");
 }
 
+.u-customBtnJumbotron {
+  width: 139px;
+  margin: 0px auto;
+}
 /* line 4, ../sass/_FiltersPanel.scss */
 
 .FiltersPanel {
