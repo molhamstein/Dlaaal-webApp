@@ -41,23 +41,24 @@
 
     <form [formGroup]="reactiveForm">
       <re-captcha formControlName="recaptchaReactive"></re-captcha>
+    </form>
 
-      <div style="width: 100%" class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
-        <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel"
-          id="checkbox_id" value="value">
-        <label for="checkbox_id">
+    <div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
+      <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel"
+        id="checkbox_id" value="value">
+      <label for="checkbox_id">
                  
-                  <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/terms'}}">شروط الاستخدام</div>
+                  <div class="u-textPrimaryColor cursorPointer" (click)="goto('/terms')">شروط الاستخدام</div>
   
-                <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
+                <div class="u-textPrimaryColor cursorPointer" (click)="goto('/privacy')">اتفاقية الخصوصية</div>
                  أوافق على
                 </label>
-      </div>
-      <!--reactiveForm.invalid-->
-      <button style="width: 100%"[disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+    </div>
+    <!--reactiveForm.invalid-->
+    <!--style="width: 100%"-->
+    <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
             إنشاء الحساب
         </button>
-    </form>
 
   </div>
   <div class="SignUpModule-footer">

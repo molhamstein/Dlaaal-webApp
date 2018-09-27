@@ -78,4 +78,9 @@ export class SignUpModalComponent {
         recaptchaReactive: new FormControl(null, Validators.required)
     });
 
+
+    goto(url) {
+        this.mainServ.globalServ.goTo(url);
+        this.thisDialog.close();
+    }
 }
