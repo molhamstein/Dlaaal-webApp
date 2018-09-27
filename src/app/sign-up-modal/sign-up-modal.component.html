@@ -53,7 +53,8 @@
                  أوافق على
                 </label>
       </div>
-      <button style="width: 100%"[disabled]="!isAgree && reactiveForm.invalid" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+      <!--reactiveForm.invalid-->
+      <button style="width: 100%"[disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
             إنشاء الحساب
         </button>
     </form>
