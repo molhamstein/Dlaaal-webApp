@@ -18,11 +18,11 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    let url = window.location.href;
-    if (url.indexOf("www.") != -1) {
-      url = url.replace("www.", '');
-      window.open(url, '_self');
-    }
+    // let url = window.location.href;
+    // if (url.indexOf("www.") != -1) {
+    //   url = url.replace("www.", '');
+    //   window.open(url, '_self');
+    // }
   }
   openContactUs() {
     let dialogRef = this.dialog.open(ContactUsModalComponent, {

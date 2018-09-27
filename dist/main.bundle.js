@@ -1394,11 +1394,11 @@ var AppComponent = /** @class */ (function () {
         this.dialog = dialog;
     }
     AppComponent.prototype.ngOnInit = function () {
-        var url = window.location.href;
-        if (url.indexOf("www.") != -1) {
-            url = url.replace("www.", '');
-            window.open(url, '_self');
-        }
+        // let url = window.location.href;
+        // if (url.indexOf("www.") != -1) {
+        //   url = url.replace("www.", '');
+        //   window.open(url, '_self');
+        // }
     };
     AppComponent.prototype.openContactUs = function () {
         var _this = this;
