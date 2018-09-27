@@ -29,7 +29,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { PersistenceModule } from 'angular-persistence';
@@ -42,42 +42,53 @@ import { NgxCarouselModule } from 'ngx-carousel';
 
 import 'hammerjs';
 import { HttpClientModule } from '@angular/common/http';
-import {ImageCompress} from "ngx-image-compress";
-import { ImageCompressService,ResizeOptions,ImageUtilityService } from 'ng2-image-compress';
+import { ImageCompress } from "ngx-image-compress";
+import { ImageCompressService, ResizeOptions, ImageUtilityService } from 'ng2-image-compress';
 import { Ng2ImgToolsModule } from 'ng2-img-tools'; // <-- import the module
 
 import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
 
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {FormsModule} from '@angular/forms'; 
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { LocationStrategy } from '@angular/common';
 
 
 
+import { RecaptchaModule, RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 
 import { AppComponent } from './app.component';
 
+const globalSettings: RecaptchaSettings = { siteKey: '6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU' };
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent,SaveSearchModelComponent,EditAdvertisingComponent,EditOrDeactiveModalComponent,ActivateComponent,ResetPasswordComponent,ForgetPasswordModalComponent,ContactUsModalComponent,TermsComponent,PrivacyPolicyComponent,ChangePasswordComponent,EditProfileComponent,ErrorModalComponent,ReportModalComponent,FullScreenModalComponent,SignInModalComponent,HomePageComponent,AdvertisingComponent,CommunictionModalComponent,AddAdvertisingComponent,HeaderComponent,ProfileComponent
+    SignUpModalComponent, SaveSearchModelComponent, EditAdvertisingComponent, EditOrDeactiveModalComponent, ActivateComponent, ResetPasswordComponent, ForgetPasswordModalComponent, ContactUsModalComponent, TermsComponent, PrivacyPolicyComponent, ChangePasswordComponent, EditProfileComponent, ErrorModalComponent, ReportModalComponent, FullScreenModalComponent, SignInModalComponent, HomePageComponent, AdvertisingComponent, CommunictionModalComponent, AddAdvertisingComponent, HeaderComponent, ProfileComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule,
     // Main
-    BrowserModule,FormsModule,BrowserAnimationsModule,HttpClientModule,NgxCarouselModule,PersistenceModule,
+    BrowserModule, FormsModule, BrowserAnimationsModule, HttpClientModule, NgxCarouselModule, PersistenceModule,
     // Route
-    RouterModule.forRoot(routes,{useHash: true})
-    
+    RouterModule.forRoot(routes, { useHash: true })
+
     // material
-    ,MatDialogModule,MatFormFieldModule,MatInputModule,InfiniteScrollModule,MatSliderModule,
+    , MatDialogModule, MatFormFieldModule, MatInputModule, InfiniteScrollModule, MatSliderModule,
     // comprase Image
-    Ng2ImgToolsModule ,Ng2ImgMaxModule 
+    Ng2ImgToolsModule, Ng2ImgMaxModule
   ],
-  entryComponents:[ChangePasswordComponent,SaveSearchModelComponent,EditOrDeactiveModalComponent,ForgetPasswordModalComponent,ContactUsModalComponent,EditProfileComponent,SignUpModalComponent,ErrorModalComponent,ReportModalComponent,SignInModalComponent,CommunictionModalComponent,FullScreenModalComponent],
-  providers: [MainService,CookieService,LoginService,CallApiService,GlobalService,ImageCompressService,ResizeOptions],
+  entryComponents: [ChangePasswordComponent, SaveSearchModelComponent, EditOrDeactiveModalComponent, ForgetPasswordModalComponent, ContactUsModalComponent, EditProfileComponent, SignUpModalComponent, ErrorModalComponent, ReportModalComponent, SignInModalComponent, CommunictionModalComponent, FullScreenModalComponent],
+  providers: [
+    {
+    provide: RECAPTCHA_SETTINGS,
+    useValue: globalSettings
+  }
+    , MainService, CookieService, LoginService, CallApiService, GlobalService, ImageCompressService, ResizeOptions],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

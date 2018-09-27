@@ -3,53 +3,68 @@
 			<div class="SignUpModuleContainer">-->
 
 <div class="SignUpModule">
-    <div class="SignUpModule-header" style="direction: rtl;">
-        <div class="SignUpModule-header-title">
-            حساب جديد
-        </div>
-        <div class="SignUpModule-header-close" (click)="closeModal()">
-        </div>
+  <div class="SignUpModule-header" style="direction: rtl;">
+    <div class="SignUpModule-header-title">
+      حساب جديد
     </div>
-    <div class="SignUpModule-body">
-        <label for="name" style="color: red">{{message}}</label>
+    <div class="SignUpModule-header-close" (click)="closeModal()">
+    </div>
+  </div>
+  <div class="SignUpModule-body">
+    <label for="name" style="color: red">{{message}}</label>
 
-        <div class="SignUpModule-body-inputcontainer">
-            <label for="name">الأسم</label>
-            <input [(ngModel)]="newUser.firstName"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer">
-            <label for="name">الرقم</label>
-            <input [(ngModel)]="newUser.phone"(focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="number" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer">
-            <label for="name">الايميل</label>
-            <input [(ngModel)]="newUser.email" (focus)="message='';"class="SignUpModule-body-inputcontainer-text" type="text" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer">
-            <label for="name">كلمة السر</label>
-            <input [(ngModel)]="newUser.password" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password" value="" name="name">
-        </div>
-        <div class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
-            <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel"
-                id="checkbox_id" value="value">
-            <label for="checkbox_id">
+    <div class="SignUpModule-body-inputcontainer">
+      <label for="name">الأسم</label>
+      <input [(ngModel)]="newUser.firstName" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value=""
+        name="name">
+    </div>
+    <div class="SignUpModule-body-inputcontainer">
+      <label for="name">الرقم</label>
+      <input [(ngModel)]="newUser.phone" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="number" value=""
+        name="name">
+    </div>
+    <div class="SignUpModule-body-inputcontainer">
+      <label for="name">الايميل</label>
+      <input [(ngModel)]="newUser.email" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="text" value=""
+        name="name">
+    </div>
+    <div class="SignUpModule-body-inputcontainer">
+      <label for="name">كلمة السر</label>
+      <input [(ngModel)]="newUser.password" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password"
+        value="" name="name">
+    </div>
+    <div class="SignUpModule-body-inputcontainer">
+      <label for="name">تاكيد كلمة السر</label>
+      <input [(ngModel)]="newUser.confirmPassword" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password"
+        value="" name="name">
+    </div>
+
+    <form [formGroup]="reactiveForm">
+      <re-captcha formControlName="recaptchaReactive"></re-captcha>
+
+      <div style="width: 100%" class="SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer">
+        <input type="checkbox" style="float: right" [(ngModel)]="isAgree" class="SignUpModule-body-inputcontainer-checkboxlabel"
+          id="checkbox_id" value="value">
+        <label for="checkbox_id">
                  
                   <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/terms'}}">شروط الاستخدام</div>
   
                 <div class="u-textPrimaryColor cursorPointer" routerLink="{{'/privacy'}}">اتفاقية الخصوصية</div>
                  أوافق على
                 </label>
-        </div>
-        <button [disabled]="!isAgree" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
+      </div>
+      <button style="width: 100%"[disabled]="!isAgree && reactiveForm.invalid" (click)="signup()" class="SignUpModule-body-inputcontainer SignUpModule-body-btn">
             إنشاء الحساب
         </button>
+    </form>
+
+  </div>
+  <div class="SignUpModule-footer">
+    لديك حساب مسبقاً
+    <div class="u-textPrimaryColor cursorPointer" (click)="login()">
+      قم بتسجيل الدخول .
     </div>
-    <div class="SignUpModule-footer">
-        لديك حساب مسبقاً
-        <div class="u-textPrimaryColor cursorPointer" (click)="login()">
-            قم بتسجيل الدخول .
-        </div>
-    </div>
+  </div>
 
 </div>
 <!--</div>

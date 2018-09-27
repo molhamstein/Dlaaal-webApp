@@ -14,6 +14,7 @@ import {MatDialog} from '@angular/material';
 export class AppComponent {
     constructor(public logInSer: LoginService, public globalServ: GlobalService,  public APIServ: CallApiService, public dialog: MatDialog) {
     
+  alert("sssss");
   }
   openContactUs(){
        let dialogRef = this.dialog.open(ContactUsModalComponent, {
