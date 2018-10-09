@@ -28,15 +28,9 @@ export class SignUpModalComponent {
         } else if (this.newUser['password'] == "" || this.newUser['password'] == null) {
             this.message = "كلمة السر"
         }
-        else if (this.newUser['confirmPassword'] == "" || this.newUser['confirmPassword'] == null) {
-            this.message = "تاكيد كلمة السر"
-        }
 
         if (this.message != "") {
             this.message = "الرجاء إدخال حقل " + this.message;
-        }
-        else if (this.newUser['confirmPassword'] != this.newUser['password']) {
-            this.message = "لا يوجد تطابق بين كلمة السر وتاكيد كلمة السر"
         }
         else {
             this.newUser['lastName'] = "test";

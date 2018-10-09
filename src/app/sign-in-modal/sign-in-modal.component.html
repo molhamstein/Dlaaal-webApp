@@ -2,42 +2,47 @@
 <!--<div id="" class="ModalContainer">
 			<div class="SignInModuleContainer">-->
 <div class="SignInModule" style="position: relative;overflow: hidden;">
-	<div class="SignInModule-header" style="direction: rtl;">
-		<div class="SignInModule-header-title">
-			تسجيل الدخول
-		</div>
-		<div class="SignInModule-header-close" (click)="closeModal()">
-		</div>
-	</div>
-	<div class="SignInModule-body">
-		<label for="name" style="color: red">{{message}}</label>
-		<div class="SignInModule-body-inputcontainer">
-			<label for="name">الإيميل</label>
-			<input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="email" value=""
-			 name="name">
-		</div>
-		<div class="SignInModule-body-inputcontainer">
-			<label for="name">كلمة السر</label>
-			<input [(ngModel)]="user.password" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="password" value=""
-			 name="name">
-		</div>
-		<div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
-			<input type="checkbox" [(ngModel)]="rememberPass" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel" id="checkbox_id2" value="value">
-			<label for="checkbox_id2">
+  <div class="SignInModule-header" style="direction: rtl;">
+    <div class="SignInModule-header-title">
+      تسجيل الدخول
+    </div>
+    <div class="SignInModule-header-close" (click)="closeModal()">
+    </div>
+  </div>
+  <div class="SignInModule-body">
+    <label for="name" style="color: red">{{message}}</label>
+    <div class="SignInModule-body-inputcontainer">
+      <label for="name">الإيميل</label>
+      <input [(ngModel)]="user.email" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text"
+        type="email" value="" name="name">
+    </div>
+    <div class="SignInModule-body-inputcontainer">
+      <label for="name">كلمة السر</label>
+      <input [(ngModel)]="user.password" (keyup.enter)="login()" (focus)="message='';" class="SignInModule-body-inputcontainer-text"
+        type="password" value="" name="name">
+    </div>
+    <div class="SignInModule-body-inputcontainer SignInModule-body-inputcontainer-checkboxcontainer">
+      <input type="checkbox" [(ngModel)]="rememberPass" style="float: right;" class="SignInModule-body-inputcontainer-checkboxlabel"
+        id="checkbox_id2" value="value">
+      <label for="checkbox_id2">
               تذكر كلمة المرور
               </label>
-		</div>
-		<div (click)="login()" class="SignInModule-body-inputcontainer SignInModule-body-btn">
-			تسجيل الدخول
-		</div>
-		<div class="SignInModule-body-inputcontainer u-textCenter">
-			<div class="u-textPrimaryColor cursorPointer" (click)="forgetPassword()"> هل نسيت كلمة السر ؟</div>
-		</div>
-		<div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==0}">
-			<img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
-		</div>
+    </div>
+    <div (click)="login()" class="SignInModule-body-inputcontainer SignInModule-body-btn">
+      تسجيل الدخول
+    </div>
+    <div (click)="socialSignIn('facebook')" class="SignInModule-body-inputcontainer SignInModule-body-btn" style="background-color: #4267b2;">
+    Facebook
+    </div>
 
-	</div>
+    <div class="SignInModule-body-inputcontainer u-textCenter">
+      <div class="u-textPrimaryColor cursorPointer" (click)="forgetPassword()"> هل نسيت كلمة السر ؟</div>
+    </div>
+    <div class="ItemsContainer-loader" style="width:  100%;position:  absolute;height:  100%;" [ngClass]="{'hidden':loader==0}">
+      <img src="assets/imgs/spinner.svg" alt="Kiwi standing on oval">
+    </div>
+
+  </div>
 </div>
 
 <!--</div>

@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material';
+import { SetPhoneComponent } from './../set-phone/set-phone.component';
 import { MainService } from './../Services/main.service';
 
 import { element } from 'protractor';
@@ -27,9 +29,9 @@ export class AddAdvertisingComponent {
     imageOnLoad: any = [];
     processedImages: any = [];
     showTitle = false;
-
+    isCategoryFree = false;
     loader;
-    constructor(public mainServ: MainService, public ng2ImgMaxService: Ng2ImgMaxService, private imgCompressService: ImageCompressService) {
+    constructor(public mainServ: MainService,public dialog: MatDialog, public ng2ImgMaxService: Ng2ImgMaxService, private imgCompressService: ImageCompressService) {
         this.search['fields'] = [];
         this.loader = false;
     }
@@ -225,6 +227,7 @@ export class AddAdvertisingComponent {
 
     changeCategory(categortID) {
         this.search["subCategoryId"];
+        this.isCategoryFree = this.categories.find(x => x.id == categortID).isFree
         this.keyFilter = [];
         if (this.categories.find(x => x.id == categortID).fields)
             this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
@@ -330,7 +333,7 @@ export class AddAdvertisingComponent {
             let fieldName = ""
             if (this.search['address'] == "" || this.search['address'] == null) {
                 fieldName = "عنوان الإعلان"
-            } else if (this.search['price'] == "" || this.search['price'] == null) {
+            } else if ((this.search['price'] == "" || this.search['price'] == null || this.search['price'] == 0) && this.isCategoryFree == false) {
                 fieldName = "السعر"
             } else if (this.search['cityId'] == "" || this.search['cityId'] == null) {
                 fieldName = "المدينة"
@@ -361,11 +364,16 @@ export class AddAdvertisingComponent {
                 fieldName = "الصور";
             }
             this.search['ownerId'] = this.mainServ.loginServ.getUserId();
+            console.log(this.search);
             if (fieldName == "") {
                 this.loader = true;
                 // this.search['price']="٢٢٢٢"
                 // alert(this.search['price']);
-                this.search['price'] = this.mainServ.globalServ.convertNumber(this.search['price']);
+                if (this.isCategoryFree) {
+                    this.search['isFree'] = true
+                }
+                else
+                    this.search['price'] = this.mainServ.globalServ.convertNumber(this.search['price']);
                 this.mainServ.APIServ.post("advertisemets", this.search).subscribe((data: any) => {
                     this.loader = false;
                     if (this.mainServ.APIServ.getErrorCode() == 0) {
@@ -373,7 +381,11 @@ export class AddAdvertisingComponent {
                     } else if (this.mainServ.APIServ.getErrorCode() == 403) {
                         this.mainServ.APIServ.setErrorCode(0);
                         this.mainServ.globalServ.errorDialog("فشل إضافة إعلان", "الرجاء التأكد من أن الحساب مفعل");
-                    } else
+                    } else if (this.mainServ.APIServ.getErrorCode() == 405) {
+                        this.mainServ.APIServ.setErrorCode(0);
+                        this.setUserNumber();
+                    }
+                    else
                         this.mainServ.globalServ.somthingError()
 
                 });
@@ -389,5 +401,19 @@ export class AddAdvertisingComponent {
         this.images.splice(index, 1);
     }
 
+
+    setUserNumber() {
+        let dialogRef = this.dialog.open(SetPhoneComponent, {
+            // width: '35%',
+            // width: '50%',
+            panelClass: 'communictioDialogStyle',
+
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+
+        });
+    }
 
 }

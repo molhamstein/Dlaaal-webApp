@@ -33,11 +33,6 @@
       <input [(ngModel)]="newUser.password" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password"
         value="" name="name">
     </div>
-    <div class="SignUpModule-body-inputcontainer">
-      <label for="name">تاكيد كلمة السر</label>
-      <input [(ngModel)]="newUser.confirmPassword" (focus)="message='';" class="SignUpModule-body-inputcontainer-text" type="password"
-        value="" name="name">
-    </div>
 
     <form [formGroup]="reactiveForm">
       <re-captcha formControlName="recaptchaReactive"></re-captcha>

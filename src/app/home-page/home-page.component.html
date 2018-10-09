@@ -44,7 +44,7 @@
           <!--أكثر من
 					<span class="u-num">300</span> إعلان بإنتظارك لتتفقدها-->
           الكثير من الاعلانات بانتظارك لتفقدها
-          <a  (click)="hrefAddAdv()" class="TopMenu-item u-customBtn u-customBtnJumbotron">
+          <a (click)="hrefAddAdv()" class="TopMenu-item u-customBtn u-customBtnJumbotron">
 						<img class="" src="assets/imgs/w-plus.svg" alt="">
 						<span class="u-hideOnMedium u-after10p" >إضافة إعلان</span>
 					</a>
@@ -53,7 +53,7 @@
       <div class="Triangle--spacer"></div>
     </div>
   </div>
-  <div  class="Content">
+  <div class="Content">
     <div class="GridContainer">
       <div class="CategoriesContainer">
         <div class="CategoryBox" *ngFor="let mainCategory of mainCategories">
@@ -264,9 +264,12 @@
               <div class="ItemSummary-desc">
                 {{advertisemet.title}}
               </div>
-              <div class="ItemSummary-price">
+              <div class="ItemSummary-price" *ngIf="advertisemet.price!=0">
                 <span class="ItemSummary-price-num">{{advertisemet.price | number}}</span>
                 <span class="ItemSummary-price-text">ل.س</span>
+              </div>
+              <div class="ItemSummary-price" *ngIf="advertisemet.price==0">
+                <span class="ItemSummary-price-num">Free</span>
               </div>
               <div class="ItemSummary-action">
                 <a routerLink="{{'/detail/'+advertisemet.id}}" class="ItemSummary-action-btn">

@@ -2,6 +2,16 @@ import { MainService } from './../Services/main.service';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+// import { AuthService } from "angular4-social-login";
+// import { FacebookLoginProvider, GoogleLoginProvider } from "angular4-social-login";
+
+import {
+    AuthService,
+    FacebookLoginProvider,
+    GoogleLoginProvider,
+    LinkedinLoginProvider
+} from 'angular5-social-auth';
+
 
 @Component({
     selector: 'sign-in-modal',
@@ -13,7 +23,7 @@ export class SignInModalComponent {
     rememberPass;
     message;
     loader;
-    constructor(public thisDialog: MatDialogRef<SignInModalComponent>, public mainServ: MainService, @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(private socialAuthService: AuthService, private authService: AuthService, public thisDialog: MatDialogRef<SignInModalComponent>, public mainServ: MainService, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.loader = false;
         this.rememberPass = true;
     }
@@ -38,4 +48,36 @@ export class SignInModalComponent {
     closeModal() {
         this.thisDialog.close();
     }
+
+
+    public socialSignIn(socialPlatform: string) {
+        let socialPlatformProvider;
+        if (socialPlatform == "facebook") {
+            socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+        } else if (socialPlatform == "google") {
+            socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+        } else if (socialPlatform == "linkedin") {
+            socialPlatformProvider = LinkedinLoginProvider.PROVIDER_ID;
+        }
+
+        this.socialAuthService.signIn(socialPlatformProvider).then(
+            (userData) => {
+                console.log(socialPlatform + " sign in data : ", userData);
+                // Now sign-in with userData   
+                this.loader = true;
+                this.mainServ.APIServ.post("users/facebookLogin", userData).subscribe((data: string) => {
+                    this.loader = false;
+                    if (this.mainServ.APIServ.getErrorCode() == 0) {
+                        this.mainServ.loginServ.logIn(data, this.rememberPass);
+                    } else this.mainServ.globalServ.somthingError();
+                });
+            }
+        );
+    }
+
+    // signInWithFB(): void {
+    //     console.log(this.authService.signIn(FacebookLoginProvider.PROVIDER_ID));
+    // }
+
+
 }

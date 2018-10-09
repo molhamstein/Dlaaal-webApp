@@ -19,7 +19,7 @@
                         <input [(ngModel)]="search.title" class="AddNewForm-inputcontainer-text" type="text" value="" name="name">
                     </div>
                 </div>
-                <div class="HeaderBox HeaderBox--adspage">
+                <div class="HeaderBox HeaderBox--adspage" *ngIf="isCategoryFree==false">
                     <div class="AddNewForm-inputcontainer">
                         <label for="name">السعر المطلوب</label>
                         <input type="text" onkeydown="return ( event.ctrlKey || event.altKey 

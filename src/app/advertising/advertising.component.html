@@ -38,10 +38,14 @@
           </div>
         </div>
         <div class="HeaderBox HeaderBox--detailspage HeaderBox--stretch">
-          <div class="HeaderBox--detailspage-pricecontainer">
+          <div class="HeaderBox--detailspage-pricecontainer" *ngIf="advertisemet.price!=0">
             <div class="HeaderBox--detailspage-pricecontainer-num">{{advertisemet.price |number}} </div>
             <div class="HeaderBox--detailspage-pricecontainer-text"> ل.س</div>
           </div>
+          <div class="HeaderBox--detailspage-pricecontainer" *ngIf="advertisemet.price==0">
+            <div class="HeaderBox--detailspage-pricecontainer-text"> Free </div>
+          </div>
+
           <div class="HeaderBox--detailspage-btncontainer">
             <div class="HeaderBox--detailspage-callusbtn" *ngIf="isMyAdv==false" (click)="openCommunicationDialog()">
 
@@ -163,10 +167,15 @@
               <img src="{{oneImage}}" />
             </div>
           </div>-->
-          <div class="AddDetailsForm-pricepontainer">
+          <div class="AddDetailsForm-pricepontainer" *ngIf="advertisemet.price!=0">
             <div class="AddDetailsForm-pricepontainer-num">{{advertisemet.price |number}}</div>
             <div class="AddDetailsForm-pricepontainer-text"> ل.س</div>
           </div>
+
+          <div class="AddDetailsForm-pricepontainer" *ngIf="advertisemet.price==0">
+            <div class="AddDetailsForm-pricepontainer-text">Free</div>
+          </div>
+
           <div class="AddDetailsForm-buttonscontainers">
             <div *ngIf="isMyAdv==false" (click)="openCommunicationDialog()" class="AddDetailsForm-inputcontainer AddDetailsForm-inputcontainer--btn  AddDetailsForm-btn AddDetailsForm-btn--contact ">
               التواصل مع البائع

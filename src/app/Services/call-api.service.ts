@@ -8,7 +8,7 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class CallApiService {
-  headers2 = new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers2 = new HttpHeaders({ 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' })
 
 
   // private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -24,8 +24,8 @@ export class CallApiService {
   //   "users",
   //   "users/login"
   // ];
-  readonly baseUrl = "http://108.179.218.237:7500/api/"
-  // readonly baseUrl = "http://localhost:7500/api/"
+  // readonly baseUrl = "http://108.179.218.237:7500/api/"
+  readonly baseUrl = "http://localhost:7500/api/"
   private errorCode = 0;
 
   // get(url) {

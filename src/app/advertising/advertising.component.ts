@@ -76,6 +76,7 @@ export class AdvertisingComponent {
         });
     }
 
+
     ngOnInit() {
 
         $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -215,14 +216,14 @@ export class AdvertisingComponent {
     // }
 
     deactive() {
-        this.advertisemet.status="deactive"
-        this.mainServ.APIServ.put("advertisemets/" + this.advertisemet.id,this.advertisemet).subscribe(data => {
+        this.advertisemet.status = "deactive"
+        this.mainServ.APIServ.put("advertisemets/" + this.advertisemet.id, this.advertisemet).subscribe(data => {
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.mainServ.globalServ.goTo("")
             } else this.mainServ.globalServ.somthingError();
         });
     }
-    edit(){
+    edit() {
         this.mainServ.globalServ.goTo("edit/" + this.advertisemet.id)
     }
     openLightgallery = function () {

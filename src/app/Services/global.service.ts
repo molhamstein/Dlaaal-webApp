@@ -147,6 +147,9 @@ export class GlobalService {
   }
 
   convertNumber(fromNum) {
+    if(typeof fromNum != 'string'){
+      return fromNum;
+    }
     console.log("fromNum");
     console.log(fromNum);
     console.log("fromNum.length");

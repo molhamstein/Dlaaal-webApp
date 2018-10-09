@@ -22,6 +22,7 @@ export class EditAdvertisingComponent {
     imageOnLoad: any = [];
     loader: boolean;
     addID;
+    isCategoryFree;
     constructor(public mainServ: MainService, private route: ActivatedRoute) {
         // this.search['fields'] = [];
         this.route.params.subscribe(addID => this.addID = addID.addID);
@@ -101,6 +102,8 @@ export class EditAdvertisingComponent {
 
 
     initFildes(categortID, subCategoryID) {
+        this.isCategoryFree = this.categories.find(x => x.id == categortID).isFree
+
         this.vetcorKeyFilter = [];
         let numValue = 0;
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
@@ -152,6 +155,7 @@ export class EditAdvertisingComponent {
     // }
 
     changeCategory(categortID) {
+        this.isCategoryFree = this.categories.find(x => x.id == categortID).isFree
         this.subCategories = this.categories.find(x => x.id == categortID).subCategories;
         this.keyFilter = JSON.parse(JSON.stringify(this.categories.find(x => x.id == categortID).fields));
 

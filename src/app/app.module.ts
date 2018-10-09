@@ -1,3 +1,4 @@
+import { SetPhoneComponent } from './set-phone/set-phone.component';
 import { SaveSearchModelComponent } from './save-search-model/save-search-model.component';
 import { MainService } from './Services/main.service';
 import { EditAdvertisingComponent } from './edit-advertising/edit-advertising.component';
@@ -51,7 +52,7 @@ import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LocationStrategy } from '@angular/common';
 
 
@@ -60,13 +61,46 @@ import { RecaptchaModule, RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recap
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 
 import { AppComponent } from './app.component';
+// import { SocialLoginModule, AuthServiceConfig } from "angular4-social-login";
+// import { GoogleLoginProvider, FacebookLoginProvider } from "angular4-social-login";
 
-const globalSettings: RecaptchaSettings = { siteKey: '6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU' };
+
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  LinkedinLoginProvider
+} from "angular5-social-auth";
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider("239549383453276")
+      }
+    ]
+  )
+  return config;
+}
+
+// let config = new AuthServiceConfig([
+//   {
+//     id: GoogleLoginProvider.PROVIDER_ID,
+//     provider: new GoogleLoginProvider("Google-OAuth-Client-Id")
+//   },
+//   {
+//     id: FacebookLoginProvider.PROVIDER_ID,
+//     provider: new FacebookLoginProvider("239549383453276")
+//   }
+// ]);
+// const globalSettings: RecaptchaSettings = { siteKey: '6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU' };
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpModalComponent, SaveSearchModelComponent, EditAdvertisingComponent, EditOrDeactiveModalComponent, ActivateComponent, ResetPasswordComponent, ForgetPasswordModalComponent, ContactUsModalComponent, TermsComponent, PrivacyPolicyComponent, ChangePasswordComponent, EditProfileComponent, ErrorModalComponent, ReportModalComponent, FullScreenModalComponent, SignInModalComponent, HomePageComponent, AdvertisingComponent, CommunictionModalComponent, AddAdvertisingComponent, HeaderComponent, ProfileComponent
+    SignUpModalComponent, SaveSearchModelComponent,SetPhoneComponent, EditAdvertisingComponent, EditOrDeactiveModalComponent, ActivateComponent, ResetPasswordComponent, ForgetPasswordModalComponent, ContactUsModalComponent, TermsComponent, PrivacyPolicyComponent, ChangePasswordComponent, EditProfileComponent, ErrorModalComponent, ReportModalComponent, FullScreenModalComponent, SignInModalComponent, HomePageComponent, AdvertisingComponent, CommunictionModalComponent, AddAdvertisingComponent, HeaderComponent, ProfileComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -80,14 +114,16 @@ const globalSettings: RecaptchaSettings = { siteKey: '6LcOuyYTAAAAAHTjFuqhA52fmf
     // material
     , MatDialogModule, MatFormFieldModule, MatInputModule, InfiniteScrollModule, MatSliderModule,
     // comprase Image
-    Ng2ImgToolsModule, Ng2ImgMaxModule
+    Ng2ImgToolsModule, Ng2ImgMaxModule,
+    SocialLoginModule
+
   ],
-  entryComponents: [ChangePasswordComponent, SaveSearchModelComponent, EditOrDeactiveModalComponent, ForgetPasswordModalComponent, ContactUsModalComponent, EditProfileComponent, SignUpModalComponent, ErrorModalComponent, ReportModalComponent, SignInModalComponent, CommunictionModalComponent, FullScreenModalComponent],
+  entryComponents: [ChangePasswordComponent, SetPhoneComponent,SaveSearchModelComponent, EditOrDeactiveModalComponent, ForgetPasswordModalComponent, ContactUsModalComponent, EditProfileComponent, SignUpModalComponent, ErrorModalComponent, ReportModalComponent, SignInModalComponent, CommunictionModalComponent, FullScreenModalComponent],
   providers: [
     {
-    provide: RECAPTCHA_SETTINGS,
-    useValue: globalSettings
-  }
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
     , MainService, CookieService, LoginService, CallApiService, GlobalService, ImageCompressService, ResizeOptions],
   bootstrap: [AppComponent]
 })

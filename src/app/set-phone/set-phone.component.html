@@ -1,0 +1,20 @@
+<!--component html goes here -->
+<div class="SignInModule">
+	<div class="SignInModule-header" style="direction: rtl;">
+		<div class="SignInModule-header-title">
+			تثبيت رقم الهاتف
+		</div>
+		<div class="SignInModule-header-close" (click)="closeModal()">
+		</div>
+	</div>
+	<div class="SignInModule-body">
+			<label for="name" style="color: red">{{message}}</label>
+		<div class="SignInModule-body-inputcontainer">
+			<label for="name">الرقم</label>
+			<input [(ngModel)]="user.phone" (focus)="message='';" class="SignInModule-body-inputcontainer-text" type="tel" value="" name="name">
+		</div>
+		<div (click)="setPhone()" class="SignInModule-body-inputcontainer SignInModule-body-btn">
+			تثبيت 
+		</div>
+	</div>
+</div>
