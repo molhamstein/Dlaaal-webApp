@@ -98,9 +98,9 @@ input[type='number'] {
   -o-transition: all 150ms linear;
   -webkit-transition: all 150ms linear;
   transition: all 150ms linear;
-  box-shadow: 0 0 15px 0 #0032504d;
+  box-shadow: 0 0 40px 0 #0032504d;
   background-color: #257310;
-  border-radius: 5px;
+  border-radius: 8px;
   color: #fff !important;
   cursor: pointer;
   font-size: 16px;
@@ -109,33 +109,33 @@ input[type='number'] {
   padding: 8px 20px;
   text-align: center;
   text-decoration: none;
-  animation: pulse 1.5s infinite;
+  animation: pulse 2.0s infinite;
 }
 
 @-webkit-keyframes pulse {
   0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(37, 115, 16, 0.8);
+    -webkit-box-shadow: 0 0 0 0 rgba(153, 211, 137, 0.8);
   }
   70% {
-    -webkit-box-shadow: 0 0 0 10px rgba(37, 115, 16, 0);
+    -webkit-box-shadow: 0 0 0 15px rgba(153, 211, 137, 0);
   }
   100% {
-    -webkit-box-shadow: 0 0 0 0 rgba(37, 115, 16, 0);
+    -webkit-box-shadow: 0 0 0 0 rgba(153, 211, 137, 0);
   }
 }
 
 @keyframes pulse {
   0% {
-    -moz-box-shadow: 0 0 0 0 rgba(37, 115, 16, 0.8);
-    box-shadow: 0 0 0 0 rgba(37, 115, 16, 0.8);
+    -moz-box-shadow: 0 0 0 0 rgba(153, 211, 137, 0.8);
+    box-shadow: 0 0 0 0 rgba(153, 211, 137, 0.8);
   }
   70% {
-    -moz-box-shadow: 0 0 0 10px rgba(37, 115, 16, 0);
-    box-shadow: 0 0 0 10px rgba(37, 115, 16, 0);
+    -moz-box-shadow: 0 0 0 15px rgba(153, 211, 137, 0);
+    box-shadow: 0 0 0 15px rgba(153, 211, 137, 0);
   }
   100% {
-    -moz-box-shadow: 0 0 0 0 rgba(37, 115, 16, 0);
-    box-shadow: 0 0 0 0 rgba(37, 115, 16, 0);
+    -moz-box-shadow: 0 0 0 0 rgba(153, 211, 137, 0);
+    box-shadow: 0 0 0 0 rgba(153, 211, 137, 0);
   }
 }
 
@@ -2142,8 +2142,8 @@ header {
 }
 
 .u-customBtnJumbotron {
-  width: 139px;
-  margin: 0px auto;
+  width: 150px;
+  margin: 20px auto 0 auto;
 }
 /* line 4, ../sass/_FiltersPanel.scss */
 
@@ -3929,16 +3929,16 @@ header {
   background-color: #257310;
   background-image: url(../../assets/imgs/btn-call.svg);
   background-repeat: no-repeat;
-  background-size: 33px 33px;
-  font-size: 24px;
-  background-position: center 13px;
+  background-size: 26px;
+  font-size: 16px;
+  background-position: center 15px;
   width: 90px;
   height: 90px;
   margin-top: -150px;
   margin-left: -100px;
   cursor: pointer;
   text-align: center;
-  padding-top: 44px;
+  padding-top: 40px;
 }
 
 .HeaderBox--detailspage-callusbtn.edit {
@@ -3979,6 +3979,7 @@ header {
   }
   /* line 144, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-pricecontainer {
+    display: none;
     -webkit-justify-content: center;
     justify-content: center;
     width: 100%;
@@ -3990,6 +3991,7 @@ header {
   }
   /* line 153, ../sass/_HeaderBox.scss */
   .HeaderBox--detailspage-btncontainer {
+    display: none;
     -webkit-justify-content: center;
     justify-content: center;
     width: 100%;

@@ -48,7 +48,7 @@
 
           <div class="HeaderBox--detailspage-btncontainer">
             <div class="HeaderBox--detailspage-callusbtn" *ngIf="isMyAdv==false" (click)="openCommunicationDialog()">
-
+              اتصل
             </div>
             <div class="HeaderBox--detailspage-callusbtn edit" *ngIf="isMyAdv" (click)="edit()">
               تعديل
@@ -140,7 +140,7 @@
             <!--*ngFor="let oneImage of advertisemet.images"-->
             <ngx-tile NgxCarouselItem [attr.data-responsive]="oneImage" [attr.data-src]="oneImage" *ngFor="let oneImage of advertisemet.images">
               <!--<div  class="openImage cursorPointer"></div>-->
-              <div [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;width: 100%;height: 180px;border-radius: 5px;">
+              <div [ngStyle]="{'background-image': 'url(' +oneImage + ')'}" style="background-size: cover;width: 100%;height: 180px;border-radius: 5px; background-position:center">
               </div>
             </ngx-tile>
 
