@@ -590,6 +590,10 @@ export class HomePageComponent {
             return true;
         }
     }
+    
+    clean(){
+        alert("ssss");
+    }
 
 }
 

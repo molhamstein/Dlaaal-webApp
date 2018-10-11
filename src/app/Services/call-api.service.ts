@@ -13,6 +13,12 @@ export class CallApiService {
 
   // private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
+// RewriteCond %{ENV:HTTPS} !on [NC]
+// RewriteRule ^(.*)$ https://www.dlaaal.com/$1 [R,L]
+
+// RewriteCond %{ENV:HTTPS} on [NC]
+// RewriteCond %{HTTP_HOST} ^dlaaal\.com$ [NC]
+// RewriteRule ^(.*)$ https://www.dlaaal.com/$1 [R,L]
 
   constructor(public http: HttpClient, public loginSer: LoginService) {
     this.headers2 = this.headers2.append("Authorization", "Basic " + btoa("username:password"));

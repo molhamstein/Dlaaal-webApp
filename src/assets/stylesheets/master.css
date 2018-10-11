@@ -636,8 +636,6 @@ figure {
   text-shadow: 0 0 3px #000, 0 0 3px #000;
 }
 
-
-
 @media screen and (max-width: 600px) {
   .Jumbotron {
     padding-top: 10px
@@ -2145,6 +2143,7 @@ header {
   width: 150px;
   margin: 20px auto 0 auto;
 }
+
 /* line 4, ../sass/_FiltersPanel.scss */
 
 .FiltersPanel {
@@ -2289,6 +2288,7 @@ header {
   outline: none;
   padding: 11px 24px;
   text-align: right;
+  width: 90%;
   vertical-align: middle;
   font-family: "Cairo-SemiBold" !important;
 }
@@ -2307,8 +2307,22 @@ header {
 
 .FiltersPanel-body-inputcontainer {
   width: 95%;
+  position: relative;
   max-width: 95%;
   padding: 5px 0;
+}
+
+.FiltersPanel-body-inputcontainer-close {
+  position: absolute;
+  left: 0px;
+  top: 21px;
+  font-size: 36px;
+  color: #808080;
+  font-weight: bold;
+}
+
+.FiltersPanel-body-inputcontainer-close:hover {
+  cursor: pointer;
 }
 
 /* line 111, ../sass/_FiltersPanel.scss */
