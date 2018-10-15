@@ -397,6 +397,9 @@ input[type='number'] {
     font-size: 8px;
     line-height: 18px
   }
+  .u-customBtnJumbotron .u-after10p{
+    font-size: 18px;
+  }
 }
 
 /* line 3, ../sass/_Avatar.scss */
@@ -2141,7 +2144,16 @@ header {
 
 .u-customBtnJumbotron {
   width: 150px;
-  margin: 20px auto 0 auto;
+  margin: 20px auto 0 auto !important;
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .u-customBtnJumbotron {
+    padding-top: 12px;
+    direction: ltr;
+    height: 48px;
+  } 
 }
 
 /* line 4, ../sass/_FiltersPanel.scss */
