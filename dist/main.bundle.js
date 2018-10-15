@@ -4343,6 +4343,10 @@ var SignInModalComponent = /** @class */ (function () {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 _this.mainServ.APIServ.setErrorCode(0);
             }
+            else if (_this.mainServ.APIServ.getErrorCode() == 412) {
+                _this.message = "تم استخدام البريد الالكتروني في حساب اخر";
+                _this.mainServ.APIServ.setErrorCode(0);
+            }
             else
                 _this.mainServ.globalServ.somthingError();
         });

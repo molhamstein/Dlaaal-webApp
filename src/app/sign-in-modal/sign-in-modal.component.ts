@@ -36,6 +36,11 @@ export class SignInModalComponent {
             } else if (this.mainServ.APIServ.getErrorCode() == 401) {
                 this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
                 this.mainServ.APIServ.setErrorCode(0);
+
+            } else if (this.mainServ.APIServ.getErrorCode() == 412) {
+                this.message = "تم استخدام البريد الالكتروني في حساب اخر";
+                this.mainServ.APIServ.setErrorCode(0);
+
             } else this.mainServ.globalServ.somthingError();
         });
     }
