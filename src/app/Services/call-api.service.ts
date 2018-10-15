@@ -30,7 +30,7 @@ export class CallApiService {
   //   "users",
   //   "users/login"
   // ];
-  readonly baseUrl = "https://108.179.218.237:7500/api/"
+  readonly baseUrl = "https://dlaaal.com/api/"
   // readonly baseUrl = "http://localhost:7500/api/"
   private errorCode = 0;
 
