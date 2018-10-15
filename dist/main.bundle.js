@@ -4336,16 +4336,11 @@ var SignInModalComponent = /** @class */ (function () {
         this.loader = true;
         this.mainServ.APIServ.post("users/login?include=user", this.user).subscribe(function (data) {
             _this.loader = false;
-            alert(_this.mainServ.APIServ.getErrorCode());
             if (_this.mainServ.APIServ.getErrorCode() == 0) {
                 _this.mainServ.loginServ.logIn(data, _this.rememberPass);
             }
             else if (_this.mainServ.APIServ.getErrorCode() == 401) {
                 _this.message = "لرجاء التحقق من اسم المستخدم و كلمه المرور";
-                _this.mainServ.APIServ.setErrorCode(0);
-            }
-            else if (_this.mainServ.APIServ.getErrorCode() == 412) {
-                _this.message = "تم استخدام البريد الالكتروني في حساب اخر";
                 _this.mainServ.APIServ.setErrorCode(0);
             }
             else
@@ -4378,6 +4373,10 @@ var SignInModalComponent = /** @class */ (function () {
                 _this.loader = false;
                 if (_this.mainServ.APIServ.getErrorCode() == 0) {
                     _this.mainServ.loginServ.logIn(data, _this.rememberPass);
+                }
+                else if (_this.mainServ.APIServ.getErrorCode() == 412) {
+                    _this.message = "تم استخدام البريد الالكتروني في حساب اخر";
+                    _this.mainServ.APIServ.setErrorCode(0);
                 }
                 else
                     _this.mainServ.globalServ.somthingError();

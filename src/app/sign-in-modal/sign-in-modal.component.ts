@@ -31,7 +31,6 @@ export class SignInModalComponent {
         this.loader = true;
         this.mainServ.APIServ.post("users/login?include=user", this.user).subscribe((data: string) => {
             this.loader = false;
-            alert(this.mainServ.APIServ.getErrorCode());
             if (this.mainServ.APIServ.getErrorCode() == 0) {
                 this.mainServ.loginServ.logIn(data, this.rememberPass);
             }
@@ -40,10 +39,7 @@ export class SignInModalComponent {
                 this.mainServ.APIServ.setErrorCode(0);
 
             }
-            else if (this.mainServ.APIServ.getErrorCode() == 412) {
-                this.message = "تم استخدام البريد الالكتروني في حساب اخر";
-                this.mainServ.APIServ.setErrorCode(0);
-            } else this.mainServ.globalServ.somthingError();
+            else this.mainServ.globalServ.somthingError();
         });
     }
 
@@ -76,7 +72,13 @@ export class SignInModalComponent {
                     this.loader = false;
                     if (this.mainServ.APIServ.getErrorCode() == 0) {
                         this.mainServ.loginServ.logIn(data, this.rememberPass);
-                    } else this.mainServ.globalServ.somthingError();
+                    }
+                    else if (this.mainServ.APIServ.getErrorCode() == 412) {
+                        this.message = "تم استخدام البريد الالكتروني في حساب اخر";
+                        this.mainServ.APIServ.setErrorCode(0);
+                    }
+                    else this.mainServ.globalServ.somthingError();
+
                 });
             }
         );
