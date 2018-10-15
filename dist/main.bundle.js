@@ -4336,6 +4336,7 @@ var SignInModalComponent = /** @class */ (function () {
         this.loader = true;
         this.mainServ.APIServ.post("users/login?include=user", this.user).subscribe(function (data) {
             _this.loader = false;
+            alert(_this.mainServ.APIServ.getErrorCode());
             if (_this.mainServ.APIServ.getErrorCode() == 0) {
                 _this.mainServ.loginServ.logIn(data, _this.rememberPass);
             }
