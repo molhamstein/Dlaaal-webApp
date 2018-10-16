@@ -1,4 +1,7 @@
 $(document).ready(function () {
+	
+	console.log("")
+	
 	// initialize paroller.js
 	// $(window).paroller();
 	// var Menu = $("#Menu");
