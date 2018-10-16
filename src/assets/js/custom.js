@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	// initialize paroller.js
+	initialize paroller.js
 	// $(window).paroller();
 	// var Menu = $("#Menu");
 	// var menuPosition = Menu.offset().top;
