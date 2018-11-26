@@ -4415,10 +4415,8 @@ header {
 }
 
 .custom-modalbox {
-  overflow-y: auto;
   max-height: 100%;
-  
-    max-width: 100% !important;
+  max-width: 100% !important;
 }
 
 .custom-modalbox .mat-dialog-container {
@@ -4427,6 +4425,9 @@ header {
 
 @media screen and (max-width: 700px) {
   /* line 6, ../sass/_SignUpModule.scss */
+  .custom-modalbox {
+    overflow-y: auto;
+  }
   .custom-modalbox .mat-dialog-container {
     width: 340px !important;
     max-width: 100%;

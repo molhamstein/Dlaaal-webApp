@@ -2887,19 +2887,33 @@ var HeaderComponent = /** @class */ (function () {
         $(".DropMenu-Top").toggleClass('DropMenu--isShown');
     };
     HeaderComponent.prototype.openSignUpDialog = function () {
-        $('html, body').animate({ scrollTop: 0 }, 400);
-        var mainThis = this;
-        setTimeout(function () {
-            var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+        var _this = this;
+        if ($('html').width() < 700) {
+            $('html, body').animate({ scrollTop: 0 }, 400);
+            var mainThis = this;
+            setTimeout(function () {
+                var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+                    panelClass: 'custom-modalbox',
+                });
+                dialogRef.afterClosed().subscribe(function (result) {
+                    console.log('The dialog was closed');
+                    if (result) {
+                        mainThis.openSignInDialog();
+                    }
+                });
+            }, 500);
+        }
+        else {
+            var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
                 panelClass: 'custom-modalbox',
             });
             dialogRef.afterClosed().subscribe(function (result) {
                 console.log('The dialog was closed');
                 if (result) {
-                    mainThis.openSignInDialog();
+                    _this.openSignInDialog();
                 }
             });
-        }, 500);
+        }
     };
     HeaderComponent.prototype.openSignInDialog = function () {
         var _this = this;
@@ -3429,19 +3443,33 @@ var HomePageComponent = /** @class */ (function () {
         ;
     };
     HomePageComponent.prototype.openSignUpDialog = function () {
-        $('html, body').animate({ scrollTop: 0 }, 400);
-        var mainThis = this;
-        setTimeout(function () {
-            var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+        var _this = this;
+        if ($('html').width() < 700) {
+            $('html, body').animate({ scrollTop: 0 }, 400);
+            var mainThis = this;
+            setTimeout(function () {
+                var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+                    panelClass: 'custom-modalbox',
+                });
+                dialogRef.afterClosed().subscribe(function (result) {
+                    console.log('The dialog was closed');
+                    if (result) {
+                        mainThis.openSignInDialog();
+                    }
+                });
+            }, 500);
+        }
+        else {
+            var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
                 panelClass: 'custom-modalbox',
             });
             dialogRef.afterClosed().subscribe(function (result) {
                 console.log('The dialog was closed');
                 if (result) {
-                    mainThis.openSignInDialog();
+                    _this.openSignInDialog();
                 }
             });
-        }, 500);
+        }
     };
     HomePageComponent.prototype.openSignInDialog = function () {
         var _this = this;

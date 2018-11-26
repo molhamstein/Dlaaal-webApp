@@ -90,10 +90,25 @@ export class HeaderComponent {
     }
 
     openSignUpDialog() {
-        $('html, body').animate({ scrollTop: 0 }, 400);
-        var mainThis=this;
-        setTimeout(function () {
-            let dialogRef = mainThis.dialog.open(SignUpModalComponent, {
+        if ($('html').width() < 700) {
+            $('html, body').animate({ scrollTop: 0 }, 400);
+            var mainThis = this;
+            setTimeout(function () {
+                let dialogRef = mainThis.dialog.open(SignUpModalComponent, {
+                    panelClass: 'custom-modalbox',
+
+                });
+
+                dialogRef.afterClosed().subscribe(result => {
+                    console.log('The dialog was closed');
+                    if (result) {
+                        mainThis.openSignInDialog()
+                    }
+                });
+            }, 500);
+        }
+        else {
+            let dialogRef = this.dialog.open(SignUpModalComponent, {
                 panelClass: 'custom-modalbox',
 
             });
@@ -101,10 +116,10 @@ export class HeaderComponent {
             dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed');
                 if (result) {
-                    mainThis.openSignInDialog()
+                    this.openSignInDialog()
                 }
             });
-        }, 500);
+        }
 
     }
     openSignInDialog() {
