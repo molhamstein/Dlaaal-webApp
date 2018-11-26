@@ -69,11 +69,11 @@ export class HeaderComponent {
         }
     }
 
-    visitNot(isRead, id,notId) {
+    visitNot(isRead, id, notId) {
         if (isRead == false) {
             this.mainServ.APIServ.put("users/" + this.mainServ.loginServ.getUserId() + "/mak-notifications-read/" + notId, {}).subscribe((data: any) => {
                 this.mainServ.globalServ.editUnreadNotBeh(this.unreadNotBeh - 1);
-                this.notificationBeh.find(x => x.id == notId).isRead=true;
+                this.notificationBeh.find(x => x.id == notId).isRead = true;
                 this.mainServ.globalServ.editNotificationBeh(this.notificationBeh);
                 this.mainServ.globalServ.goTo2(id)
             })
@@ -88,21 +88,29 @@ export class HeaderComponent {
     openMenu() {
         $(".DropMenu-Top").toggleClass('DropMenu--isShown');
     }
+
     openSignUpDialog() {
+        $('html, body').animate({ scrollTop: 0 }, 400);
+        var mainThis=this;
+        setTimeout(function () {
+            let dialogRef = mainThis.dialog.open(SignUpModalComponent, {
+                panelClass: 'custom-modalbox',
 
-        let dialogRef = this.dialog.open(SignUpModalComponent, {
-        });
+            });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            if (result) {
-                this.openSignInDialog()
-            }
-        });
+            dialogRef.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+                if (result) {
+                    mainThis.openSignInDialog()
+                }
+            });
+        }, 500);
+
     }
     openSignInDialog() {
         let dialogRef = this.dialog.open(SignInModalComponent, {
-            // width: '35%',
+            panelClass: 'custom-modalbox',
+
         });
 
         dialogRef.afterClosed().subscribe(result => {

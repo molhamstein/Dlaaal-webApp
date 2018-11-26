@@ -1387,7 +1387,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<router-outlet></router-outlet>\r\n<div class=\"Footer\">\r\n\r\n\t<div class=\"Footer-about\">\r\n\t\t<div class=\"Footer-about-title\">\r\n\t\t\tعن دلّال\r\n\t\t</div>\r\n\t\t<div class=\"Footer-about-body\">\r\n\t\t\tشرح بسيط عن دلّال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\r\n\t\t</div>\r\n\t\t<div class=\"Footer-about-bar\">\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" routerLink=\"{{'/terms'}}\">\r\n\t\t\t\tشروط الاستخدام\r\n\t\t\t</div>\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" routerLink=\"{{'/privacy'}}\" >\r\n\t\t\t\tسياسية الخصوصية\r\n\t\t\t</div>\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" (click)=\"openContactUs()\">\r\n\t\t\t\tتواصل معنا\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"Footer-contact\">\r\n\t\t<div class=\"Footer-contact-title\">\r\n\t\t\tتواصل معنا\r\n\t\t</div>\r\n\t\t<div class=\"Footer-contact-icons\">\r\n\t\t\t<a href=\"#\" class=\"Footer-contact-icon\" style=\"background-image: url('assets/imgs/facebook.svg');\">\r\n\r\n  </a>\r\n\t\t\t<a href=\"#\" class=\"Footer-contact-icon\" style=\"background-image: url('assets/imgs/insta.svg');\">\r\n\r\n  </a>\r\n\t\t</div>\r\n\r\n\t</div>\r\n\t<div class=\"Footer-right\">\r\n\r\n\t\t<div class=\"Footer-right-text\">\r\n\t\t\tAll Rights Reserved\r\n\t\t</div>\r\n\t\t<div class=\"Footer-right-logo\">\r\n\t\t\t<img src=\"assets/imgs/logo.png\" alt=\"\">\r\n\t\t</div>\r\n\t</div>\r\n</div>"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<router-outlet></router-outlet>\r\n<div class=\"Footer\">\r\n\r\n\t<div class=\"Footer-about\">\r\n\t\t<div class=\"Footer-about-title\">\r\n\t\t\tعن دلّال\r\n\t\t</div>\r\n\t\t<div class=\"Footer-about-body\">\r\n\t\t\tشرح بسيط عن دلّال ...<br> الموقع الأفضل للبيع و الشراء عبر الانترنت\r\n\t\t</div>\r\n\t\t<div class=\"Footer-about-bar\">\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" routerLink=\"{{'/terms'}}\">\r\n\t\t\t\tشروط الاستخدام\r\n\t\t\t</div>\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" routerLink=\"{{'/privacy'}}\" >\r\n\t\t\t\tسياسية الخصوصية\r\n\t\t\t</div>\r\n\t\t\t<div class=\"Footer-about-bar-item cursorPointer\" (click)=\"openContactUs()\">\r\n\t\t\t\tتواصل معنا\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"Footer-contact\">\r\n\t\t<div class=\"Footer-contact-title\" (click)=\"scrol()\">\r\n\t\t\tتواصل معنا\r\n\t\t</div>\r\n\t\t<div class=\"Footer-contact-icons\">\r\n\t\t\t<a href=\"#\" class=\"Footer-contact-icon\" style=\"background-image: url('assets/imgs/facebook.svg');\">\r\n\r\n  </a>\r\n\t\t\t<a href=\"#\" class=\"Footer-contact-icon\" style=\"background-image: url('assets/imgs/insta.svg');\">\r\n\r\n  </a>\r\n\t\t</div>\r\n\r\n\t</div>\r\n\t<div class=\"Footer-right\">\r\n\r\n\t\t<div class=\"Footer-right-text\">\r\n\t\t\tAll Rights Reserved\r\n\t\t</div>\r\n\t\t<div class=\"Footer-right-logo\">\r\n\t\t\t<img src=\"assets/imgs/logo.png\" alt=\"\">\r\n\t\t</div>\r\n\t</div>\r\n</div>"
 
 /***/ }),
 
@@ -1427,6 +1427,8 @@ var AppComponent = /** @class */ (function () {
         this.APIServ = APIServ;
         this.dialog = dialog;
     }
+    AppComponent.prototype.scrol = function () {
+    };
     AppComponent.prototype.ngOnInit = function () {
         // let url = window.location.href;
         // if (url.indexOf("www.") != -1) {
@@ -2885,18 +2887,25 @@ var HeaderComponent = /** @class */ (function () {
         $(".DropMenu-Top").toggleClass('DropMenu--isShown');
     };
     HeaderComponent.prototype.openSignUpDialog = function () {
-        var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
-        dialogRef.afterClosed().subscribe(function (result) {
-            console.log('The dialog was closed');
-            if (result) {
-                _this.openSignInDialog();
-            }
-        });
+        $('html, body').animate({ scrollTop: 0 }, 400);
+        var mainThis = this;
+        setTimeout(function () {
+            var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_2__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+                panelClass: 'custom-modalbox',
+            });
+            dialogRef.afterClosed().subscribe(function (result) {
+                console.log('The dialog was closed');
+                if (result) {
+                    mainThis.openSignInDialog();
+                }
+            });
+        }, 500);
     };
     HeaderComponent.prototype.openSignInDialog = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {
+            panelClass: 'custom-modalbox',
+        });
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
             if (result) {
@@ -4402,7 +4411,7 @@ var SignInModalComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sign-up-modal/sign-up-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--component html goes here -->\r\n<!--<div id=\"\" class=\"ModalContainer\">\r\n\t\t\t<div class=\"SignUpModuleContainer\">-->\r\n\r\n<div class=\"SignUpModule\">\r\n  <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\r\n    <div class=\"SignUpModule-header-title\">\r\n      حساب جديد\r\n    </div>\r\n    <div class=\"SignUpModule-header-close\" (click)=\"closeModal()\">\r\n    </div>\r\n  </div>\r\n  <div class=\"SignUpModule-body\">\r\n    <label for=\"name\" style=\"color: red\">{{message}}</label>\r\n\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الأسم</label>\r\n      <input [(ngModel)]=\"newUser.firstName\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الرقم</label>\r\n      <input [(ngModel)]=\"newUser.phone\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"number\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الايميل</label>\r\n      <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">كلمة السر</label>\r\n      <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\"\r\n        value=\"\" name=\"name\">\r\n    </div>\r\n\r\n    <form [formGroup]=\"reactiveForm\">\r\n      <re-captcha data-theme=\"dark \" siteKey=\"6LcQEXUUAAAAAAGiOR4aO02f1UYyVK_6D4eUmNVa\" formControlName=\"recaptchaReactive\"></re-captcha>\r\n    </form>\r\n\r\n    <div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\">\r\n      <input type=\"checkbox\" style=\"float: right\" [(ngModel)]=\"isAgree\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\"\r\n        id=\"checkbox_id\" value=\"value\">\r\n      <label for=\"checkbox_id\">\r\n                 \r\n                  <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"goto('/terms')\">شروط الاستخدام</div>\r\n  \r\n                <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"goto('/privacy')\">اتفاقية الخصوصية</div>\r\n                 أوافق على\r\n                </label>\r\n    </div>\r\n    <!--reactiveForm.invalid-->\r\n    <!--style=\"width: 100%\"-->\r\n    <button [disabled]=\"!isAgree\" (click)=\"signup()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\r\n            إنشاء الحساب\r\n        </button>\r\n\r\n  </div>\r\n  <div class=\"SignUpModule-footer\">\r\n    لديك حساب مسبقاً\r\n    <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"login()\">\r\n      قم بتسجيل الدخول .\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n<!--</div>\r\n\t\t</div>-->\r\n"
+module.exports = "<!--component html goes here -->\r\n<!--<div id=\"\" class=\"ModalContainer\">\r\n\t\t\t<div class=\"SignUpModuleContainer\">-->\r\n\r\n<div class=\"SignUpModule\">\r\n  <div class=\"SignUpModule-header\" style=\"direction: rtl;\">\r\n    <div class=\"SignUpModule-header-title\">\r\n      حساب جديد\r\n    </div>\r\n    <div class=\"SignUpModule-header-close\" (click)=\"closeModal()\">\r\n    </div>\r\n  </div>\r\n  <div class=\"SignUpModule-body\">\r\n    <label for=\"name\" style=\"color: red\">{{message}}</label>\r\n\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الأسم</label>\r\n      <input [(ngModel)]=\"newUser.firstName\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الرقم</label>\r\n      <input [(ngModel)]=\"newUser.phone\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"number\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">الايميل</label>\r\n      <input [(ngModel)]=\"newUser.email\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"text\" value=\"\"\r\n        name=\"name\">\r\n    </div>\r\n    <div class=\"SignUpModule-body-inputcontainer\">\r\n      <label for=\"name\">كلمة السر</label>\r\n      <input [(ngModel)]=\"newUser.password\" (focus)=\"message='';\" class=\"SignUpModule-body-inputcontainer-text\" type=\"password\"\r\n        value=\"\" name=\"name\">\r\n    </div>\r\n\r\n    <form [formGroup]=\"reactiveForm\">\r\n      <re-captcha data-theme=\"dark \" siteKey=\"6LcQEXUUAAAAAAGiOR4aO02f1UYyVK_6D4eUmNVa\" formControlName=\"recaptchaReactive\"></re-captcha>\r\n    </form>\r\n\r\n    <div class=\"SignUpModule-body-inputcontainer SignUpModule-body-inputcontainer-checkboxcontainer\" style=\"line-height: 22px;\">\r\n      <input type=\"checkbox\" style=\"float: right\" [(ngModel)]=\"isAgree\" class=\"SignUpModule-body-inputcontainer-checkboxlabel\"\r\n        id=\"checkbox_id\" value=\"value\">\r\n      <label for=\"checkbox_id\">\r\n                 \r\n                  <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"goto('/terms')\">شروط الاستخدام</div>\r\n  \r\n                <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"goto('/privacy')\">اتفاقية الخصوصية</div>\r\n                 أوافق على\r\n                </label>\r\n    </div>\r\n    <!--reactiveForm.invalid-->\r\n    <!--style=\"width: 100%\"-->\r\n    <button [disabled]=\"!isAgree\" (click)=\"signup()\" class=\"SignUpModule-body-inputcontainer SignUpModule-body-btn\">\r\n            إنشاء الحساب\r\n        </button>\r\n\r\n  </div>\r\n  <div class=\"SignUpModule-footer\">\r\n    لديك حساب مسبقاً\r\n    <div class=\"u-textPrimaryColor cursorPointer\" (click)=\"login()\">\r\n      قم بتسجيل الدخول .\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n<!--</div>\r\n\t\t</div>-->\r\n"
 
 /***/ }),
 

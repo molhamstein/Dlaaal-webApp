@@ -397,7 +397,7 @@ input[type='number'] {
     font-size: 8px;
     line-height: 18px
   }
-  .u-customBtnJumbotron .u-after10p{
+  .u-customBtnJumbotron .u-after10p {
     font-size: 18px;
   }
 }
@@ -2153,7 +2153,7 @@ header {
     padding-top: 12px;
     direction: ltr;
     height: 48px;
-  } 
+  }
 }
 
 /* line 4, ../sass/_FiltersPanel.scss */
@@ -4411,6 +4411,25 @@ header {
   /* line 6, ../sass/_SignUpModule.scss */
   .mat-dialog-container {
     width: 100% !important;
+  }
+}
+
+.custom-modalbox {
+  overflow-y: auto;
+  max-height: 100%;
+  
+    max-width: 100% !important;
+}
+
+.custom-modalbox .mat-dialog-container {
+  width: 330px !important;
+}
+
+@media screen and (max-width: 700px) {
+  /* line 6, ../sass/_SignUpModule.scss */
+  .custom-modalbox .mat-dialog-container {
+    width: 340px !important;
+    max-width: 100%;
   }
 }
 

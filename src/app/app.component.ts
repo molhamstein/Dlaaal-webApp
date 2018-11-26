@@ -17,6 +17,10 @@ export class AppComponent {
 
   }
 
+  scrol() {
+
+  }
+
   ngOnInit() {
     // let url = window.location.href;
     // if (url.indexOf("www.") != -1) {
