@@ -3432,14 +3432,13 @@ var HomePageComponent = /** @class */ (function () {
         $('html, body').animate({ scrollTop: 0 }, 400);
         var mainThis = this;
         setTimeout(function () {
-            var _this = this;
-            var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+            var dialogRef = mainThis.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
                 panelClass: 'custom-modalbox',
             });
             dialogRef.afterClosed().subscribe(function (result) {
                 console.log('The dialog was closed');
                 if (result) {
-                    _this.openSignInDialog();
+                    mainThis.openSignInDialog();
                 }
             });
         }, 500);

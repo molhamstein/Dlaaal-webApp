@@ -498,14 +498,14 @@ export class HomePageComponent {
         var mainThis = this;
         setTimeout(function () {
 
-            let dialogRef = this.dialog.open(SignUpModalComponent, {
+            let dialogRef = mainThis.dialog.open(SignUpModalComponent, {
                 panelClass: 'custom-modalbox',
             });
 
             dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed');
                 if (result) {
-                    this.openSignInDialog()
+                    mainThis.openSignInDialog()
                 }
             });
         }, 500);
