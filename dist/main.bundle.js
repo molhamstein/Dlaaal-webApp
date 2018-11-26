@@ -3429,18 +3429,26 @@ var HomePageComponent = /** @class */ (function () {
         ;
     };
     HomePageComponent.prototype.openSignUpDialog = function () {
-        var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {});
-        dialogRef.afterClosed().subscribe(function (result) {
-            console.log('The dialog was closed');
-            if (result) {
-                _this.openSignInDialog();
-            }
-        });
+        $('html, body').animate({ scrollTop: 0 }, 400);
+        var mainThis = this;
+        setTimeout(function () {
+            var _this = this;
+            var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_4__sign_up_modal_sign_up_modal_component__["a" /* SignUpModalComponent */], {
+                panelClass: 'custom-modalbox',
+            });
+            dialogRef.afterClosed().subscribe(function (result) {
+                console.log('The dialog was closed');
+                if (result) {
+                    _this.openSignInDialog();
+                }
+            });
+        }, 500);
     };
     HomePageComponent.prototype.openSignInDialog = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {});
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__sign_in_modal_sign_in_modal_component__["a" /* SignInModalComponent */], {
+            panelClass: 'custom-modalbox',
+        });
         dialogRef.afterClosed().subscribe(function (result) {
             console.log('The dialog was closed');
             if (result) {
