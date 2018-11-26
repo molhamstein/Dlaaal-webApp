@@ -103,7 +103,7 @@ export class HomePageComponent {
             this.profileImage = "assets/imgs/defult_img.jpg"
         }
 
-        if(this.isMobileSize(799)==true){
+        if (this.isMobileSize(799) == true) {
             this.collapse()
         }
 
@@ -157,11 +157,11 @@ export class HomePageComponent {
                     this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: newFildes.length })
                     this.oneField(newFildes);
                 } else {
-                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
                 }
             }
             else {
-                this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id })
             }
         })
     }
@@ -389,11 +389,11 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
-                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
+                this.vetcorKeyFilter.splice(indexFields + 1, 0, { type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id })
             this.search["fields"].splice(indexFields + 1, 0, {})
         }
     }
@@ -424,11 +424,11 @@ export class HomePageComponent {
         this.getAdvertisemets(-1, {});
     }
     collapse() {
-        
-		$(".FiltersPanel-main").toggle();
+
+        $(".FiltersPanel-main").toggle();
         // $("").toggle();
         // $("").toggle();
-        
+
     }
     openMenu() {
         $(".DropMenu-Down").toggleClass('DropMenu--isShown');
@@ -454,11 +454,11 @@ export class HomePageComponent {
                     element.values.forEach(elementValue => {
                         tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                     });
-                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                    this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
                 }
                 else
-                    this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id })
+                    this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id })
                 this.search['fields'][index] = {};
             });
 
@@ -484,7 +484,7 @@ export class HomePageComponent {
                 element.values.forEach(elementValue => {
                     tempValue.push({ value: elementValue.value, fields: elementValue.fields })
                 });
-                this.vetcorKeyFilter.push({ type: element.type,  isInFilter: element.isInFilter,priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
+                this.vetcorKeyFilter.push({ type: element.type, isInFilter: element.isInFilter, priority: element.priority, key: element.key, _id: element._id, values: tempValue, lengthChilde: 0 })
 
             }
             else
@@ -494,21 +494,25 @@ export class HomePageComponent {
     }
 
     openSignUpDialog() {
+        $('html, body').animate({ scrollTop: 0 }, 400);
+        var mainThis = this;
+        setTimeout(function () {
 
-        let dialogRef = this.dialog.open(SignUpModalComponent, {
-            // width: '35%',
-        });
+            let dialogRef = this.dialog.open(SignUpModalComponent, {
+                panelClass: 'custom-modalbox',
+            });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            if (result) {
-                this.openSignInDialog()
-            }
-        });
+            dialogRef.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+                if (result) {
+                    this.openSignInDialog()
+                }
+            });
+        }, 500);
     }
     openSignInDialog() {
         let dialogRef = this.dialog.open(SignInModalComponent, {
-            // width: '35%',
+            panelClass: 'custom-modalbox',
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -582,16 +586,16 @@ export class HomePageComponent {
         });
     }
 
-    isMobileSize(defultSize = 600){
-        var size =$( window ).width();
-        if(size>defultSize){
+    isMobileSize(defultSize = 600) {
+        var size = $(window).width();
+        if (size > defultSize) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-    
-    clean(){
+
+    clean() {
         alert("ssss");
     }
 
